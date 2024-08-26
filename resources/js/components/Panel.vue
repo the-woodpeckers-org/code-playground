@@ -6,7 +6,9 @@ export default {
             var editor = ace.edit('editor')
             axios.post('/compile', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
-                code: editor.getSession().getValue()
+                code: editor.getSession().getValue(),
+                input: document.getElementById('input').value,
+                language: document.getElementById('language').value
             }).then(function (response) {
                 var output = document.getElementById('output')
                 output.value = response.data.output;
@@ -40,7 +42,7 @@ export default {
                 </div>
                 <div class="col-span-6 mx-1">
                     <label for="language">Select language: </label>
-                    <select id="language" class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
+                    <select id="language" name="language" class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
                         <option value="cpp">C++</option>
                         <option value="c">C</option>
                         <option value="python">Python</option>
@@ -59,11 +61,12 @@ export default {
                     </div>
                     <p class="mt-3 w-full">Input</p>
                     <div class="h-20">
-                        <textarea id="input" class="h-full w-full my-3 rounded border-gray-400 bg-gray-100" readonly>9 16</textarea>
+                        <textarea id="input" name="input" class="h-full w-full my-3 rounded border-gray-400 bg-gray-100">9 16</textarea>
                     </div>
                     <p class="mt-3 w-full">Output</p>
                     <div class="h-48">
-                        <textarea id="output" class="h-full w-full my-3 rounded border-gray-400 bg-gray-100" readonly>10</textarea>
+                        <textarea id="output" class="h-full w-full my-3 rounded border-gray-400 bg-gray-100"
+                                  readonly></textarea>
                     </div>
                 </div>
             </div>
