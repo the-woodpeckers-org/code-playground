@@ -1,0 +1,297 @@
+.\" vim: ft=nroff
+.TH WCSRTOMBS 3 05-Jul-2020 MinGW "MinGW Programmer's Reference Manual"
+.
+.SH NAME
+.B \%wcsrtombs
+\- convert a wide character to a multibyte sequence
+.
+.
+.SH SYNOPSIS
+.B  #include
+.RB < wchar.h >
+.PP
+.B  size_t wcsrtombs( char
+.BI * dst ,
+.B  wchar_t
+.BI ** src ,
+.B  size_t
+.IB len ,
+.B  mbstate_t
+.BI * ps
+.B  );
+.
+.
+.SH DESCRIPTION
+The
+.BR \%wcsrtombs ()
+function converts a sequence of wide characters from
+the array which is indirectly pointed to by
+.IR src ,
+to a corresponding multibyte character sequence in
+the codeset which is associated with the
+.B \%LC_CTYPE
+category of the active process locale,
+beginning in the conversion state which is represented by the
+.B \%mbstate_t
+object at
+.IR *ps ;
+each wide character is converted,
+as if by calling the
+.BR \%wcrtomb (3)
+function.
+.
+.PP
+Conversion continues until:
+.RS 2n
+.ll -2n
+.IP \(bu 2n
+A wide character which is invalid in its own context is encountered.
+.
+.IP \(bu 2n
+A wide character which does not have a valid representation within
+the target multibyte codeset is encountered.
+.
+.IP \(bu 2n
+The NUL wide character is encountered,
+while in the initial conversion state.
+.
+.IP \(bu 2n
+The
+.I dst
+argument is not a NULL pointer,
+and a wide character is encountered for which
+the converted length would cause the aggregate length
+of the converted multibyte character string to exceed
+the limit specified by the
+.I len
+argument.
+.ll +2n
+.RE
+.
+.PP
+If
+.I dst
+is
+.I not
+a NULL pointer,
+the multibyte character string resulting from successful conversion,
+up to a maximum of
+.I len
+bytes,
+is stored in the multibyte array starting at
+.IR dst .
+If the conversion is NUL terminated,
+the wide character string reference pointed to by
+.I src
+is replaced by a NULL pointer;
+otherwise it is updated to point to the address immediately
+following that of the last wide character converted.
+.
+.PP
+If
+.I dst
+is a NULL pointer,
+the aggregate count of bytes required
+to represent the conversion is accumulated,
+until any one of the preceding termination conditions is encountered;
+the
+.I len
+argument,
+and the termination condition which is dependent upon it,
+is ignored,
+and the conversion is not stored.
+.
+.PP
+If
+.I ps
+is a NULL pointer,
+the
+.BR \%wcsrtombs ()
+function uses a static internal
+.B \%mbstate_t
+object,
+which is known only to,
+and visible only within the scope of execution of,
+the
+.BR \%wcsrtombs ()
+function itself.
+.
+.PP
+Following a successful conversion,
+the
+.B \%mbstate_t
+object at
+.IR *ps ,
+or the internal
+.B \%mbstate_t
+object if appropriate,
+is reset to the initial conversion state.
+.
+.
+.SH RETURN VALUE
+When conversion is successful,
+and
+.I dst
+is
+.I not
+a NULL pointer,
+the
+.BR \%wcsrtombs ()
+function returns the number of bytes stored at
+.IR dst ,
+to represent the resulting multibyte character sequence,
+.I excluding
+the terminating NUL,
+(if any).
+.
+.PP
+Conversely,
+when conversion is successful,
+but
+.I dst is
+a NULL pointer,
+the
+.BR \%wcsrtombs ()
+function returns the number of bytes which would be required
+to store the entire multibyte character string resulting from
+the successful conversion,
+.I excluding
+the terminating NUL.
+.
+.
+.SH ERROR CONDITIONS
+If conversion is unsuccessful,
+.I \%errno
+is set to
+.BR \%EILSEQ ,
+the
+.BR wcsrtombs ()
+function returns
+.IR (size_t)(\-1) ,
+and the conversion state is unspecified.
+.
+.
+.SH STANDARDS CONFORMANCE
+Except in respect of its extended provision for handling of
+.IR surrogate\ pairs ,
+and to the extent that it may be affected by limitations
+of the underlying \%MS\(hyWindows API,
+the
+.I \%libmingwex
+implementation of
+.BR \%wcsrtombs ()
+conforms generally to
+.BR \%ISO\(hyC99 ,
+.BR \%POSIX.1\(hy2001 ,
+and
+.BR \%POSIX.1\(hy2008 .
+.
+.
+.\"SH EXAMPLE
+.
+.
+.SH CAVEATS AND BUGS
+Due to a documented limitation of Microsoft\(aqs
+.BR \%setlocale ()
+function implementation,
+it is not possible to directly select an active locale,
+in which the codeset is represented by any multibyte
+character sequence with an effective
+.B \%MB_CUR_MAX
+of more than two bytes.
+Prior to \%mingwrt\(hy5.3,
+this limitation precludes the use of
+.BR \%wcsrtombs ()
+to convert to any codeset with
+.B \%MB_CUR_MAX
+greater than two bytes,
+(such as
+.BR \%UTF\(hy8 ).
+From \%mingwrt\(hy5.3 onward,
+the MinGW.org implementation of
+.BR \%wcsrtombs ()
+mitigates this limitation by assignment of the codeset
+from the
+.B \%LC_CTYPE
+environment variable,
+provided the system default has been previously activated
+for the
+.B \%LC_CTYPE
+locale category;
+e.g.\ execution of:
+.PP
+.RS 4n
+.EX
+#define _ISOC99_SOURCE
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <wchar.h>
+
+void print_conv( const wchar_t * );
+
+int main()
+{
+  setlocale( LC_CTYPE, "" );
+  putenv( "LC_CTYPE=en_GB.65001" );
+  print_conv( L"\eu6c34\eU0001d10b" );
+  return 0;
+}
+
+void print_conv( const wchar_t *wcs )
+{
+  size_t len;
+  if( (len = 1 + wcsrtombs( NULL, &wcs, 0, NULL )) > 0 )
+  {
+    const wchar_t *wc = wcs;
+    size_t n = 1 + wcslen( wcs );
+    unsigned char mbs[len], *mb = mbs;
+    printf( "UTF-16: %u value%s: ", n, (n == 1) ? "" : "s" );
+    do { printf( "0x%04X%c", *wc, (*wc == L'\e0') ? '\en' : ':' );
+       } while( *p++ != L'\e0' );
+    printf( "UTF-8: %u byte%s: ",
+        1 + wcsrtombs( mbs, &wcs, len, NULL ),
+        (len == 1) ? "" : "s"
+      );
+    do { printf( "0x%02X%s", *mb, (*mb == '\e0') ? '\en' : ':' );
+       } while( *mb++ != '\e0' );
+  }
+  else perror( "wcsrtombs" );
+}
+.EE
+.RE
+.PP
+will select
+.B \%UTF\(hy8
+as the target codeset,
+then convert the \fC\%L"\eu6c34\eU0001d10b"\fP
+wide character string,
+resulting in the output:
+.PP
+.RS 4n
+.EX
+UTF-16: 4 values: 0x6C34:0xD834:0xDD0B:0x0000
+UTF-8: 8 bytes: 0xE6:0xB0:0xB4:0xF0:0x9D:0x84:0x8B:0x00
+.EE
+.RE
+.
+.
+.SH SEE ALSO
+.BR mbsinit (3),
+and
+.BR wcrtomb (3)
+.
+.
+.SH AUTHOR
+This manpage was written by \%Keith\ Marshall,
+\%<keith@users.osdn.me>,
+to document the
+.BR \%wcsrtombs ()
+function as it has been implemented for the MinGW.org Project.
+It may be copied, modified and redistributed,
+without restriction of copyright,
+provided this acknowledgement of contribution by
+the original author remains in place.
+.
+.\" EOF

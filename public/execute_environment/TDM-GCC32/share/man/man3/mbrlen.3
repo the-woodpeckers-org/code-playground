@@ -1,0 +1,312 @@
+.\" vim: ft=nroff
+.TH MBRLEN 3 05-Jul-2020 MinGW "MinGW Programmer's Reference Manual"
+.
+.SH NAME
+.B mbrlen
+\- determine the number of bytes in a multibyte character
+.
+.
+.SH SYNOPSIS
+.B  #include
+.RB < wchar.h >
+.PP
+.B  size_t mbrlen( const char
+.BI * s ,
+.B  size_t
+.IB n ,
+.B  mbstate_t
+.BI * ps
+.B  );
+.
+.
+.SH DESCRIPTION
+The
+.BR \%mbrlen ()
+function inspects the sequence of bytes,
+starting at
+.IR s ,
+up to a maximum of
+.I n
+bytes,
+to determine the number of bytes required to complete
+the next multibyte code point,
+commencing from the conversion state specified in
+.IR *ps ,
+(which is then updated).
+.
+.PP
+The sequence of bytes,
+pointed to by
+.IR s ,
+is interpreted as a multibyte character sequence
+in the codeset which is associated with the
+.B \%LC_CTYPE
+category of the active process locale.
+.
+.PP
+If
+.I ps
+is specified as a NULL pointer,
+.BR \%mbrlen ()
+will track conversion state using an internal
+.B \%mbstate_t
+object reference,
+which is private within the
+.BR \%mbrlen ()
+process address space;
+at process \%start\(hyup,
+this internal
+.B \%mbstate_t
+object is initialized to represent
+the initial conversion state.
+.
+.
+.SH RETURN VALUE
+If the multibyte sequence,
+completed by
+.I n
+or fewer bytes,
+does not represent the NUL code point,
+then
+.BR \%mbrlen ()
+returns the number of bytes which are actually required
+to complete the sequence,
+(a number between 1 and
+.IR n ,
+inclusive),
+and the conversion state,
+as specified in
+.IR *ps ,
+is reset to the initial state.
+.
+.PP
+On the other hand,
+if the completed multibyte sequence
+.I does
+represent the NUL code point,
+then
+.BR \%mbrlen ()
+returns zero,
+and the conversion state,
+as specified in
+.IR *ps ,
+is reset to the initial state.
+.
+.PP
+If
+.I n
+is less than the effective
+.B \%MB_CUR_MAX
+for the active process locale,
+and 
+.I n
+bytes is insufficient to complete a multibyte character,
+then
+.I *ps
+is updated to represent a new partially completed encoding state,
+and
+.BR \%mbrlen ()
+returns
+.IR \%(size_t)(\-2) .
+Conversely,
+if
+.I n
+is equal to,
+or greater than
+.BR \%MB_CUR_MAX ,
+this return condition can arise,
+only if the multibyte encoding sequence includes
+redundant shift states;
+since shift states are not used,
+this cannot occur in any \%MS\(hyWindows
+multibyte character set.
+.
+.
+.SH ERROR CONDITIONS
+If the sequence of
+.I n
+or fewer bytes,
+pointed to by
+.IR s ,
+extends any pending encoding state recorded within
+.IR *ps ,
+to at least
+.B \%MB_CUR_MAX
+bytes,
+and the resulting sequence does not represent
+a valid multibyte character,
+then
+.I \%errno
+is set to
+.BR \%EILSEQ ,
+and
+.BR \%mbrlen ()
+returns
+.IR \%(size_t)(\-1) .
+.
+.PP
+If,
+on entry to
+.BR \%mbrlen (),
+the conversion state represented by
+.I *ps
+is deemed to be
+.IR invalid ,
+.I \%errno
+is set to
+.BR \%EINVAL ,
+and
+.BR \%mbrlen ()
+returns
+.IR \%(size_t)(\-1) ;
+the conversion state may be deemed to be invalid if
+it contains any sequence of bytes which does not match
+a valid initial sequence from a multibyte character
+representation within the currently active codeset,
+if it can be interpreted as a complete multibyte character,
+.I without
+the addition of any further bytes from
+.IR s ,
+or if it represents a
+.I surrogate\ pair
+conversion,
+resulting from a preceding call to the
+.BR \%mbrtowc (3)
+function,
+and from which the
+.I low\ surrogate
+has yet to be retrieved.
+.
+.
+.SH STANDARDS CONFORMANCE
+Except to the extent that it may be affected by limitations
+of the underlying \%MS\(hyWindows API,
+the
+.I \%libmingwex
+implementation of
+.BR \%mbrlen ()
+conforms generally to
+.BR \%ISO\(hyC99 ,
+.BR \%POSIX.1\(hy2001 ,
+and
+.BR \%POSIX.1\(hy2008 .
+.
+.PP
+The feature whereby
+.I \%errno
+is set to
+.BR EINVAL ,
+when
+.I *ps
+is found to be invalid,
+is a
+.B POSIX.1
+conforming extension to
+.BR \%ISO\(hyC99 .
+.
+.
+.\"SH EXAMPLE
+.
+.
+.SH CAVEATS AND BUGS
+If
+.BR \%mbrlen ()
+is called with a NULL pointer for
+.IR s ,
+the behaviour is undefined.
+.
+.PP
+Due to a documented limitation of Microsoft\(aqs
+.BR \%setlocale ()
+function implementation,
+it is not possible to directly select an active locale,
+in which the codeset is represented by any multibyte
+character sequence with an effective
+.B \%MB_CUR_MAX
+of more than two bytes.
+Prior to \%mingwrt\(hy5.3,
+this limitation precludes the use of
+.BR \%mbrlen ()
+to interpret any codeset with
+.B \%MB_CUR_MAX
+greater than two bytes,
+(such as
+.BR \%UTF\(hy8 ).
+From \%mingwrt\(hy5.3 onward,
+the MinGW.org implementation of
+.BR \%mbrlen ()
+mitigates this limitation by assignment of the codeset
+from the
+.B \%LC_CTYPE
+environment variable,
+provided the system default has been previously activated
+for the
+.B \%LC_CTYPE
+locale category;
+e.g.\ execution of:
+.PP
+.RS 4
+.EX
+#define _ISOC99_SOURCE
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <limits.h>
+#include <wchar.h>
+
+int main()
+{
+  setlocale( LC_CTYPE, "" );
+  putenv( "LC_CTYPE=en_GB.65001" );
+  printf( "%u bytes\en",
+      mbrlen( "\eU0001d10b", MB_LEN_MAX, NULL )
+    );
+  return 0;
+}
+.EE
+.RE
+.PP
+will interpret the string \fC\%"\eU0001d10b"\fP as a \%four\(hybyte
+.B \%UTF\(hy8
+encoding sequence,
+(which represents a single code point),
+and print the result as \fC4\fP\ \fC\%bytes\fP.
+.
+.PP
+Please be aware that the underlying \%MS\(hyWindows API,
+which is used to interpret the multibyte sequence,
+offers no readily accessible mechanism to discriminate
+between incomplete and invalid sequences;
+thus,
+if
+.I n
+is less than the effective
+.B \%MB_CUR_MAX
+for the active codeset,
+this
+.BR \%mbrlen ()
+implementation may return
+.IR \%(size_t)(\-2) ,
+indicating an incomplete sequence,
+even in cases where there are no additional bytes
+which could be appended,
+to complete a valid encoding sequence.
+.
+.
+.SH SEE ALSO
+.BR mbrtowc (3)
+.
+.
+.SH AUTHOR
+This manpage was written by \%Keith\ Marshall,
+\%<keith@users.osdn.me>,
+to document the
+.BR \%mbrlen ()
+function as it has been implemented for the MinGW.org Project.
+It may be copied, modified and redistributed,
+without restriction of copyright,
+provided this acknowledgement of contribution by
+the original author remains in place.
+.
+.\" EOF

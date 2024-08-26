@@ -1,0 +1,110 @@
+.\" vim: ft=nroff
+.TH WCTOB 3 05-Jul-2020 MinGW "MinGW Programmer's Reference Manual"
+.
+.SH NAME
+.B \%wctob
+\- convert a wide character to a single byte
+.
+.
+.SH SYNOPSIS
+.B  #include
+.RB < stdio.h >
+.br
+.B  #include
+.RB < wchar.h >
+.PP
+.B  int wctob( wint_t
+.I  c
+.B  );
+.
+.
+.SH DESCRIPTION
+The
+.BR \%wctob ()
+function converts the wide character,
+represented by
+.IR c ,
+to a multibyte character sequence
+in the codeset which is associated with the
+.B \%LC_CTYPE
+category of the active process locale.
+Provided the entire conversion can be accommodated
+within a single byte,
+the value of that byte,
+interpreted as an
+.IR unsigned\ char ,
+and cast to an
+.IR int ,
+is returned;
+otherwise,
+.B EOF
+is returned.
+.
+.
+.SH RETURN VALUE
+If the conversion of
+.IR c ,
+to a multibyte character sequence,
+in its entirety,
+occupies exactly
+.I one
+byte,
+the value of that byte,
+interpreted as an
+.IR unsigned\ char ,
+and cast to an
+.IR int ,
+is returned;
+otherwise,
+.B EOF
+is returned.
+.
+.
+.SH ERROR CONDITIONS
+No error conditions are defined.
+.
+.
+.SH STANDARDS CONFORMANCE
+Except to the extent that it may be affected by limitations
+of the underlying \%MS\(hyWindows API,
+the
+.I \%libmingwex
+implementation of
+.BR \%wctob ()
+conforms generally to
+.BR \%ISO\(hyC99 ,
+.BR \%POSIX.1\(hy2001 ,
+and
+.BR \%POSIX.1\(hy2008 .
+.
+.
+.\"SH EXAMPLE
+.
+.
+.SH CAVEATS AND BUGS
+Use of the
+.BR \%wctob ()
+function is
+.IR discouraged ;
+it serves no purpose which may not be better served by the
+.BR \%wcrtomb (3)
+function,
+which should be considered as a preferred alternative.
+.
+.
+.SH SEE ALSO
+.BR wcrtomb (3)
+.
+.
+.SH AUTHOR
+This manpage was written by \%Keith\ Marshall,
+\%<keith@users.osdn.me>,
+to document the
+.BR \%wctob ()
+function as it has been implemented for the MinGW.org Project.
+It may be copied, modified and redistributed,
+without restriction of copyright,
+provided this acknowledgement of contribution by
+the original author remains in place.
+.
+.\" EOF

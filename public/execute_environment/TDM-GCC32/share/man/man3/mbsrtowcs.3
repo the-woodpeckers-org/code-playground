@@ -1,0 +1,457 @@
+.\" vim: ft=nroff
+.TH MBSRTOWCS 3 05-Jul-2020 MinGW "MinGW Programmer's Reference Manual"
+.
+.SH NAME
+.B mbsrtowcs
+\- convert from multibyte to wide character string
+.
+.
+.SH SYNOPSIS
+.B  #include
+.RB < wchar.h >
+.PP
+.B  size_t mbsrtowcs( wchar_t
+.BI * dst ,
+.B  const char
+.BI ** src ,
+.B  size_t
+.IB len ,
+.B  mbstate_t
+.BI * ps
+.B  );
+.
+.
+.SH DESCRIPTION
+.PP
+Commencing from the conversion state specified in
+.IR *ps ,
+the
+.BR \%mbsrtowcs ()
+function converts the multibyte character sequence,
+starting at
+.IR *src ,
+to a sequence of wide characters;
+each conversion is performed as if by calling the
+.BR mbrtowc (3)
+function.
+.
+.PP
+If
+.I dst
+is not a NULL pointer,
+the resulting sequence of wide characters,
+up to a maximum of
+.I len
+in number,
+will be stored as a wide character string,
+starting at
+.IR dst ;
+conversion may be curtailed,
+before
+.I len
+wide characters have been stored,
+under any of the following conditions:
+.RS 2n
+.ll -2n
+.IP \(bu 2n
+The result of any one conversion represents the NUL wide character,
+(in which case the NUL wide character is stored,
+but is not included in the count of characters converted).
+.
+.IP \(bu 2n
+The result of any single multibyte character conversion is a
+.IR surrogate\ pair ,
+but the available space,
+remaining in the conversion buffer,
+is insufficient to accommodate more than one
+.B \%wchar_t
+value.
+.
+.IP \(bu 2n
+An invalid multibyte character sequence is encountered,
+(in which case the conversion state becomes undefined).
+.ll +2n
+.RE
+.
+.PP
+Conversely,
+if
+.I dst
+is a NULL pointer,
+the
+.I len
+argument is ignored,
+and conversions are performed until either
+the multibyte equivalent of the NUL character,
+or an invalid multibyte sequence is encountered, 
+but no wide characters are stored.
+.
+.PP
+The sequence of bytes,
+pointed to by
+.IR *src ,
+is interpreted as a multibyte character sequence
+in the codeset which is associated with the
+.B \%LC_CTYPE
+category of the active process locale.
+.
+.PP
+If
+.I ps
+is specified as a NULL pointer,
+.BR \%mbsrtowcs ()
+will track conversion state using an internal
+.B \%mbstate_t
+object reference,
+which is private within the
+.BR \%mbsrtowcs ()
+process address space;
+at process \%start\(hyup,
+this internal
+.B \%mbstate_t
+object is initialized to represent
+the initial conversion state.
+.
+.
+.SH RETURN VALUE
+On successful conversion of the multibyte character
+sequence indirectly pointed to by
+.IR *src ,
+up to the wide character string length limit specified by
+.IR len ,
+.BR \%mbsrtowcs ()
+updates
+.IR *src ,
+by either:
+.RS 2n
+.ll -2n
+.IP \(bu 2n
+Replacing it with a NULL pointer,
+if conversion is terminated by a NUL character,
+before
+.I len
+wide characters have been evaluated.
+.
+.IP \(bu 2n
+Incrementing it,
+such that it points to the first multibyte character in the
+.I *src
+sequence,
+which,
+when converted,
+would produce wide characters beyond the string length
+limit specified by
+.IR len .
+.ll +2n
+.RE
+.PP
+In either case,
+.BR mbsrtowcs ()
+returns the actual number of
+.B \%wchar_t
+values which have been stored at
+.IR dst ,
+(if
+.I dst
+is not a NULL pointer,
+or which would have been stored,
+otherwise).
+.
+.
+.SH ERROR CONDITIONS
+If,
+at any stage of conversion of the multibyte sequence at
+.IR \%*src ,
+and,
+if
+.I dst
+is not a NULL pointer,
+before
+.I len
+.B \%wchar_t
+values have been evaluated,
+any sequence within
+.IR \%*src ,
+which does not represent a valid multibyte character,
+is encountered,
+then
+.I \%errno
+is set to
+.BR \%EILSEQ ,
+and
+.BR \%mbsrtowcs ()
+returns
+.IR \%(size_t)(\-1) ;
+the conversion state,
+including the state of any
+.B \%wchar_t
+values already stored at
+.IR \%*dst ,
+is undefined.
+.
+.
+.SH STANDARDS CONFORMANCE
+Except in respect of its provisions for handling of
+.IR surrogate\ pairs ,
+and to the extent that it may be affected by limitations
+of the underlying \%MS\(hyWindows API,
+the
+.I \%libmingwex
+implementation of
+.BR mbsrtowcs ()
+conforms generally to
+.BR \%ISO\(hyC99 ,
+.BR \%POSIX.1\(hy2001 ,
+and
+.BR \%POSIX.1\(hy2008 .
+.
+.
+.\"SH EXAMPLE
+.
+.
+.SH CAVEATS AND BUGS
+Due to a documented limitation of Microsoft\(aqs
+.BR \%setlocale ()
+function implementation,
+it is not possible to directly select an active locale,
+in which the codeset is represented by any multibyte
+character sequence with an effective
+.B \%MB_CUR_MAX
+of more than two bytes.
+Prior to
+.IR \%mingwrt\(hy5.3 ,
+this limitation precludes the use of
+.BR \%mbsrtowcs ()
+to interpret any codeset with
+.B \%MB_CUR_MAX
+greater than two bytes,
+(such as
+.BR \%UTF\(hy8 ).
+From
+.I \%mingwrt\(hy5.3
+onward,
+the MinGW.org implementation of
+.BR \%mbsrtowcs ()
+mitigates this limitation by assignment of the codeset
+from the
+.B \%LC_CTYPE
+environment variable,
+provided the system default has been previously activated
+for the
+.B \%LC_CTYPE
+locale category;
+e.g.\ execution of:
+.PP
+.RS 4n
+.EX
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <wchar.h>
+
+void print_conv( const char * );
+
+int main()
+{
+  setlocale( LC_CTYPE, "" );
+  putenv( "LC_CTYPE=en_GB.65001" );
+  print_conv( "\exe6\exb0\exb4\exf0\ex9d\ex84\ex8b" );
+  return 0;
+}
+
+void print_conv( const char *mbs )
+{
+  size_t len;
+  if( (len = 1 + mbsrtowcs( NULL, &mbs, 0, NULL )) > 0 )
+  {
+    wchar_t wcs[len]; 
+    len = mbsrtowcs( wch, &mbs, len, NULL );
+    printf( "%d wide char%s: ", len, (len == 1) ? "" : "s" );
+    while( len > 0 )
+    { printf( "0x%04X%c", *wcs++, (--len > 0) : ':' : '\n' );
+    }
+  }
+  else perror( "mbsrtowcs" );
+}
+.EE
+.RE
+.PP
+will convert the
+.B \%UTF\(hy8
+encoded multibyte sequence,
+\fC\%"\exe6\exb0\exb4\exf0\ex9d\ex84\ex8b"\fP,
+(which represents the two Unicode code points,
+\fC\%"\eu6c34"\fP and \fC\%\eU0001d10b")\fP,
+to its equivalent
+.B \%wchar_t
+sequence,
+resulting in the three\(hyvalue output sequence:
+.PP
+.RS 4n
+.EX
+3 wide chars: 0x6C34:0xD834:0xDD0B
+.EE
+.RE
+.
+.PP
+Note that,
+in the preceding example,
+although the input
+.B \%UTF\(hy8
+sequence represents only
+.I two
+Unicode code points,
+the output shows
+.I \%three
+distinct
+.B \%wchar_t
+values,
+with the second code point being represented by the
+.IR surrogate\ pair ,
+\fC\%"0xD834:0xDD0B"\fP.
+This raises a potential issue,
+which is consequent on Microsoft\(aqs choice of
+.B \%UTF-16LE
+as the underlying representation of the
+.B \%wchar_t
+data type:
+normally,
+when
+.I dst
+is not a NULL pointer,
+the MinGW
+.BR mbsrtowcs ()
+function will simply store a
+.I surrogate\ pair
+when necessary,
+but in the particular case where doing so would cause the
+.I low\ surrogate
+to overrun the buffer length specified by the
+.I len
+argument,
+then no part of the
+.I surrogate\ pair
+will be stored,
+and
+.BR mbsrtowcs ()
+will stop as if the buffer length limit has been reached,
+at a count of one less than
+.IR len .
+This case may be distinguished from a short count due to
+conversion of a NUL character,
+(in which case
+.I *src
+will have been respecified as a NULL pointer),
+by inspection of
+.IR *src ,
+which will have been updated to point,
+in this case,
+to the start of that part of the multibyte sequence
+which represents the
+.IR surrogate\ pair .
+.
+.PP
+A further issue,
+also related to
+.IR surrogate\ pairs ,
+may arise if the
+.B \%mbstate_t
+object passed via the
+.I *ps
+argument originates from a preceding
+.BR mbrtowc (3)
+call which has returned a
+.IR high\ surrogate ,
+but the
+.I low\ surrogate
+has not been retrieved.
+In this case,
+the
+.I low\ surrogate
+is returned,
+(and potentially orphaned),
+as the first
+.B \%wchar_t
+value to be considered for storage at
+.IR dst .
+This may not be what you want,
+but it is supported as an alternative to the method,
+formally documented using
+.BR mbrtowc (3),
+for completion of a
+.IR surrogate\ pair ;
+for example:
+.PP
+.RS 4n
+.EX
+#define _ISOC99_SOURCE
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <limits.h>
+#include <winnls.h>
+#include <wchar.h>
+
+void print_conv( const char * );
+
+int main()
+{
+  setlocale( LC_CTYPE, "" );
+  putenv( "LC_CTYPE=en_GB.65001" );
+  print_conv( "\eU0001d10b" );
+  print_conv( "\eu6c34" );
+  return 0;
+}
+
+void print_conv( const char *mbs )
+{
+  wchar_t wch;
+  mbstate_t ps = (mbstate_t)(0);
+  size_t n = mbrtowc( &wch, mbs, MB_LEN_MAX, &ps );
+  if( (int)(n) > 0 )
+  {
+    if( IS_HIGH_SURROGATE( wch ) )
+    {
+      wchar_t wcl;
+      mbsrtowcs( &wcl, &mbs, 1, &ps );
+      printf( "%u bytes -> 0x%04X:0x%04X\en", n, wch, wcl );
+    }
+    else printf( "%u bytes -> 0x%04X\en", n, wch );
+  }
+  else if( n == (size_t)(-1) ) perror( "mbrtowc" );
+}
+.EE
+.RE
+.PP
+is equivalent to the example given for
+.I surrogate\ pair
+completion using
+.BR mbrtowc (3).
+Regardless of the method used to complete
+.IR surrogate\ pairs ,
+it is the caller\(aqs responsibility to ensure that the
+.I high\ surrogate
+and its complementary
+.I low\ surrogate
+remain correctly associated.
+.
+.
+.SH SEE ALSO
+.BR mbsinit (3),
+and
+.BR mbrtowc (3)
+.
+.
+.SH AUTHOR
+This manpage was written by \%Keith\ Marshall,
+\%<keith@users.osdn.me>,
+to document the
+.BR \%mbsrtowcs ()
+function as it has been implemented for the MinGW.org Project.
+It may be copied, modified and redistributed,
+without restriction of copyright,
+provided this acknowledgement of contribution by
+the original author remains in place.
+.
+.\" EOF

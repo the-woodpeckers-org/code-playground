@@ -1,0 +1,105 @@
+.\" vim: ft=nroff
+.TH BTOWC 3 05-Jul-2020 MinGW "MinGW Programmer's Reference Manual"
+.
+.SH NAME
+.B \%btowc
+\- convert a single byte to a wide character
+.
+.
+.SH SYNOPSIS
+.B  #include
+.RB < stdio.h >
+.br
+.B  #include
+.RB < wchar.h >
+.PP
+.B  wint_t btowc( int
+.I  c
+.B  );
+.
+.
+.SH DESCRIPTION
+If
+.I c
+is not
+.BR EOF ,
+the
+.BR \%btowc ()
+function attempts to interpret
+.I c
+as a multibyte character sequence of length
+.IR one ;
+if the single byte evaluated represents a complete multibyte character,
+in the codeset which is associated with the
+.B \%LC_CTYPE
+category of the active process locale,
+.BR \%btowc ()
+converts it to,
+and returns,
+its equivalent wide character value.
+.
+.
+.SH RETURN VALUE
+If
+.I c
+is
+.BR EOF ,
+or if it does not represent a complete multibyte
+character sequence of length
+.IR one ,
+.BR \%btowc ()
+returns
+.BR WEOF ;
+otherwise the conversion of the single byte character,
+to its equivalent wide character value,
+is returned.
+.
+.
+.SH ERROR CONDITIONS
+No error conditions are defined.
+.
+.
+.SH STANDARDS CONFORMANCE
+Except to the extent that it may be affected by limitations
+of the underlying \%MS\(hyWindows API,
+the
+.I \%libmingwex
+implementation of
+.BR \%btowc ()
+conforms generally to
+.BR \%ISO\(hyC99 ,
+.BR \%POSIX.1\(hy2001 ,
+and
+.BR \%POSIX.1\(hy2008 .
+.
+.
+.\"SH EXAMPLE
+.
+.
+.SH CAVEATS AND BUGS
+Use of the
+.BR \%btowc ()
+function is
+.IR discouraged ;
+it serves no purpose which may not be better served by the
+.BR \%mbrtowc (3)
+function,
+which should be considered as a preferred alternative.
+.
+.
+.SH SEE ALSO
+.BR mbrtowc (3)
+.
+.
+.SH AUTHOR
+This manpage was written by \%Keith\ Marshall,
+\%<keith@users.osdn.me>,
+to document the
+.BR \%btowc ()
+function as it has been implemented for the MinGW.org Project.
+It may be copied, modified and redistributed,
+without restriction of copyright,
+provided this acknowledgement of contribution by
+the original author remains in place.
+.
+.\" EOF

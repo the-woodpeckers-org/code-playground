@@ -1,0 +1,260 @@
+.\" vim: ft=nroff
+.TH MBSINIT 3 05-Jul-2020 MinGW "MinGW Programmer's Reference Manual"
+.
+.SH NAME
+.B \%mbsinit
+\- check state of multibyte to wide character conversion
+.
+.
+.SH SYNOPSIS
+.B  #include
+.RB < wchar.h >
+.PP
+.B  int mbsinit( mbstate_t
+.BI * ps
+.B  );
+.
+.
+.SH DESCRIPTION
+If
+.I ps
+is not a NULL pointer,
+the
+.BR \%mbsinit ()
+function determines whether the
+.B \%mbstate_t
+object,
+to which it points,
+represents a multibyte to wide character conversion in the
+.IR initial ,
+or in an
+.I intermediate
+state.
+.
+.PP
+The
+.I initial
+conversion state is represented by a
+.I zero\(hyvalued
+.B \%mbstate_t
+object.
+(POSIX.1 stipulates that this representation must be supported,
+although additional alternative representations are permitted;
+MinGW uses only the zero\(hyvalued representation).
+.
+.PP
+In MinGW,
+an initial conversion state may be establised by initialization:
+.PP
+.RS 4n
+.EX
+mbstate_t st = (mbstate_t)(0), *ps = &st;
+.EE
+.RE
+.PP
+or by assignment:
+.PP
+.RS 4n
+.EX
+*ps = (mbstate_t)(0);
+.EE
+.RE
+.PP
+However,
+for portability:
+.PP
+.RS 4n
+.EX
+memset( ps, 0, sizeof( mbstate_t ));
+.EE
+.RE
+.PP
+may be preferred.
+.
+.PP
+Nominally,
+.B \%mbstate_t
+objects represent
+.I shift states
+of the active codeset.
+However,
+since \%MS\(hyWindows codesets do not use shift states,
+as such,
+MinGW uses
+.B \%mbsinit_t
+odjects to represent an alternative class of
+.I intermediate conversion
+.IR states ,
+viz.:
+.RS 2n
+.ll -2n
+.IP \(bu 2n
+Parsing of a multibyte sequence has been interrupted,
+before interpretation of
+.B \%MB_CUR_MAX
+bytes,
+without identification of a complete code point;
+this conversion state may arise following a call of
+.BR mbrlen (3),
+or
+.BR mbrtowc (3),
+which has returned a parsed sequence length of
+.IR \%(size_t)(\-2) .
+.
+.IP \(bu 2n
+Processing of a wide character sequence has encountered a
+.IR high\ surrogate ,
+but the complementary
+.I low surrogate
+has yet to be evaluated;
+this state may arise after a call of
+.BR mbrtowc (3),
+has returned the
+.IR high\ surrogate ,
+(with a returned sequence length between
+.I one
+and
+.BR \%MB_CUR_MAX ),
+and a further call is needed,
+to retrieve the
+.IR low\ surrogate ;
+alternatively,
+a complementary conversion state may arise when
+.BR wcrtomb (3)
+has been called to interpret a
+.IR high\ surrogate ,
+and a further call,
+to complete the conversion to a multibyte sequence,
+by evaluation of the complementary
+.IR low\ surrogate ,
+is still required.
+.ll +2n
+.RE
+.
+.
+.SH RETURN VALUE
+If
+.I ps
+is a NULL pointer,
+or if the conversion state,
+represented by the
+.B \%mbstate_t
+object to which it points,
+is the
+.I initial
+state,
+.BR \%mbsinit ()
+returns a
+.I \%non\(hyzero
+value;
+otherwise,
+.I \%zero
+is returned,
+indicating an
+.I intermediate
+conversion state.
+.
+.
+.SH ERROR CONDITIONS
+No error conditions are defined.
+.
+.
+.SH STANDARDS CONFORMANCE
+The
+.I \%libmingwex
+implementation of
+.BR mbsinit ()
+conforms generally to
+.BR \%ISO\(hyC99 ,
+.BR \%POSIX.1\(hy2001 ,
+and
+.BR \%POSIX.1\(hy2008 .
+.
+.
+.\"SH EXAMPLE
+.
+.
+.SH CAVEATS AND BUGS
+Prior to \%mingwrt\(hy5.3,
+the
+.I \%libmingwex
+implementation of
+.BR mbsinit ()
+would always return
+.IR \%non\(hyzero ,
+apparently indicating an
+.I initial
+conversion state,
+regardless of the actual state indicated by any
+.B \%mbstate_t
+object referred to by
+.IR *ps ;
+this defect is corrected,
+in \%mingwrt\(hy5.3.
+.
+.PP
+Any
+.I intermediate conversion
+.IR state ,
+arising from a call to
+.BR mbrlen (3),
+.BR mbrtowc (3),
+or
+.BR wcrtomb (3),
+is specific to the particular conversion which produces it.
+Any intermediate state produced by
+.BR mbrlen (3),
+or by
+.BR mbrtowc (3)
+may be resolved by a further call to either of these two functions,
+or to
+.BR mbsrtowcs (3),
+provided the initial part of the multibyte sequence,
+passed in the subsequent call,
+completes the sequence which led to the intermediate state;
+if this intermediate state is used in any other context,
+the consequent behaviour is undefined.
+.
+.PP
+Similarly,
+an intermediate state resulting from a call to
+.BR wcrtomb (3)
+may be resolved by a further call to
+.BR wcrtomb (3),
+or to
+.BR wcsrtomb (3),
+provided the first,
+(or the only),
+wide character to be interpreted,
+in the subsequent call,
+represents the
+.I low surrogate
+which completes the pending
+.I surrogate pair
+from which the intermediate state was created.
+Once again,
+if this intermediate state is used in any other context,
+the consequent behaviour is undefined.
+.
+.
+.SH SEE ALSO
+.BR \%mbrlen (3),
+.BR \%mbrtowc (3),
+.BR \%mbsrtowcs (3),
+.BR \%wcrtomb (3),
+and
+.BR \%wcrtomb (3).
+.
+.
+.SH AUTHOR
+This manpage was written by \%Keith\ Marshall,
+\%<keith@users.osdn.me>,
+to document the
+.BR \%mbsinit ()
+function as it has been implemented for the MinGW.org Project.
+It may be copied, modified and redistributed,
+without restriction of copyright,
+provided this acknowledgement of contribution by
+the original author remains in place.
+.
+.\" EOF

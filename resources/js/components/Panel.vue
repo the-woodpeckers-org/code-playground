@@ -23,8 +23,6 @@ export default {
                     a_output.classList.remove('bg-green-200')
                     a_output.classList.add('text-red-600')
                     a_output.classList.add('bg-red-200')
-                    alert(e_output.value);
-                    alert(a_output.value);
                 } else {
                     a_output.classList.remove('text-red-600')
                     a_output.classList.remove('bg-red-200')

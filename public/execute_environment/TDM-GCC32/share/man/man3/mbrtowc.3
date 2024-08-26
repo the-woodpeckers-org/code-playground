@@ -1,0 +1,617 @@
+.\" vim: ft=nroff
+.TH MBRTOWC 3 05-Jul-2020 MinGW "MinGW Programmer's Reference Manual"
+.
+.SH NAME
+.B mbrtowc
+\- convert from multibyte to wide character encoding
+.
+.
+.SH SYNOPSIS
+.B  #include
+.RB < wchar.h >
+.PP
+.B  size_t mbrtowc( wchar_t
+.BI * pwc ,
+.B  const char
+.BI * s ,
+.B  size_t
+.IB n ,
+.B  mbstate_t
+.BI * ps
+.B  );
+.
+.
+.SH DESCRIPTION
+If
+.I s
+is a NULL pointer,
+the
+.IR *pwc ,
+and the
+.I n
+arguments are ignored,
+and the call to
+.BR \%mbrtowc ()
+function is interpreted as if invoked as
+.PP
+.RS 4n
+.EX
+mbrtowc( NULL, "", 1, ps );
+.EE
+.RE
+.
+.PP
+Otherwise,
+if
+.I s
+is not a NULL pointer,
+the
+.BR \%mbrtowc ()
+function inspects the sequence of bytes,
+starting at
+.IR s ,
+up to a maximum of
+.I n
+bytes,
+to determine the number of bytes required to complete
+the next multibyte code point,
+commencing from the conversion state specified in
+.IR *ps ,
+(which is then updated).
+Then,
+if
+.I *pwc
+is not a NULL pointer,
+and
+.I n
+or fewer bytes is sufficient to complete a single
+multibyte character,
+the single
+.B \%wchar_t
+wide character conversion of that multibyte character
+is stored at
+.IR *pwc .
+.
+.PP
+The sequence of bytes,
+pointed to by
+.IR s ,
+is interpreted as a multibyte character sequence
+in the codeset which is associated with the
+.B \%LC_CTYPE
+category of the active process locale.
+.
+.PP
+If
+.I ps
+is specified as a NULL pointer,
+.BR \%mbrtowc ()
+will track conversion state using an internal
+.B \%mbstate_t
+object reference,
+which is private within the
+.BR \%mbrtowc ()
+process address space;
+at process \%start\(hyup,
+this internal
+.B \%mbstate_t
+object is initialized to represent
+the initial conversion state.
+.
+.PP
+In the special case,
+where the conversion of a completed multibyte character
+must be represented as a
+.B \%UTF\(hy16LE
+.IR surrogate\ pair ,
+and
+.I *pwc
+is not a NULL pointer,
+only the
+.I high\ surrogate
+will be stored at
+.IR *pwc ;
+please refer to the section
+.B CAVEATS AND
+.BR BUGS ,
+below,
+for advice on retrieval of the
+.IR low\ surrogate .
+.
+.
+.SH RETURN VALUE
+If the multibyte sequence,
+completed by
+.I n
+or fewer bytes,
+does not represent the NUL code point,
+then
+.BR \%mbrtowc ()
+returns the number of bytes which are actually required
+to complete the sequence,
+(a number between 1 and
+.IR n ,
+inclusive),
+and the conversion state,
+as specified in
+.IR *ps ,
+is reset to the initial state;
+if
+.I pwc
+is not a NULL pointer,
+the wide character conversion of the completed
+multibyte character is stored at
+.IR *pwc .
+.
+.PP
+On the other hand,
+if the completed multibyte sequence
+.I does
+represent the NUL code point,
+then
+.BR \%mbrtowc ()
+returns zero,
+and the conversion state,
+as specified in
+.IR *ps ,
+is reset to the initial state;
+if
+.I pwc
+is not a NULL pointer,
+the NUL wide character is stored at
+.IR *pwc .
+.
+.PP
+If
+.I n
+is less than the effective
+.B \%MB_CUR_MAX
+for the active process locale,
+and 
+.I n
+bytes is insufficient to complete a multibyte character,
+then
+.I *ps
+is updated to represent a new partially completed encoding state,
+(no wide character conversion is stored),
+and
+.BR \%mbrtowc ()
+returns
+.IR \%(size_t)(\-2) .
+(If
+.I n
+is equal to,
+or greater than
+.BR \%MB_CUR_MAX ,
+this return condition can arise,
+only if the multibyte encoding sequence includes
+redundant shift states;
+since shift states are not used,
+this cannot occur in any \%MS\(hyWindows
+multibyte character set).
+.
+.
+.SH ERROR CONDITIONS
+If the sequence of
+.I n
+or fewer bytes,
+pointed to by
+.IR s ,
+extends any pending encoding state recorded within
+.IR *ps ,
+to at least
+.B \%MB_CUR_MAX
+bytes,
+and the resulting sequence does not represent
+a valid multibyte character,
+then
+.I \%errno
+is set to
+.BR \%EILSEQ ,
+no wide character conversion is stored,
+and
+.BR \%mbrtowc ()
+returns
+.IR \%(size_t)(\-1) .
+.
+.PP
+If,
+on entry to
+.BR \%mbrtowc (),
+the conversion state represented by
+.I *ps
+is deemed to be
+.IR invalid ,
+.I \%errno
+is set to
+.BR \%EINVAL ,
+and
+.BR \%mbrtowc ()
+returns
+.IR \%(size_t)(\-1) ;
+the conversion state may be deemed to be invalid if
+it contains any sequence of bytes which does not match
+a valid initial sequence from a multibyte character
+representation within the currently active codeset,
+if it can be interpreted as a complete multibyte character,
+.I without
+the addition of any further bytes from
+.IR s ,
+or if it represents a
+.I surrogate\ pair
+conversion,
+resulting from a preceding call to
+.BR \%mbrtowc (),
+from which the
+.I low\ surrogate
+has yet to be retrieved,
+(and this is not the special case in which
+.I n
+is specified as
+.IR \%zero ,
+indicating that this call is intended
+to retrieve that pending
+.IR low\ surrogate ).
+.
+.
+.SH STANDARDS CONFORMANCE
+Except in respect of its extended provision for handling of
+.IR surrogate\ pairs ,
+and to the extent that it may be affected by limitations
+of the underlying \%MS\(hyWindows API,
+the
+.I \%libmingwex
+implementation of
+.BR mbrtowc ()
+conforms generally to
+.BR \%ISO\(hyC99 ,
+.BR \%POSIX.1\(hy2001 ,
+and
+.BR \%POSIX.1\(hy2008 .
+.
+.PP
+The feature whereby
+.I \%errno
+is set to
+.BR EINVAL ,
+when
+.I *ps
+is found to be invalid,
+is a
+.B POSIX.1
+conforming extension to
+.BR \%ISO\(hyC99 .
+.
+.
+.\"SH EXAMPLE
+.
+.
+.SH CAVEATS AND BUGS
+Due to a documented limitation of Microsoft\(aqs
+.BR \%setlocale ()
+function implementation,
+it is not possible to directly select an active locale,
+in which the codeset is represented by any multibyte
+character sequence with an effective
+.B \%MB_CUR_MAX
+of more than two bytes.
+Prior to \%mingwrt\(hy5.3,
+this limitation precludes the use of
+.BR \%mbrtowc ()
+to interpret any codeset with
+.B \%MB_CUR_MAX
+greater than two bytes,
+(such as
+.BR \%UTF\(hy8 ).
+From \%mingwrt\(hy5.3 onward,
+the MinGW.org implementation of
+.BR \%mbrtowc ()
+mitigates this limitation by assignment of the codeset
+from the
+.B \%LC_CTYPE
+environment variable,
+provided the system default has been previously activated
+for the
+.B \%LC_CTYPE
+locale category;
+e.g.\ execution of:
+.PP
+.RS 4n
+.EX
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <limits.h>
+#include <wchar.h>
+
+void print_conv( const char * );
+
+int main()
+{
+  setlocale( LC_CTYPE, "" );
+  putenv( "LC_CTYPE=en_GB.65001" );
+  print_conv( "\eU0001d10b" );
+  print_conv( "\eu6c34" );
+  return 0;
+}
+
+void print_conv( const char *mbs )
+{
+  wchar_t wch;
+  size_t n = mbrtowc( &wch, mbs, MB_LEN_MAX, NULL );
+  if( (int)(n) > 0 ) printf( "%u bytes \-> 0x%04X\en", n, wch );
+  else if( n == (size_t)(\-1) ) perror( "mbrtowc" );
+}
+.EE
+.RE
+.PP
+will interpret the string \fC"\eU0001d10b"\fP as a \%four\(hybyte
+.B \%UTF\(hy8
+encoding sequence,
+(which represents a single Unicode code point),
+but will fail to interpret the following \fC"\eu6c34"\fP sequence,
+(which also represents a valid Unicode code point),
+and,
+(if
+.B stderr
+is redirected to
+.BR stdout ),
+will print the result as:
+.PP
+.RS 4n
+.EX
+4 bytes \-> 0xD834
+mbrtowc: Invalid argument
+.EE
+.RE
+.PP
+This example illustrates a potentially irreconcilable
+deviation of any
+.BR \%mbrtowc ()
+implementation,
+on \%MS\(hyWindows,
+from the
+.B \%ISO\(hyC99
+standard:
+due to \%Microsoft\(aqs choice of
+.B \%UTF\(hy16LE
+as the underlying representation of the
+.B \%wchar_t
+data type,
+it is not possible to satisfy the requirement,
+implicit in the
+.B \%ISO\(hyC99
+specification for
+.BR \%mbrtowc (),
+that it should be possible to return the complete representation
+of any single representable Unicode code point as a single
+.B \%wchar_t
+value.
+In the case of this example,
+whereas the \%4\(hybyte
+.B \%UTF\(hy8
+representation of the \fC\%"\eU0001d10b"\fP Unicode code point
+.I is
+complete,
+the \fC\%0xD834\fP
+.B \%wchar_t
+representation,
+as returned by
+.BR \%mbrtowc (),
+is
+.I not
+complete;
+it represents a
+.B \%UTF\(hy16
+.IR high\ surrogate ,
+which
+.I must
+be paired with a corresponding
+.I low\ surrogate
+to complete it,
+and,
+since
+.B \%ISO\(hyC99
+requires that the
+.B \%*pwc
+argument to
+.BR \%mbrtowc ()
+refers to sufficient storage space to accommodate only
+.I one
+.B \%wchar_t
+value,
+it is not possible for
+.BR \%mbrtowc ()
+to
+.I safely
+return
+.I both
+the
+.IR high\ surrogate ,
+and its complementary
+.IR low\ surrogate ,
+in a single call.
+To mitigate this non\(hyconformance,
+from \%mingwrt\(hy5.3 onward,
+the \%MinGW implementation of
+.BR \%mbrtowc ()
+supports the following non\(hystandard strategy
+for completion of any conversion which requires return of a
+.IR surrogate\ pair :
+.
+.RS 2n
+.ll -2n
+.IP \(bu 2n
+Any translation unit,
+in which
+.BR \%mbrtowc ()
+is called,
+should:
+.RS 2n
+.ll -2n
+.IP a) 3n
+explicitly define either the
+.BR \%_ISOC99_SOURCE ,
+or the
+.B \%_ISOC11_SOURCE
+feature test macro,
+(with any arbitrary value,
+or even no value),
+.B before
+including
+.I any
+header file,
+and
+.IP b) 3n
+include the
+.B \%<winnls.h>
+header file,
+in addition to the required
+.B \%<wchar.h>
+header.
+.ll +2n
+.RE
+.
+.IP \(bu 2n
+Following each call of
+.BR \%mbrtowc (),
+which returns a
+.B \%wchar_t
+value with a converted byte count greater than zero,
+test the returned
+.B \%wchar_t
+value,
+using the
+.BR \%IS_HIGH_SURROGATE ()
+macro.
+.
+.IP \(bu 2
+When the
+.BR \%IS_HIGH_SURROGATE ()
+macro call indicates that the returned
+.B \%wchar_t
+value does represent a
+.IR high\ surrogate ,
+immediately call
+.BR mbrtowc ()
+again,
+passing the
+.B \%*ps
+state as returned by the original call,
+together with the original multibyte sequence reference,
+but with an explicit scan length limit,
+.BR \%n ,
+of zero,
+and an alternative
+.B \%wchar_t
+buffer reference pointer,
+for storage of the
+.IR low\ surrogate ;
+on successful retrieval of this
+.IR low\ surrogate ,
+the additional converted byte count will be returned as zero,
+and the pending
+.B \%*ps
+conversion state will have been cleared,
+(i.e.\& reset to the initial state).
+.ll +2n
+.RE
+.
+.PP
+Thus,
+considering the preceding example,
+to support interpretation of
+.I surrogate pairs
+the example code should be modified by insertion of:
+.PP
+.RS 4n
+.EX
+#define _ISOC99_SOURCE
+#include <winnls.h>
+.EE
+.RE
+.PP
+at the top of the source file,
+and reimplementation of the
+.BR print_conv ()
+function,
+to incorporate the
+.BR IS_HIGH_SURROGATE ()
+test,
+and response:
+.PP
+.RS 4n
+.EX
+void print_conv( const char *mbs )
+{
+  wchar_t wch;
+  size_t n = mbrtowc( &wch, mbs, MB_LEN_MAX, NULL );
+  if( (int)(n) > 0 )
+  {
+    if( IS_HIGH_SURROGATE( wch )
+    {
+      wchar_t wcl;
+      mbrtowc( &wcl, mbs, 0, NULL );
+      printf( "%u bytes \-> 0x%04X:0x%04X\en", n, wch, wcl );
+    }
+    else printf( "%u bytes \-> 0x%04X\en", n, wch );
+  }
+  else if( n == (size_t)(\-1) ) perror( "mbrtowc" );
+}
+.EE
+.RE
+.
+.PP
+With these changes in place,
+the output from the program becomes:
+.PP
+.RS 4n
+.EX
+4 bytes \-> 0xD834:0xDD0B
+3 bytes \-> 0x6C34
+.EE
+.RE
+.PP
+thus now correctly reporting the conversion of the
+.IR surrogate\ pair ,
+and then correctly interpreting the following \%3-byte
+.B \%UTF\(hy8
+sequence.
+.
+.PP
+Please be aware that the underlying \%MS\(hyWindows API,
+which is used to interpret the multibyte sequence,
+offers no readily accessible mechanism to discriminate
+between incomplete and invalid sequences;
+thus,
+if
+.I n
+is less than the effective
+.B \%MB_CUR_MAX
+for the active codeset,
+this
+.BR \%mbrtowc ()
+implementation may return
+.IR \%(size_t)(\-2) ,
+indicating an incomplete sequence,
+even in cases where there are no additional bytes
+which could be appended,
+to complete a valid encoding sequence.
+.
+.
+.SH SEE ALSO
+.BR mbsrtowcs (3)
+.
+.
+.SH AUTHOR
+This manpage was written by \%Keith\ Marshall,
+\%<keith@users.osdn.me>,
+to document the
+.BR \%mbrtowc ()
+function as it has been implemented for the MinGW.org Project.
+It may be copied, modified and redistributed,
+without restriction of copyright,
+provided this acknowledgement of contribution by
+the original author remains in place.
+.
+.\" EOF

@@ -1,0 +1,429 @@
+.\" vim: ft=nroff
+.TH WCRTOMB 3 05-Jul-2020 MinGW "MinGW Programmer's Reference Manual"
+.
+.SH NAME
+.B \%wcrtomb
+\- convert a wide character to a multibyte sequence
+.
+.
+.SH SYNOPSIS
+.B  #include
+.RB < wchar.h >
+.PP
+.B  size_t wcrtomb( char
+.BI * s ,
+.B  wchar_t
+.IB wc ,
+.B  mbstate_t
+.BI * ps
+.B  );
+.
+.
+.SH DESCRIPTION
+The
+.BR \%wcrtomb ()
+function determines the number of bytes which are required,
+starting from the conversion state represented by the
+.B \%mbstate_t
+object at
+.IR *ps ,
+to accommodate the multibyte character sequence,
+in the codeset associated with the
+.B \%LC_CTYPE
+category of the active process locale,
+which represents the completed conversion of
+the wide character specified by
+.IR wc .
+.
+.PP
+In the special case,
+when
+.I s
+is a NULL pointer,
+the
+.I wc
+argument is ignored,
+and the call is evaluated as if it had been invoked as
+.PP
+.RS 4n
+.EX
+wcrtomb( buf, L'\e0', ps )
+.EE
+.RE
+.PP
+returning the effect of conversion of the NUL wide character,
+as a completion of any intermediate conversion state specified in
+.IR *ps ,
+but without storing the converted multibyte sequence;
+(in this special case,
+the
+.B \%ISO\(hyC99
+standard specifies that
+.I buf
+should be an internal buffer,
+but since such a buffer becomes effectively inaccessible,
+storage of any converted multibyte sequence is unnecessary).
+.
+.PP
+Conversely,
+in the normal case,
+when
+.I s
+is not a NULL pointer,
+the
+.BR \%wcrtomb ()
+function converts the wide character,
+represented by
+.IR wc ,
+to the corresponding multibyte character sequence,
+which is stored in the byte array starting at
+.IR *s ,
+and the function return value is set to
+the number of bytes stored.
+.
+.
+.SH RETURN VALUE
+When conversion is successful,
+regardless of whether the resultant multibyte sequence is stored,
+or not,
+the
+.BR wcrtomb ()
+function returns the number of bytes which are,
+or which would be,
+stored at
+.IR *s .
+.
+.PP
+If the result of conversion represents a completed multibyte sequence,
+the conversion state,
+represented by
+.IR *ps ,
+is updated to represent the
+.I initial
+.IR state .
+Conversely,
+if the result of conversion is equivalent to the conversion of a
+.I high
+.IR surrogate ,
+nothing is stored,
+the return value is set to
+.IR zero ,
+and the conversion state is updated to represent a pending
+.I surrogate pair
+completion.
+.
+.
+.SH ERROR CONDITIONS
+If the wide character,
+passed as
+.IR wc ,
+either cannot be converted to a valid multibyte sequence,
+or does not complete a pending
+.I surrogate pair
+which can be represented as a valid multibyte sequence,
+in the codeset of the active
+.B \%LC_CTYPE
+locale category,
+.I \%errno
+is set to
+.BR \%EILSEQ ,
+the
+.BR wcrtomb ()
+function returns
+.IR (size_t)(\-1) ,
+and the conversion state is unspecified.
+.
+.
+.SH STANDARDS CONFORMANCE
+Except in respect of its extended provision for handling of
+.IR surrogate\ pairs ,
+and to the extent that it may be affected by limitations
+of the underlying \%MS\(hyWindows API,
+the
+.I \%libmingwex
+implementation of
+.BR \%wcrtomb ()
+conforms generally to
+.BR \%ISO\(hyC99 ,
+.BR \%POSIX.1\(hy2001 ,
+and
+.BR \%POSIX.1\(hy2008 .
+.
+.
+.\"SH EXAMPLE
+.
+.
+.SH CAVEATS AND BUGS
+Due to a documented limitation of Microsoft\(aqs
+.BR \%setlocale ()
+function implementation,
+it is not possible to directly select an active locale,
+in which the codeset is represented by any multibyte
+character sequence with an effective
+.B \%MB_CUR_MAX
+of more than two bytes.
+Prior to \%mingwrt\(hy5.3,
+this limitation precludes the use of
+.BR \%wcrtomb ()
+to interpret any codeset with
+.B \%MB_CUR_MAX
+greater than two bytes,
+(such as
+.BR \%UTF\(hy8 ).
+From \%mingwrt\(hy5.3 onward,
+the MinGW.org implementation of
+.BR \%wcrtomb ()
+mitigates this limitation by assignment of the codeset
+from the
+.B \%LC_CTYPE
+environment variable,
+provided the system default has been previously activated
+for the
+.B \%LC_CTYPE
+locale category;
+e.g.\ execution of:
+.PP
+.RS 4n
+.EX
+#define _ISOC99_SOURCE
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <limits.h>
+#include <wchar.h>
+
+void print_conv( const wchar_t * );
+
+int main()
+{
+  setlocale( LC_CTYPE, "" );
+  putenv( "LC_CTYPE=en_GB.65001" );
+  print_conv( L"\eu6c34\eU0001d10b" );
+  return 0;
+}
+
+void print_conv( const wchar_t *wcs )
+{
+  wchar_t wch;
+  while( (wch = *wcs++) != L'\e0' )
+  {
+    char mbs[MB_LEN_MAX];
+    mbstate_t ps = (mbstate_t)(0);
+    size_t n = wcrtomb( mbs, wch, &ps );
+
+    if( (int)(n) > 0 )
+    {
+      unsigned char *p = (unsigned char *)(mbs);
+      printf( "Single wide character: 0x%04X \-\-> %u byte%s",
+	  wch, n, (n == 1) ? ":  " : "s: "
+	);
+      while( n > 0 )
+	printf( "0x%02X%c", *p++, (\-\-n == 0) ? '\en' : ':' );
+    }
+    else if( n == (size_t)(\-1) ) perror( "wcrtomb" );
+  }
+}
+.EE
+.RE
+.PP
+will successfully convert the \fCL"\eu6c34"\fP wide character to its
+.B \%UTF\(hy8
+equivalent,
+resulting in the output:
+.PP
+.RS 4n
+.EX
+Single wide character: 0x6C34 \-\-> 3 bytes: 0xE6:0xB0:0xB4
+.EE
+.RE
+.PP
+However,
+when it then progresses to the \fCL"\eU0001d10b"\fP wide character,
+(which
+.I should
+be represented by a valid
+.B \%UTF\(hy16LE
+.I surrogate
+.IR pair ),
+it fails with the diagnostic:
+.PP
+.RS 4n
+.EX
+wcrtomb: Invalid or incomplete multibyte or wide character
+.EE
+.RE
+.
+.PP
+This (possibly unexpected) failure is an unfortunate consequence
+of Microsoft\(aqs choice of
+.B \%UTF\(hy16LE
+as the underlying representation of the
+.B \%wchar_t
+data type;
+this choice makes it impossible for
+.I any
+\%MS\(hyWindows implementation of
+.BR \%wcrtomb ()
+to be fully
+.B \%ISO\(hyC99
+compliant.
+To mitigate this non\(hycompliance,
+the MinGW implementation of
+.BR \%wcrtomb ()
+incorporates the following non\(hystandard capabilities:
+.RS 2n
+.ll -2n
+.IP \(bu 2n
+When the
+.B \%mbstate_t
+argument refers to the
+.I initial conversion
+.IR state ,
+and the
+.B \%wchar_t
+argument represents a
+.I high
+.IR surrogate ,
+then nothing is stored in the conversion buffer,
+the
+.B \%mbstate_t
+reference is updated to indicate pending completion of the
+.IR surrogate ,
+and the function returns an effective conversion count of
+.I zero
+bytes.
+.
+.IP \(bu 2n
+When the
+.B \%mbstate_t
+argument refers to a pending completion of a
+.I surrogate
+.IR pair ,
+and the
+.B \%wchar_t
+argument represents a
+.I low
+.IR surrogate ,
+then the deferred
+.I high surrogate
+is combined with the
+.I low surrogate
+argument,
+and the two are converted as a pair;
+the resultant conversion is stored in the conversion buffer,
+the
+.B \%mbstate_t
+reference is reset to the
+.I initial conversion
+.IR state ,
+and the function returns the number of bytes
+which were stored in the conversion buffer.
+.ll +2n
+.RE
+.
+.PP
+These capabilities of MinGW\(aqs
+.BR \%wcrtomb ()
+are certainly non\(hystandard;
+nonetheless,
+they are required to circumvent non\(hyconformity,
+which is imposed by an unfortunate Microsoft design choice,
+and it is incumbent upon the caller of
+.BR \%wcrtomb (),
+on the \%MS\(hyWindows platform,
+to make use of them.
+The preceding example clearly illustrates how strictly
+.B \%ISO\(hyC99
+conforming usage will yield incorrect behaviour;
+the following illustrates how that example may be adapted,
+by incorporation of the above non\(hystandard features,
+to achieve correct behaviour:
+.PP
+.RS 4n
+.EX
+#define _ISOC99_SOURCE
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <locale.h>
+#include <limits.h>
+#include <winnls.h>
+#include <wchar.h>
+
+void print_conv( const wchar_t * );
+
+int main()
+{
+  setlocale( LC_CTYPE, "" );
+  putenv( "LC_CTYPE=en_GB.65001" );
+  print_conv( L"\eu6c34\eU0001d10b" );
+  return 0;
+}
+
+#define DESC(FMT)  FMT "0x%1$04X --> %2$u byte%3$s"
+
+void print_conv( const wchar_t *wcs )
+{
+  while( *wcs != L'\e0' )
+  {
+    wchar_t wch = *wcs;
+    char mbs[MB_LEN_MAX];
+    mbstate_t ps = (mbstate_t)(0);
+    const char *fmt = DESC( "Single wide character: " );
+    size_t n = wcrtomb( mbs, wch, &ps );
+
+    if( (n == (size_t)(0)) && IS_HIGH_SURROGATE( wch ) )
+    {
+      if( (int)(n = wcrtomb( mbs, wcs[1], &ps )) > 0 )
+      {
+        fmt = DESC( "Surrogate pair: 0x%1$04X:" );
+        wcs++;
+      }
+    }
+    if( (int)(n) > 0 )
+    {
+      unsigned char *p = (unsigned char *)(mbs);
+      printf( fmt, wch, n, (n == 1) ? ":  " : "s: ", *wcs );
+      while( n > 0 )
+        printf( "0x%02X%c", *p++, (\-\-n == 0) ? '\en' : ':' );
+    }
+    else if( n == (size_t)(\-1) ) perror( "wcrtomb" );
+    if( *wcs != L'\e0' ) ++wcs;
+  }
+}
+.EE
+.RE
+.PP
+It may be observed that,
+on execution of this modified version of the example,
+both the \fCL"\eu6c34"\fP,
+and the \fCL"\eU0001d10b"\fP code points are now correctly evaluated,
+producing the expected output:
+.PP
+.RS 2n
+.EX
+Single wide character: 0x6C34 --> 3 bytes: 0xE6:0xB0:0xB4
+Surrogate pair: 0xD834:0xD834 --> 4 bytes: 0xF0:0x9D:0x84:0x8B
+.EE
+.RE
+.
+.
+.SH SEE ALSO
+.BR mbsinit (3),
+and
+.BR wcsrtombs (3)
+.
+.
+.SH AUTHOR
+This manpage was written by \%Keith\ Marshall,
+\%<keith@users.osdn.me>,
+to document the
+.BR \%wcrtomb ()
+function as it has been implemented for the MinGW.org Project.
+It may be copied, modified and redistributed,
+without restriction of copyright,
+provided this acknowledgement of contribution by
+the original author remains in place.
+.
+.\" EOF

@@ -27,7 +27,7 @@ class HomeController extends Controller
             fclose($programFile);
 
             $outputExecute = 'program' . '\\' . $random . ".exe";
-            $output = shell_exec("C:\TDM-GCC-64\bin\g++ $filePath -o $outputExecute 2>&1");
+            $output = shell_exec(base_path('public') . "\\execute_environment\TDM-GCC32\bin\g++ $filePath -o $outputExecute 2>&1");
             if (!file_exists($outputExecute)) {
                 return response()->json(['output' => $output]);
             }
@@ -43,7 +43,7 @@ class HomeController extends Controller
             fclose($programFile);
 
             $outputExecute = 'program' . '\\' . $random . ".exe";
-            $output = shell_exec("C:\TDM-GCC-64\bin\gcc $filePath -o $outputExecute 2>&1");
+            $output = shell_exec(base_path('public') . "\\execute_environment\TDM-GCC32\bin\gcc $filePath -o $outputExecute 2>&1");
             if (!file_exists($outputExecute)) {
                 return response()->json(['output' => $output]);
             }
