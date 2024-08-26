@@ -17,8 +17,8 @@ class HomeController extends Controller
     public function compileCode(Request $request)
     {
         $language = $request['language'];
+        $code = $request->code;
         if ($language == 'cpp') {
-            $code = $request->code;
             $random = substr(md5(mt_rand()), 0, 7);
             $filePath = "program\\" . $random . ".cpp";
             $programFile = fopen($filePath, "w+");
@@ -34,8 +34,7 @@ class HomeController extends Controller
             $output = shell_exec('echo ' . $request['input'] . ' | ' . $outputExecute . " 2>&1");
             return response()->json(['output' => $output]);
         }
-        if ($language == 'c') {
-            $code = $request->code;
+        else if ($language == 'c') {
             $random = substr(md5(mt_rand()), 0, 7);
             $filePath = "program\\" . $random . ".c";
             $programFile = fopen($filePath, "w+");
@@ -49,6 +48,24 @@ class HomeController extends Controller
                 return response()->json(['output' => $output]);
             }
             $output = shell_exec('echo ' . $request['input'] . ' | ' . $outputExecute . " 2>&1");
+            return response()->json(['output' => $output]);
+        }
+        else if ($language == 'python') {
+            $random = substr(md5(mt_rand()), 0, 7);
+            $filePath = "program\\" . $random . ".py";
+            $programFile = fopen($filePath, "w+");
+
+            fwrite($programFile, $code);
+            fclose($programFile);
+            $echoInputs = explode(' ', $request['input']);
+            $echoCommand = '(';
+            foreach ($echoInputs as $echoInput) {
+                $echoCommand .= 'echo ' . $echoInput . '&';
+            }
+            $echoCommand = rtrim($echoCommand, '&');
+            $echoCommand .= ')';
+            $output = shell_exec($echoCommand . ' | ' . base_path('public') . "\\execute_environment\python-3.12.5-embed-amd64\python $filePath 2>&1");
+//            $output = shell_exec('echo ' . $request['input'] . ' | ' . $outputExecute . " 2>&1");
             return response()->json(['output' => $output]);
         }
 

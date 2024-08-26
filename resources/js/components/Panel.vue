@@ -10,10 +10,31 @@ export default {
                 input: document.getElementById('input').value,
                 language: document.getElementById('language').value
             }).then(function (response) {
-                var output = document.getElementById('output')
+                var output = document.getElementById('actual_output')
                 output.value = response.data.output;
+
+                var e_output = document.getElementById('e_output')
+                var a_output = document.getElementById('actual_output')
+
+                if (e_output.value.trim() !== a_output.value.trim()) {
+                    a_output.classList.remove('text-red-600')
+                    a_output.classList.remove('bg-red-200')
+                    a_output.classList.remove('text-green-600')
+                    a_output.classList.remove('bg-green-200')
+                    a_output.classList.add('text-red-600')
+                    a_output.classList.add('bg-red-200')
+                    alert(e_output.value);
+                    alert(a_output.value);
+                } else {
+                    a_output.classList.remove('text-red-600')
+                    a_output.classList.remove('bg-red-200')
+                    a_output.classList.remove('text-green-600')
+                    a_output.classList.remove('bg-green-200')
+                    a_output.classList.add('text-green-600')
+                    a_output.classList.add('bg-green-200')
+                }
             }).catch(function (error) {
-                alert('what the fuck')
+                alert(error)
             })
         },
         onload() {
@@ -51,7 +72,7 @@ export default {
                     </select>
                     <div class="h-96">
                         <div id="editor" style="width: 100%; height: 100%" class="text-base mt-3">
-                            #include &ltiostream&gt
+
                         </div>
                     </div>
                     <div class="mt-3 w-full">
@@ -63,9 +84,14 @@ export default {
                     <div class="h-20">
                         <textarea id="input" name="input" class="h-full w-full my-3 rounded border-gray-400 bg-gray-100">9 16</textarea>
                     </div>
-                    <p class="mt-3 w-full">Output</p>
-                    <div class="h-48">
-                        <textarea id="output" class="h-full w-full my-3 rounded border-gray-400 bg-gray-100"
+                    <p class="mt-3 w-full">Expected Output</p>
+                    <div class="h-28">
+                        <textarea id="e_output" class="h-full w-full my-3 rounded border-gray-400 bg-gray-100"
+                                  readonly>25</textarea>
+                    </div>
+                    <p class="mt-3 w-full">Actual Output</p>
+                    <div class="h-28">
+                        <textarea id="actual_output" class="h-full w-full my-3 rounded border-gray-400 bg-gray-100"
                                   readonly></textarea>
                     </div>
                 </div>
