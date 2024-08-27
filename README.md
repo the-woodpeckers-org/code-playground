@@ -9,7 +9,7 @@ Requirements:
 - mySQL 8.0 or above
 - Apache 2.4.x.x or above
 - Composer 2.7.x or above
-
+- Windows Environment (MUST BE RUN ON WINDOWS)
 How to install this application:
 
 1. Clone the repository from the below GitHub Repository link into the directory “laragon/www”
