@@ -53,12 +53,28 @@ class CodeExecutionService {
             $echoInputs = explode(' ', $input);
             $echoCommand = '(';
             foreach ($echoInputs as $echoInput) {
-                $echoCommand .= 'echo ' . $echoInput . '&';
+                $echoCommand .= "echo '" . $echoInput . "'&";
             }
             $echoCommand = rtrim($echoCommand, '&');
             $echoCommand .= ')';
             $output = shell_exec($echoCommand . ' | ' . base_path('public') . "\\execute_environment\python-3.12.5-embed-amd64\python $filePath 2>&1");
 //            $output = shell_exec('echo ' . $request['input'] . ' | ' . $outputExecute . " 2>&1");
+            return response()->json(['output' => $output]);
+        }
+        else if ($language == 'php') {
+            $random = substr(md5(mt_rand()), 0, 7);
+            $filePath = "program\\" . $random . ".php";
+            $programFile = fopen($filePath, "w+");
+
+            fwrite($programFile, $code);
+            fclose($programFile);
+            $echoInputs = explode(' ', $input);
+            $echoCommand = '%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\powershell.exe "';
+            foreach ($echoInputs as $echoInput) {
+                $echoCommand .= "echo '" . $echoInput . "';";
+            }
+            $echoCommand = rtrim($echoCommand, ';');
+            $output = shell_exec($echoCommand . ' | ' . base_path('public') . "\\execute_environment\php-8.3.10-nts-Win32-vs16-x64\php '$filePath' " . '" 2>&1');
             return response()->json(['output' => $output]);
         }
         return response()->json(['success' => false, 'message' => 'Language not found!']);
