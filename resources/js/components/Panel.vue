@@ -85,7 +85,7 @@ export default {
                     <p class="mt-3 w-full">Expected Output</p>
                     <div class="h-28">
                         <textarea id="e_output" class="h-full w-full my-3 rounded border-gray-400 bg-gray-100"
-                                  readonly>25</textarea>
+                                  >25</textarea>
                     </div>
                     <p class="mt-3 w-full">Actual Output</p>
                     <div class="h-28">

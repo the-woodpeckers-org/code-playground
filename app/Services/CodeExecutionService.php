@@ -77,6 +77,17 @@ class CodeExecutionService {
             $output = shell_exec($echoCommand . ' | ' . base_path('public') . "\\execute_environment\php-8.3.10-nts-Win32-vs16-x64\php '$filePath' " . '" 2>&1');
             return response()->json(['output' => $output]);
         }
+        else if ($language == 'javascript') {
+            $random = substr(md5(mt_rand()), 0, 7);
+            $filePath = "program\\" . $random . ".js";
+            $programFile = fopen($filePath, "w+");
+
+            fwrite($programFile, $code);
+            fclose($programFile);
+
+            $output = shell_exec(base_path('public') . "\\execute_environment\\node-v20.17.0-win-x64\Node " . $filePath . " 2>&1");
+            return response()->json(['output' => $output]);
+        }
         return response()->json(['success' => false, 'message' => 'Language not found!']);
     }
 }
