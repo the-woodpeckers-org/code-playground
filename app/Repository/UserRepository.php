@@ -24,16 +24,16 @@ class UserRepository implements BaseRepository
 
     public function getAll()
     {
-
+        return User::all()->paginate(16);
     }
 
     public function get($id)
     {
-
+        return User::where('id', $id)->first();
     }
 
     public function getBySearch($searchString)
     {
-
+        return User::where('name', 'like', '%' . $searchString . '%')->paginate(16);
     }
 }
