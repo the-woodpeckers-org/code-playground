@@ -3,16 +3,16 @@
 namespace App\Repository;
 
 use App\Interfaces\BaseRepository;
-use App\Models\User;
+use App\Models\Problem;
 
-class UserRepository implements BaseRepository
+class ProblemRepository implements BaseRepository
 {
-    public function add(User $obj)
+    public function add(Problem $obj)
     {
 
     }
 
-    public function update(User $obj)
+    public function update(Problem $obj)
     {
 
     }

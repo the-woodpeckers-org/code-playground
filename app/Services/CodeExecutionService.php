@@ -2,11 +2,14 @@
 
 namespace App\Services;
 
+use Illuminate\Http\JsonResponse;
+
 class CodeExecutionService {
     /**
      * @param $code
      * @param $language
-     * @return \Illuminate\Http\JsonResponse|void
+     * @param $input
+     * @return JsonResponse
      */
     public function execute($code, $language, $input) {
         if ($language == 'cpp') {
