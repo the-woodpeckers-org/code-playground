@@ -1,7 +1,9 @@
 # live-code-editor (demo module)
 
 # installation
-
+Author: Vu Thanh Duong (<a href="">deethesaint</a>)
+<br>
+<br>
 Requirements:
 
 - Laragon 6.0
@@ -12,10 +14,7 @@ Requirements:
 - Windows Environment (MUST BE RUN ON WINDOWS)
 How to install this application:
 
-1. Clone the repository from the below GitHub Repository link into the directory “laragon/www”
-    
-    [references](https://www.notion.so/references-0177f1582bf9448db5e184ec3164c80a?pvs=21)
-    
+1. Clone this repository into the directory “laragon/www”
 2. Start Laragon service (must stop all other services like XAMPP,…)
 3. Copy the “.env.example” to another file in the dictionary and rename it to “.env”
 4. Open the terminal at the root dictionary of the repo, and run “composer install”
