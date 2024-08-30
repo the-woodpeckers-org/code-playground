@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repositories;
 
 use App\Interfaces\BaseRepository;
 use App\Models\Problem;

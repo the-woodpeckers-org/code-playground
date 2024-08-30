@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repository\ProblemRepository;
+use App\Repositories\ProblemRepository;
 
 class ProblemService
 {
