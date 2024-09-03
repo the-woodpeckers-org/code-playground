@@ -5,6 +5,11 @@ namespace App\Services;
 use Illuminate\Http\JsonResponse;
 
 class CodeExecutionService {
+
+    public function attempt($code, $language) {
+
+    }
+
     /**
      * @param $code
      * @param $language
