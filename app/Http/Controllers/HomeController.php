@@ -16,9 +16,10 @@ class HomeController extends Controller
         $this->service = $service;
     }
 
-    public function index()
+    public function problem($id)
     {
-        return view('home.index');
+        $problem_id = $id;
+        return view('home.problem', compact('problem_id'));
     }
 
     public function compileCode(Request $request)
@@ -26,6 +27,6 @@ class HomeController extends Controller
         $language = $request['language'];
         $code = $request->input("code");
         $input = $request->input("input");
-        return $this->service->execute($code, $language, $input);
+        return $this->service->execute($code, $language, $input, 1);
     }
 }

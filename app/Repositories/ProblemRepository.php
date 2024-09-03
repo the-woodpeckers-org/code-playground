@@ -29,7 +29,11 @@ class ProblemRepository implements BaseRepository
 
     public static function get($id)
     {
-        return Problem::where('id', $id)->first();
+        return Problem::where('id', '=', $id)->first();
+    }
+
+    public static function getWithTestcases($id) {
+        return Problem::where('id', '=', $id)->with('testcases')->first();
     }
 
     public static function getBySearch($searchString)

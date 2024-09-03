@@ -2,21 +2,19 @@
 
 namespace App\Services;
 
+use App\Models\Testcase;
 use Illuminate\Http\JsonResponse;
 
 class CodeExecutionService {
-
-    public function attempt($code, $language) {
-
-    }
-
     /**
      * @param $code
      * @param $language
      * @param $input
      * @return JsonResponse
      */
-    public function execute($code, $language, $input) {
+    public function execute($code, $language, $input, $problem_id) {
+        $results = array();
+        $testcases = Testcase::where('problem_id', $problem_id)->get();
         if ($language == 'cpp') {
             $random = substr(md5(mt_rand()), 0, 7);
             $filePath = "program\\" . $random . ".cpp";
@@ -30,9 +28,14 @@ class CodeExecutionService {
             if (!file_exists($outputExecute)) {
                 return response()->json(['output' => $output]);
             }
-            $output = shell_exec('echo ' . $input . ' | ' . $outputExecute . " 2>&1");
+
+            foreach ($testcases as $testcase) {
+                $results[$testcase->id] = shell_exec('echo ' . $testcase->stdin . ' | ' . $outputExecute . " 2>&1");
+            }
+
             unlink($outputExecute);
-            return response()->json(['output' => $output]);
+
+            return response()->json(['output' => json_encode($results)]);
         }
         else if ($language == 'c') {
             $random = substr(md5(mt_rand()), 0, 7);
@@ -66,7 +69,6 @@ class CodeExecutionService {
             $echoCommand = rtrim($echoCommand, '&');
             $echoCommand .= ')';
             $output = shell_exec($echoCommand . ' | ' . base_path('public') . "\\execute_environment\python-3.12.5-embed-amd64\python $filePath 2>&1");
-//            $output = shell_exec('echo ' . $request['input'] . ' | ' . $outputExecute . " 2>&1");
             return response()->json(['output' => $output]);
         }
         else if ($language == 'php') {

@@ -12,11 +12,15 @@ class ProblemController extends Controller
         $this->service = $service;
     }
 
-    public function index() {
+    public function problems() {
         return view('home.problem_list');
     }
 
     public function getProblems(Request $request) {
         return response()->json($this->service->getProblems());
+    }
+
+    public function getProblem($id) {
+        return response()->json($this->service->getProblem($id));
     }
 }

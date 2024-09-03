@@ -10,4 +10,9 @@ class ProblemService
         $problems = ProblemRepository::getAll();
         return $problems;
     }
+
+    public function getProblem($id) {
+        $problem = ProblemRepository::getWithTestcases($id);
+        return $problem;
+    }
 }

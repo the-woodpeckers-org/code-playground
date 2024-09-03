@@ -1,4 +1,6 @@
 @extends('layout.app')
 @section('content')
-<v-problem-list></v-problem-list>
+    <div class="w-full">
+        <v-problem-list></v-problem-list>
+    </div>
 @endsection
