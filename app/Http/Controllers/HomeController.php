@@ -11,6 +11,7 @@ class HomeController extends Controller
 {
 
     private CodeExecutionService $service;
+
     public function __construct(CodeExecutionService $service)
     {
         $this->service = $service;
@@ -27,6 +28,6 @@ class HomeController extends Controller
         $language = $request['language'];
         $code = $request->input("code");
         $input = $request->input("input");
-        return $this->service->execute($code, $language, $input, 1);
+        return $this->service->execute($language, $code, $input, 1);
     }
 }

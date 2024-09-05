@@ -8,19 +8,24 @@ use Illuminate\Http\Request;
 class ProblemController extends Controller
 {
     private ProblemService $service;
-    public function __construct(ProblemService $service) {
+
+    public function __construct(ProblemService $service)
+    {
         $this->service = $service;
     }
 
-    public function problems() {
+    public function problems()
+    {
         return view('home.problem_list');
     }
 
-    public function getProblems(Request $request) {
+    public function getProblems(Request $request)
+    {
         return response()->json($this->service->getProblems());
     }
 
-    public function getProblem($id) {
-        return response()->json($this->service->getProblem($id));
+    public function getProblem(Request $request)
+    {
+        return response()->json($this->service->getProblem($request['id']));
     }
 }

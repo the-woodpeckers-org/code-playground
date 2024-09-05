@@ -25,11 +25,11 @@
                     </div>
                     <div class="mt-3 w-full">
                         <button type="button" class="rounded-xl bg-amber-300 py-1 border-gray-600 border-2 px-2"
-                                @click="compute">RUN
+                                @click="compile">RUN
                         </button>
                     </div>
                     <div class="mt-3 w-full h-80 overflow-auto">
-                        <Testcase v-for="(testcase, index) in testcases" :stdin="testcase.stdin" :index="index + 1" :ckey="ckey">
+                        <Testcase :key="index + 1" :ref="'testcase-' + (index + 1)" v-for="(testcase, index) in testcases" :stdin="testcase.stdin" :result="testcase.result" :index="index + 1" :run="run">
                         </Testcase>
                     </div>
                 </div>
@@ -56,44 +56,43 @@ export default {
             title: String,
             testcases: Array,
             loading: false,
-            ckey: String
+            run: false,
         }
     },
     methods: {
-        compute() {
-            let _this = this
-            _this.ckey = Math.random().toString(36).slice(2, 7);
-        },
         compile() {
+            let _this = this
             var editor = ace.edit('editor')
             axios.post('/compile', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
-                input: document.getElementById('input').value,
                 language: document.getElementById('language').value
             }).then(function (response) {
-                var output = document.getElementById('actual_output')
-                output.value = response.data.output;
-
-                var e_output = document.getElementById('e_output')
-                var a_output = document.getElementById('actual_output')
-
-                if (e_output.value.trim() !== a_output.value.trim()) {
-                    a_output.classList.remove('text-red-600')
-                    a_output.classList.remove('bg-red-200')
-                    a_output.classList.remove('text-green-600')
-                    a_output.classList.remove('bg-green-200')
-                    a_output.classList.add('text-red-600')
-                    a_output.classList.add('bg-red-200')
+                _this.run = true
+                if (response.data.succeed == false) {
+                    alert('Lỗi!')
                 } else {
-                    a_output.classList.remove('text-red-600')
-                    a_output.classList.remove('bg-red-200')
-                    a_output.classList.remove('text-green-600')
-                    a_output.classList.remove('bg-green-200')
-                    a_output.classList.add('text-green-600')
-                    a_output.classList.add('bg-green-200')
+                    for (let i = 0; i < response.data.output.length; ++i) {
+                        document.getElementById('box-actual-input-' + (i + 1)).classList.remove('hidden')
+                        document.getElementById('box-status-' + (i + 1)).classList.remove('hidden')
+                        let currExpected = document.getElementById('expected-output-' + (i + 1))
+                        let item = document.getElementById('actual-input-' + (i + 1))
+                        let status = document.getElementById('status-' + (i + 1))
+                        item.innerHTML = response.data.output[i]
+                        if (item.innerHTML == currExpected.innerHTML) {
+                            status.classList.remove('text-red-400')
+                            status.classList.add('text-green-400')
+                            status.innerHTML = 'Passed'
+                        }
+                        else {
+                            status.classList.remove('text-green-400')
+                            status.classList.add('text-red-400')
+                            status.innerHTML = 'Failed'
+                        }
+                    }
                 }
             }).catch(function (error) {
+                console.log(error)
                 alert(error)
             })
         },
@@ -107,7 +106,6 @@ export default {
                     _this.description = response.data.description
                     _this.title = response.data.title
                     _this.testcases = response.data.testcases
-                    _this.ckey = '3'
                 })
                 .catch(function (error) {
                     alert(error)
@@ -115,7 +113,6 @@ export default {
         }
     },
     mounted() {
-
         this.onload()
     }
 }
