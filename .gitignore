@@ -2,6 +2,11 @@
 /node_modules
 /public/build
 /public/hot
+/public/program/*.cpp
+/public/program/*.py
+/public/program/*.php
+/public/program/*.c
+/public/program/*.js
 /public/storage
 /storage/*.key
 /vendor
