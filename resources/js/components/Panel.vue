@@ -1,4 +1,16 @@
 <template>
+    <dialog v-if="!$root.auth" id="my_modal" class="modal modal-open">
+        <div class="modal-box">
+            <h3 class="text-lg font-bold">You must be logged in to solve this problem</h3>
+            <p class="py-4">Click login below to login, or to register if you don't have an account.</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <!-- if there is a button in form, it will close the modal -->
+                    <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600" to="/login">Login now</router-link>
+                </form>
+            </div>
+        </div>
+    </dialog>
     <div class="w-full mt-2">
 
     </div>
@@ -69,7 +81,7 @@ export default {
         compile() {
             let _this = this
             let editor = ace.edit('editor')
-            axios.post('/compile', {
+            axios.post('/api/compile', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
                 language: document.getElementById('language').value
@@ -79,7 +91,7 @@ export default {
                 _this.runData = response.data.output
                 _this.passedTestcases = response.data.passedTestcases
                 if (response.data.succeed == false) {
-                    alert('Lỗi!')
+                    alert('Lỗi trình biên dịch!')
                 } else {
                     if (_this.passedTestcases === _this.testcases.length) {
                         document.getElementById('submit-btn').disabled = false
