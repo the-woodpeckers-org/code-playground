@@ -32,7 +32,7 @@ export default {
 </script>
 
 <template>
-    <form v-if="$root.auth !== null">
+    <form v-if="!$root.auth">
         <div class="w-full my-3 grid grid-cols-6">
             <span class="col-span-1"></span>
             <div class="col-span-4">
