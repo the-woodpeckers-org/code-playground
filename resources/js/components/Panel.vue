@@ -24,8 +24,11 @@
                         </div>
                     </div>
                     <div class="mt-3 w-full">
-                        <button type="button" class="rounded-xl bg-amber-300 py-1 border-gray-600 border-2 px-2"
+                        <button type="button" class="rounded-xl bg-amber-300 py-1 border-gray-500 border px-2 hover:bg-amber-600"
                                 @click="compile">RUN
+                        </button>
+                        <button id="submit-btn" type="button" class="rounded-xl bg-green-500 py-1 border-green-300 border px-2 ms-1 hover:bg-green-600 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-400" disabled>
+                                SUBMIT
                         </button>
                     </div>
                     <div class="mt-3 w-full">
@@ -96,7 +99,14 @@ export default {
                         }
                     }
                     let spanPassedTestcases = document.getElementById('testcases-passed')
+                    let submitBtn = document.getElementById('submit-btn')
+                    if (passedTestcases == _this.testcases.length) {
+                        submitBtn.disabled = false
+                    } else {
+                        submitBtn.disabled = true
+                    }
                     spanPassedTestcases.innerHTML = passedTestcases + '/' + _this.testcases.length
+
                 }
             }).catch(function (error) {
                 console.log(error)
