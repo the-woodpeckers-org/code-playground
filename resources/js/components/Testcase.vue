@@ -4,17 +4,22 @@
         Testcase #{{index}}
     </div>
     <div class="">
-        Input: <span :id="'input-' + index">{{stdin}}</span>
+        Input: <span :id="'input-' + index">{{data.stdin}}</span>
     </div>
     <div class="">
-        Expected output: <span :id="'expected-output-' + index">{{result}}</span>
+        Expected output: <span :id="'expected-output-' + index">{{data.expected_output}}</span>
     </div>
-    <div class="hidden" :id="'box-actual-input-' + index">
-        Actual Output: <span :id="'actual-input-' + index" class="font-bold"></span>
+    <div :id="'box-actual-input-' + index" v-if="data.actual_output">
+        Actual Output: <span :id="'actual-input-' + index" class="font-bold">{{data.actual_output}}</span>
     </div>
-    <div class="hidden" :id="'box-status-' + index">
-        Status: <span :id="'status-' + index" class="font-bold"></span>
+    <div v-if="data.execution_time">
+        Execution time: <span>{{data.execution_time}} ms</span>
     </div>
+    <div :id="'box-status-' + index" v-if="data.is_passed !== undefined">
+        Status: <span v-if="data.is_passed === true" :id="'status-' + index" class="font-bold text-green-600">Passed</span>
+        <span v-if="data.is_passed === false" :id="'status-' + index" class="font-bold text-red-600">Failed</span>
+    </div>
+
 </div>
 </template>
 
@@ -23,11 +28,10 @@ export default {
     name: "Testcase",
     props: {
         id: String,
-        stdin: String,
-        result: String,
-        actual: String,
-        index: Number,
-        run: Boolean
+        index: String,
+        data: {
+            type: Object
+        }
     }
 }
 </script>

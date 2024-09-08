@@ -1,5 +1,12 @@
 <template>
     <div class="w-full mt-2">
+        <div class="grid grid-cols-5 mx-3 p-1 rounded-md h-9">
+            <span>Status</span>
+            <span>Title</span>
+            <span>Difficulty</span>
+            <span>Acceptance</span>
+            <span>Tags</span>
+        </div>
         <ProblemSkeleton v-if="!loading" v-for="index in 16" :key="index"></ProblemSkeleton>
         <Problem v-if="loading" v-for="problem in this.problems" :problem="problem"></Problem>
     </div>

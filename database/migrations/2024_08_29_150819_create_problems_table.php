@@ -29,7 +29,7 @@ return new class extends Migration
             $table->bigInteger('problem_id')->unsigned();
             $table->foreign('problem_id')->references('id')->on('problems');
             $table->string('stdin');
-            $table->string('result');
+            $table->string('expected_output');
         });
     }
 

@@ -32,11 +32,11 @@
                         </button>
                     </div>
                     <div class="mt-3 w-full">
-                        Testcases passed: <span id="testcases-passed" class="font-bold">0/{{ testcases.length }}</span>
+                        Testcases passed: <span id="testcases-passed" class="font-bold">{{ passedTestcases }}/{{ testcases.length }}</span>
                     </div>
                     <div class="mt-3 w-full h-80 overflow-auto">
-                        <Testcase :key="index + 1" :ref="'testcase-' + (index + 1)" v-for="(testcase, index) in testcases" :stdin="testcase.stdin" :result="testcase.result" :index="index + 1" :run="run">
-                        </Testcase>
+                        <TestcaseList v-if="!run" :data="testcases"></TestcaseList>
+                        <TestcaseList v-if="run" :data="runData"></TestcaseList>
                     </div>
                 </div>
             </div>
@@ -49,18 +49,21 @@
 
 <script>
 import Testcase from "@/components/Testcase.vue";
+import TestcaseList from "@/components/TestcaseList.vue";
 
 export default {
     name: "Panel",
-    components: {Testcase},
+    components: {TestcaseList, Testcase},
     props: {
         problem_id: String,
     },
     data: function() {
         return {
+            passedTestcases: String,
             description: String,
             title: String,
             testcases: Array,
+            runData: Array,
             loading: false,
             run: false,
         }
@@ -68,45 +71,24 @@ export default {
     methods: {
         compile() {
             let _this = this
-            var editor = ace.edit('editor')
+            let editor = ace.edit('editor')
             axios.post('/compile', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
                 language: document.getElementById('language').value
             }).then(function (response) {
+                console.log(response.data)
                 _this.run = true
+                _this.runData = response.data.output
+                _this.passedTestcases = response.data.passedTestcases
                 if (response.data.succeed == false) {
                     alert('Lỗi!')
                 } else {
-                    let passedTestcases = 0
-                    for (let i = 0; i < response.data.output.length; ++i) {
-                        document.getElementById('box-actual-input-' + (i + 1)).classList.remove('hidden')
-                        document.getElementById('box-status-' + (i + 1)).classList.remove('hidden')
-                        let currExpected = document.getElementById('expected-output-' + (i + 1))
-                        let item = document.getElementById('actual-input-' + (i + 1))
-                        let status = document.getElementById('status-' + (i + 1))
-                        item.innerHTML = response.data.output[i]
-                        if (item.innerHTML == currExpected.innerHTML) {
-                            ++passedTestcases
-                            status.classList.remove('text-red-400')
-                            status.classList.add('text-green-400')
-                            status.innerHTML = 'Passed'
-                        }
-                        else {
-                            status.classList.remove('text-green-400')
-                            status.classList.add('text-red-400')
-                            status.innerHTML = 'Failed'
-                        }
-                    }
-                    let spanPassedTestcases = document.getElementById('testcases-passed')
-                    let submitBtn = document.getElementById('submit-btn')
-                    if (passedTestcases == _this.testcases.length) {
-                        submitBtn.disabled = false
+                    if (_this.passedTestcases === _this.testcases.length) {
+                        document.getElementById('submit-btn').disabled = false
                     } else {
-                        submitBtn.disabled = true
+                        document.getElementById('submit-btn').disabled = true
                     }
-                    spanPassedTestcases.innerHTML = passedTestcases + '/' + _this.testcases.length
-
                 }
             }).catch(function (error) {
                 console.log(error)
@@ -115,7 +97,8 @@ export default {
         },
         onload() {
             let _this = this
-            var editor = ace.edit('editor')
+            _this.passedTestcases = 0
+            let editor = ace.edit('editor')
             editor.setTheme('ace/theme/monokai')
             editor.session.setMode('ace/mode/c_cpp')
             axios.get('/getProblem/' + _this.problem_id)
