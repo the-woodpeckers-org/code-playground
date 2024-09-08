@@ -54,9 +54,6 @@ import TestcaseList from "@/components/TestcaseList.vue";
 export default {
     name: "Panel",
     components: {TestcaseList, Testcase},
-    props: {
-        problem_id: String,
-    },
     data: function() {
         return {
             passedTestcases: String,
@@ -101,7 +98,7 @@ export default {
             let editor = ace.edit('editor')
             editor.setTheme('ace/theme/monokai')
             editor.session.setMode('ace/mode/c_cpp')
-            axios.get('/getProblem/' + _this.problem_id)
+            axios.get('/api/getProblem/' + _this.$route.params.id)
                 .then(function (response) {
                     _this.description = response.data.description
                     _this.title = response.data.title
