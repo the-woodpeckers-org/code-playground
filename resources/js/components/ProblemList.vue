@@ -29,7 +29,7 @@ export default {
     async created() {
         let _this = this
         setTimeout(async () => {
-            await axios.get('/getProblems')
+            await axios.get('/api/getProblems')
                 .then(function (response) {
                     _this.problems = response.data.data
                     _this.loading = true
