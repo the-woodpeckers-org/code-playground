@@ -6,7 +6,8 @@
             <div class="modal-action">
                 <form method="dialog">
                     <!-- if there is a button in form, it will close the modal -->
-                    <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600" to="/login">Login now</router-link>
+                    <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600" to="/login">Login now
+                    </router-link>
                 </form>
             </div>
         </div>
@@ -18,8 +19,15 @@
         <form id="formCode" method="post" action="/compile">
             <div class="grid grid-cols-12">
                 <div class="col-span-6 me-1 border-e-2">
-                    <p class="text-2xl font-bold border-b-2"> {{ title }}</p>
-                    <p class="text-base"> {{ description }}</p>
+                    <p class="text-2xl font-bold border-b-2 mx-1" v-if="loading"> {{ title }}</p>
+
+                    <p class="text-base mx-1" v-if="loading"> {{ description }}</p>
+                    <p class="text-2xl font-bold border-b-2 mx-1" v-if="!loading">
+                        <div class="skeleton h-8 my-1 w-full"></div>
+                    </p>
+                    <p class="text-base mx-1" v-if="!loading">
+                        <div v-for="index in 30" class="skeleton h-4 mt-1 w-full"></div>
+                    </p>
                 </div>
                 <div class="col-span-6 mx-1">
                     <label for="language">Select language: </label>
@@ -36,19 +44,32 @@
                         </div>
                     </div>
                     <div class="mt-3 w-full">
-                        <button type="button" class="rounded-xl bg-amber-300 py-1 border-gray-500 border px-2 hover:bg-amber-600"
+                        <button type="button"
+                                class="rounded-xl bg-amber-300 py-1 border-gray-500 border px-2 hover:bg-amber-600"
                                 @click="compile">RUN
                         </button>
-                        <button id="submit-btn" type="button" class="rounded-xl bg-green-500 py-1 border-green-300 border px-2 ms-1 hover:bg-green-600 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-400" disabled>
-                                SUBMIT
+                        <button id="submit-btn" type="button"
+                                class="rounded-xl bg-green-500 py-1 border-green-300 border px-2 ms-1 hover:bg-green-600 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-400"
+                                disabled>
+                            SUBMIT
                         </button>
                     </div>
-                    <div class="mt-3 w-full">
-                        Testcases passed: <span id="testcases-passed" class="font-bold">{{ passedTestcases }}/{{ testcases.length }}</span>
+                    <div v-if="loading" class="mt-3 w-full">
+                        Testcases passed: <span id="testcases-passed" class="font-bold">{{
+                            passedTestcases
+                        }}/{{ testcases.length }}</span>
+                    </div>
+                    <div v-if="!loading" class="mt-3 w-full">
+                        <div class="skeleton w-80 h-8"></div>
                     </div>
                     <div class="mt-3 w-full h-80 overflow-auto">
-                        <TestcaseList v-if="!run" :data="testcases"></TestcaseList>
-                        <TestcaseList v-if="run" :data="runData"></TestcaseList>
+                        <div v-if="!loading">
+                            <div v-for="index in 3" class="skeleton h-28 my-1 w-full"></div>
+                        </div>
+                        <div v-if="loading">
+                            <TestcaseList v-if="!run" :data="testcases"></TestcaseList>
+                            <TestcaseList v-if="run" :data="runData"></TestcaseList>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,7 +87,7 @@ import TestcaseList from "@/components/TestcaseList.vue";
 export default {
     name: "Panel",
     components: {TestcaseList, Testcase},
-    data: function() {
+    data: function () {
         return {
             passedTestcases: String,
             description: String,
@@ -115,6 +136,7 @@ export default {
                     _this.description = response.data.description
                     _this.title = response.data.title
                     _this.testcases = response.data.testcases
+                    _this.loading = true
                 })
                 .catch(function (error) {
                     alert(error)
