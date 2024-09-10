@@ -7,6 +7,7 @@ export default {
             input_lastName: String,
             input_gender: String,
             input_address: String,
+            input_birthday: String,
             input_phoneNumber: String,
             input_email: String,
             input_password: String,
@@ -21,7 +22,11 @@ export default {
                 axios.post('/api/register', {
                     _token: document.querySelector('meta[name="csrf-token"]').content,
                     name: _this.input_firstName + ' ' + _this.input_lastName,
+                    gender: _this.input_gender,
+                    birthday: _this.input_birthday,
+                    phone_number: _this.input_phoneNumber,
                     email: _this.input_email,
+                    address: _this.input_address,
                     password: _this.input_password,
                     confirm_password: _this.input_confirm_password
                 }).then(function (response) {
@@ -60,6 +65,8 @@ export default {
                 <label class="font-bold my-auto">Address</label>
                 <input v-model="input_address" type="text" class="border rounded p-1 w-full my-auto mb-2"
                        placeholder="36 La Xuan Oai st., Thu Duc City, HCM City">
+                <label class="font-bold my-auto">Birthday</label>
+                <input v-model="input_birthday" type="date" class="border rounded p-1 w-full my-auto mb-2">
                 <label class="font-bold my-auto">Gender</label>
                 <div class="mb-2">
                     <input v-model="input_gender" id="male-gender" type="radio" name="gender" value="male"
@@ -79,8 +86,10 @@ export default {
                 <input v-model="input_password" type="password" class="border rounded p-1 w-full my-auto mb-2">
                 <label class="font-bold my-auto">Confirm password</label>
                 <input v-model="input_confirm_password" type="password" class="border rounded p-1 w-full my-auto mb-2">
-                <div :class="{'tooltip tooltip-open tooltip-bottom tooltip-warning': !input_agree_terms, 'inline-block relative': input_agree_terms}" data-tip="You must agree with our terms and conditions!">
-                    <input v-model="input_agree_terms" class="p-1 me-3" type="checkbox" @input="onChangeAgreedCheckBox($event)">
+                <div
+                    :class="{'tooltip tooltip-open tooltip-bottom tooltip-warning': !input_agree_terms, 'inline-block relative': input_agree_terms}"
+                    data-tip="You must agree with our terms and conditions!">
+                    <input v-model="input_agree_terms" class="p-1 me-3" type="checkbox">
                     <label class="my-auto">I agree to our terms and conditions</label>
                 </div>
 
@@ -89,7 +98,9 @@ export default {
                 <label class="my-auto">Receive our newest information</label>
                 <br>
                 <div class="text-center my-3">
-                    <button type="button" class="rounded bg-amber-300 hover:bg-amber-600 p-2" :class="{'btn-disabled bg-gray-300 text-gray-200': !input_agree_terms}" @click="register">Sign
+                    <button type="button" class="rounded bg-amber-300 hover:bg-amber-600 p-2"
+                            :class="{'btn-disabled bg-gray-300 text-gray-200': !input_agree_terms}" @click="register">
+                        Sign
                         Up
                     </button>
                 </div>
