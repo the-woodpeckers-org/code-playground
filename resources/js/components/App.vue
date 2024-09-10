@@ -19,16 +19,9 @@ export default {
 
 <template :key="auth">
     <Header></Header>
-    <div class="grid grid-cols-12 w-full">
-        <div class="col-span-2">
-
-        </div>
-        <div class="col-span-8">
-            <router-view></router-view>
-        </div>
-        <div class="col-span-2"></div>
+    <div class="mx-auto max-w-7xl min-h-96">
+        <router-view></router-view>
     </div>
-
     <Footer></Footer>
 </template>
 

@@ -16,6 +16,18 @@ export default {
 </script>
 
 <template>
+    <dialog class="modal" id="confirm_logout_modal">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">Are you sure you want to log out?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="logout">Yes</button>
+                    <button class="btn btn-sm m-1 border">No</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
     <div class="navbar bg-amber-200">
         <div class="flex-1">
             <router-link class="btn btn-ghost text-xl" to="/problems">Live Code Editor</router-link>
@@ -39,7 +51,7 @@ export default {
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                     <li v-if="$root.auth !== null"><a class="text-base">Profile</a></li>
                     <li v-if="$root.auth !== null"><a class="text-base">Settings</a></li>
-                    <li v-if="$root.auth !== null"><a class="text-base" @click="logout">Logout</a></li>
+                    <li v-if="$root.auth !== null"><a class="text-base" onclick="confirm_logout_modal.showModal()">Logout</a></li>
                     <li v-if="$root.auth === null">
                         <router-link class="text-base" to="/login">Login</router-link>
                     </li>
