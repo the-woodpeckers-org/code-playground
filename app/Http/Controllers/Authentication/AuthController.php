@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginFormRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class AuthController extends Controller
     public function __construct(AuthService $service) {
         $this->service = $service;
     }
-    public function login(Request $request)
+    public function login(LoginFormRequest $request)
     {
         return $this->service->login($request);
     }

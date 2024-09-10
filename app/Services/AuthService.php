@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\LoginFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,27 +10,14 @@ use Illuminate\Support\Facades\Auth;
 class AuthService
 {
     public function login(Request $request) {
-        $errors = array();
-        if ($request->input('email') == '') {
-            $errors['emailRequired'] = true;
-        } else {
-            $errors['emailRequired'] = false;
-        }
-        if ($request->input('password') == '') {
-            $errors['passwordRequired'] = true;
-        } else {
-            $errors['passwordRequired'] = false;
-        }
-
         $credentials = $request->only('email', 'password');
-
         if (Auth::attempt($credentials)) {
             return response()->json(['succeed' => true, 'user' => Auth::user()]);
         }
-        return response()->json(['succeed' => false, 'errors' => $errors]);
+        return response()->json(['succeed' => false, 'user' => null]);
     }
 
-    public function register(Request $request) {
+    public function register(LoginFormRequest $request) {
         if ($request->input('password') === $request->input('confirm_password')) {
             try {
                 $user = new User();
