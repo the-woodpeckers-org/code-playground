@@ -3,10 +3,10 @@ export default {
     name: "Register",
     data: function () {
         return {
-            input_address: String,
             input_firstName: String,
             input_lastName: String,
             input_gender: String,
+            input_address: String,
             input_phoneNumber: String,
             input_email: String,
             input_password: String,
@@ -57,7 +57,7 @@ export default {
                 <label class="font-bold my-auto">Phone number</label>
                 <input v-model="input_phoneNumber" type="tel" class="border rounded p-1 w-full my-auto mb-2"
                        placeholder="+8412345678">
-                <label class="font-bold my-auto">Phone number</label>
+                <label class="font-bold my-auto">Address</label>
                 <input v-model="input_address" type="text" class="border rounded p-1 w-full my-auto mb-2"
                        placeholder="36 La Xuan Oai st., Thu Duc City, HCM City">
                 <label class="font-bold my-auto">Gender</label>

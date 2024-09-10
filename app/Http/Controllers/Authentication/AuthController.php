@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginFormRequest;
+use App\Http\Requests\RegisterFormRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class AuthController extends Controller
         return $this->service->login($request);
     }
 
-    public function register(Request $request)
+    public function register(RegisterFormRequest $request)
     {
         return $this->service->register($request);
     }
