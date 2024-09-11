@@ -35,6 +35,8 @@ export default {
                 <span><p><a href="#">Rating</a></p></span>
                 <span><p><a href="#">Discussion</a></p></span>
                 <span><p><a href="#">Ranking</a></p></span>
+                <span><p><a href="#">Contribute</a></p></span>
+                <span><p><a href="#">Career</a></p></span>
             </div>
             <div class="mx-3 mb-3 font-semibold">
                 <h1 class="text-blue-800 mb-4 border-b border-gray-400">Information</h1>
