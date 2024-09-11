@@ -41,7 +41,7 @@ export default {
     created() {
         this.input_password = this.input_confirm_password = this.input_email = this.input_address =
             this.input_firstName = this.input_lastName = this.input_phoneNumber = ''
-        this.input_agree_terms = this.must_agree = false
+        this.input_agree_terms = false
     }
 }
 </script>
