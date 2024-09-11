@@ -30,6 +30,7 @@ export default {
                     password: _this.input_password,
                     confirm_password: _this.input_confirm_password
                 }).then(function (response) {
+                    _this.$router.go('/login')
                     console.log(response)
                 }).catch(function (error) {
                     console.log(error)
