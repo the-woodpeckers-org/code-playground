@@ -9,8 +9,8 @@
     <div class="">
         Expected output: <span :id="'expected-output-' + index">{{data.expected_output}}</span>
     </div>
-    <div :id="'box-actual-input-' + index" v-if="data.actual_output">
-        Actual Output: <span :id="'actual-input-' + index" class="font-bold">{{data.actual_output}}</span>
+    <div :id="'box-actual-output-' + index" v-if="data.actual_output">
+        Actual Output: <span :id="'actual-output-' + index" class="font-bold">{{data.actual_output}}</span>
     </div>
     <div v-if="data.execution_time">
         Execution time: <span>{{data.execution_time}} ms</span>
