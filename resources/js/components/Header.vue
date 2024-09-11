@@ -30,7 +30,9 @@ export default {
     </dialog>
     <div class="navbar bg-amber-200">
         <div class="flex-1">
-            <router-link class="btn btn-ghost text-xl" to="/problems">Live Code Editor</router-link>
+            <router-link class="text-xl" to="/problems">
+                <img src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726071143/CP-Photoroom_1_vl6kzc.png" class="h-12">
+            </router-link>
         </div>
         <div class="flex-none gap-2">
             <div class="form-control">
