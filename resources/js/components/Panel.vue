@@ -22,12 +22,12 @@
                     <p class="text-2xl font-bold border-b-2 mx-1" v-if="loading"> {{ title }}</p>
 
                     <p class="text-base mx-1" v-if="loading"> {{ description }}</p>
-                    <p class="text-2xl font-bold border-b-2 mx-1" v-if="!loading">
+                    <div class="text-2xl font-bold border-b-2 mx-1" v-if="!loading">
                         <div class="skeleton h-8 my-1 w-full"></div>
-                    </p>
-                    <p class="text-base mx-1" v-if="!loading">
+                    </div>
+                    <div class="text-base mx-1" v-if="!loading">
                         <div v-for="index in 30" class="skeleton h-4 mt-1 w-full"></div>
-                    </p>
+                    </div>
                 </div>
                 <div class="col-span-6 mx-1">
                     <label for="language">Select language: </label>
