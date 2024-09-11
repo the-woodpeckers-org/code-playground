@@ -14,11 +14,6 @@ class ProblemController extends Controller
         $this->service = $service;
     }
 
-    public function problems()
-    {
-        return view('home.problem_list');
-    }
-
     public function getProblems(Request $request)
     {
         return response()->json($this->service->getProblems());
