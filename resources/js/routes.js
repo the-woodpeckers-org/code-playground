@@ -4,6 +4,7 @@ import ProblemList from "@/components/ProblemList.vue";
 import Login from "@/components/authentication/Login.vue";
 import Register from "@/components/authentication/Register.vue";
 import NotFound from "@/components/errors/NotFound.vue";
+import AboutUs from "@/components/information/AboutUs.vue";
 
 const routes = [
     {
@@ -30,6 +31,11 @@ const routes = [
         path: '/register',
         component: Register,
         name: 'register'
+    },
+    {
+        path: '/about-us',
+        component: AboutUs,
+        name: 'about-us'
     },
     {
         path: '/:pathMatch(.*)*',

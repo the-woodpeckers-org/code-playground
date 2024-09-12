@@ -7,9 +7,11 @@ export default {
   ],
   theme: {
     extend: {},
+
   },
   plugins: [
-      require('daisyui')
+      require('daisyui'),
+      require('tailwindcss-animated'),
   ],
 }
 

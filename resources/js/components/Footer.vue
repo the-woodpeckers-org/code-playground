@@ -14,7 +14,8 @@ export default {
                     <img
                         src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726073233/OIG3.8-Photoroom_we02zq.png"
                         class="h-12 inline mx-1">
-                    <img src="https://fit.huit.edu.vn/app_web/kcntt/images/icons/logo-huit-xanh.png" class="h-12 my-1 lg:mx-auto lg:block sm:inline sm:mx-1">
+                    <img src="https://fit.huit.edu.vn/app_web/kcntt/images/icons/logo-huit-xanh.png"
+                         class="h-12 my-1 lg:mx-auto lg:block sm:inline sm:mx-1">
                 </div>
                 <h1 class="text-base">CodePlayground is a competitive programming platform developed by The Woodpeckers
                     Team. The project is open source and also the team's graduation project.</h1>
@@ -28,25 +29,25 @@ export default {
             </div>
             <div class="mx-3 mb-3 font-semibold">
                 <h1 class="text-blue-800 mb-4 border-b border-gray-400">Features</h1>
-                <span><p><a href="#">Studying</a></p></span>
-                <span><p><a href="#">Practice</a></p></span>
-                <span><p><a href="#">Competition</a></p></span>
-                <span><p><a href="#">Challenges</a></p></span>
-                <span><p><a href="#">Rating</a></p></span>
-                <span><p><a href="#">Discussion</a></p></span>
-                <span><p><a href="#">Ranking</a></p></span>
-                <span><p><a href="#">Contribute</a></p></span>
-                <span><p><a href="#">Career</a></p></span>
+                <span><a href="#"><p>Studying</p></a></span>
+                <span><a href="#"><p>Practice</p></a></span>
+                <span><a href="#"><p>Competition</p></a></span>
+                <span><a href="#"><p>Challenges</p></a></span>
+                <span><a href="#"><p>Rating</p></a></span>
+                <span><a href="#"><p>Discussion</p></a></span>
+                <span><a href="#"><p>Ranking</p></a></span>
+                <span><a href="#"><p>Contribute</p></a></span>
+                <span><a href="#"><p>Career</p></a><</span>
             </div>
             <div class="mx-3 mb-3 font-semibold">
                 <h1 class="text-blue-800 mb-4 border-b border-gray-400">Information</h1>
-                <span><p><a href="#">About The Woodpeckers</a></p></span>
-                <span><p><a href="#">Terms and Conditions</a></p></span>
+                <span><router-link to="/about-us"><p>About The Woodpeckers</p></router-link></span>
+                <span><a href="#"><p>Terms and Conditions</p></a></span>
             </div>
             <div class="mx-3 mb-3 font-semibold">
                 <h1 class="text-blue-800 mb-4 border-b border-gray-400">Support</h1>
-                <span><p><a href="#">Feedback</a></p></span>
-                <span><p><a href="#">Contact us</a></p></span>
+                <span><a href="#"><p>Feedback</p></a></span>
+                <span><a href="#"><p>Contact us</p></a></span>
             </div>
             <h1 class="text-center col-span-full font-semibold">Provided by CodePlayground© 2024. <span><img
                 src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726073233/OIG3.8-Photoroom_we02zq.png"
