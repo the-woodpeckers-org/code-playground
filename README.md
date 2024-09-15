@@ -1,7 +1,10 @@
 # live-code-editor (demo module)
 
 # installation
-Author: Vu Thanh Duong (<a href="">deethesaint</a>)
+Author:
+- Vu Thanh Duong (<a href="">deethesaint</a>)
+- Phan Ngoc Bao Vinh (<a href="">barovinh</a>)
+- Pham Thi Kim Phuong (<a href="">PTKIMPHUONG</a>)
 <br>
 <br>
 Requirements:
