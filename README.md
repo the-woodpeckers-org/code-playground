@@ -21,4 +21,5 @@ How to install this application:
 5. At the terminal, run “php artisan key:generate”, then run “php artisan migrate”
 6. As the repo was named “live-code-editor” and the default virtual domain of Laragon was set to “.test”, “live-code-editor.test” is the virtual domain of this web application
 7. Run "npm run dev" or "npm run build" and access the web application via virtual domain
+
 ![image](https://github.com/user-attachments/assets/b2d1cf60-226e-4413-85b6-cf64e8537ac2)

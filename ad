@@ -1,0 +1,355 @@
+[33mcommit 5f64c3f4931a4dbc5f796e25d8ba329aee252d50[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m)[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Sun Sep 15 21:48:04 2024 +0700
+
+    change README.md
+    Co-authored-by: barovinh <pv198357@gmail.com>
+    Co-authored-by: PTKIMPHUONG <karinapham03@gmail.com>
+
+[33mcommit bdb66ed7e4d0d219ee2f824d1fe4adb9deaa8c2f[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Fri Sep 13 01:48:27 2024 +0700
+
+    about us
+
+[33mcommit 8b8684fdc956b1affd03cb4e351db96a012b3c06[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Thu Sep 12 00:37:30 2024 +0700
+
+    add 'career' link in footer
+
+[33mcommit c8ef8975eda1482dabf2c6f6266ae03f7cd32eb2[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Thu Sep 12 00:23:58 2024 +0700
+
+    fix <div> is child of <p> in Panel.vue
+
+[33mcommit a366cee363be23bdc67fe72ef6378d36a41ed87a[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Thu Sep 12 00:16:55 2024 +0700
+
+    prettier header & footer, favicon added
+
+[33mcommit ea754208a8fffd2c126a9c9d79e1a3fc8565e7ef[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Sep 11 11:17:11 2024 +0700
+
+    remove unnecessary codes
+
+[33mcommit 5325bb0eb6650d21159a2562b54136dc0cd4032d[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Sep 11 11:10:58 2024 +0700
+
+    remove unnecessary code
+
+[33mcommit b8b4fa7102201074f1374b21105c45445dc37093[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Sep 11 11:02:01 2024 +0700
+
+    fix wrong name on id testcase html
+
+[33mcommit 42a3387c674f6cdcf8164d95776b317e489d819e[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Sep 11 10:42:36 2024 +0700
+
+    seeder
+
+[33mcommit 44dd60cd6def2e39ae9292a0a32f1ca4aee41c7e[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Sep 11 00:32:46 2024 +0700
+
+    prettier 404 not found
+
+[33mcommit 493d553ec319257a9bb3def7dfd10fb233e53631[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Sep 11 00:20:45 2024 +0700
+
+    redo register method on AuthService
+
+[33mcommit 8ffdf5907ac807dad2bec9fc224db3638a7074e5[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Sep 11 00:13:40 2024 +0700
+
+    config rules and authorize RegisterFormRequest, API Response 422 on Register Validatate Failed
+
+[33mcommit d4c925673df8b7e0558d01950d2ac2cf91f3f249[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Sep 11 00:00:33 2024 +0700
+
+    RegisterFormRequest
+
+[33mcommit 65152be6249b91bdf069dee9fcdb4bc23ae29e10[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Tue Sep 10 23:52:56 2024 +0700
+
+    LoginFormRequest added
+
+[33mcommit eaa1800e6a59e4f225845642eb426a3916ccac6a[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Tue Sep 10 22:53:06 2024 +0700
+
+    modal
+
+[33mcommit 4b3b8d2d07fcfab5cfb80442384e885e01080582[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Sep 9 23:43:31 2024 +0700
+
+    404 notfound
+
+[33mcommit e98d73dab4a31d55a0c3f22d224a9b8baa3cccb0[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Sep 9 23:35:30 2024 +0700
+
+    tooltip
+
+[33mcommit 9c9824f3414f1233b2dc36aa994c6123b32f3004[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Sep 9 22:56:09 2024 +0700
+
+    skeleton on panel
+
+[33mcommit 5cbc0fb66f023368d5f12379110ebd19aba1fdfa[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Sep 9 22:45:22 2024 +0700
+
+    remake navbar
+
+[33mcommit 78d306a8b7b01c2a91a1a1905ccaf33e35bca467[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Sep 9 02:32:28 2024 +0700
+
+    fix
+
+[33mcommit f69d4a332e25ca1750ffc7042f12509ff04a5769[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Sep 9 02:28:41 2024 +0700
+
+    authentication
+
+[33mcommit 83b99d88f1ea52f5fcda18a9e72f5ada869ef630[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Sun Sep 8 23:56:00 2024 +0700
+
+    login & register vue components
+
+[33mcommit db223fe5573c192b88f5476d8ebf88451567446f[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Sun Sep 8 22:58:48 2024 +0700
+
+    reinit vue app
+
+[33mcommit 8dbec65035215f6ac65a0edf4c62e0058131a06b[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Sun Sep 8 21:13:44 2024 +0700
+
+    fix vue components
+
+[33mcommit e26ef7f192027beabc493272f4a00f7515436fd7[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Sun Sep 8 12:21:51 2024 +0700
+
+    panel submit button added
+
+[33mcommit 88ca03ac9865b6e7b4906158c7ae2723c3d9047c[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Fri Sep 6 14:33:23 2024 +0700
+
+    git dictionary re-added
+
+[33mcommit 90bf4ad345de280b1a9916c41c1721d532d2d710[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Fri Sep 6 14:30:11 2024 +0700
+
+    testcases passed displaying
+
+[33mcommit f23552641ee17563fdd7795b2d18d971cbf23c8a[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Thu Sep 5 23:38:18 2024 +0700
+
+    delete .cpp files
+
+[33mcommit 7aaee8727de11d98f29aeaea03724b15a99097b2[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Thu Sep 5 23:37:18 2024 +0700
+
+    optimized & testcase running
+
+[33mcommit b38c319dcd83848b0e5496f63160cffebd7f1467[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Sep 4 00:11:45 2024 +0700
+
+    processing......
+
+[33mcommit be15f161186142f5f59196284b34eb7b4f579823[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Tue Sep 3 22:24:24 2024 +0700
+
+    apply new font & fix minor bugs
+
+[33mcommit 5f46ed5073a95350aac429912f39accdf247ab60[m
+Merge: 4a1dfcf 6a056cc
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Sat Aug 31 00:58:59 2024 +0700
+
+    Merge branch 'master' of https://github.com/deethesaint/live-code-editor
+
+[33mcommit 4a1dfcf6173f39da88cc6b4e31a3d12778b5e73d[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Sat Aug 31 00:58:41 2024 +0700
+
+    add loading components
+
+[33mcommit 0a726b83ddefa54b1d9cef58b14e2e7d32ad0bb9[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Sat Aug 31 00:33:56 2024 +0700
+
+    refactor 'repository' dictionary to 'repositories'
+
+[33mcommit 6a056cc0d774a2d549a4e9378bbe5c69a418c40c[m
+Author: Vũ Thanh Dương <vtduong0912@gmail.com>
+Date:   Fri Aug 30 23:36:29 2024 +0700
+
+    Update README.md
+
+[33mcommit 72f41af157501eb3eaabee467c7e2b3e54b01e9d[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Fri Aug 30 00:39:59 2024 +0700
+
+    render
+
+[33mcommit 889aeccb423b6a5136b1da09f0a3ce243c7295d7[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Thu Aug 29 23:20:47 2024 +0700
+
+    improve project architecture
+
+[33mcommit c5eee580253ddd03abd9a387b0ea8f03ff1404df[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Tue Aug 27 12:11:50 2024 +0700
+
+    delete garbages
+
+[33mcommit e7021d28a7daa58b5f366972a778c32972f71569[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Tue Aug 27 12:09:26 2024 +0700
+
+    node js lang added
+
+[33mcommit 56a58e2dd31c7df47912b621eab5a04f276e5e1b[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Tue Aug 27 11:54:24 2024 +0700
+
+    php lang added
+
+[33mcommit 0370eca4a4d1e18076264755995dffecfd01bd07[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Tue Aug 27 10:56:06 2024 +0700
+
+    architecture implemented
+
+[33mcommit 1e15f3649fc7b309acaa40d922448763e5cd881f[m
+Merge: 1b9c7fd b7ee5d5
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Tue Aug 27 10:19:19 2024 +0700
+
+    Merge branch 'master' of https://github.com/deethesaint/live-code-editor
+
+[33mcommit 1b9c7fd8c2683596f049fac70620439d83078592[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Tue Aug 27 10:19:00 2024 +0700
+
+    setup node & php environment
+
+[33mcommit b7ee5d514e60d60fd5ecdbb89cdb38a76f49405f[m
+Author: Vũ Thanh Dương <vtduong0912@gmail.com>
+Date:   Mon Aug 26 14:31:17 2024 +0700
+
+    Update README.md
+
+[33mcommit 5b88320fb488f9512b9162a112bb059a63ae2df3[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Aug 26 14:27:27 2024 +0700
+
+    program folder keeper
+
+[33mcommit 45393779e012ab5bdc01eebd5bc0bafffe96ff55[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Aug 26 14:12:17 2024 +0700
+
+    .c/.cpp/.py files deleted
+
+[33mcommit 5f94b7c33c89c57c705b0c2c3efcc23090ab5960[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Aug 26 14:11:37 2024 +0700
+
+    c/c++ language embedded
+
+[33mcommit 463ed92f7558cb17739734243dd6c3650499b60f[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Aug 26 13:14:28 2024 +0700
+
+    deleted .py files
+
+[33mcommit d02218dc76718ce66b820ea902857a7d1a786a23[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Aug 26 13:13:59 2024 +0700
+
+    python lang added
+
+[33mcommit 497a8721d903bad5040e05c39eec36dea4d045a2[m
+Merge: cf185c1 0bb8117
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Aug 26 12:09:07 2024 +0700
+
+    Merge branch 'master' of https://github.com/deethesaint/live-code-editor
+
+[33mcommit cf185c1069c5bed525233e1ef068d6a927e4fb6c[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Mon Aug 26 12:08:40 2024 +0700
+
+    c lang added & optimized code
+
+[33mcommit 0bb811793e243d14ea1e78d8179651ae9141feb7[m
+Merge: 5c1797d f1f1cc6
+Author: Vũ Thanh Dương <vtduong0912@gmail.com>
+Date:   Fri Aug 16 17:52:40 2024 +0700
+
+    Merge pull request #1 from the-woodpeckers-org/master
+    
+    Update README.md
+
+[33mcommit f1f1cc6fa3f06c606af2299dffdc9244467f4f1f[m
+Author: Vũ Thanh Dương <vtduong0912@gmail.com>
+Date:   Fri Aug 16 17:52:08 2024 +0700
+
+    Update README.md
+
+[33mcommit 5c1797d953bbb617d98159f705bb45015a36d88b[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Thu Aug 15 02:47:47 2024 +0700
+
+    add many things
+
+[33mcommit bfca462639b614c6ecc26cfe5d5c9c74f8c1d8a2[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Aug 14 11:32:41 2024 +0700
+
+    configurations
+
+[33mcommit 90fe831813adbe3ff077a5ac292a4fa4ebcf0549[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Aug 14 10:33:05 2024 +0700
+
+    tailwindcss & vuejs3 configuration
+
+[33mcommit 6f3e9d58ec93d0e5fa8990692235535e6541c882[m
+Author: deethesaint <vtduong0912@gmail.com>
+Date:   Wed Aug 14 10:01:35 2024 +0700
+
+    init commit
+
+[33mcommit d7840284697f775ed2f6adc624ce363472064c38[m
+Author: Vũ Thanh Dương <vtduong0912@gmail.com>
+Date:   Thu Aug 8 12:35:21 2024 +0700
+
+    Initial commit
