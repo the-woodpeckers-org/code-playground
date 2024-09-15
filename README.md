@@ -6,7 +6,7 @@ Author:
 - Phan Ngoc Bao Vinh (<a href="">barovinh</a>)
 - Pham Thi Kim Phuong (<a href="">PTKIMPHUONG</a>)
 <br>
-<br>
+
 Requirements:
 
 - Laragon 6.0
