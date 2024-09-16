@@ -3,7 +3,6 @@ Author:
 - Vu Thanh Duong (<a href="">deethesaint</a>)
 - Phan Ngoc Bao Vinh (<a href="">barovinh</a>)
 - Pham Thi Kim Phuong (<a href="">PTKIMPHUONG</a>)
-
 # installation
 
 Requirements:
