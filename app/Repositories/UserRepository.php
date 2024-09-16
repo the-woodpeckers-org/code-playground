@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\BaseRepository;
 use App\Models\User;
 
-class UserRepository implements BaseRepository
+class UserRepository
 {
     public function add(User $obj)
     {

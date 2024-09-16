@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Interfaces\BaseRepository;
 use App\Models\Problem;
 
-class ProblemRepository implements BaseRepository
+class ProblemRepository
 {
     public static function add(Problem $obj)
     {
