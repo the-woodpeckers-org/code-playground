@@ -1,20 +1,18 @@
 # live-code-editor (demo module)
-
-# installation
 Author:
 - Vu Thanh Duong (<a href="">deethesaint</a>)
 - Phan Ngoc Bao Vinh (<a href="">barovinh</a>)
 - Pham Thi Kim Phuong (<a href="">PTKIMPHUONG</a>)
-<br>
-
+# installation
 Requirements:
-
 - Laragon 6.0
 - Php 8.3.0 or above
 - mySQL 8.0 or above
 - Apache 2.4.x.x or above
 - Composer 2.7.x or above
 - Windows Environment (MUST BE RUN ON WINDOWS)
+<br>
+
 How to install this application:
 
 1. Clone this repository into the directory “laragon/www”
