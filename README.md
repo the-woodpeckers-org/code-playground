@@ -4,6 +4,7 @@ Author:
 - Phan Ngoc Bao Vinh (<a href="">barovinh</a>)
 - Pham Thi Kim Phuong (<a href="">PTKIMPHUONG</a>)
 # installation
+
 Requirements:
 - Laragon 6.0
 - Php 8.3.0 or above
