@@ -3,16 +3,15 @@
 namespace App\Services;
 
 use App\Repositories\ProblemRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ProblemService
 {
     public function getProblems() {
-        $problems = ProblemRepository::getAll();
-        return $problems;
+        return ProblemRepository::getAll();
     }
 
     public function getProblem($id) {
-        $problem = ProblemRepository::getWithTestcases($id);
-        return $problem;
+        return ProblemRepository::getWithTestcases($id);
     }
 }
