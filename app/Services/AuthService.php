@@ -5,8 +5,13 @@ namespace App\Services;
 use App\Http\Requests\LoginFormRequest;
 use App\Http\Requests\RegisterFormRequest;
 use App\Models\User;
+use App\Responses\APIResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthService
 {
@@ -14,9 +19,9 @@ class AuthService
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return response()->json(['succeed' => true, 'user' => Auth::user()]);
+            return response()->json(['user' => Auth::user()]);
         }
-        return response()->json(['succeed' => false, 'user' => null]);
+        throw new NotFoundHttpException('User not found!');
     }
 
     public function register(RegisterFormRequest $request)
@@ -31,11 +36,11 @@ class AuthService
             $user->gender = $request->input('gender');
             $user->phone_number = $request->input('phone_number');
             $user->save();
-            return response()->json(['succeed' => true]);
+            return response()->json(['message' => 'User register successfully!']);
         } catch (\Exception $exception) {
-            return response()->json(['succeed' => false, 'msg' => $exception->getMessage()]);
+            throw new BadRequestHttpException($exception->getMessage());
         }
-        return response()->json(['succeed' => false]);
+        throw new ConflictHttpException('User already exists!');
     }
 
     public function logout()
@@ -46,8 +51,8 @@ class AuthService
     public function getAuthenticatedUser()
     {
         if (Auth::check()) {
-            return response()->json(Auth::user());
+            return response()->json(['user' => Auth::user()]);
         }
-        return response()->json(null);
+        throw new NotFoundHttpException('User not found!');
     }
 }
