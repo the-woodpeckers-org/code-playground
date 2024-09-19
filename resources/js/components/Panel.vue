@@ -133,9 +133,9 @@ export default {
             editor.session.setMode('ace/mode/c_cpp')
             axios.get('/api/getProblem/' + _this.$route.params.id)
                 .then(function (response) {
-                    _this.description = response.data.description
-                    _this.title = response.data.title
-                    _this.testcases = response.data.testcases
+                    _this.description = response.data.problem.description
+                    _this.title = response.data.problem.title
+                    _this.testcases = response.data.problem.testcases
                     _this.loading = true
                 })
                 .catch(function (error) {

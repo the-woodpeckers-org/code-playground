@@ -16,13 +16,6 @@ class CodeExecutionController extends Controller
     {
         $this->service = $service;
     }
-
-    public function problem($id)
-    {
-        $problem_id = $id;
-        return view('home.problem', compact('problem_id'));
-    }
-
     public function compileCode(Request $request)
     {
         $language = $request['language'];
