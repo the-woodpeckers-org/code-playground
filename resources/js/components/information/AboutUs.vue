@@ -36,7 +36,7 @@ export default {
             </div>
             <div class="col-span-4 my-auto">
                 <p class="text-3xl font-semibold text-end">Phan Ngoc Bao Vinh</p>
-                <p class="text-2xl text-end">Sống là phải biết điều e hiểu ko?</p>
+                <p class="text-2xl text-end">đừng giỡn</p>
             </div>
             <div class="col-span-2 my-auto mx-auto">
                 <img class="rounded-full h-60 w-60 object-cover" src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726165796/image_1_e6zwtv.png">
@@ -46,7 +46,7 @@ export default {
             </div>
             <div class="col-span-4 my-auto">
                 <p class="text-3xl font-semibold text-start">Vu Thanh Duong</p>
-                <p class="text-2xl text-start">m muon cc j</p>
+                <p class="text-2xl text-start">uhmm...</p>
             </div>
         </div>
     </div>

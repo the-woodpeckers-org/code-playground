@@ -18,17 +18,19 @@ export default {
                 email: _this.input_email,
                 password: _this.input_password
             }).then(function (response) {
-                if (response.data.succeed === true) {
-                    _this.$root.auth = response.data.user
-                    _this.$router.go(-1)
-                } else {
-                    _this.error_email = _this.error_password = null
-                    _this.login_failed = true
-                }
+                _this.$root.auth = response.data.user
+                _this.$router.go(-1)
             }).catch(function (error) {
                 console.log(error)
-                _this.error_email = error.response.data.errors.email ? error.response.data.errors.email[0] : null
-                _this.error_password = error.response.data.errors.password ? error.response.data.errors.password[0] : null
+                if (error.response.data.errors) {
+                    _this.error_email = error.response.data.errors.email ? error.response.data.errors.email[0] : null
+                    _this.error_password = error.response.data.errors.password ? error.response.data.errors.password[0] : null
+                } else {
+                    _this.error_email = _this.error_password = null
+                }
+                if (_this.error_email === null && _this.error_password === null) {
+                    _this.login_failed = true
+                }
             })
         }
     },
