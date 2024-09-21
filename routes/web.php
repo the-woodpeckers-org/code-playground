@@ -16,3 +16,4 @@ Route::get('/api/getProblem/{id}', [ProblemController::class, 'getProblem'])->na
 Route::post('/api/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/api/register', [AuthController::class, 'register'])->name('auth.register');
 Route::get('/api/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::post('/api/submit', [ProblemController::class, 'submit'])->name('problem.submit');
