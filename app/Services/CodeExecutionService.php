@@ -75,14 +75,18 @@ class CodeExecutionService
         if (strlen($shell) > 0) {
             return response()->json(['succeed' => false, 'output' => $shell]);
         }
-
+        $passedTestcases = 0;
         foreach ($testcases as $testcase) {
-            $results[$testcase->id] = shell_exec('echo ' . $testcase->stdin . ' | ' . $outputExecute . " 2>&1");
+            $time_start = microtime(true);
+            $output = shell_exec('echo ' . $testcase->stdin . ' | ' . $outputExecute . " 2>&1");
+            $time_end = microtime(true);
+            $passedTestcases += $output == $testcase->expected_output ? 1 : 0;
+            $results[] = ['stdin' => $testcase->stdin, 'actual_output' => $output, 'expected_output' => $testcase->expected_output, 'is_passed' => $output == $testcase->expected_output, 'execution_time' => number_format($time_end - $time_start, 2)];
         }
 
         unlink($outputExecute);
 
-        return response()->json(['output' => json_encode($results)]);
+        return response()->json(['output' => $results, 'passedTestcases' => $passedTestcases]);
     }
 
     private function executePython($code, $input, $problem_id)
