@@ -50,9 +50,14 @@
                         </button>
                         <button id="submit-btn" type="button"
                                 class="rounded-xl bg-green-500 py-1 border-green-300 border px-2 ms-1 hover:bg-green-600 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-400"
-                                disabled>
+                                disabled
+                                @click="submit">
                             SUBMIT
                         </button>
+                        <div class="mt-3" v-if="isPassed">
+                            <p class="font-semibold text-green-400">You have already solved this problem at
+                                {{ this.passedDate }} &#128512;</p>
+                        </div>
                     </div>
                     <div v-if="loading" class="mt-3 w-full">
                         Testcases passed: <span id="testcases-passed" class="font-bold">{{
@@ -96,10 +101,12 @@ export default {
             runData: Array,
             loading: false,
             run: false,
+            passedDate: String,
+            isPassed: false
         }
     },
     methods: {
-        compile() {
+        async compile() {
             let _this = this
             let editor = ace.edit('editor')
             axios.post('/api/compile', {
@@ -125,6 +132,19 @@ export default {
                 alert(error)
             })
         },
+        async submit() {
+            let _this = this
+            let editor = ace.edit('editor')
+            axios.post('/api/submit', {
+                _token: document.querySelector('meta[name="csrf-token"]').content,
+                code: editor.getSession().getValue(),
+                problem_id: _this.$route.params.id
+            }).then(function (response) {
+                console.log(response)
+            }).catch(function (error) {
+                console.log(error)
+            })
+        },
         onload() {
             let _this = this
             _this.passedTestcases = 0
@@ -133,10 +153,18 @@ export default {
             editor.session.setMode('ace/mode/c_cpp')
             axios.get('/api/getProblem/' + _this.$route.params.id)
                 .then(function (response) {
+                    console.log(response)
                     _this.description = response.data.problem.description
                     _this.title = response.data.problem.title
                     _this.testcases = response.data.problem.testcases
                     _this.loading = true
+                    if (response.data.problem.passed_at) {
+                        _this.isPassed = true
+                        _this.passedDate = response.data.problem.passed_at
+                    }
+                    if (response.data.problem.code !== null) {
+                        editor.setValue(response.data.problem.code, 1)
+                    }
                 })
                 .catch(function (error) {
                     alert(error)

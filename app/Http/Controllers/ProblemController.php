@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubmitCodeFormRequest;
 use App\Responses\APIResponse;
 use App\Services\ProblemService;
 use Illuminate\Http\Request;
@@ -18,15 +19,20 @@ class ProblemController extends Controller
 
     public function getProblems(Request $request)
     {
-        return response()->json($this->service->getProblems());
+        return response()->json($this->service->getAll());
     }
 
     public function getProblem(Request $request)
     {
-        $result = $this->service->getProblem($request['id']);
+        $result = $this->service->getWithTestcases($request['id']);
         if ($result == null) {
-            throw NotFoundHttpException('Problem not found!');
+            throw new NotFoundHttpException('Problem not found!');
         }
-        return response()->json(['problem' => $this->service->getProblem($request['id'])]);
+        return response()->json(['problem' => $result]);
+    }
+
+    public function submit(SubmitCodeFormRequest $request)
+    {
+        return $this->service->submitProblem($request);
     }
 }

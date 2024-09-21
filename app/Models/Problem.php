@@ -21,8 +21,12 @@ class Problem extends Model
       'deleted_at'
     ];
 
-    public function Testcases() {
+    public function testcases() {
         return $this->hasMany(Testcase::class, 'problem_id', 'id');
+    }
+
+    public function attempts() {
+        return $this->hasMany(Attempt::class, 'problem_id', 'id');
     }
 
 }
