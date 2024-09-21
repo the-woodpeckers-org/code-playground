@@ -44,4 +44,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function attempts() {
+        return $this->hasMany(Attempt::class, 'user_id', 'id');
+    }
 }

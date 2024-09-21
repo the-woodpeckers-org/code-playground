@@ -51,6 +51,9 @@ class CodeExecutionService
             $passedTestcases += $output == $testcase->expected_output ? 1 : 0;
             $results[] = ['stdin' => $testcase->stdin, 'actual_output' => $output, 'expected_output' => $testcase->expected_output, 'is_passed' => $output == $testcase->expected_output, 'execution_time' => number_format($time_end - $time_start, 2)];
         }
+        if ($passedTestcases === $testcases->count()) {
+
+        }
 
         unlink($outputExecute);
 

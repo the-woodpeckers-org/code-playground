@@ -17,7 +17,7 @@ class Testcase extends Model
         'stdin'
     ];
 
-    public function Problem() {
+    public function problem() {
         return $this->belongsTo(Problem::class);
     }
 }
