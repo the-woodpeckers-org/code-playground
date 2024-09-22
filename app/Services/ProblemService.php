@@ -13,7 +13,18 @@ class ProblemService
 {
     public static function getAll()
     {
-        return Problem::with('attempts')->paginate(16);
+        $result = Problem::query();
+        $result->select();
+        if (Auth::check()) {
+            $userId = Auth::user()->id;
+            $result->leftJoin('attempts', function ($query) use ($userId) {
+                $query->on('attempts.problem_id', '=', 'problems.id')
+                    ->where('attempts.user_id', $userId);
+            });
+            $result->addSelect(['attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
+        }
+        $result->addSelect(['problems.*']);
+        return $result->paginate(16);
     }
 
     public static function get($id)
@@ -34,14 +45,16 @@ class ProblemService
         $result = Problem::query();
         $result->where('problems.id', $id);
         $result->with('testcases');
+        $result->select();
         if (Auth::check()) {
             $userId = Auth::user()->id;
             $result->leftJoin('attempts', function ($query) use ($userId) {
                 $query->on('attempts.problem_id', '=', 'problems.id')
                     ->where('attempts.user_id', $userId);
             });
+            $result->addSelect(['attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
         }
-        $result->select(['problems.*', 'attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
+        $result->addSelect(['problems.*']);
         return $result->first();
     }
 
@@ -57,11 +70,13 @@ class ProblemService
             $attempt = Attempt::where('problem_id', $request->input('problem_id'))->where('user_id', $userId)->first();
             if ($attempt == null) {
                 $attempt = new Attempt();
+                $attempt->user_id = $userId;
+                $attempt->problem_id = $request->input('problem_id');
             }
-            $attempt->user_id = $userId;
-            $attempt->problem_id = $request->input('problem_id');
+            if ($attempt->passed_at === null) {
+                $attempt->passed_at = Carbon::now();
+            }
             $attempt->code = $request->input('code');
-            $attempt->passed_at = Carbon::now();
             $attempt->save();
             return response()->json(['message' => 'Problem submitted!']);
         }
