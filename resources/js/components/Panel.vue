@@ -1,5 +1,5 @@
 <template>
-    <dialog v-if="!$root.auth" id="my_modal" class="modal modal-open">
+    <dialog v-if="!$root.auth" id="require_logged_in_modal" class="modal modal-open">
         <div class="modal-box">
             <h3 class="text-lg font-bold">You must be logged in to solve this problem</h3>
             <p class="py-4">Click login below to login, or to register if you don't have an account.</p>
@@ -8,6 +8,18 @@
                     <!-- if there is a button in form, it will close the modal -->
                     <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600" to="/login">Login now
                     </router-link>
+                </form>
+            </div>
+        </div>
+    </dialog>
+    <dialog id="problem_solved_modal" class="modal" :class="{ 'modal-open' : isSubmitted}">
+        <div class="modal-box">
+            <h3 class="text-lg font-bold"></h3>
+            <p class="py-4"><span class="font-semibold">Congratulations! Problem solved!</span><br>Do you want to solve some other problems?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600 btn-sm mx-1 w-16" to="/problems">Yes</router-link>
+                    <button class="btn btn-sm w-16 bg-gray-300 hover:bg-gray-400" @click="this.isSubmitted = false">No</button>
                 </form>
             </div>
         </div>
@@ -45,17 +57,20 @@
                     </div>
                     <div class="mt-3 w-full">
                         <button type="button"
-                                class="rounded-xl bg-amber-300 py-1 border-gray-500 border px-2 hover:bg-amber-600"
-                                @click="compile">RUN
+                                class="rounded-xl bg-amber-300 py-1 border-gray-500 border border-amber-500 px-2 hover:bg-amber-600 w-20 h-10"
+                                @click="compile">
+                            <span v-if="!isCompiling">RUN</span>
+                            <span v-if="isCompiling" class="loading loading-dots loading-xs"></span>
                         </button>
                         <button id="submit-btn" type="button"
-                                class="rounded-xl bg-green-500 py-1 border-green-300 border px-2 ms-1 hover:bg-green-600 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-400"
+                                class="rounded-xl bg-green-500 py-1 border-green-300 border px-2 ms-1 hover:bg-green-600 w-20 h-10 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-400"
                                 disabled
                                 @click="submit">
-                            SUBMIT
+                            <span v-if="!isSubmitting">SUBMIT</span>
+                            <span v-if="isSubmitting" class="loading loading-dots loading-xs"></span>
                         </button>
                         <div class="mt-3" v-if="isPassed">
-                            <p class="font-semibold text-green-400">You have already solved this problem at
+                            <p class="font-semibold text-green-600">You have already solved this problem at
                                 {{ this.passedDate }} &#128512;</p>
                         </div>
                     </div>
@@ -102,19 +117,24 @@ export default {
             loading: false,
             run: false,
             passedDate: String,
-            isPassed: false
+            isPassed: false,
+            isSubmitted: false,
+            isCompiling: false,
+            isSubmitting: false
         }
     },
     methods: {
         async compile() {
             let _this = this
             let editor = ace.edit('editor')
+            _this.isCompiling = true
             axios.post('/api/compile', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
                 language: document.getElementById('language').value
             }).then(function (response) {
                 console.log(response.data)
+                _this.isCompiling = false
                 _this.run = true
                 _this.runData = response.data.output
                 _this.passedTestcases = response.data.passedTestcases
@@ -129,19 +149,24 @@ export default {
                 }
             }).catch(function (error) {
                 console.log(error)
+                _this.isCompiling = false
                 alert(error)
             })
         },
         async submit() {
             let _this = this
             let editor = ace.edit('editor')
+            _this.isSubmitting = true
             axios.post('/api/submit', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
                 problem_id: _this.$route.params.id
             }).then(function (response) {
+                _this.isSubmitted = true
+                _this.isSubmitting = false
                 console.log(response)
             }).catch(function (error) {
+                _this.isSubmitting = false
                 console.log(error)
             })
         },
