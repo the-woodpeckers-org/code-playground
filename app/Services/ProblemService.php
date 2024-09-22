@@ -13,7 +13,18 @@ class ProblemService
 {
     public static function getAll()
     {
-        return Problem::with('attempts')->paginate(16);
+        $result = Problem::query();
+        $result->select();
+        if (Auth::check()) {
+            $userId = Auth::user()->id;
+            $result->leftJoin('attempts', function ($query) use ($userId) {
+                $query->on('attempts.problem_id', '=', 'problems.id')
+                    ->where('attempts.user_id', $userId);
+            });
+            $result->addSelect(['attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
+        }
+        $result->addSelect(['problems.*']);
+        return $result->paginate(16);
     }
 
     public static function get($id)
