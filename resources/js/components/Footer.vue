@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-    <footer class="bg-amber-200">
+    <footer class="bg-base-200">
         <div class="max-w-7xl mx-auto py-6 grid gap-x-10 lg:grid-cols-4 sm:grid-cols-1">
             <div class="mx-3">
                 <div class="mb-1">

@@ -101,5 +101,26 @@ class ProblemSeeder extends Seeder
         foreach ($problems as $problem) {
             Problem::create($problem);
         }
+
+        $testcases = [
+            [
+
+            ],
+            [
+
+            ],
+            [
+
+            ],
+            [
+
+            ],
+            [
+
+            ],
+            [
+
+            ],
+        ];
     }
 }
