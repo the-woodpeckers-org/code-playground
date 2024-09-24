@@ -28,17 +28,30 @@ export default {
             </div>
         </div>
     </dialog>
-    <div class="navbar bg-base-200">
+    <div class="navbar bg-secondary">
         <div class="flex-1 gap-10">
-            <router-link class="text-xl" to="/problems">
-                <img src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726071143/CP-Photoroom_1_vl6kzc.png" class="h-12">
+            <router-link class="text-xl" to="/landing">
+                <img src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726071143/CP-Photoroom_1_vl6kzc.png"
+                     class="h-12">
             </router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Explore</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Contests</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Courses</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Challenges</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Problems</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Career</router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
+                Explore
+            </router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
+                Contests
+            </router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/courses">
+                Courses
+            </router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/challenges">
+                Challenges
+            </router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
+                Problems
+            </router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
+                Career
+            </router-link>
         </div>
         <div class="flex-none gap-2">
             <div class="form-control">
@@ -57,9 +70,10 @@ export default {
                 <ul
                     tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                    <li v-if="$root.auth !== null"><a class="text-base">Profile</a></li>
-                    <li v-if="$root.auth !== null"><a class="text-base">Settings</a></li>
-                    <li v-if="$root.auth !== null"><a class="text-base" onclick="confirm_logout_modal.showModal()">Logout</a></li>
+                    <li v-if="$root.auth !== null"><router-link class="text-base" to="/profile">Profile</router-link></li>
+                    <li v-if="$root.auth !== null"><router-link class="text-base" to="/settings">Settings</router-link></li>
+                    <li v-if="$root.auth !== null"><a class="text-base" onclick="confirm_logout_modal.showModal()">Logout</a>
+                    </li>
                     <li v-if="$root.auth === null">
                         <router-link class="text-base" to="/login">Login</router-link>
                     </li>

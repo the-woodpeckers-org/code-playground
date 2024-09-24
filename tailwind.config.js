@@ -6,8 +6,13 @@ export default {
       "./resources/**/*.vue",
   ],
   theme: {
-    extend: {},
-
+    extend: {
+        colors: {
+            'primary': '#0d91b7',
+            'secondary': '#c7eef8',
+            'tertiary': '#ebf9ff'
+        }
+    },
   },
   plugins: [
       require('daisyui'),

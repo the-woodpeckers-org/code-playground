@@ -1,5 +1,5 @@
 <script>
-import Testcase from "@/components/Testcase.vue";
+import Testcase from "@/components/listItems/Testcase.vue";
 
 export default {
     name: "TestcaseList",

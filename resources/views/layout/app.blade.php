@@ -14,7 +14,7 @@
     <script>document.documentElement.classList.add('js')</script>
     @vite('resources/css/app.css')
 </head>
-<body id="app">
+<body id="app" class="bg-tertiary">
 @vite('resources/js/app.js')
 @if (Auth::check())
     <script>window.auth = {!! json_encode(Auth::user()) !!}</script>
