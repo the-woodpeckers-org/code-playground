@@ -30,15 +30,15 @@ export default {
     </dialog>
     <div class="navbar bg-base-200">
         <div class="flex-1 gap-10">
-            <router-link class="text-xl" to="/problems">
+            <router-link class="text-xl" to="/landing">
                 <img src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726071143/CP-Photoroom_1_vl6kzc.png" class="h-12">
             </router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Explore</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Contests</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Courses</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Challenges</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Problems</router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/">Career</router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">Explore</router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">Contests</router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/courses">Courses</router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/challenges">Challenges</router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">Problems</router-link>
+            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">Career</router-link>
         </div>
         <div class="flex-none gap-2">
             <div class="form-control">

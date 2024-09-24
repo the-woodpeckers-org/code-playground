@@ -101,8 +101,8 @@
 </template>
 
 <script>
-import Testcase from "@/components/Testcase.vue";
-import TestcaseList from "@/components/TestcaseList.vue";
+import Testcase from "@/components/listItems/Testcase.vue";
+import TestcaseList from "@/components/listItems/TestcaseList.vue";
 
 export default {
     name: "Panel",

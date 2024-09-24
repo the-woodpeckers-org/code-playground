@@ -1,26 +1,32 @@
 import {createRouter, createWebHistory} from "vue-router";
-import Panel from "@/components/Panel.vue";
-import ProblemList from "@/components/ProblemList.vue";
-import Login from "@/components/authentication/Login.vue";
-import Register from "@/components/authentication/Register.vue";
-import NotFound from "@/components/errors/NotFound.vue";
-import AboutUs from "@/components/information/AboutUs.vue";
+const CodePanel = () => import("@/components/pages/CodePanel.vue");
+const Landing = () => import("@/components/pages/Landing.vue");
+const Login = () => import("@/components/authentication/Login.vue");
+const Register = () => import("@/components/authentication/Register.vue");
+const NotFound = () => import("@/components/errors/NotFound.vue");
+const AboutUs = () => import("@/components/pages/AboutUs.vue");
+const Explore = () => import("@/components/pages/Explore.vue");
+const Contests = () => import("@/components/pages/Contests.vue");
+const Courses = () => import("@/components/pages/Courses.vue");
+const Challenges = () => import("@/components/pages/Challenges.vue");
+const Problems = () => import("@/components/pages/Problems.vue");
+const Career = () => import("@/components/pages/Career.vue")
 
 const routes = [
     {
         path: '/problem/:id',
-        component: Panel,
+        component: CodePanel,
         name: 'problem'
     },
     {
         path: '/',
-        component: ProblemList,
-        name: ''
+        component: Landing,
+        name: 'landing'
     },
     {
-        path: '/problems',
-        component: ProblemList,
-        name: 'problems'
+        path: '/landing',
+        component: Landing,
+        name: 'landing-problems'
     },
     {
         path: '/login',
@@ -36,6 +42,36 @@ const routes = [
         path: '/about-us',
         component: AboutUs,
         name: 'about-us'
+    },
+    {
+        path: '/explore',
+        component: Explore,
+        name: 'explore'
+    },
+    {
+        path: '/contests',
+        component: Contests,
+        name: 'contest'
+    },
+    {
+        path: '/courses',
+        component: Courses,
+        name: 'courses'
+    },
+    {
+        path: '/challenges',
+        component: Challenges,
+        name: 'challenges'
+    },
+    {
+        path: '/problems',
+        component: Problems,
+        name: 'problems'
+    },
+    {
+        path: '/career',
+        component: Career,
+        name: 'career'
     },
     {
         path: '/:pathMatch(.*)*',

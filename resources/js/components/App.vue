@@ -1,7 +1,8 @@
 <script>
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-import {computed} from "vue";
+const Header = defineAsyncComponent(() => import('@/components/templates/Header.vue'))
+const Footer = defineAsyncComponent(() => import('@/components/templates/Footer.vue'))
+
+import { defineAsyncComponent} from "vue";
 
 export default {
     name: "App",
@@ -19,7 +20,7 @@ export default {
 
 <template :key="auth">
     <Header></Header>
-    <div class="mx-auto max-w-7xl min-h-96">
+    <div class="mx-auto max-w-7xl" style="min-height: 680px">
         <router-view></router-view>
     </div>
     <Footer></Footer>

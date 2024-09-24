@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import Problem from "@/components/Problem.vue";
+import Problem from "@/components/listItems/Problem.vue";
 import CenteredSpinner from "@/components/loading/CenteredSpinner.vue";
 import ProblemSkeleton from "@/components/loading/ProblemSkeleton.vue";
 import Contest from "@/components/cards/Contest.vue";
