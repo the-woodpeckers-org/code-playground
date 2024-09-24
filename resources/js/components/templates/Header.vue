@@ -70,8 +70,8 @@ export default {
                 <ul
                     tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                    <li v-if="$root.auth !== null"><a class="text-base">Profile</a></li>
-                    <li v-if="$root.auth !== null"><a class="text-base">Settings</a></li>
+                    <li v-if="$root.auth !== null"><router-link class="text-base" to="/profile">Profile</router-link></li>
+                    <li v-if="$root.auth !== null"><router-link class="text-base" to="/settings">Settings</router-link></li>
                     <li v-if="$root.auth !== null"><a class="text-base" onclick="confirm_logout_modal.showModal()">Logout</a>
                     </li>
                     <li v-if="$root.auth === null">

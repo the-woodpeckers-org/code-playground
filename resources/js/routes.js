@@ -11,6 +11,7 @@ const Courses = () => import("@/components/pages/Courses.vue");
 const Challenges = () => import("@/components/pages/Challenges.vue");
 const Problems = () => import("@/components/pages/Problems.vue");
 const Career = () => import("@/components/pages/Career.vue")
+const Profile = () => import("@/components/pages/Profile.vue")
 
 const routes = [
     {
@@ -72,6 +73,11 @@ const routes = [
         path: '/career',
         component: Career,
         name: 'career'
+    },
+    {
+        path: '/profile',
+        component: Profile,
+        name: 'profile'
     },
     {
         path: '/:pathMatch(.*)*',
