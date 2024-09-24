@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-6 mx-3 my-1 p-1 border-gray-300 border rounded-md h-9 bg-sky-100 font-semibold">
+    <div class="grid grid-cols-6 mx-3 my-0.5 p-1 border-gray-300 border rounded-md h-9 bg-base-100 font-semibold">
         <div class="ms-3 text-green-700">
             <div v-if="!$root.auth">
                 <div class="tooltip tooltip-right"
