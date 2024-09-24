@@ -3,7 +3,7 @@ import Testcase from "@/components/listItems/Testcase.vue";
 import TestcaseList from "@/components/listItems/TestcaseList.vue";
 
 export default {
-    name: "Panel",
+    name: "CodePanel",
     components: {TestcaseList, Testcase},
     data: function () {
         return {
@@ -117,11 +117,15 @@ export default {
     <dialog id="problem_solved_modal" class="modal" :class="{ 'modal-open' : isSubmitted}">
         <div class="modal-box">
             <h3 class="text-lg font-bold"></h3>
-            <p class="py-4"><span class="font-semibold">Congratulations! Problem solved!</span><br>Do you want to solve some other problems?</p>
+            <p class="py-4"><span class="font-semibold">Congratulations! Problem solved!</span><br>Do you want to solve
+                some other problems?</p>
             <div class="modal-action">
                 <form method="dialog">
-                    <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600 btn-sm mx-1 w-16" to="/problems">Yes</router-link>
-                    <button class="btn btn-sm w-16 bg-gray-300 hover:bg-gray-400" @click="this.isSubmitted = false">No</button>
+                    <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600 btn-sm mx-1 w-16"
+                                 to="/problems">Yes
+                    </router-link>
+                    <button class="btn btn-sm w-16 bg-gray-300 hover:bg-gray-400" @click="this.isSubmitted = false">No
+                    </button>
                 </form>
             </div>
         </div>
