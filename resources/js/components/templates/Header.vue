@@ -30,7 +30,7 @@ export default {
     </dialog>
     <div class="navbar bg-secondary">
         <div class="flex-1 gap-10">
-            <router-link class="text-xl" to="/landing">
+            <router-link class="text-xl" to="/">
                 <img src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726071143/CP-Photoroom_1_vl6kzc.png"
                      class="h-12">
             </router-link>
