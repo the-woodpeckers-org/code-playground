@@ -54,24 +54,28 @@ export default {
             </router-link>
         </div>
         <div class="flex-none gap-2">
-            <div class="form-control">
-                <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto"/>
-            </div>
+
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
                         <img v-if="$root.auth !== null"
                              alt="Avatar"
-                             src="https://phunuvietnam.mediacdn.vn/thumb_w/700/179072216278405120/2021/12/3/amee202101-16385417919281354781258-316-0-941-1000-crop-16385418365003362492.jpg"/>
+                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s"
+                             loading="lazy"/>
                         <img v-if="$root.auth === null" alt="Avatar"
-                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcazeHuAcZDzv4_61fPLT-S00XnaKXch2YWQ&s">
+                             src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                             loading="lazy">
                     </div>
                 </div>
                 <ul
                     tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                    <li v-if="$root.auth !== null"><router-link class="text-base" to="/profile">Profile</router-link></li>
-                    <li v-if="$root.auth !== null"><router-link class="text-base" to="/settings">Settings</router-link></li>
+                    <li v-if="$root.auth !== null">
+                        <router-link class="text-base" to="/profile">Profile</router-link>
+                    </li>
+                    <li v-if="$root.auth !== null">
+                        <router-link class="text-base" to="/settings">Settings</router-link>
+                    </li>
                     <li v-if="$root.auth !== null"><a class="text-base" onclick="confirm_logout_modal.showModal()">Logout</a>
                     </li>
                     <li v-if="$root.auth === null">
