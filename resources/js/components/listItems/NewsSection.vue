@@ -16,7 +16,7 @@ export default {
                 :author="'Hoang Nguyen'"
                 :imgUrl="'https://huit.edu.vn/images/tin-tuc-hoat-dong/khoa-cong-nghe-hoa-hoc-hufi-to-chuc-thanh-cong-cuoc-thi-sinh-vien-nghien-cuu-khoa-hoc-nam-hoc-2022-2023-1.jpg'"></BaseCard>
             <BaseCard :title="'Tính năng mới trong bản cập nhật lớn 1.2 của CodePlayground '"
-                      :author="'<span class=&quot;italic&quot;>CodePlayground Team</span><span class=&quot;non-italic&quot; >&#9989;</span>'"
+                      :author="'CodePlayground Team &#9989;'"
                       :imgUrl="'https://img.freepik.com/premium-vector/red-new-update-banner-modern-style-web-design-vector-stock-illustration_100456-2480.jpg'"></BaseCard>
             <BaseCard :title="'Sự kiện CodePlaygroundApex sẽ được chính thức tổ chức vào ngày 30/10/2024'"
                       :author="'Le Anh'"

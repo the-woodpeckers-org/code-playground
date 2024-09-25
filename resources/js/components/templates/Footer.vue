@@ -20,7 +20,7 @@ export default {
                 <h1 class="text-base">CodePlayground is a competitive programming platform developed by The Woodpeckers
                     Team. The project is open source and also the team's graduation project.</h1>
                 <div class="text-3xl my-2">
-                    <a href="#"><i class="fa-brands fa-github mx-2"></i></a>
+                    <a href="https://github.com/the-woodpeckers-org" target="_blank"><i class="fa-brands fa-github mx-2"></i></a>
                     <a href="#"><i class="fa-brands fa-square-x-twitter mx-2 text-gray-900"></i></a>
                     <a href="#"><i class="fa-brands fa-square-facebook mx-2 text-blue-600"></i></a>
                     <a href="#"><i class="fa-brands fa-square-instagram mx-2 text-pink-600"></i></a>
