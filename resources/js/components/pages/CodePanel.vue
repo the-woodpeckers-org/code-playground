@@ -29,9 +29,10 @@ export default {
             axios.post('/api/compile', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
-                language: document.getElementById('language').value
+                language: document.getElementById('language').value,
+                problem_id: _this.$route.params.id
             }).then(function (response) {
-                console.log(response.data)
+                console.log(_this.$route.params.id)
                 _this.isCompiling = false
                 _this.run = true
                 _this.runData = response.data.output

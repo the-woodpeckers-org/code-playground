@@ -21,6 +21,7 @@ class CodeExecutionController extends Controller
         $language = $request['language'];
         $code = $request->input("code");
         $input = $request->input("input");
-        return $this->service->execute($language, $code, $input, 1);
+        $problem_id = $request->input("problem_id");
+        return $this->service->execute($language, $code, $input, $problem_id);
     }
 }
