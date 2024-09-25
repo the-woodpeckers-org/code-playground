@@ -71,7 +71,7 @@ export default {
                               :description="'Check CodePlayground Top 50 Problems Set. Change your mindset and improve your problem solving skill!'"
                               :imgUrl="'https://searchengineland.com/wp-content/seloads/2020/03/code-SS_634574354-1920x1080-1.jpg'"></InterviewKit>
                 <InterviewKit :title="'Amazon Spring \'23 High Frequency'"
-                              :description="'Practice Amazon 25 Recently Asked Qs. Amazon Spring'"
+                              :description="'Practice Amazon 25 Recently Asked Qs. Amazon Spr'"
                               :imgUrl="'https://static.vecteezy.com/system/resources/previews/019/766/240/non_2x/amazon-logo-amazon-icon-transparent-free-png.png'"></InterviewKit>
                 <span class="w-full text-center col-span-full"><router-link
                     class="btn rounded-3xl bg-primary hover:bg-cyan-700 text-white text-lg" to=""><i
