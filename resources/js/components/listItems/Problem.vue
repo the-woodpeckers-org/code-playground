@@ -1,6 +1,6 @@
 <template>
-    <div class="grid grid-cols-6 mx-3 my-0.5 p-1 border-gray-300 border rounded-md h-9 bg-base-100 font-semibold">
-        <div class="ms-3 text-green-700">
+    <div class="grid grid-cols-6 my-0.5 p-1 border-gray-300 border rounded-md h-9 bg-base-100 font-semibold">
+        <div class="ms-1 text-green-700">
             <div v-if="!$root.auth">
                 <div class="tooltip tooltip-right"
                      data-tip="Please login to see the status of this problem!">

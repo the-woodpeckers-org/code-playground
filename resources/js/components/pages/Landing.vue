@@ -36,8 +36,8 @@ export default {
 </script>
 
 <template>
-    <div class="w-full mt-2">
-        <div class="mx-3 my-6">
+    <div>
+        <div class="my-6">
             <h1 class="text-2xl mb-3 font-bold">See what is happening!</h1>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <NewsSection></NewsSection>
@@ -45,7 +45,7 @@ export default {
             </div>
         </div>
         <div class="mt-6 border-b"></div>
-        <div class="mx-3 my-6">
+        <div class="my-6">
             <h1 class="text-2xl mb-3 font-bold">Available Contests</h1>
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 <Contest :days="2" :hours="1" :minutes="0" :seconds="1"
@@ -79,7 +79,7 @@ export default {
             </div>
             <div class="mt-6 border-b"></div>
         </div>
-        <div class="mx-3 my-6">
+        <div class="my-6">
             <h1 class="text-2xl mb-3 font-bold">Courses</h1>
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 <Course :title="'Basic Data Structures & Algorithms'"
@@ -97,15 +97,15 @@ export default {
             </div>
             <div class="mt-6 border-b"></div>
         </div>
-        <div class="mx-3">
+        <div class="my-6">
             <h1 class="text-2xl font-bold">Problem Set</h1>
-        </div>
-        <div class="grid grid-cols-6 mx-3 p-1 rounded-md h-9 border-b">
-            <span>Status</span>
-            <span class="col-span-2">Title</span>
-            <span>Difficulty</span>
-            <span>Acceptance</span>
-            <span>Tags</span>
+            <div class="grid grid-cols-6 mx-3 p-1 rounded-md h-9 border-b">
+                <span>Status</span>
+                <span class="col-span-2">Title</span>
+                <span>Difficulty</span>
+                <span>Acceptance</span>
+                <span>Tags</span>
+            </div>
         </div>
         <ProblemSkeleton v-if="!loading" v-for="index in 16" :key="index"></ProblemSkeleton>
         <Problem v-if="loading" v-for="problem in this.problems" :problem="problem"></Problem>

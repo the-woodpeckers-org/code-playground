@@ -20,8 +20,8 @@ export default {
 
 <template :key="auth">
     <Header></Header>
-    <div class="mx-auto max-w-7xl" style="min-height: 680px">
-        <router-view></router-view>
+    <div class="mx-auto max-w-7xl my-6" style="min-height: 680px">
+        <router-view class="mx-6"></router-view>
     </div>
     <Footer></Footer>
 </template>
