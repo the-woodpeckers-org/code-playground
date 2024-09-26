@@ -21,7 +21,6 @@ export default {
                 <p class="text-lg font-semibold">{{ title }}</p>
                 <p class="text-end pe-3">- <span v-html="author"></span></p>
             </div>
-
         </div>
     </router-link>
 </template>

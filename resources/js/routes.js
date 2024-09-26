@@ -88,5 +88,8 @@ const routes = [
 
 export default createRouter({
     history: createWebHistory(),
-    routes
+    routes,
+    scrollBehavior() {
+        document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
+    }
 })
