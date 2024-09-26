@@ -18,7 +18,8 @@ export default {
             isPassed: false,
             isSubmitted: false,
             isCompiling: false,
-            isSubmitting: false
+            isSubmitting: false,
+            isCompileError: false
         }
     },
     methods: {
@@ -26,20 +27,22 @@ export default {
             let _this = this
             let editor = ace.edit('editor')
             _this.isCompiling = true
+            _this.isCompileError = false
             axios.post('/api/compile', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
                 language: document.getElementById('language').value,
                 problem_id: _this.$route.params.id
             }).then(function (response) {
-                console.log(_this.$route.params.id)
                 _this.isCompiling = false
-                _this.run = true
-                _this.runData = response.data.output
-                _this.passedTestcases = response.data.passedTestcases
                 if (response.data.succeed == false) {
-                    alert('Lỗi trình biên dịch!')
+                    console.log(response)
+                    _this.isCompileError = true
+                    document.getElementById('error-msg').innerText = response.data.output;
                 } else {
+                    _this.run = true
+                    _this.runData = response.data.output
+                    _this.passedTestcases = response.data.passedTestcases
                     if (_this.passedTestcases === _this.testcases.length) {
                         document.getElementById('submit-btn').disabled = false
                     } else {
@@ -176,6 +179,11 @@ export default {
                             <span v-if="!isSubmitting">SUBMIT</span>
                             <span v-if="isSubmitting" class="loading loading-dots loading-xs"></span>
                         </button>
+                        <div class="mt-3 transition" :class="{ 'hidden' : !isCompileError }">
+                            <div class="alert alert-error">
+                                <span id="error-msg">x</span>
+                            </div>
+                        </div>
                         <div class="mt-3" v-if="isPassed">
                             <p class="font-semibold text-green-600">You have already solved this problem at
                                 {{ this.passedDate }} &#128512;</p>
