@@ -2,14 +2,16 @@
 import BaseCard from "@/components/cards/BaseCard.vue";
 import Company from "@/components/cards/Company.vue";
 import Job from "@/components/cards/Job.vue";
+import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
 
 export default {
     name: "Careers",
-    components: {Job, Company, BaseCard}
+    components: {LoginRequiredDialog, Job, Company, BaseCard}
 }
 </script>
 
 <template>
+    <LoginRequiredDialog></LoginRequiredDialog>
     <div>
         <h1 class="text-2xl font-bold border-b">Career</h1>
         <h1 class="text-xl font-semibold my-3">Search for job...</h1>

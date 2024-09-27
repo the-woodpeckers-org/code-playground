@@ -1,10 +1,11 @@
 <script>
 import Testcase from "@/components/listItems/Testcase.vue";
 import TestcaseList from "@/components/listItems/TestcaseList.vue";
+import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
 
 export default {
     name: "CodePanel",
-    components: {TestcaseList, Testcase},
+    components: {LoginRequiredDialog, TestcaseList, Testcase},
     data: function () {
         return {
             passedTestcases: String,
@@ -105,19 +106,7 @@ export default {
 </script>
 
 <template>
-    <dialog v-if="!$root.auth" id="require_logged_in_modal" class="modal modal-open">
-        <div class="modal-box">
-            <h3 class="text-lg font-bold">You must be logged in to solve this problem</h3>
-            <p class="py-4">Click login below to login, or to register if you don't have an account.</p>
-            <div class="modal-action">
-                <form method="dialog">
-                    <!-- if there is a button in form, it will close the modal -->
-                    <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600" to="/login">Login now
-                    </router-link>
-                </form>
-            </div>
-        </div>
-    </dialog>
+    <LoginRequiredDialog></LoginRequiredDialog>
     <dialog id="problem_solved_modal" class="modal" :class="{ 'modal-open' : isSubmitted}">
         <div class="modal-box">
             <h3 class="text-lg font-bold"></h3>

@@ -2,11 +2,24 @@
 export default {
     name: "Job",
     props: {
-        title: 'N/A',
-        description: 'N/A',
-        imgUrl: 'N/A',
-        companyName: 'N/A',
-        url: 'N/A',
+        title: {
+            default: 'N/A'
+        },
+        description: {
+            default: 'N/A'
+        },
+        imgUrl: {
+            default: 'N/A'
+        },
+        companyName: {
+            default: 'N/A'
+        },
+        url: {
+            default: 'N/A'
+        },
+        date: {
+            default: new Date(22, 10, 2024)
+        }
     }
 }
 </script>
@@ -18,7 +31,7 @@ export default {
             <h1 class="text-xl font-semibold">{{ title }}</h1>
             <p class="font-semibold">{{ companyName }}</p>
             <p>{{ description }}</p>
-            <p class="font-semibold">Available until: 10/10/2024</p>
+            <p class="font-semibold">Available until: {{ date }}</p>
         </div>
     </router-link>
 </template>
