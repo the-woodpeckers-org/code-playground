@@ -12,20 +12,24 @@ use Illuminate\Database\Eloquent\Model;
 class Problem extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-      'title',
-      'description',
-      'attempt_count',
-      'is_passed',
-      'passed_at',
-      'deleted_at'
+        'title',
+        'description',
+        'attempt_count',
+        'is_passed',
+        'passed_at',
+        'deleted_at',
+        'contest_id'
     ];
 
-    public function testcases() {
+    public function testcases()
+    {
         return $this->hasMany(Testcase::class, 'problem_id', 'id');
     }
 
-    public function attempts() {
+    public function attempts()
+    {
         return $this->hasMany(Attempt::class, 'problem_id', 'id');
     }
 

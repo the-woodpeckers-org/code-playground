@@ -50,7 +50,8 @@ export default {
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 <Contest :days="2" :hours="1" :minutes="0" :seconds="1"
                          :imgUrl="'https://idx.edu.vn/wp-content/uploads/2023/04/logo-idx.png'"
-                         :title="'HUIT iDX Annual Faculty-Level Programming Competition #21'"></Contest>
+                         :title="'HUIT iDX Annual Faculty-Level Programming Competition #21'"
+                         :contestId="3"></Contest>
                 <Contest :days="3" :hours="7" :minutes="11" :seconds="31"
                          :imgUrl="'https://viettel.com.vn/media/viettel/original_images/Viettel_logo_2021.png'"
                          :title="'Viettel Group Coda-A-Thon Celebrate 5yrs Anniversary 2024'"></Contest>
