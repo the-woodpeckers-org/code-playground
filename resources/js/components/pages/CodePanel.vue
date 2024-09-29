@@ -6,6 +6,20 @@ import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog
 export default {
     name: "CodePanel",
     components: {LoginRequiredDialog, TestcaseList, Testcase},
+    props: {
+        contestId: {
+            default: null
+        },
+        entryTestId: {
+            default: null
+        },
+        challengeId: {
+            default: null
+        },
+        courseId: {
+            default: null
+        }
+    },
     data: function () {
         return {
             passedTestcases: String,
@@ -20,7 +34,13 @@ export default {
             isSubmitted: false,
             isCompiling: false,
             isSubmitting: false,
-            isCompileError: false
+            isCompileError: false,
+
+            // For contests or courses
+            previousId: null,
+            nextId: null,
+            hasPrevious: false,
+            hasNext: false
         }
     },
     methods: {
@@ -173,7 +193,7 @@ export default {
                                 <span id="error-msg">x</span>
                             </div>
                         </div>
-                        <div class="mt-3" v-if="isPassed">
+                        <div class="mt-3" v-if="isPassed && contestId === null">
                             <p class="font-semibold text-green-600">You have already solved this problem at
                                 {{ this.passedDate }} &#128512;</p>
                         </div>

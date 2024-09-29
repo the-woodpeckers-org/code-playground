@@ -12,6 +12,8 @@ const Challenges = () => import("@/components/pages/Challenges.vue");
 const Problems = () => import("@/components/pages/Problems.vue");
 const Career = () => import("@/components/pages/Career.vue")
 const Profile = () => import("@/components/pages/Profile.vue")
+const ContestDetail = () => import('@/components/pages/ContestDetail.vue')
+const ContestPanel = () => import('@/components/pages/ContestPanel.vue')
 
 const routes = [
     {
@@ -78,6 +80,16 @@ const routes = [
         path: '/profile',
         component: Profile,
         name: 'profile'
+    },
+    {
+        path: '/contest/:c_id',
+        component: ContestDetail,
+        name: 'contest-detail'
+    },
+    {
+        path: '/contest/:c_id/participate/:id',
+        component: ContestPanel,
+        name: 'contest-participate'
     },
     {
         path: '/:pathMatch(.*)*',

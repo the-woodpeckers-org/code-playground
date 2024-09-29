@@ -18,7 +18,8 @@ export default {
             default: 'N/A'
         },
         date: {
-            default: new Date(22, 10, 2024)
+            type: Object,
+            default: new Date().toDateString()
         }
     }
 }
