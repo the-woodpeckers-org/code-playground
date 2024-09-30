@@ -1,45 +1,36 @@
 <script>
 import BaseCountDown from "@/components/countdowns/BaseCountDown.vue";
+import {HTTP} from "@/http-common.js";
 
 export default {
     name: "ContestDetail",
     components: {BaseCountDown},
-    props: {
-        title: {
-            default: 'This is an contest'
-        },
-        description: {
-            default: 'N/A'
-        }
-    },
     data: function () {
         return {
-            days: {
-                default: 0
-            },
-            hours: {
-                default: 0
-            },
-            minutes: {
-                default: 0
-            },
-            seconds: {
-                default: 0
-            },
+            title: 'Contest',
+            description: 'Nothing here',
+            days: 0,
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            isEnded: null,
             isLoaded: false
         }
     },
-    mounted() {
+    beforeMount() {
         let _this = this;
-        axios.get('/api/contest/' + this.$route.params.c_id)
+        HTTP.get('/api/contest/get/' + this.$route.params.c_id)
             .then(function (response) {
                 console.log(response.data);
                 console.log(response.data.remainingTime)
                 _this.isLoaded = true;
+                _this.title = response.data.title;
+                _this.description = response.data.description;
                 _this.days = response.data.remainingTime.days;
                 _this.hours = response.data.remainingTime.hours;
                 _this.minutes = response.data.remainingTime.minutes;
                 _this.seconds = response.data.remainingTime.seconds;
+                _this.isEnded =  response.data.isEnded;
             })
             .catch(function (error) {
                 console.log(error)
@@ -81,11 +72,14 @@ export default {
                         <p class="border bg-base-100 px-2 m-1">Data Structure</p>
                         <p class="border bg-base-100 px-2 m-1">Window Slider</p>
                     </div>
-                    <div class="flex flex-row flex-wrap justify-center mt-6">
-                        <router-link to="/123s"
+                    <div v-if="isEnded === false" class="flex flex-row flex-wrap justify-center mt-6">
+                        <router-link :to="'/contest/' + this.$route.params.c_id + '/participate'"
                                      class="shadow-xl hover:bg-cyan-700 bg-primary p-2 font-semibold text-lg text-white rounded-xl transition">
                             Set me in!
                         </router-link>
+                    </div>
+                    <div v-if="isEnded === true" class="flex flex-row flex-wrap justify-center mt-6">
+                        <p>Ê mày cuộc thi này đã kết thúc rồi xin được hẹn bạn lần sau nhé.</p>
                     </div>
                 </div>
             </div>

@@ -27,18 +27,20 @@ export default {
         countSeconds: {
             handler(value) {
                 setTimeout(() => {
-                    this.countSeconds--
-                    if (this.countSeconds < 0) {
-                        this.countMinutes--
-                        this.countSeconds = 59
-                    }
-                    if (this.countMinutes < 0) {
-                        this.countHours--
-                        this.countMinutes = 59
-                    }
-                    if (this.countHours < 0) {
-                        this.countDays--
-                        this.countHours = 23
+                    if (!(this.countDays === 0 && this.countHours === 0 && this.countMinutes === 0 && this.countSeconds === 0)) {
+                        this.countSeconds--
+                        if (this.countSeconds < 0) {
+                            this.countMinutes--
+                            this.countSeconds = 59
+                        }
+                        if (this.countMinutes < 0) {
+                            this.countHours--
+                            this.countMinutes = 59
+                        }
+                        if (this.countHours < 0) {
+                            this.countDays--
+                            this.countHours = 23
+                        }
                     }
                 }, 1000)
             },
