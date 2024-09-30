@@ -5,9 +5,6 @@ export default {
     mounted() {
         var rte = new RichTextEditor('#text-editor');
         rte.setHTMLCode("Điền vô đây em!");
-    },
-    unmounted() {
-        rte.delete();
     }
 }
 </script>
