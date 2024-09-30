@@ -14,6 +14,7 @@ const Career = () => import("@/components/pages/Career.vue")
 const Profile = () => import("@/components/pages/Profile.vue")
 const ContestDetail = () => import('@/components/pages/ContestDetail.vue')
 const ContestPanel = () => import('@/components/pages/ContestPanel.vue')
+const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
 
 const routes = [
     {
@@ -90,6 +91,11 @@ const routes = [
         path: '/contest/:c_id/participate/:id',
         component: ContestPanel,
         name: 'contest-participate'
+    },
+    {
+        path: '/demo/texteditor',
+        component: TextEditor,
+        name: 'text-editor'
     },
     {
         path: '/:pathMatch(.*)*',
