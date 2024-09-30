@@ -20,5 +20,4 @@ class ContestController extends Controller
     public function getLanding() {
         return response()->json($this->service->getForLanding());
     }
-
 }
