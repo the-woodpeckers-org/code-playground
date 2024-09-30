@@ -7,6 +7,7 @@ import InterviewKit from "@/components/cards/InterviewKit.vue";
 import Course from "@/components/cards/Course.vue";
 import Ranking from "@/components/listItems/Ranking.vue";
 import NewsSection from "@/components/listItems/NewsSection.vue";
+import {HTTP} from "@/http-common.js";
 
 export default {
     name: "ProblemList",
@@ -14,6 +15,7 @@ export default {
     data: function () {
         return {
             problems: Array,
+            contests: Array,
             loading: false
         }
     },
@@ -30,7 +32,13 @@ export default {
                     alert(error)
                 })
         }, 1000)
+        HTTP.get('api/contest/landing')
+            .then(response => {
+                _this.contests = response.data;
+            })
+            .catch(error => {
 
+            })
     }
 }
 </script>
@@ -48,16 +56,15 @@ export default {
         <div class="my-6">
             <h1 class="text-2xl mb-3 font-bold">Available Contests</h1>
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                <Contest :days="2" :hours="1" :minutes="0" :seconds="1"
-                         :imgUrl="'https://idx.edu.vn/wp-content/uploads/2023/04/logo-idx.png'"
-                         :title="'HUIT iDX Annual Faculty-Level Programming Competition #21'"
-                         :contestId="3"></Contest>
-                <Contest :days="3" :hours="7" :minutes="11" :seconds="31"
-                         :imgUrl="'https://viettel.com.vn/media/viettel/original_images/Viettel_logo_2021.png'"
-                         :title="'Viettel Group Coda-A-Thon Celebrate 5yrs Anniversary 2024'"></Contest>
-                <Contest :days="0" :hours="13" :minutes="23" :seconds="46"
-                         :imgUrl="'https://www.vinasa.org.vn/SiteFolders/vinasa-en/393/cmcglobal.jpg'"
-                         :title="'CMC GLOBAL ProjectEuler+ 2024'"></Contest>
+                <Contest v-for="contest in contests"
+                         :p_Days="contest.remainingTime.days"
+                         :p_Hours="contest.remainingTime.hours"
+                         :p_Minutes="contest.remainingTime.minutes"
+                         :p_Seconds="contest.remainingTime.seconds"
+                         :contestId="contest.id"
+                         :title="contest.title"
+                         :imgUrl="contest.imgUrl"
+                ></Contest>
                 <span class="w-full text-center col-span-full"><router-link
                     class="btn rounded-3xl bg-primary hover:bg-cyan-700 text-white text-lg" to="/contests"><i
                     class="fa-solid fa-arrow-right"></i>SEE MORE</router-link></span>

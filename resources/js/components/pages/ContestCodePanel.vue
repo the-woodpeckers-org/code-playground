@@ -4,8 +4,25 @@ import TestcaseList from "@/components/listItems/TestcaseList.vue";
 import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
 
 export default {
-    name: "CodePanel",
+    name: "ContestCodePanel",
     components: {LoginRequiredDialog, TestcaseList, Testcase},
+    props: {
+        contestId: {
+            default: null
+        },
+        entryTestId: {
+            default: null
+        },
+        challengeId: {
+            default: null
+        },
+        courseId: {
+            default: null
+        },
+        problemId: {
+            default: null
+        }
+    },
     data: function () {
         return {
             passedTestcases: String,
@@ -21,78 +38,77 @@ export default {
             isCompiling: false,
             isSubmitting: false,
             isCompileError: false,
+
+            // For contests or courses
+            previousId: null,
+            nextId: null,
+            hasPrevious: false,
+            hasNext: false
         }
     },
     methods: {
         async compile() {
-            let _this = this
-            let editor = ace.edit('editor')
-            _this.isCompiling = true
-            _this.isCompileError = false
-            axios.post('/api/compile', {
-                _token: document.querySelector('meta[name="csrf-token"]').content,
-                code: editor.getSession().getValue(),
-                language: document.getElementById('language').value,
-                problem_id: _this.$route.params.id
-            }).then(function (response) {
-                _this.isCompiling = false
-                if (response.data.succeed == false) {
-                    console.log(response)
-                    _this.isCompileError = true
-                    document.getElementById('error-msg').innerText = response.data.output;
-                } else {
-                    _this.run = true
-                    _this.runData = response.data.output
-                    _this.passedTestcases = response.data.passedTestcases
-                    if (_this.passedTestcases === _this.testcases.length) {
-                        document.getElementById('submit-btn').disabled = false
-                    } else {
-                        document.getElementById('submit-btn').disabled = true
-                    }
-                }
-            }).catch(function (error) {
-                console.log(error)
-                _this.isCompiling = false
-                alert(error)
-            })
+            // let _this = this
+            // let editor = ace.edit('editor')
+            // _this.isCompiling = true
+            // _this.isCompileError = false
+            // axios.post('/api/compile', {
+            //     _token: document.querySelector('meta[name="csrf-token"]').content,
+            //     code: editor.getSession().getValue(),
+            //     language: document.getElementById('language').value,
+            //     problem_id: _this.$route.params.id
+            // }).then(function (response) {
+            //     _this.isCompiling = false
+            //     if (response.data.succeed == false) {
+            //         console.log(response)
+            //         _this.isCompileError = true
+            //         document.getElementById('error-msg').innerText = response.data.output;
+            //     } else {
+            //         _this.run = true
+            //         _this.runData = response.data.output
+            //         _this.passedTestcases = response.data.passedTestcases
+            //         if (_this.passedTestcases === _this.testcases.length) {
+            //             document.getElementById('submit-btn').disabled = false
+            //         } else {
+            //             document.getElementById('submit-btn').disabled = true
+            //         }
+            //     }
+            // }).catch(function (error) {
+            //     console.log(error)
+            //     _this.isCompiling = false
+            //     alert(error)
+            // })
         },
         async submit() {
-            let _this = this
-            let editor = ace.edit('editor')
-            _this.isSubmitting = true
-            axios.post('/api/submit', {
-                _token: document.querySelector('meta[name="csrf-token"]').content,
-                code: editor.getSession().getValue(),
-                problem_id: _this.$route.params.id
-            }).then(function (response) {
-                _this.isSubmitted = true
-                _this.isSubmitting = false
-                console.log(response)
-            }).catch(function (error) {
-                _this.isSubmitting = false
-                console.log(error)
-            })
+            // let _this = this
+            // let editor = ace.edit('editor')
+            // _this.isSubmitting = true
+            // axios.post('/api/submit', {
+            //     _token: document.querySelector('meta[name="csrf-token"]').content,
+            //     code: editor.getSession().getValue(),
+            //     problem_id: _this.$route.params.id
+            // }).then(function (response) {
+            //     _this.isSubmitted = true
+            //     _this.isSubmitting = false
+            //     console.log(response)
+            // }).catch(function (error) {
+            //     _this.isSubmitting = false
+            //     console.log(error)
+            // })
         },
         onload() {
             let _this = this
             _this.passedTestcases = 0
-            let editor = ace.edit('editor')
+            let editor = ace.edit('editor' + '-' + this.problemId)
             editor.setTheme('ace/theme/monokai')
             editor.session.setMode('ace/mode/c_cpp')
-            axios.get('/api/getProblem/' + _this.$route.params.id)
+            axios.get('/api/getProblem/' + this.problemId)
                 .then(function (response) {
                     console.log(response)
                     _this.description = response.data.problem.description
                     _this.title = response.data.problem.title
                     _this.testcases = response.data.problem.testcases
                     _this.loading = true
-                    if (response.data.problem.passed_at) {
-                        _this.isPassed = true
-                        _this.passedDate = response.data.problem.passed_at
-                    }
-                    if (response.data.problem.code !== null) {
-                        editor.setValue(response.data.problem.code, 1)
-                    }
                 })
                 .catch(function (error) {
                     alert(error)
@@ -106,7 +122,6 @@ export default {
 </script>
 
 <template>
-    <LoginRequiredDialog></LoginRequiredDialog>
     <dialog id="problem_solved_modal" class="modal" :class="{ 'modal-open' : isSubmitted}">
         <div class="modal-box">
             <h3 class="text-lg font-bold"></h3>
@@ -127,7 +142,7 @@ export default {
 
     </div>
     <div class="w-full mt-2">
-        <form id="formCode" method="post" action="/compile">
+        <form :id="'formCode' + '-' + problemId" method="post" action="/compile">
             <div class="grid grid-cols-12">
                 <div class="col-span-6 me-1 border-e-2">
                     <p class="text-2xl font-bold border-b-2 mx-1" v-if="loading"> {{ title }}</p>
@@ -150,7 +165,7 @@ export default {
                         <option value="javascript">JavaScript</option>
                     </select>
                     <div class="h-96">
-                        <div id="editor" style="width: 100%; height: 100%" class="text-base mt-3">
+                        <div :id="'editor' + '-' + problemId" style="width: 100%; height: 100%" class="text-base mt-3">
 
                         </div>
                     </div>

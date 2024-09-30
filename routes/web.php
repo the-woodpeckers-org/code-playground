@@ -19,4 +19,5 @@ Route::post('/api/register', [AuthController::class, 'register'])->name('auth.re
 Route::get('/api/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('/api/submit', [ProblemController::class, 'submit'])->name('problem.submit');
 
-Route::get('/api/contest/{id}', [ContestController::class, 'get'])->name('contest.get');
+Route::get('/api/contest/get/{id}', [ContestController::class, 'get'])->name('contest.get');
+Route::get('/api/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');

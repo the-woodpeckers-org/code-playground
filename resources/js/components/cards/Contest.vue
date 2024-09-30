@@ -9,6 +9,18 @@ export default {
         title: String,
         contestId: {
             default: '0'
+        },
+        p_Days: {
+            default: 0
+        },
+        p_Hours: {
+            default: 0
+        },
+        p_Minutes: {
+            default: 0
+        },
+        p_Seconds: {
+            default: 0
         }
     }
 }
@@ -24,7 +36,7 @@ export default {
             <p class="text-center">
                 <span class="text-center font-mono">end after</span>
                 <br>
-                <Countdown></Countdown>
+                <Countdown :days="p_Days" :hours="p_Hours" :minutes="p_Minutes" :seconds="p_Seconds"></Countdown>
             </p>
         </div>
     </router-link>

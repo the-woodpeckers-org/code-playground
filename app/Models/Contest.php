@@ -22,10 +22,26 @@ class Contest extends Model
     ];
 
     protected $appends = [
-        'remainingTime'
+        'remainingTime',
+        'isEnded'
     ];
+
+    public function getIsEndedAttribute() {
+        if (Carbon::now() > $this->end_date) {
+            return true;
+        }
+        return false;
+    }
     public function getRemainingTimeAttribute()
     {
+        if (Carbon::now() > $this->end_date) {
+            return [
+                'days' => 0,
+                'hours' => 0,
+                'minutes' => 0,
+                'seconds' => 0
+            ];
+        };
         $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now());
         $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $this->end_date);
 

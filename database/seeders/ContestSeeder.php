@@ -17,20 +17,23 @@ class ContestSeeder extends Seeder
     {
         $contests = [
             [
-                'title' => 'Viettel Hackathon',
+                'title' => 'Viettel Hackathon 2024',
                 'description' => 'Hehe boi',
+                'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW7S24aqeMJVm-ofv0JGjUFakDXJeV6WpJfQ&s',
                 'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
-                'end_date' => Carbon::create(2024, 9, 30, 12, 30, 00),
+                'end_date' => Carbon::create(2024, 9, 30, 18, 15, 00),
             ],
             [
-                'title' => 'ZoBoi Hackathon',
+                'title' => 'ZoBoi Hackathon Aishh',
                 'description' => 'Hehe boi',
+                'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThHzVwYwhZph2gph0cCeoP-d6nj3aB-ZogMA&s',
                 'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
-                'end_date' => Carbon::create(2024, 9, 30, 12, 30, 00),
+                'end_date' => Carbon::create(2024, 9, 30, 22, 10, 00),
             ],
             [
-                'title' => 'CMS Hackathon',
+                'title' => 'CMS Hackathon numberthon',
                 'description' => 'Hehe boi',
+                'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI6FdZ-KcBkNiy0cBtPZaYWKtmTajsmOtehQ&s',
                 'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
                 'end_date' => Carbon::create(2024, 9, 30, 12, 30, 00),
             ]
