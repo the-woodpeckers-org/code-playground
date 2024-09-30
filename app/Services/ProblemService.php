@@ -15,6 +15,7 @@ class ProblemService
     {
         $result = Problem::query();
         $result->select();
+        $result->where('contest_id', '=', null);
         if (Auth::check()) {
             $userId = Auth::user()->id;
             $result->leftJoin('attempts', function ($query) use ($userId) {

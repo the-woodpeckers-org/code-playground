@@ -3,16 +3,16 @@ export default {
     name: "Countdown",
     props: {
         days: {
-            default: 12
+            default: 0
         },
         hours: {
-            default: 12
+            default: 0
         },
         minutes: {
-            default: 12
+            default: 0
         },
         seconds: {
-            default: 12
+            default: 0
         },
     },
     data: function () {
@@ -20,26 +20,37 @@ export default {
             countDays: this.days,
             countHours: this.hours,
             countMinutes: this.minutes,
-            countSeconds: this.seconds
+            countSeconds: this.seconds,
+            isRunning: true,
+            isLoaded: false
         }
+    },
+    mounted() {
+        setTimeout(() => {
+            this.isLoaded = true
+        }, 500);
     },
     watch: {
         countSeconds: {
             handler(value) {
                 setTimeout(() => {
-                    if (!(this.countDays === 0 && this.countHours === 0 && this.countMinutes === 0 && this.countSeconds === 0)) {
-                        this.countSeconds--
-                        if (this.countSeconds < 0) {
-                            this.countMinutes--
-                            this.countSeconds = 59
-                        }
-                        if (this.countMinutes < 0) {
-                            this.countHours--
-                            this.countMinutes = 59
-                        }
-                        if (this.countHours < 0) {
-                            this.countDays--
-                            this.countHours = 23
+                    if (this.isRunning) {
+                        if (!(this.countDays === 0 && this.countHours === 0 && this.countMinutes === 0 && this.countSeconds === 0)) {
+                            this.countSeconds--
+                            if (this.countSeconds < 0) {
+                                this.countMinutes--
+                                this.countSeconds = 59
+                            }
+                            if (this.countMinutes < 0) {
+                                this.countHours--
+                                this.countMinutes = 59
+                            }
+                            if (this.countHours < 0) {
+                                this.countDays--
+                                this.countHours = 23
+                            }
+                        } else {
+                            this.isRunning = false
                         }
                     }
                 }, 1000)
@@ -51,7 +62,8 @@ export default {
 </script>
 
 <template>
-<span class="countdown font-mono text-2xl">
+<div v-if="!isLoaded" class="h-5 w-52 skeleton inline-block"></div>
+<span v-if="isRunning && isLoaded" class="countdown font-mono text-xl">
     <span :style="'--value:' + countDays + ';'"></span>d:
     <span :style="'--value:' + countHours + ';'"></span>h:
     <span :style="'--value:' + countMinutes + ';'"></span>m:

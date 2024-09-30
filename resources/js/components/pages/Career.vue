@@ -42,7 +42,7 @@ export default {
         <div class="flex flex-row flex-wrap justify-center">
             <router-link to="">
                 <div
-                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tl from-cyan-200 to-purple-200 hover:scale-105 transition">
+                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-cyan-300 to-purple-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
                     <i class="fa-solid fa-file-pen text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
                     <h1 class="text-xl font-semibold">Start build your CV now</h1>
                     <p>Our powerful CV Builder will help you create beautiful CV</p>
@@ -50,7 +50,7 @@ export default {
             </router-link>
             <router-link to="">
                 <div
-                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tl from-pink-200 to-green-200 hover:scale-105 transition">
+                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-pink-300 to-green-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
                     <i class="fa-solid fa-wand-magic-sparkles text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
                     <h1 class="text-xl font-semibold">Specialize your CV</h1>
                     <p>Making your CV to be the special & unique Developer CV!</p>
@@ -58,7 +58,7 @@ export default {
             </router-link>
             <router-link to="">
                 <div
-                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-br from-purple-200 to-amber-200 hover:scale-105 transition">
+                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-purple-300 to-amber-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
                     <i class="fa-solid fa-face-smile text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
                     <h1 class="text-xl font-semibold">Test your personalities</h1>
                     <p>Explore suitable jobs through your personalities!</p>
@@ -66,7 +66,7 @@ export default {
             </router-link>
             <router-link to="">
                 <div
-                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-br from-lime-200 to-violet-200 hover:scale-105 transition">
+                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-lime-300 to-violet-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
                     <i class="fa-solid fa-keyboard text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
                     <h1 class="text-xl font-semibold">Internship Opportunities</h1>
                     <p>Earn an internship allowance throughout the program.</p>
@@ -74,7 +74,7 @@ export default {
             </router-link>
             <router-link to="">
                 <div
-                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-purple-200 to-green-200 hover:scale-105 transition">
+                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-cyan-300 to-lime-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
                     <i class="fa-solid fa-comments text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
                     <h1 class="text-xl font-semibold">Interview Questions</h1>
                     <p>Learn interview techniques for job success.</p>

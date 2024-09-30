@@ -12,7 +12,7 @@ class ContestService
     }
 
     public function getById($id) {
-        return Contest::where("id", $id)->first();
+        return Contest::where("id", $id)->with('problems')->first();
     }
 
     public function getForLanding() {

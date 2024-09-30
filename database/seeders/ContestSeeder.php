@@ -21,21 +21,21 @@ class ContestSeeder extends Seeder
                 'description' => 'Hehe boi',
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW7S24aqeMJVm-ofv0JGjUFakDXJeV6WpJfQ&s',
                 'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
-                'end_date' => Carbon::create(2024, 9, 30, 18, 15, 00),
+                'end_date' => Carbon::create(2024, 10, 18, 18, 15, 00),
             ],
             [
                 'title' => 'ZoBoi Hackathon Aishh',
                 'description' => 'Hehe boi',
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThHzVwYwhZph2gph0cCeoP-d6nj3aB-ZogMA&s',
                 'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
-                'end_date' => Carbon::create(2024, 9, 30, 22, 10, 00),
+                'end_date' => Carbon::create(2024, 10, 10, 22, 10, 00),
             ],
             [
                 'title' => 'CMS Hackathon numberthon',
                 'description' => 'Hehe boi',
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI6FdZ-KcBkNiy0cBtPZaYWKtmTajsmOtehQ&s',
                 'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
-                'end_date' => Carbon::create(2024, 9, 30, 12, 30, 00),
+                'end_date' => Carbon::create(2024, 10, 15, 12, 30, 00),
             ]
         ];
 
@@ -159,6 +159,21 @@ class ContestSeeder extends Seeder
                 'problem_id' => 6,
                 'stdin' => '25 25 25 25',
                 'expected_output' => '100'
+            ],
+            [
+                'problem_id' => 7,
+                'stdin' => '4 5',
+                'expected_output' => '9'
+            ],
+            [
+                'problem_id' => 7,
+                'stdin' => '10 5',
+                'expected_output' => '15'
+            ],
+            [
+                'problem_id' => 7,
+                'stdin' => '7 1',
+                'expected_output' => '8'
             ],
             [
                 'problem_id' => 8,

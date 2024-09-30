@@ -4,10 +4,11 @@ import Countdown from "@/components/countdowns/Countdown.vue";
 import BaseCountDown from "@/components/countdowns/BaseCountDown.vue";
 import ContestCodePanel from "@/components/pages/ContestCodePanel.vue";
 import {HTTP} from "@/http-common.js";
+import ContestProblemTab from "@/components/listItems/ContestProblemTab.vue";
 
 export default {
     name: "ContestPanel",
-    components: {ContestCodePanel, BaseCountDown, Countdown, CodePanel},
+    components: {ContestProblemTab, ContestCodePanel, BaseCountDown, Countdown, CodePanel},
     data: function () {
         return {
             title: 'Contest',
@@ -15,6 +16,7 @@ export default {
             hours: 1,
             minutes: 1,
             seconds: 1,
+            problems: [],
             isLoaded: false
         }
     },
@@ -28,6 +30,7 @@ export default {
                 _this.hours = response.data.remainingTime.hours;
                 _this.minutes = response.data.remainingTime.minutes;
                 _this.seconds = response.data.remainingTime.seconds;
+                _this.problems = response.data.problems;
                 _this.isLoaded = true
             })
             .catch(error => {
@@ -50,24 +53,17 @@ export default {
             <div class="h-full flex flex-wrap flex-col justify-center">
                 <span class="w-full text-end">
                     <router-link to="#"
-                                 class="p-4 rounded-xl bg-primary hover:bg-cyan-700 w-20 text-center text-base-200 font-semibold transition shadow-xl">Submit</router-link>
+                                 class="p-3.5 rounded-xl bg-primary hover:bg-cyan-700 w-20 text-center text-base-200 font-semibold transition shadow-xl">FINISH</router-link>
                 </span>
             </div>
         </div>
-        <div class="divider"></div>
+        <div class="divider my-2"></div>
         <div role="tablist" class="tabs tabs-bordered w-full">
-            <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Problem 1" checked="checked"/>
-            <div role="tabpanel" class="tab-content">
-                <ContestCodePanel :contestId="this.$route.params.c_id" :problemId="1"></ContestCodePanel>
-            </div>
-            <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Problem 2"/>
-            <div role="tabpanel" class="tab-content">
-                <ContestCodePanel :contestId="this.$route.params.c_id" :problemId="2"></ContestCodePanel>
-            </div>
-            <input type="radio" name="my_tabs_1" role="tab" class="tab" aria-label="Problem 3"/>
-            <div role="tabpanel" class="tab-content">
-                <ContestCodePanel :contestId="this.$route.params.c_id" :problemId="3"></ContestCodePanel>
-            </div>
+            <ContestProblemTab v-for="(problem, index) in problems"
+                               :name="'code-tab'" :index="index"
+                               :contestId="this.$route.params.c_id"
+                               :problemId="problem.id"
+                               :tabName="'Problem'"></ContestProblemTab>
         </div>
 
     </div>
