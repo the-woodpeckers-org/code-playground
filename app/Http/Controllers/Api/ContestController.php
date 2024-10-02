@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Services\ContestService;
-use Illuminate\Http\Request;
 
-class ContestController extends Controller
+class ContestController
 {
     private ContestService $service;
 

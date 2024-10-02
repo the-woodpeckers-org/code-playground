@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Services\CodeExecutionService;
 use Illuminate\Http\Request;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-use Symfony\Component\Process\Process;
 
-class CodeExecutionController extends Controller
+class CodeExecutionController
 {
 
     private CodeExecutionService $service;

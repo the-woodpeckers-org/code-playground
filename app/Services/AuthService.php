@@ -19,7 +19,9 @@ class AuthService
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return response()->json(['user' => Auth::user()]);
+            $user = Auth::user();
+            $token = $user->createToken('token')->plainTextToken;
+            return response()->json(['user' => $user, 'token' => $token]);
         }
         throw new NotFoundHttpException('User not found!');
     }
