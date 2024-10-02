@@ -19,7 +19,7 @@ export default {
                 password: _this.input_password
             }).then(function (response) {
                 _this.$root.auth = response.data.user
-                _this.$router.go(-1)
+                localStorage.setItem('accessToken', response.data.token);
             }).catch(function (error) {
                 console.log(error)
                 if (error.response.data.errors) {

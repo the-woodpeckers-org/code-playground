@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\SubmitCodeFormRequest;
-use App\Responses\APIResponse;
 use App\Services\ProblemService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class ProblemController extends Controller
+class ProblemController
 {
     private ProblemService $service;
 
