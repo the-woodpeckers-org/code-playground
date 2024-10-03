@@ -23,6 +23,14 @@ class Problem extends Model
         'contest_id'
     ];
 
+    protected $appends = [
+        'testcases',
+    ];
+
+    public function getTestcasesAttribute() {
+        return Testcase::where('problem_id', $this->id)->get();
+    }
+
     public function testcases()
     {
         return $this->hasMany(Testcase::class, 'problem_id', 'id');

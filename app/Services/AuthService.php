@@ -23,7 +23,7 @@ class AuthService
             $token = $user->createToken('token')->plainTextToken;
             return response()->json(['user' => $user, 'token' => $token]);
         }
-        throw new NotFoundHttpException('User not found!');
+        return response()->json(['message' => 'Unauthorized'], 401);
     }
 
     public function register(RegisterFormRequest $request)

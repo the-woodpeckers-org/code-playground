@@ -2,6 +2,7 @@
 import Testcase from "@/components/listItems/Testcase.vue";
 import TestcaseList from "@/components/listItems/TestcaseList.vue";
 import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
+import {HTTP} from "@/http-common.js";
 
 export default {
     name: "CodePanel",
@@ -21,6 +22,7 @@ export default {
             isCompiling: false,
             isSubmitting: false,
             isCompileError: false,
+            isBelongsToContest: false
         }
     },
     methods: {
@@ -60,7 +62,7 @@ export default {
             let _this = this
             let editor = ace.edit('editor')
             _this.isSubmitting = true
-            axios.post('/api/submit', {
+            HTTP.post('/api/submit', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
                 problem_id: _this.$route.params.id
@@ -75,23 +77,32 @@ export default {
         },
         onload() {
             let _this = this
-            _this.passedTestcases = 0
             let editor = ace.edit('editor')
             editor.setTheme('ace/theme/monokai')
             editor.session.setMode('ace/mode/c_cpp')
-            axios.get('/api/getProblem/' + _this.$route.params.id)
+
+            _this.passedTestcases = 0
+
+            let _url = '/api/problem/get?id=' + _this.$route.params.id;
+            if (this.$root.auth) {
+                _url = '/api/problem/get/u?id=';
+            }
+            HTTP.get(_url + _this.$route.params.id)
                 .then(function (response) {
                     console.log(response)
-                    _this.description = response.data.problem.description
-                    _this.title = response.data.problem.title
-                    _this.testcases = response.data.problem.testcases
+                    _this.description = response.data.description
+                    _this.title = response.data.title
+                    _this.testcases = response.data.testcases
                     _this.loading = true
-                    if (response.data.problem.passed_at) {
+                    if (response.data.passed_at) {
                         _this.isPassed = true
-                        _this.passedDate = response.data.problem.passed_at
+                        _this.passedDate = response.data.passed_at
                     }
-                    if (response.data.problem.code !== null) {
-                        editor.setValue(response.data.problem.code, 1)
+                    if (response.data.contestId) {
+                        _this.isBelongsToContest = true
+                    }
+                    if (response.data.code !== null) {
+                        editor.setValue(response.data.code, 1)
                     }
                 })
                 .catch(function (error) {
@@ -173,7 +184,7 @@ export default {
                                 <span id="error-msg">x</span>
                             </div>
                         </div>
-                        <div class="mt-3" v-if="isPassed && contestId === null">
+                        <div class="mt-3" v-if="isPassed && !isBelongsToContest">
                             <p class="font-semibold text-green-600">You have already solved this problem at
                                 {{ this.passedDate }} &#128512;</p>
                         </div>

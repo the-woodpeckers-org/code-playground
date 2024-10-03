@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Models\Contest;
+use Illuminate\Http\Request;
 
 class ContestService
 {
-    public function getAll()
+    public function getAll(Request $request)
     {
-
+        return Contest::paginate(16);
     }
 
     public function getById($id) {

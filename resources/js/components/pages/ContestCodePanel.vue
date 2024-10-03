@@ -102,12 +102,12 @@ export default {
             let editor = ace.edit('editor' + '-' + this.problemId)
             editor.setTheme('ace/theme/monokai')
             editor.session.setMode('ace/mode/c_cpp')
-            axios.get('/api/getProblem/' + this.problemId)
+            axios.get('/api/problem/get?id=' + this.problemId)
                 .then(function (response) {
                     console.log(response)
-                    _this.description = response.data.problem.description
-                    _this.title = response.data.problem.title
-                    _this.testcases = response.data.problem.testcases
+                    _this.description = response.data.description
+                    _this.title = response.data.title
+                    _this.testcases = response.data.testcases
                     _this.loading = true
                 })
                 .catch(function (error) {

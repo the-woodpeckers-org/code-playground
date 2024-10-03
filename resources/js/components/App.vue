@@ -9,7 +9,7 @@ export default {
     components: {Footer, Header},
     data() {
         return {
-            auth: window.auth
+            auth: Object
         }
     },
     methods: {

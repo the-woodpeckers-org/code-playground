@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Services\ContestService;
+use Illuminate\Http\Request;
 
 class ContestController
 {
@@ -18,5 +19,13 @@ class ContestController
 
     public function getLanding() {
         return response()->json($this->service->getForLanding());
+    }
+
+    public function getAll(Request $request) {
+        return response()->json($this->service->getAll($request));
+    }
+
+    public function participate(Request $request) {
+        return response()->json($request->user());
     }
 }

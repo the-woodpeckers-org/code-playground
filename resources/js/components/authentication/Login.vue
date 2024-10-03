@@ -20,6 +20,7 @@ export default {
             }).then(function (response) {
                 _this.$root.auth = response.data.user
                 localStorage.setItem('accessToken', response.data.token);
+                console.log(response);
             }).catch(function (error) {
                 console.log(error)
                 if (error.response.data.errors) {

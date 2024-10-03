@@ -22,7 +22,11 @@ export default {
     async created() {
         let _this = this
         setTimeout(async () => {
-            await axios.get('/api/getProblems')
+            let _url = '/api/problem'
+            if (this.$root.auth) {
+                _url = '/api/problem/u'
+            }
+            await HTTP.get(_url)
                 .then(function (response) {
                     _this.problems = response.data.data
                     _this.loading = true
@@ -31,14 +35,14 @@ export default {
                 .catch(function (error) {
                     alert(error)
                 })
-        }, 1000)
-        HTTP.get('api/contest/landing')
-            .then(response => {
-                _this.contests = response.data;
-            })
-            .catch(error => {
+            await HTTP.get('api/contest/landing')
+                .then(response => {
+                    _this.contests = response.data;
+                })
+                .catch(error => {
 
-            })
+                })
+        }, 1000)
     }
 }
 </script>
