@@ -19,11 +19,6 @@
 </head>
 <body id="app" class="bg-tertiary">
 @vite('resources/js/app.js')
-@if (Auth::check())
-    <script>window.auth = {!! json_encode(Auth::user()) !!}</script>
-@else
-    <script>window.auth = null</script>
-@endif
 <script src="{{asset('js/lib/ace.js')}}"></script>
 <script src="{{asset('js/lib/theme-monokai.js')}}"></script>
 </body>

@@ -18,6 +18,6 @@ class Testcase extends Model
     ];
 
     public function problem() {
-        return $this->belongsTo(Problem::class);
+        return $this->belongsTo(Problem::class, 'problem_id', 'id');
     }
 }
