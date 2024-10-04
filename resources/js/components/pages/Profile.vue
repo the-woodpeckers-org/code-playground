@@ -1,13 +1,42 @@
 <script>
 export default {
-    name: "Profile"
+    name: "Profile",
+    data: function()
+    {
+            return {
+                up_image : Image
+            }
+    },
+    methods:{
+        upload()
+        {
+            
+        }        
+    }
 }
 </script>
 
 <template>
-
+    <form action="/upload" class="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
+        <div class="flex justify-center">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s"
+                alt="Profile Picture" class="w-32 h-32 rounded-full border-2 border-gray-300">
+        </div>
+        <div class="text-center">
+            <input type="file" class="block w-full text-sm text-slate-500
+                file:mr-4 file:py-2 file:px-4
+                file:rounded-full file:border-0
+                file:text-sm file:font-semibold
+                file:bg-violet-50 file:text-violet-700
+                hover:file:bg-violet-100">
+        </div>
+        <div class="text-center">
+            <button
+                class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                Save
+            </button>
+        </div>
+    </form>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
