@@ -5,8 +5,8 @@ export default {
             let _this = this
             axios.get('/api/logout')
                 .then(function (response) {
-                    _this.$root.auth = null
-                    localStorage.setItem('accessToken', null);
+                    _this.$root.auth = undefined
+                    localStorage.clear();
                 })
                 .catch(function (error) {
 

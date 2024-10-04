@@ -15,18 +15,20 @@ export default {
         }
     },
     methods: {},
-    beforeCreate() {
+    created() {
         let _this = this;
-        console.log('heybro')
         console.log(localStorage.accessToken)
         if (localStorage.accessToken) {
             this.auth = HTTP.get('/api/auth/get')
                 .then((response) => {
-                    _this.auth = response.data;
-                    console.log(response);
+                    if (response.data.id) {
+                        _this.auth = response.data;
+                        console.log(response);
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
+                    localStorage.clear();
                 });
         }
     }

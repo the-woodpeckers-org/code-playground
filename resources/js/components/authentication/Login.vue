@@ -21,7 +21,7 @@ export default {
                 console.log(response.data);
                 _this.$root.auth = response.data.user
                 localStorage.setItem('accessToken', response.data.token);
-
+                window.location.href = '/';
             }).catch(function (error) {
                 console.log(error)
                 if (error.response.data.errors) {
