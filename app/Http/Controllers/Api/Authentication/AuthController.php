@@ -25,12 +25,12 @@ class AuthController
         return $this->service->register($request);
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
         return $this->service->logout();
     }
 
-    public function getAuthenticatedUser() {
-        return $this->service->getAuthenticatedUser();
+    public function getAuthenticatedUser(Request $request) {
+        return $this->service->getAuthenticatedUser($request);
     }
 }

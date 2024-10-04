@@ -27,6 +27,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/submit', [ProblemController::class, 'submit'])->name('problem.submit');
     Route::get('/problem/u', [ProblemController::class, 'getProblemsU'])->name('problem.getProblemsU');
     Route::get('/problem/get/u', [ProblemController::class, 'getProblemU'])->name('problem.getProblemU');
+    Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
 });
 
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');
