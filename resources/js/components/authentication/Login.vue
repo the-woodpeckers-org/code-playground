@@ -18,9 +18,10 @@ export default {
                 email: _this.input_email,
                 password: _this.input_password
             }).then(function (response) {
+                console.log(response.data);
                 _this.$root.auth = response.data.user
                 localStorage.setItem('accessToken', response.data.token);
-                console.log(response);
+
             }).catch(function (error) {
                 console.log(error)
                 if (error.response.data.errors) {

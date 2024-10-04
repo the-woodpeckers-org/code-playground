@@ -9,6 +9,7 @@ use App\Responses\APIResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -47,14 +48,11 @@ class AuthService
 
     public function logout()
     {
-        Auth::logout();
+        return response()->json('ok bro');
     }
 
-    public function getAuthenticatedUser()
+    public function getAuthenticatedUser(Request $request)
     {
-        if (Auth::check()) {
-            return response()->json(['user' => Auth::user()]);
-        }
-        throw new NotFoundHttpException('User not found!');
+        return response()->json(User::where('id', $request->user()->id)->first());
     }
 }

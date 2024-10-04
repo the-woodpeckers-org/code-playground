@@ -23,24 +23,25 @@ export default {
         let _this = this
         setTimeout(async () => {
             let _url = '/api/problem'
-            if (this.$root.auth) {
+            if (_this.$root.auth) {
                 _url = '/api/problem/u'
             }
             await HTTP.get(_url)
                 .then(function (response) {
                     _this.problems = response.data.data
                     _this.loading = true
-                    console.log(_this.problems)
+                    console.log(response.data)
                 })
                 .catch(function (error) {
-                    alert(error)
+                    console.log(error)
                 })
             await HTTP.get('api/contest/landing')
                 .then(response => {
                     _this.contests = response.data;
+                    console.log(response)
                 })
                 .catch(error => {
-
+                    console.log(error)
                 })
         }, 1000)
     }
