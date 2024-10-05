@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Services\ParticipantService;
+use App\Services\ParticipationService;
 use Illuminate\Http\Request;
 
 class ParticipationController
 {
-    private ParticipantService $service;
-    public function __construct(ParticipantService $service) {
+    private ParticipationService $service;
+    public function __construct(ParticipationService $service) {
         $this->service = $service;
     }
 

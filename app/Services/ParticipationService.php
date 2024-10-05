@@ -6,7 +6,7 @@ use App\Models\Participation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class ParticipantService
+class ParticipationService
 {
     public function participant(Request $request) {
         $participation = Participation::query();
