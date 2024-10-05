@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\CodeExecutionController;
 use App\Http\Controllers\Api\ProblemController;
 use App\Http\Controllers\Api\Authentication\AuthController;
 use App\Http\Controllers\Api\ContestController;
-
+use App\Http\Controllers\testController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -16,6 +16,8 @@ Route::post('/compile', [CodeExecutionController::class, 'compileCode'])->name('
 
 Route::get('/problem', [ProblemController::class, 'getProblems'])->name('problem.getProblems');
 Route::get('/problem/get', [ProblemController::class, 'getProblem'])->name('problem.getProblem');
+
+Route::post('/upload', [testController::class, 'upload'])->name('auth.upload');
 
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
