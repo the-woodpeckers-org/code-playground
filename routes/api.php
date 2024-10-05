@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\CodeExecutionController;
 use App\Http\Controllers\Api\ProblemController;
 use App\Http\Controllers\Api\Authentication\AuthController;
 use App\Http\Controllers\Api\ContestController;
-
+use App\Http\Controllers\Api\ParticipationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -28,6 +28,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/problem/u', [ProblemController::class, 'getProblemsU'])->name('problem.getProblemsU');
     Route::get('/problem/get/u', [ProblemController::class, 'getProblemU'])->name('problem.getProblemU');
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
+    Route::get('/participate', [ParticipationController::class, 'participate'])->name('participate.participate');
 });
 
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');

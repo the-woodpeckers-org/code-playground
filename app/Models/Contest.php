@@ -59,7 +59,7 @@ class Contest extends Model
         ];
     }
 
-    public function Problems()
+    public function problems()
     {
         return $this->hasMany(Problem::class, 'contest_id', 'id');
     }
