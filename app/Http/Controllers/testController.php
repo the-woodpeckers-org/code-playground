@@ -10,13 +10,16 @@ class testController
     public function upload(Request $request)
     {
         try {
-            if (!$request->hash_file('file')) {
-                return 'co file roi';
+            if (!$request->hasFile('file')) {
+                return response()->json(['error' => 'No file uploaded'], 400);
             }
-            $response = cloudinary()->upload($request->file('file')->getRealPath())->getSecurePath();         
-            return $response;
+            $file = $request->file('file');
+
+            $response = cloudinary()->upload($file->getRealPath())->getSecurePath();
+
+            return response()->json(['url' => $response], 200);
         } catch (\Exception $e) {
-            return $e . "loi";
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }
