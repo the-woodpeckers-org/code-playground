@@ -1,5 +1,10 @@
 <script>
 export default {
+    data: function () {
+        return {
+            isMenuOpen: false
+        }
+    },
     methods: {
         logout() {
             let _this = this
@@ -11,9 +16,14 @@ export default {
                 .catch(function (error) {
 
                 })
+        },
+        OpenMenu() {
+            this.isMenuOpen = !this.isMenuOpen; 
         }
     }
+
 }
+
 </script>
 
 <template>
@@ -33,42 +43,54 @@ export default {
         <div class="flex-1 gap-10">
             <router-link class="text-xl" to="/">
                 <img src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726071143/CP-Photoroom_1_vl6kzc.png"
-                     class="h-12">
+                    class="h-12">
             </router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
-                Explore
-            </router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
-                Contests
-            </router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/courses">
-                Courses
-            </router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/challenges">
-                Challenges
-            </router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
-                Problems
-            </router-link>
-            <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
-                Career
-            </router-link>
+            <div class="hidden lg:flex space-x-4">
+                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
+                    Explore
+                </router-link>
+                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
+                    Contests
+                </router-link>
+                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/courses">
+                    Courses
+                </router-link>
+                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl"
+                    to="/challenges">
+                    Challenges
+                </router-link>
+                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
+                    Problems
+                </router-link>
+                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
+                    Career
+                </router-link>
+            </div>
+        
         </div>
+        <div class="lg:hidden items-center">
+                <button @click="OpenMenu" class="text-white focus:outline-none hover:bg-gray-600 transition rounded-3xl">
+                    <!-- đổi cái hình khác -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
         <div class="flex-none gap-2">
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
-                        <img v-if="$root.auth"
-                             alt="Avatar"
-                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s"
-                             loading="lazy"/>
+                        <img v-if="$root.auth" alt="Avatar"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s"
+                            loading="lazy" />
                         <img v-if="!$root.auth" alt="Avatar"
-                             src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
-                             loading="lazy">
+                            src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                            loading="lazy">
                     </div>
                 </div>
-                <ul
-                    tabindex="0"
+                <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                     <li v-if="$root.auth">
                         <router-link class="text-base" to="/profile">Profile</router-link>
@@ -88,6 +110,27 @@ export default {
             </div>
         </div>
     </div>
+    <div v-if="isMenuOpen" class="lg:hidden menu">
+        <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
+            Explore
+        </router-link>
+        <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
+            Contests
+        </router-link>
+        <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/courses">
+            Courses
+        </router-link>
+        <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/challenges">
+            Challenges
+        </router-link>
+        <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
+            Problems
+        </router-link>
+        <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
+            Career
+        </router-link>
+    </div>
 </template>
 <script setup>
+
 </script>
