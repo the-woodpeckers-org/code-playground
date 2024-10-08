@@ -40,7 +40,7 @@ export default {
         </div>
         <h1 class="text-xl font-semibold my-3">Let's "level-up" your profile! &#127775;</h1>
         <div class="flex flex-row flex-wrap justify-center">
-            <router-link to="">
+            <router-link to="/MyCv">
                 <div
                     class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-cyan-300 to-purple-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
                     <i class="fa-solid fa-file-pen text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
