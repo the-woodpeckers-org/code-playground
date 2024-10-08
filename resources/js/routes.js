@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
+import MyCVPanel from "./components/pages/MyCVPanel.vue";
 const CodePanel = () => import("@/components/pages/CodePanel.vue");
 const Landing = () => import("@/components/pages/Landing.vue");
 const Login = () => import("@/components/authentication/Login.vue");
@@ -101,6 +102,11 @@ const routes = [
         path: '/:pathMatch(.*)*',
         component: NotFound,
         name: 'notfound'
+    },
+    {
+        path:'/MyCv',
+        component: MyCVPanel,
+        name:'MyCv'
     }
 ]
 

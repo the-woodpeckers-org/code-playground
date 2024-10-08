@@ -5,7 +5,7 @@ export default {
             isMenuOpen: false
         }
     },
-    methods: {
+    methods: { 
         logout() {
             let _this = this
             axios.get('/api/logout')

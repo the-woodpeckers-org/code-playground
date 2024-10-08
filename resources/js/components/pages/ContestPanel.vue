@@ -56,6 +56,7 @@ export default {
                 </span>
             </div>
         </div>
+  
         <div class="divider my-2"></div>
         <div role="tablist" class="tabs tabs-bordered w-full">
             <ContestProblemTab v-for="(problem, index) in problems"
