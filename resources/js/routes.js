@@ -88,7 +88,7 @@ const routes = [
         name: 'contest-detail'
     },
     {
-        path: '/contest/:c_id/participate',
+        path: '/contest/participate/:c_id',
         component: ContestPanel,
         name: 'contest-participate'
     },

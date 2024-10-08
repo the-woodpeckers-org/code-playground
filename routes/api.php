@@ -26,13 +26,13 @@ Route::post('/register', [AuthController::class, 'register'])->name('auth.regist
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::get('/contest/get/{id}', [ContestController::class, 'get'])->name('contest.get');
-    Route::get('/contest/{id}/participate', [ContestController::class, 'participate'])->name('contest.participate');
+    Route::get('/contest/get', [ContestController::class, 'get'])->name('contest.get');
     Route::post('/submit', [ProblemController::class, 'submit'])->name('problem.submit');
     Route::get('/problem/u', [ProblemController::class, 'getProblemsU'])->name('problem.getProblemsU');
     Route::get('/problem/get/u', [ProblemController::class, 'getProblemU'])->name('problem.getProblemU');
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
     Route::get('/participate', [ParticipationController::class, 'participate'])->name('participate.participate');
+    Route::post('/submit/participation', [ProblemController::class, 'submitParticipation'])->name('problem.submitParticipation');
 });
 
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');

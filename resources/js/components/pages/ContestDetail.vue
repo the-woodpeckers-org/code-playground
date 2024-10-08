@@ -19,7 +19,7 @@ export default {
     },
     beforeMount() {
         let _this = this;
-        HTTP.get('/api/contest/get/' + this.$route.params.c_id)
+        HTTP.get('/api/contest/get?id=' + this.$route.params.c_id)
             .then(function (response) {
                 console.log(response.data);
                 console.log(response.data.remainingTime)
@@ -73,7 +73,7 @@ export default {
                         <p class="border bg-base-100 px-2 m-1">Window Slider</p>
                     </div>
                     <div v-if="isEnded === false" class="flex flex-row flex-wrap justify-center mt-6">
-                        <router-link :to="'/contest/' + this.$route.params.c_id + '/participate'"
+                        <router-link :to="'/contest/participate/' + this.$route.params.c_id"
                                      class="shadow-xl hover:bg-cyan-700 bg-primary p-2 font-semibold text-lg text-white rounded-xl transition">
                             Set me in!
                         </router-link>

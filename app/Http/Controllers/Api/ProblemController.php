@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\SubmitCodeFormRequest;
+use App\Http\Requests\SubmitCodeParticipationFormRequest;
 use App\Services\ProblemService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -30,7 +31,8 @@ class ProblemController
         return response()->json($result);
     }
 
-    public function getProblemsU(Request $request) {
+    public function getProblemsU(Request $request)
+    {
         $result = $this->service->getAllU($request);
         return response()->json($result);
     }
@@ -48,4 +50,16 @@ class ProblemController
     {
         return $this->service->submitProblem($request);
     }
+
+    public function submitParticipate(SubmitCodeParticipationFormRequest $request)
+    {
+
+    }
+
+    /*
+    #include <iostream>
+    int main() {
+        std::cout << "HH";
+    }
+    */
 }
