@@ -19,12 +19,17 @@ class Participation extends Model
     ];
 
     protected $appends = [
-        'problems'
+        'problems',
+        'contest'
     ];
 
     public function getProblemsAttribute()
     {
         return Contest::where('id', $this->contest_id)->first()->problems()->get();
+    }
+
+    public function getContestAttribute() {
+        return Contest::where('id', $this->contest_id)->first();
     }
 
     public function user() {
@@ -36,6 +41,6 @@ class Participation extends Model
     }
 
     public function contest() {
-        return $this->belongsTo(Contest::class, 'id', 'contest_id');
+        return $this->belongsTo(Contest::class, 'contest_id', 'id');
     }
 }

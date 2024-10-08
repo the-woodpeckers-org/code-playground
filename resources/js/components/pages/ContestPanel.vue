@@ -22,14 +22,13 @@ export default {
     },
     mounted() {
         let _this = this;
-        HTTP.get('api/contest/get/' + this.$route.params.c_id)
+        HTTP.get('api/participate?id=' + _this.$route.params.c_id)
             .then(response => {
-                console.log(response.data.remainingTime)
-                _this.title = response.data.title;
-                _this.days = response.data.remainingTime.days;
-                _this.hours = response.data.remainingTime.hours;
-                _this.minutes = response.data.remainingTime.minutes;
-                _this.seconds = response.data.remainingTime.seconds;
+                _this.title = response.data.contest.title;
+                _this.days = response.data.contest.remainingTime.days;
+                _this.hours = response.data.contest.remainingTime.hours;
+                _this.minutes = response.data.contest.remainingTime.minutes;
+                _this.seconds = response.data.contest.remainingTime.seconds;
                 _this.problems = response.data.problems;
                 _this.isLoaded = true
             })

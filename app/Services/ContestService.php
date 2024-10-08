@@ -12,8 +12,8 @@ class ContestService
         return Contest::paginate(16);
     }
 
-    public function getById($id) {
-        return Contest::where("id", $id)->with('problems')->first();
+    public function getById(Request $request) {
+        return Contest::where("id", $request->id)->first();
     }
 
     public function getForLanding() {

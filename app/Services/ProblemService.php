@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\SubmitCodeFormRequest;
+use App\Http\Requests\SubmitCodeParticipationFormRequest;
 use App\Models\Attempt;
 use App\Models\Problem;
 use Carbon\Carbon;
@@ -79,6 +80,14 @@ class ProblemService
             $attempt->save();
             return response()->json(['message' => 'Problem submitted!']);
         }
-        return new BadRequestHttpException('Check your authentication!');
+        return new BadRequestHttpException('Unauthenticated');
+    }
+
+    public function submitParticipationProblem(SubmitCodeParticipationFormRequest $request)
+    {
+        if ($request->user()) {
+
+        }
+        return new BadRequestHttpException('Unauthenticated');
     }
 }

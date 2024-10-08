@@ -13,8 +13,8 @@ class ContestController
         $this->service = $service;
     }
 
-    public function get($id) {
-        return response()->json($this->service->getById($id));
+    public function get(Request $request) {
+        return response()->json($this->service->getById($request));
     }
 
     public function getLanding() {

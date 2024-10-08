@@ -48,36 +48,37 @@ export default {
     },
     methods: {
         async compile() {
-            // let _this = this
-            // let editor = ace.edit('editor')
-            // _this.isCompiling = true
-            // _this.isCompileError = false
-            // axios.post('/api/compile', {
-            //     _token: document.querySelector('meta[name="csrf-token"]').content,
-            //     code: editor.getSession().getValue(),
-            //     language: document.getElementById('language').value,
-            //     problem_id: _this.$route.params.id
-            // }).then(function (response) {
-            //     _this.isCompiling = false
-            //     if (response.data.succeed == false) {
-            //         console.log(response)
-            //         _this.isCompileError = true
-            //         document.getElementById('error-msg').innerText = response.data.output;
-            //     } else {
-            //         _this.run = true
-            //         _this.runData = response.data.output
-            //         _this.passedTestcases = response.data.passedTestcases
-            //         if (_this.passedTestcases === _this.testcases.length) {
-            //             document.getElementById('submit-btn').disabled = false
-            //         } else {
-            //             document.getElementById('submit-btn').disabled = true
-            //         }
-            //     }
-            // }).catch(function (error) {
-            //     console.log(error)
-            //     _this.isCompiling = false
-            //     alert(error)
-            // })
+            let _this = this
+            let editor = ace.edit('editor-' + _this.problemId)
+            _this.isCompiling = true
+            _this.isCompileError = false
+            axios.post('/api/compile', {
+                _token: document.querySelector('meta[name="csrf-token"]').content,
+                code: editor.getSession().getValue(),
+                language: document.getElementById('language-' + _this.problemId).value,
+                problem_id: _this.problemId
+            }).then(function (response) {
+                _this.isCompiling = false
+                if (response.data.succeed == false) {
+                    console.log(response)
+                    _this.isCompileError = true
+                    document.getElementById('error-msg-' + _this.problemId).innerText = response.data.output;
+                } else {
+                    _this.run = true
+                    _this.runData = response.data.output
+                    _this.passedTestcases = response.data.passedTestcases
+                    console.log(response)
+                    // if (_this.passedTestcases === _this.testcases.length) {
+                    //     document.getElementById('submit-btn').disabled = false
+                    // } else {
+                    //     document.getElementById('submit-btn').disabled = true
+                    // }
+                }
+            }).catch(function (error) {
+                console.log(error)
+                _this.isCompiling = false
+                alert(error)
+            })
         },
         async submit() {
             // let _this = this
@@ -157,7 +158,7 @@ export default {
                 </div>
                 <div class="col-span-6 mx-1">
                     <label for="language">Select language: </label>
-                    <select id="language" name="language" class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
+                    <select :id="'language-' + problemId" name="language" class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
                         <option value="cpp">C++</option>
                         <option value="c">C</option>
                         <option value="python">Python</option>
@@ -185,7 +186,7 @@ export default {
                         </button>
                         <div class="mt-3 transition" :class="{ 'hidden' : !isCompileError }">
                             <div class="alert alert-error">
-                                <span id="error-msg">x</span>
+                                <span :id="'error-msg-' + problemId">x</span>
                             </div>
                         </div>
                         <div class="mt-3" v-if="isPassed && contestId === null">
