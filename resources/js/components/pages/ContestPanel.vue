@@ -27,12 +27,25 @@ export default {
     methods: {
         updateFinishedProblemCount() {
             this.finishedProblemCount++;
-            console.log(this.finishedProblemCount);
+        },
+        async finish() {
+            let _this = this;
+            HTTP.post('/api/participate/finish', {
+                id: _this.participationId,
+                finishedProblems: _this.finishedProblemCount
+            })
+                .then(response => {
+                    console.log(response);
+                    window.location.href = '/participate/result/' + _this.participationId
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         }
     },
     mounted() {
         let _this = this;
-        HTTP.get('api/participate?id=' + _this.$route.params.c_id)
+        HTTP.get('/api/participate?id=' + _this.$route.params.c_id)
             .then(response => {
                 _this.title = response.data.contest.title;
                 _this.days = response.data.contest.remainingTime.days;
@@ -53,13 +66,19 @@ export default {
 </script>
 
 <template>
-    <dialog id="full_problems" class="modal" :class="{ 'modal-open' : finishedProblemCount === totalProblem && !isModalClosing }">
+    <dialog id="full_problems" class="modal"
+            :class="{ 'modal-open' : finishedProblemCount === totalProblem && !isModalClosing }">
         <div class="modal-box">
             <h3 class="text-lg font-bold"></h3>
-            <p class="py-4">You have finished all the problems of this contest. Great performance. Do you want to finish now?</p>
+            <p class="py-4">You have finished all the problems of this contest. Great performance. Do you want to finish
+                now?</p>
             <div class="modal-action">
                 <form method="dialog">
-                    <button class="btn btn-sm w-16 bg-amber-400 hover:bg-amber-600 transition" @click="isModalClosing = true">Ok
+                    <button class="btn btn-sm w-16 bg-amber-400 hover:bg-amber-600 transition"
+                            @click="isModalClosing = true">Yes
+                    </button>
+                    <button class="btn btn-sm w-16 bg-amber-400 hover:bg-amber-600 transition"
+                            @click="isModalClosing = true">No
                     </button>
                 </form>
             </div>
@@ -77,14 +96,17 @@ export default {
             <div class="h-full flex flex-wrap flex-col justify-center">
                 <span class="w-full text-end">
                     <router-link to="#"
-                                 class="p-3.5 rounded-xl bg-primary hover:bg-cyan-700 w-20 text-center text-base-200 font-semibold transition shadow-xl">FINISH</router-link>
+                                 class="p-3.5 rounded-xl bg-primary hover:bg-cyan-700 w-20 text-center text-base-200 font-semibold transition shadow-xl"
+                                 role="button"
+                                 @click="finish">FINISH</router-link>
                 </span>
             </div>
         </div>
-  
+
         <div class="divider my-2"></div>
         <div role="tablist" class="tabs tabs-bordered w-full">
-            <ContestProblemTab @isPassed="updateFinishedProblemCount" v-if="participationId" v-for="(problem, index) in problems"
+            <ContestProblemTab @isPassed="updateFinishedProblemCount" v-if="participationId"
+                               v-for="(problem, index) in problems"
                                :name="'code-tab'" :index="index"
                                :contestId="this.$route.params.c_id"
                                :problemId="problem.id"

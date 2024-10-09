@@ -27,14 +27,18 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/contest/get', [ContestController::class, 'get'])->name('contest.get');
-    Route::post('/submit', [ProblemController::class, 'submit'])->name('problem.submit');
     Route::get('/problem/u', [ProblemController::class, 'getProblemsU'])->name('problem.getProblemsU');
     Route::get('/problem/get/u', [ProblemController::class, 'getProblemU'])->name('problem.getProblemU');
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
     Route::get('/participate', [ParticipationController::class, 'participate'])->name('participate.participate');
-    Route::post('/submit/participation', [ProblemController::class, 'submitParticipation'])->name('problem.submitParticipation');
     Route::get('/participate/problem', [ProblemController::class, 'getParticipationProblem'])->name('problem.getProblemParticipation');
+    Route::post('/submit', [ProblemController::class, 'submit'])->name('problem.submit');
+    Route::post('/submit/participation', [ProblemController::class, 'submitParticipation'])->name('problem.submitParticipation');
+    Route::post('/participate/finish', [ParticipationController::class, 'finish'])->name('participate.finish');
+    Route::get('/participate/get', [ParticipationController::class, 'getParticipationU'])->name('participate.getParticipationU');
 });
+
+
 
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');
 Route::get('/contest/', [ContestController::class, 'getAll'])->name('contest.getAll');

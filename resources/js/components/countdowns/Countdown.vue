@@ -22,13 +22,10 @@ export default {
             countMinutes: this.minutes,
             countSeconds: this.seconds,
             isRunning: true,
-            isLoaded: false
         }
     },
     mounted() {
-        setTimeout(() => {
-            this.isLoaded = true
-        }, 500);
+
     },
     watch: {
         countSeconds: {
@@ -62,8 +59,7 @@ export default {
 </script>
 
 <template>
-<div v-if="!isLoaded" class="h-5 w-52 skeleton inline-block"></div>
-<span v-if="isRunning && isLoaded" class="countdown font-mono text-xl">
+<span v-if="isRunning" class="countdown font-mono text-xl">
     <span :style="'--value:' + countDays + ';'"></span>d:
     <span :style="'--value:' + countHours + ';'"></span>h:
     <span :style="'--value:' + countMinutes + ';'"></span>m:
