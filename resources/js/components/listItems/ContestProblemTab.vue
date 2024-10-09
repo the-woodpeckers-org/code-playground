@@ -1,6 +1,5 @@
 <script>
 import ContestCodePanel from "@/components/pages/ContestCodePanel.vue";
-
 export default {
     name: "ContestProblemTab",
     components: {ContestCodePanel},
@@ -24,19 +23,34 @@ export default {
         problemId: {
             type: String,
             default: '0'
+        },
+        participationId: {
+            type: String,
+            default: '0'
         }
     },
-    data: function() {
-
+    methods: {
+        updatePassed(value) {
+            this.isPassed = value;
+            this.$emit('isPassed', true);
+        }
+    },
+    data: function () {
+        return {
+            isPassed: false
+        }
     },
 }
 </script>
 
 <template>
-    <input v-if="index === 0" type="radio" :name="name" role="tab" class="tab font-semibold" :aria-label="tabName + ' ' + (index + 1)" checked/>
-    <input v-if="index !== 0" type="radio" :name="name" role="tab" class="tab font-semibold" :aria-label="tabName + ' ' + (index + 1)"/>
+    <input v-if="index === 0" type="radio" :name="name" role="tab" class="tab font-semibold"
+           :class="{ 'text-green-600': isPassed }" :aria-label="tabName + ' ' + (index + 1)" checked/>
+    <input v-if="index !== 0" type="radio" :name="name" role="tab" class="tab font-semibold"
+           :class="{ 'text-green-600': isPassed }" :aria-label="tabName + ' ' + (index + 1)"/>
     <div role="tabpanel" class="tab-content">
-        <ContestCodePanel :contestId="contestId" :problemId="problemId"></ContestCodePanel>
+        <ContestCodePanel @problemPassed="updatePassed" :contestId="contestId" :problemId="problemId"
+                          :participationId="participationId"></ContestCodePanel>
     </div>
 </template>
 

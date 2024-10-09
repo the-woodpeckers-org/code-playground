@@ -22,7 +22,7 @@ class SubmitCodeParticipationFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'contest_id' => 'required',
+            'participation_id' => 'required',
             'problem_id' => 'required',
             'code' => 'required|string',
         ];

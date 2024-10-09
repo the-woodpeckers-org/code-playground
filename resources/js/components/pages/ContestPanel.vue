@@ -17,7 +17,17 @@ export default {
             minutes: 1,
             seconds: 1,
             problems: [],
-            isLoaded: false
+            isLoaded: false,
+            isModalClosing: false,
+            participationId: 0,
+            finishedProblemCount: 0,
+            totalProblem: 9
+        }
+    },
+    methods: {
+        updateFinishedProblemCount() {
+            this.finishedProblemCount++;
+            console.log(this.finishedProblemCount);
         }
     },
     mounted() {
@@ -30,7 +40,10 @@ export default {
                 _this.minutes = response.data.contest.remainingTime.minutes;
                 _this.seconds = response.data.contest.remainingTime.seconds;
                 _this.problems = response.data.problems;
+                _this.participationId = response.data.id;
+                _this.totalProblem = response.data.problems.length;
                 _this.isLoaded = true
+                console.log(response.data)
             })
             .catch(error => {
                 alert(error)
@@ -40,6 +53,18 @@ export default {
 </script>
 
 <template>
+    <dialog id="full_problems" class="modal" :class="{ 'modal-open' : finishedProblemCount === totalProblem && !isModalClosing }">
+        <div class="modal-box">
+            <h3 class="text-lg font-bold"></h3>
+            <p class="py-4">You have finished all the problems of this contest. Great performance. Do you want to finish now?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm w-16 bg-amber-400 hover:bg-amber-600 transition" @click="isModalClosing = true">Ok
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dialog>
     <div>
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div>
@@ -58,11 +83,12 @@ export default {
         </div>
         <div class="divider my-2"></div>
         <div role="tablist" class="tabs tabs-bordered w-full">
-            <ContestProblemTab v-for="(problem, index) in problems"
+            <ContestProblemTab @isPassed="updateFinishedProblemCount" v-if="participationId" v-for="(problem, index) in problems"
                                :name="'code-tab'" :index="index"
                                :contestId="this.$route.params.c_id"
                                :problemId="problem.id"
-                               :tabName="'Problem'"></ContestProblemTab>
+                               :tabName="'Problem'"
+                               :participationId="participationId"></ContestProblemTab>
         </div>
 
     </div>

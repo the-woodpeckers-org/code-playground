@@ -46,14 +46,21 @@ class ProblemController
         return response()->json($result);
     }
 
+    public function getParticipationProblem(Request $request)
+    {
+        $result = $this->service->getParticipationProblem($request);
+        return response()->json($result);
+    }
+
+
     public function submit(SubmitCodeFormRequest $request)
     {
         return $this->service->submitProblem($request);
     }
 
-    public function submitParticipate(SubmitCodeParticipationFormRequest $request)
+    public function submitParticipation(SubmitCodeParticipationFormRequest $request)
     {
-
+        return $this->service->submitParticipationProblem($request);
     }
 
     /*

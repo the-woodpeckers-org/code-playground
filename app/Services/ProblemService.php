@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\SubmitCodeFormRequest;
 use App\Http\Requests\SubmitCodeParticipationFormRequest;
 use App\Models\Attempt;
+use App\Models\Participation_Attempts;
 use App\Models\Problem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -63,6 +64,21 @@ class ProblemService
         return $result->first();
     }
 
+    public function getParticipationProblem(Request $request)
+    {
+        $result = Problem::query();
+        $result->where('problems.contest_id', '!=', null);
+        $result->where('problems.id', '=' ,$request->input('id'));
+        $participation_id = $request->input('participation_id');
+        $result->leftJoin('participation_attempts', function ($query) use ($participation_id) {
+            $query->on('participation_attempts.problem_id', '=', 'problems.id')
+                ->where('participation_attempts.participation_id', $participation_id);
+        });
+        $result->addSelect(['participation_attempts.id as participation_attempt_id', 'participation_attempts.code as code', 'participation_attempts.passed_at as passed_at']);
+        $result->addSelect(['problems.*']);
+        return $result->first();
+    }
+
     public static function submitProblem(SubmitCodeFormRequest $request)
     {
         if ($request->user()) {
@@ -86,7 +102,19 @@ class ProblemService
     public function submitParticipationProblem(SubmitCodeParticipationFormRequest $request)
     {
         if ($request->user()) {
-
+            $userId = $request->user()->id;
+            $attempt = Participation_Attempts::where('problem_id', $request->input('problem_id'))->where('participation_id', $request->input('participation_id'))->first();
+            if ($attempt == null) {
+                $attempt = new Participation_Attempts();
+                $attempt->participation_id = $userId;
+                $attempt->problem_id = $request->input('problem_id');
+            }
+            if ($attempt->passed_at === null) {
+                $attempt->passed_at = Carbon::now();
+            }
+            $attempt->code = $request->input('code');
+            $attempt->save();
+            return response()->json(['message' => 'Problem submitted!']);
         }
         return new BadRequestHttpException('Unauthenticated');
     }

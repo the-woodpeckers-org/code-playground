@@ -2,6 +2,8 @@
 import Testcase from "@/components/listItems/Testcase.vue";
 import TestcaseList from "@/components/listItems/TestcaseList.vue";
 import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
+import {HTTP} from "@/http-common.js";
+import problem from "@/components/listItems/Problem.vue";
 
 export default {
     name: "ContestCodePanel",
@@ -21,6 +23,9 @@ export default {
         },
         problemId: {
             default: null
+        },
+        participationId: {
+            default: null
         }
     },
     data: function () {
@@ -38,21 +43,18 @@ export default {
             isCompiling: false,
             isSubmitting: false,
             isCompileError: false,
-
-            // For contests or courses
-            previousId: null,
-            nextId: null,
-            hasPrevious: false,
-            hasNext: false
         }
     },
     methods: {
+        problem() {
+            return problem
+        },
         async compile() {
             let _this = this
             let editor = ace.edit('editor-' + _this.problemId)
             _this.isCompiling = true
             _this.isCompileError = false
-            axios.post('/api/compile', {
+            HTTP.post('/api/compile', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
                 language: document.getElementById('language-' + _this.problemId).value,
@@ -68,11 +70,11 @@ export default {
                     _this.runData = response.data.output
                     _this.passedTestcases = response.data.passedTestcases
                     console.log(response)
-                    // if (_this.passedTestcases === _this.testcases.length) {
-                    //     document.getElementById('submit-btn').disabled = false
-                    // } else {
-                    //     document.getElementById('submit-btn').disabled = true
-                    // }
+                    if (_this.passedTestcases === _this.testcases.length) {
+                        document.getElementById('submit-btn-' + _this.problemId).disabled = false
+                    } else {
+                        document.getElementById('submit-btn-' + _this.problemId).disabled = true
+                    }
                 }
             }).catch(function (error) {
                 console.log(error)
@@ -81,21 +83,26 @@ export default {
             })
         },
         async submit() {
-            // let _this = this
-            // let editor = ace.edit('editor')
-            // _this.isSubmitting = true
-            // axios.post('/api/submit', {
-            //     _token: document.querySelector('meta[name="csrf-token"]').content,
-            //     code: editor.getSession().getValue(),
-            //     problem_id: _this.$route.params.id
-            // }).then(function (response) {
-            //     _this.isSubmitted = true
-            //     _this.isSubmitting = false
-            //     console.log(response)
-            // }).catch(function (error) {
-            //     _this.isSubmitting = false
-            //     console.log(error)
-            // })
+            let _this = this
+            let editor = ace.edit('editor-' + _this.problemId)
+            _this.isSubmitting = true
+            HTTP.post('/api/submit/participation', {
+                _token: document.querySelector('meta[name="csrf-token"]').content,
+                code: editor.getSession().getValue(),
+                problem_id: _this.problemId,
+                participation_id: _this.participationId
+            }).then(function (response) {
+                _this.isSubmitted = true
+                _this.isSubmitting = false
+                if (!_this.isPassed) {
+                    this.$emit('problemPassed', true)
+                }
+                console.log(response)
+            }).catch(function (error) {
+                _this.isSubmitting = false
+                console.log(error)
+            })
+
         },
         onload() {
             let _this = this
@@ -103,13 +110,24 @@ export default {
             let editor = ace.edit('editor' + '-' + this.problemId)
             editor.setTheme('ace/theme/monokai')
             editor.session.setMode('ace/mode/c_cpp')
-            axios.get('/api/problem/get?id=' + this.problemId)
+            HTTP.get('/api/participate/problem?id=' + _this.problemId + '&participation_id=' + _this.participationId)
                 .then(function (response) {
                     console.log(response)
                     _this.description = response.data.description
                     _this.title = response.data.title
                     _this.testcases = response.data.testcases
                     _this.loading = true
+                    if (response.data.passed_at) {
+                        _this.isPassed = true
+                        _this.passedDate = response.data.passed_at
+                        _this.$emit('problemPassed', true)
+                    }
+                    if (response.data.contestId) {
+                        _this.isBelongsToContest = true
+                    }
+                    if (response.data.code !== null) {
+                        editor.setValue(response.data.code, 1)
+                    }
                 })
                 .catch(function (error) {
                     alert(error)
@@ -126,14 +144,10 @@ export default {
     <dialog id="problem_solved_modal" class="modal" :class="{ 'modal-open' : isSubmitted}">
         <div class="modal-box">
             <h3 class="text-lg font-bold"></h3>
-            <p class="py-4"><span class="font-semibold">Congratulations! Problem solved!</span><br>Do you want to solve
-                some other problems?</p>
+            <p class="py-4">Problem submitted</p>
             <div class="modal-action">
                 <form method="dialog">
-                    <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600 btn-sm mx-1 w-16"
-                                 to="/problems">Yes
-                    </router-link>
-                    <button class="btn btn-sm w-16 bg-gray-300 hover:bg-gray-400" @click="this.isSubmitted = false">No
+                    <button class="btn btn-sm w-16 bg-amber-400 hover:bg-amber-600 transition" @click="this.isSubmitted = false">Ok
                     </button>
                 </form>
             </div>
@@ -177,7 +191,7 @@ export default {
                             <span v-if="!isCompiling">RUN</span>
                             <span v-if="isCompiling" class="loading loading-dots loading-xs"></span>
                         </button>
-                        <button id="submit-btn" type="button"
+                        <button :id="'submit-btn-' + problemId" type="button"
                                 class="rounded-xl bg-green-500 py-1 border-green-300 border px-2 ms-1 hover:bg-green-600 w-20 h-10 disabled:bg-gray-300 disabled:border-gray-400 disabled:text-gray-400"
                                 disabled
                                 @click="submit">
