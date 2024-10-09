@@ -97,14 +97,13 @@ export default {
                 if (!_this.isPassed) {
                     this.$emit('problemPassed', true)
                 }
-                console.log(response)
             }).catch(function (error) {
                 _this.isSubmitting = false
                 console.log(error)
             })
 
         },
-        onload() {
+        async onload() {
             let _this = this
             _this.passedTestcases = 0
             let editor = ace.edit('editor' + '-' + this.problemId)

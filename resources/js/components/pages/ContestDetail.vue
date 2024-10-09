@@ -14,16 +14,17 @@ export default {
             minutes: 0,
             seconds: 0,
             isEnded: null,
-            isLoaded: false
+            isLoaded: false,
+            isFinished: false
         }
     },
-    beforeMount() {
+    async mounted() {
         let _this = this;
-        HTTP.get('/api/contest/get?id=' + this.$route.params.c_id)
+        await Promise.all([
+            HTTP.get('/api/contest/get?id=' + this.$route.params.c_id)
             .then(function (response) {
                 console.log(response.data);
                 console.log(response.data.remainingTime)
-                _this.isLoaded = true;
                 _this.title = response.data.title;
                 _this.description = response.data.description;
                 _this.days = response.data.remainingTime.days;
@@ -34,7 +35,18 @@ export default {
             })
             .catch(function (error) {
                 console.log(error)
-            })
+            }),
+            HTTP.get('/api/participate/get?contest_id=' + this.$route.params.c_id)
+                .then(response => {
+                    if (response.data.finished_at) {
+                        _this.isFinished = true;
+                    }
+                })
+                .catch(error => {
+                    console.log(error)
+                }),
+        ]);
+        _this.isLoaded = true
     }
 }
 </script>
@@ -72,14 +84,17 @@ export default {
                         <p class="border bg-base-100 px-2 m-1">Data Structure</p>
                         <p class="border bg-base-100 px-2 m-1">Window Slider</p>
                     </div>
-                    <div v-if="isEnded === false" class="flex flex-row flex-wrap justify-center mt-6">
+                    <div v-if="!isEnded && !isFinished && isLoaded" class="flex flex-row flex-wrap justify-center mt-6">
                         <router-link :to="'/contest/participate/' + this.$route.params.c_id"
                                      class="shadow-xl hover:bg-cyan-700 bg-primary p-2 font-semibold text-lg text-white rounded-xl transition">
                             Set me in!
                         </router-link>
                     </div>
-                    <div v-if="isEnded === true" class="flex flex-row flex-wrap justify-center mt-6">
+                    <div v-if="isEnded && !isFinished" class="flex flex-row flex-wrap justify-center mt-6">
                         <p>Ê mày cuộc thi này đã kết thúc rồi xin được hẹn bạn lần sau nhé.</p>
+                    </div>
+                    <div v-if="isFinished" class="flex flex-row flex-wrap justify-center mt-6">
+                        <p>Mày đã thi cái này xong rồi!</p>
                     </div>
                 </div>
             </div>

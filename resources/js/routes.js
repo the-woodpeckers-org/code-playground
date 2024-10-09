@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
-import MyCVPanel from "./components/pages/MyCVPanel.vue";
+const MyCVPanel = () => import("./components/pages/MyCVPanel.vue");
+const ContestResult = () => import("@/components/pages/ContestResult.vue");
 const CodePanel = () => import("@/components/pages/CodePanel.vue");
 const Landing = () => import("@/components/pages/Landing.vue");
 const Login = () => import("@/components/authentication/Login.vue");
@@ -107,6 +108,11 @@ const routes = [
         path:'/MyCv',
         component: MyCVPanel,
         name:'MyCv'
+    },
+    {
+        path:'/participate/result/:id',
+        component: ContestResult,
+        name: 'contest-result'
     }
 ]
 
