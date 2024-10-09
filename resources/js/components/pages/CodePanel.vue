@@ -80,7 +80,6 @@ export default {
             let editor = ace.edit('editor')
             editor.setTheme('ace/theme/monokai')
             editor.session.setMode('ace/mode/c_cpp')
-
             _this.passedTestcases = 0
 
             let _url = '/api/problem/get?id=' + _this.$route.params.id;

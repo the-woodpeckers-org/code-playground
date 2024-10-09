@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class ParticipationService
 {
-    public function participant(Request $request) {
+    public function participate(Request $request) {
         $participation = Participation::query();
         $participation->where('user_id', $request->user()->id);
         $participation->where('contest_id', $request->id);

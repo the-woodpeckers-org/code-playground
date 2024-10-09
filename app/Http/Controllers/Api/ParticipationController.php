@@ -13,7 +13,7 @@ class ParticipationController
     }
 
     public function participate(Request $request) {
-        return response()->json($this->service->participant($request));
+        return response()->json($this->service->participate($request));
     }
 
 }

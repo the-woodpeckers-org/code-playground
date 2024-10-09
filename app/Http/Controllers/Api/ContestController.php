@@ -24,8 +24,4 @@ class ContestController
     public function getAll(Request $request) {
         return response()->json($this->service->getAll($request));
     }
-
-    public function participate(Request $request) {
-        return response()->json($request->user());
-    }
 }

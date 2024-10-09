@@ -33,6 +33,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
     Route::get('/participate', [ParticipationController::class, 'participate'])->name('participate.participate');
     Route::post('/submit/participation', [ProblemController::class, 'submitParticipation'])->name('problem.submitParticipation');
+    Route::get('/participate/problem', [ProblemController::class, 'getParticipationProblem'])->name('problem.getProblemParticipation');
 });
 
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');
