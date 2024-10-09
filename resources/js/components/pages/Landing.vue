@@ -7,11 +7,15 @@ import InterviewKit from "@/components/cards/InterviewKit.vue";
 import Course from "@/components/cards/Course.vue";
 import Ranking from "@/components/listItems/Ranking.vue";
 import NewsSection from "@/components/listItems/NewsSection.vue";
+import CardSkeleton from "@/components/loading/CardSkeleton.vue";
 import {HTTP} from "@/http-common.js";
 
 export default {
     name: "ProblemList",
-    components: {NewsSection, Ranking, InterviewKit, Course, Contest, ProblemSkeleton, CenteredSpinner, Problem},
+    components: {
+        CardSkeleton,
+        NewsSection, Ranking, InterviewKit, Course, Contest, ProblemSkeleton, CenteredSpinner, Problem
+    },
     data: function () {
         return {
             problems: Array,
@@ -19,23 +23,22 @@ export default {
             loading: false
         }
     },
-    async created() {
+    async mounted() {
         let _this = this
-        setTimeout(async () => {
-            let _url = '/api/problem'
-            if (_this.$root.auth) {
-                _url = '/api/problem/u'
-            }
-            await HTTP.get(_url)
+        let _url = '/api/problem'
+        if (_this.$root.auth) {
+            _url = '/api/problem/u'
+        }
+        await Promise.all([
+            HTTP.get(_url)
                 .then(function (response) {
                     _this.problems = response.data.data
-                    _this.loading = true
                     console.log(response.data)
                 })
                 .catch(function (error) {
                     console.log(error)
-                })
-            await HTTP.get('api/contest/landing')
+                }),
+            HTTP.get('api/contest/landing')
                 .then(response => {
                     _this.contests = response.data;
                     console.log(response)
@@ -43,7 +46,8 @@ export default {
                 .catch(error => {
                     console.log(error)
                 })
-        }, 1000)
+        ]);
+        _this.loading = true
     }
 }
 </script>
@@ -61,7 +65,8 @@ export default {
         <div class="my-6">
             <h1 class="text-2xl mb-3 font-bold">Available Contests</h1>
             <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                <Contest v-for="contest in contests"
+                <CardSkeleton v-if="!loading" v-for="i in 3"></CardSkeleton>
+                <Contest v-if="loading" v-for="contest in contests"
                          :p_Days="contest.remainingTime.days"
                          :p_Hours="contest.remainingTime.hours"
                          :p_Minutes="contest.remainingTime.minutes"
