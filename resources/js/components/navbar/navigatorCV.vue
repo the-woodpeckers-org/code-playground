@@ -5,41 +5,41 @@ export default {
 </script>
 
 <template>
-    <div class="navbar bg-base-100 text-center justify-between">
+    <div class="navbar bg-gradient-to-tr from-cyan-300 to-purple-300 grid grid-cols-1 lg:flex lg:justify-between">
         <p class="relative inline-block group">
-            <a href="/" class="text-[#DD3F24] text-lg font-semibold hover:text-2xl">Profile CV</a>
+            <router-link href="/" class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Profile CV</router-link>
             <span
-                class="absolute left-0 bottom-0 h-[2px] bg-[#DD3F24] w-0 transition-all duration-300 group-hover:w-full"></span>
+                class="absolute left-0 bottom-0 h-[2px] bg-gray-900 w-0 transition-all duration-300 lg:group-hover:w-full"></span>
         </p>
         <p class="relative inline-block group">
-            <a href="#" class="text-[#DD3F24] text-lg font-semibold hover:text-2xl">Job Management</a>
+            <router-link href="#" class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Job Management</router-link>
             <span
-                class="absolute left-0 bottom-0 h-[2px] bg-[#DD3F24] w-0 transition-all duration-300 group-hover:w-full"></span>
+                class="absolute left-0 bottom-0 h-[2px] bg-gray-900 w-0 transition-all duration-300 lg:group-hover:w-full"></span>
         </p>
         <p class="relative inline-block group">
-            <a href="#" class="text-[#DD3F24] text-lg font-semibold hover:text-2xl">My CV</a>
+            <router-link href="#" class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">My CV</router-link>
             <span
-                class="absolute left-0 bottom-0 h-[2px] bg-[#DD3F24] w-0 transition-all duration-300 group-hover:w-full"></span>
+                class="absolute left-0 bottom-0 h-[2px] bg-gray-900 w-0 transition-all duration-300 lg:group-hover:w-full"></span>
         </p>
         <p class="relative inline-block group">
-            <a href="#" class="text-[#DD3F24] text-lg font-semibold hover:text-2xl">Mail Management</a>
+            <router-link href="#" class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Mail Management</router-link>
             <span
-                class="absolute left-0 bottom-0 h-[2px] bg-[#DD3F24] w-0 transition-all duration-300 group-hover:w-full"></span>
+                class="absolute left-0 bottom-0 h-[2px] bg-gray-900 w-0 transition-all duration-300 lg:group-hover:w-full"></span>
         </p>
         <p class="relative inline-block group">
-            <a href="#" class="text-[#DD3F24] text-lg font-semibold hover:text-2xl">Jobs Applied</a>
+            <router-link href="#" class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Jobs Applied</router-link>
             <span
-                class="absolute left-0 bottom-0 h-[2px] bg-[#DD3F24] w-0 transition-all duration-300 group-hover:w-full"></span>
+                class="absolute left-0 bottom-0 h-[2px] bg-gray-900 w-0 transition-all duration-300 lg:group-hover:w-full"></span>
         </p>
         <p class="relative inline-block group">
-            <a href="#" class="text-[#DD3F24] text-lg font-semibold hover:text-2xl">Jobs Followed</a>
+            <router-link href="#" class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Jobs Followed</router-link>
             <span
-                class="absolute left-0 bottom-0 h-[2px] bg-[#DD3F24] w-0 transition-all duration-300 group-hover:w-full"></span>
+                class="absolute left-0 bottom-0 h-[2px] bg-gray-900 w-0 transition-all duration-300 lg:group-hover:w-full"></span>
         </p>
         <p class="relative inline-block group">
-            <a href="#" class="text-[#DD3F24] text-lg font-semibold hover:text-2xl">Personality Test</a>
+            <router-link href="#" class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Personality Test</router-link>
             <span
-                class="absolute left-0 bottom-0 h-[2px] bg-[#DD3F24] w-0 transition-all duration-300 group-hover:w-full"></span>
+                class="absolute left-0 bottom-0 h-[2px] bg-gray-900 w-0 transition-all duration-300 lg:group-hover:w-full"></span>
         </p>
     </div>
 </template>
