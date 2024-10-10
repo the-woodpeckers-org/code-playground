@@ -9,6 +9,13 @@ export default {
         <td>1</td>
         <td>Cy Ganderton</td>
         <td>Quality Control Specialist</td>
-        <td>Blue</td>
+        <td>
+                <div class="grid grid-cols-1 lg:grid-cols-4">
+                    <span> <i class="fa-regular fa-eye"></i></span>
+                    <span> <i class="fa-regular fa-pen-to-square"></i></span>
+                    <span> <i class="fa-solid fa-cloud-arrow-down"></i></span>
+                    <span> <i class="fa-solid fa-trash"></i></span>
+                </div>
+        </td>
     </tr>
 </template>
