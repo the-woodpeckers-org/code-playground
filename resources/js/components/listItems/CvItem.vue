@@ -11,10 +11,10 @@ export default {
         <td>Quality Control Specialist</td>
         <td>
                 <div class="grid grid-cols-1 lg:grid-cols-4">
-                    <span> <i class="fa-regular fa-eye"></i></span>
-                    <span> <i class="fa-regular fa-pen-to-square"></i></span>
-                    <span> <i class="fa-solid fa-cloud-arrow-down"></i></span>
-                    <span> <i class="fa-solid fa-trash"></i></span>
+                    <span class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300"> <i class="fa-regular fa-eye"></i></span>
+                    <span class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300"> <i class="fa-regular fa-pen-to-square"></i></span>
+                    <span class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300"> <i class="fa-solid fa-cloud-arrow-down"></i></span>
+                    <span class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300"> <i class="fa-solid fa-trash"></i></span>
                 </div>
         </td>
     </tr>

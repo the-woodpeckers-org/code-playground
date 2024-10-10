@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
+import CodePlaygroundCVPanel from "./components/pages/CodePlaygroundCVPanel.vue";
 const MyCVPanel = () => import("./components/pages/MyCVPanel.vue");
 const ContestResult = () => import("@/components/pages/ContestResult.vue");
 const CodePanel = () => import("@/components/pages/CodePanel.vue");
@@ -113,6 +114,11 @@ const routes = [
         path:'/participate/result/:id',
         component: ContestResult,
         name: 'contest-result'
+    },
+    {
+        path:'/CpMycv',
+        component:CodePlaygroundCVPanel,
+        name:'codeplayground-cv'
     }
 ]
 
