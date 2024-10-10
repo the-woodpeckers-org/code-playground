@@ -30,7 +30,7 @@ export default {
       <h4 class="text-center text-sm text-balance">Create a standard Developer CV on TopDev now, and we will suggest IT
         jobs that match your profile.</h4>
       <div class="mt-5 flex w-full justify-center">
-        <form  action="hehe" method="dialog">
+        <form  action="" method="dialog">
           <label class="input input-bordered flex items-center gap-2 w-full m-3">
             Name CV
             <input type="text" class="grow required" placeholder="Daisy" />
