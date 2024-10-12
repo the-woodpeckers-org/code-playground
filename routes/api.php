@@ -6,9 +6,9 @@ use App\Http\Controllers\Api\CodeExecutionController;
 use App\Http\Controllers\Api\ProblemController;
 use App\Http\Controllers\Api\Authentication\AuthController;
 use App\Http\Controllers\Api\ContestController;
+use App\Http\Controllers\Api\CvController;
 use App\Http\Controllers\testController;
 use App\Http\Controllers\Api\ParticipationController;
-
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -39,6 +39,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 
-
+Route::post('/newCV',[CvController::class,'newCV'])->name('newCV');
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');
 Route::get('/contest/', [ContestController::class, 'getAll'])->name('contest.getAll');

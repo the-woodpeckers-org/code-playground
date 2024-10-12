@@ -1,10 +1,10 @@
 <script>
 import BaseCountDown from "@/components/countdowns/BaseCountDown.vue";
-import {HTTP} from "@/http-common.js";
+import { HTTP } from "@/http-common.js";
 
 export default {
     name: "ContestDetail",
-    components: {BaseCountDown},
+    components: { BaseCountDown },
     data: function () {
         return {
             title: 'Contest',
@@ -22,20 +22,20 @@ export default {
         let _this = this;
         await Promise.all([
             HTTP.get('/api/contest/get?id=' + this.$route.params.c_id)
-            .then(function (response) {
-                console.log(response.data);
-                console.log(response.data.remainingTime)
-                _this.title = response.data.title;
-                _this.description = response.data.description;
-                _this.days = response.data.remainingTime.days;
-                _this.hours = response.data.remainingTime.hours;
-                _this.minutes = response.data.remainingTime.minutes;
-                _this.seconds = response.data.remainingTime.seconds;
-                _this.isEnded =  response.data.isEnded;
-            })
-            .catch(function (error) {
-                console.log(error)
-            }),
+                .then(function (response) {
+                    console.log(response.data);
+                    console.log(response.data.remainingTime)
+                    _this.title = response.data.title;
+                    _this.description = response.data.description;
+                    _this.days = response.data.remainingTime.days;
+                    _this.hours = response.data.remainingTime.hours;
+                    _this.minutes = response.data.remainingTime.minutes;
+                    _this.seconds = response.data.remainingTime.seconds;
+                    _this.isEnded = response.data.isEnded;
+                })
+                .catch(function (error) {
+                    console.log(error)
+                }),
             HTTP.get('/api/participate/get?contest_id=' + this.$route.params.c_id)
                 .then(response => {
                     if (response.data.finished_at) {
@@ -65,7 +65,8 @@ export default {
                 <div class="border rounded-xl bg-gradient-to-br from-cyan-200 to-purple-200 px-3 py-6">
                     <p class="text-start"><span class="font-semibold">Host by: </span> {{ 'Viettel Corporation' }}</p>
                     <p class="text-start"><span class="font-semibold">Time remaining: </span>
-                        <BaseCountDown v-if="isLoaded" :days="days" :hours="hours" :minutes="minutes" :seconds="seconds"></BaseCountDown>
+                        <BaseCountDown v-if="isLoaded" :days="days" :hours="hours" :minutes="minutes"
+                            :seconds="seconds"></BaseCountDown>
                     </p>
                     <p class="text-start"><span class="font-semibold">Participants: </span> {{ '8' }}</p>
                     <p class="text-start"><span class="font-semibold">Rounds: </span> {{ '3' }}</p>
@@ -86,7 +87,7 @@ export default {
                     </div>
                     <div v-if="!isEnded && !isFinished && isLoaded" class="flex flex-row flex-wrap justify-center mt-6">
                         <router-link :to="'/contest/participate/' + this.$route.params.c_id"
-                                     class="shadow-xl hover:bg-cyan-700 bg-primary p-2 font-semibold text-lg text-white rounded-xl transition">
+                            class="shadow-xl hover:bg-cyan-700 bg-primary p-2 font-semibold text-lg text-white rounded-xl transition">
                             Set me in!
                         </router-link>
                     </div>
@@ -102,6 +103,4 @@ export default {
     </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

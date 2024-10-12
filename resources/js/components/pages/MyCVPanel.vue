@@ -1,10 +1,39 @@
 <script>
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
 import CvItem from '@/components/listItems/CvItem.vue';
+import {
+  RouterView,
+  RouterLink,
+  useRouter,
+  useRoute
+}
+  from 'vue-router';
 export default {
+  data() {
+    return {
+      router: useRouter(),
+      route: useRoute(),
+    };
+  },
   components: {
     NavigatorCV, CvItem
   },
+  methods: {
+    newCV() {
+      axios.post('/api/newCV', {})
+        .then(response => {
+          console.log("Đang vào controller để xử lý");
+          console.log(response.data);
+          const cvId = response.data.id;
+          if (cvId) {
+            this.router.push({ name: 'cv-editor', params: { id: cvId } });
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }
 }
 
 </script>
@@ -30,7 +59,7 @@ export default {
       <h4 class="text-center text-sm text-balance">Create a standard Developer CV on TopDev now, and we will suggest IT
         jobs that match your profile.</h4>
       <div class="mt-5 flex w-full justify-center">
-        <form  action="" method="dialog">
+        <form method="dialog">
           <label class="input input-bordered flex items-center gap-2 w-full m-3">
             Name CV
             <input type="text" class="grow required" placeholder="Daisy" />
@@ -42,7 +71,7 @@ export default {
           </select>
           <div class="flex justify-end w-full mt-2 ml-5">
             <button class="btn btn-neutral m-2">Close</button>
-            <button class="btn btn-primary m-2" type="submit">Begin</button>
+            <button @click="newCV" class="btn btn-primary m-2" type="submit">Begin</button>
           </div>
         </form>
       </div>
