@@ -27,15 +27,23 @@ export default {
                 <div class="mt-3">
                     <label class="text-balance text-sm lg:text-md">You are missing the following information:</label>
                     <ul class="grid grid-1 ml-2">
-                        <span class="bg-primary rounded-full w-max hover:bg-base-300 mt-2 text-white"><a class="p-2">SomeThing!</a> </span>
-                        <span class="bg-primary rounded-full w-max hover:bg-base-300 mt-2 text-white"><a class="p-2">SomeThing!</a> </span>
-                        <span class="bg-primary rounded-full w-max hover:bg-base-300 mt-2 text-white"><a class="p-2">SomeThing!</a> </span>
-                        <span class="bg-primary rounded-full w-max hover:bg-base-300 mt-2 text-white"><a class="p-2">SomeThing!</a> </span>
+                        <span class="bg-primary rounded-full w-max hover:bg-base-300 mt-2 text-white"><a
+                                class="p-2">SomeThing!</a> </span>
+                        <span class="bg-primary rounded-full w-max hover:bg-base-300 mt-2 text-white"><a
+                                class="p-2">SomeThing!</a> </span>
+                        <span class="bg-primary rounded-full w-max hover:bg-base-300 mt-2 text-white"><a
+                                class="p-2">SomeThing!</a> </span>
+                        <span class="bg-primary rounded-full w-max hover:bg-base-300 mt-2 text-white"><a
+                                class="p-2">SomeThing!</a> </span>
                     </ul>
                 </div>
             </div>
-            <div class="mt-3 md:mt-3 lg:m-0 w-full bg-base-100">
-                hehe
+            <div class="mt-3 md:mt-3 lg:m-0 w-full">
+                <div class="flex flex-1">
+                    <div class="w-full bg-base-100">
+                        <span class="font-semibold text-sm sm:text-md md:text-xl lg:text-2xl">CodePlayground CV</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
