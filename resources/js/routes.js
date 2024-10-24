@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 const CodePlaygroundCVPanel = () => import("@/components/pages/CpCvPanel.vue");
-const CvDetail = () => import("@/components/pages/CvDetail.vue");
 const MyCVPanel = () => import("@/components/pages/MyCVPanel.vue");
 const ContestResult = () => import("@/components/pages/ContestResult.vue");
 const CodePanel = () => import("@/components/pages/CodePanel.vue");
