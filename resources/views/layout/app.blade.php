@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
     <link href="{{asset('css/styles.css')}}">
+
     <script>document.documentElement.classList.add('js')</script>
     @vite('resources/css/app.css')
 </head>

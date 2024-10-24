@@ -26,7 +26,7 @@ export default {
           console.log(response.data);
           const cvId = response.data.id;
           if (cvId) {
-            this.router.push({ name: 'cv-editor', params: { id: cvId } });
+            this.router.push({ name: 'cvbuilder', params: { id: cvId } });
           }
         })
         .catch(error => {
