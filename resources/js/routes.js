@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import CodePlaygroundCVPanel from "./components/pages/CpCvPanel.vue";
-const MyCVPanel = () => import("./components/pages/MyCVPanel.vue");
+const CodePlaygroundCVPanel = () => import("@/components/pages/CpCvPanel.vue");
+const CvDetail = () => import("@/components/pages/CvDetail.vue");
+const MyCVPanel = () => import("@/components/pages/MyCVPanel.vue");
 const ContestResult = () => import("@/components/pages/ContestResult.vue");
 const CodePanel = () => import("@/components/pages/CodePanel.vue");
 const Landing = () => import("@/components/pages/Landing.vue");
@@ -119,7 +120,7 @@ const routes = [
     {
         path: '/CpMycv',
         component: CodePlaygroundCVPanel,
-        name: 'codeplayground-cv'
+        name: 'code-playground-cv'
     },
     {
         path:'/CvBuilder',
