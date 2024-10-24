@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import CodePlaygroundCVPanel from "./components/pages/CpCvPanel.vue";
-import CvDetail from "./components/pages/CvDetail.vue";
 const MyCVPanel = () => import("./components/pages/MyCVPanel.vue");
 const ContestResult = () => import("@/components/pages/ContestResult.vue");
 const CodePanel = () => import("@/components/pages/CodePanel.vue");
@@ -14,11 +13,12 @@ const Contests = () => import("@/components/pages/Contests.vue");
 const Courses = () => import("@/components/pages/Courses.vue");
 const Challenges = () => import("@/components/pages/Challenges.vue");
 const Problems = () => import("@/components/pages/Problems.vue");
-const Career = () => import("@/components/pages/Career.vue")
-const Profile = () => import("@/components/pages/Profile.vue")
-const ContestDetail = () => import('@/components/pages/ContestDetail.vue')
-const ContestPanel = () => import('@/components/pages/ContestPanel.vue')
+const Career = () => import("@/components/pages/Career.vue");
+const Profile = () => import("@/components/pages/Profile.vue");
+const ContestDetail = () => import('@/components/pages/ContestDetail.vue');
+const ContestPanel = () => import('@/components/pages/ContestPanel.vue');
 const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
+const CvBuilder =()=>import("@/components/pages/CvBuilder.vue");
 
 const routes = [
     {
@@ -91,7 +91,7 @@ const routes = [
         component: ContestDetail,
         name: 'contest-detail'
     },
-    {
+    {   
         path: '/contest/participate/:c_id',
         component: ContestPanel,
         name: 'contest-participate'
@@ -122,10 +122,11 @@ const routes = [
         name: 'codeplayground-cv'
     },
     {
-        path: '/cv/:id',
-        component: CvDetail,
-        name: 'cv-editor'
+        path:'/CvBuilder',
+        component: CvBuilder,
+        name: 'cvbuilder'
     }
+   
 ]
 
 export default createRouter({

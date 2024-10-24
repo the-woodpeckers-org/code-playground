@@ -1,0 +1,503 @@
+body {
+    font-family: helvetica, arial, sans-serif;
+    font-size: 14px;
+    background-color: #ececec;
+}
+
+a {
+    color: #000;
+}
+
+.container {
+    width: 80%;
+}
+
+h1.logo {
+    font-weight: 700;
+    border: 0.3rem dashed;
+    border-radius: 1rem;
+    padding: 1rem;
+    font-size: 2rem;
+    margin-bottom: 0;
+}
+
+section h3 {
+    margin: 1rem;
+    font-size: 1.6rem;
+}
+
+section h5 {
+    font-size: 1rem;
+}
+
+.section:not(:last-child)::after {
+    content: " ";
+    display: block;
+    height: 1px;
+    border-top: 1px solid #aaa;
+    margin-top: 1rem;
+}
+
+/* HEADER AND NAVBAR */
+
+.navbar-toggler {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    border: 0;
+}
+
+.navbar-nav .nav-item {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navbar-nav button.nav-link {
+    border: 0;
+    background-color: transparent;
+    display: inline;
+}
+
+.navbar-nav #nav-title {
+    color: #fff;
+    padding: 0.5rem 0;
+    margin: 0 0.5rem;
+    font-weight: 700;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.custom-header {
+    background-color: #606060;
+    color: #fff;
+    transition: background-color 0.5s;
+}
+
+button.nav-link {
+    color: #fff;
+    padding: 0.5rem 0;
+    margin: 0 0.5rem;
+}
+
+button.nav-link:hover {
+    border-bottom: 1px solid #fff;
+}
+
+button.nav-link.active {
+    border-bottom: 1px solid #fff;
+}
+
+/* PRINTABLE CONTENT STYLING*/
+
+#cv {
+    border: solid 1px #aaa;
+    padding: 2rem;
+    margin-top: 2rem;
+    background-color: #fff;
+    border-radius: 1rem;
+}
+
+#printable h2 {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+#printable .section-heading {
+    margin: 0rem 1rem 0.5rem;
+}
+
+*[contenteditable="true"]:hover {
+    -webkit-animation: blink 1s ease-out infinite;
+    -moz-animation: blink 1s ease-out infinite;
+    -o-animation: blink 1s ease-out infinite;
+    animation: blink 1s ease-out infinite;
+    opacity: 0.5;
+}
+
+*[contenteditable="true"]:focus {
+    outline: thin dashed;
+    background-color: #eee;
+}
+
+@-webkit-keyframes blink {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+@-moz-keyframes blink {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+@-o-keyframes blink {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+/* TABLE STYLES */
+.info-label {
+    font-weight: bold;
+    margin-left: 0.6rem;
+}
+
+.info-content {
+    margin-right: -0.6rem;
+}
+
+/* THREE COLUMN LIST */
+.three-column ul {
+    margin: 0;
+}
+
+/* LISTING ITEMS */
+.listing-date-col {
+    padding: 0.2rem 0.2rem 0 0.8rem;
+}
+
+.listing-location-col,
+.listing-content-col {
+    padding: 0.2rem 0.2rem;
+}
+
+/* ACTION BUTTONS */
+.actions {
+    padding: 0.5rem 0 2rem;
+}
+
+.actions .action-btn {
+    margin-top: 0.5rem;
+}
+
+.btn-primary {
+    background-color: #606060;
+    border: 0;
+    color: #fff;
+    text-transform: uppercase;
+    border-radius: 0.3rem;
+    border: 0;
+}
+
+.btn-primary:hover,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:focus {
+    background-color: #aaa;
+}
+
+#reset-btn,
+#reset-alert-btn {
+    background-color: #f08080;
+}
+
+#reset-btn:hover,
+#reset-alert-btn:hover {
+    background-color: #f00;
+}
+
+.actions button i {
+    padding-left: 0.5rem;
+}
+
+.close-modal {
+    color: #f00;
+}
+
+.close-modal:hover {
+    color: #f00;
+}
+
+.modal-header,
+.modal-footer {
+    border: 0;
+}
+
+.modal-body {
+    font-size: 1.1rem;
+}
+
+.modal-content {
+    border-radius: 1rem;
+}
+
+/* CUSTOM FOOTER */
+.custom-footer {
+    background-color: #444;
+    color: #ececec;
+}
+
+/* DELETABLE ITEMS AND DELETE BUTTON */
+section.deletable {
+    margin: 0;
+}
+
+.deletable,
+.add-element,
+#add-section {
+    position: relative;
+    padding: 0.5rem 1rem;
+    margin: 0.2rem 0rem;
+    border: 1px solid transparent;
+    border-radius: 0.5rem;
+}
+.three-column .deletable,
+.three-column .add-element {
+    margin: 0.1rem 0.1rem;
+    flex: 0 0 32%;
+    max-width: 32%;
+}
+
+.deletable-hover {
+    border: 1px dashed #aaa;
+}
+
+.deletebtn {
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    color: #ffcccb;
+    position: absolute;
+    right: -0.8rem;
+    top: -0.8rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 10;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #fff;
+}
+
+.deletebtn:hover {
+    color: #f00;
+}
+
+.deletebtn i {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Adding new item */
+
+.add-element,
+#add-section {
+    border: 1px dashed #3cb371;
+    color: #3cb371;
+    cursor: pointer;
+}
+
+.add-element:hover,
+#add-section:hover {
+    border: 1px dashed #2e8b57;
+    color: #2e8b57;
+}
+
+/* Adding new section */
+#add-section {
+    background-color: #ececec;
+    margin: 1rem 0;
+    text-transform: uppercase;
+    cursor: auto;
+}
+
+#add-section-btn {
+    cursor: pointer;
+    width: 100%;
+    background: transparent;
+    border: 0;
+    color: #3cb371;
+    text-transform: uppercase;
+}
+
+#add-section-btn:hover {
+    color: #2e8b57;
+}
+
+.section-btn {
+    color: #000;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    text-transform: uppercase;
+}
+
+.section-btn img:hover {
+    transform: scale(1.1);
+    -webkit-box-shadow: 0px 6px 5px -1px rgba(0, 0, 0, 0.39);
+    -moz-box-shadow: 0px 6px 5px -1px rgba(0, 0, 0, 0.39);
+    box-shadow: 0px 6px 5px -1px rgba(0, 0, 0, 0.39);
+    transition: transform 0.3s, box-shadow 0.3s, -webkit-box-shadow 0.3s,
+        -moz-box-shadow 0.3s;
+}
+
+#new-section-buttons img {
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+#close-section {
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: auto;
+    color: #ffcccb;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 0;
+    background: transparent;
+}
+
+#close-section:hover {
+    color: #f00;
+}
+
+/* Sortable */
+
+.sortable {
+    background-color: #fff;
+}
+
+.sortable-btn {
+    color: #aaa;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    cursor: grab !important;
+    font-size: 1.2rem;
+    border: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.sortable-btn:hover {
+    color: #606060;
+}
+
+.three-column .sort-placeholder {
+    flex: 0 0 32%;
+    max-width: 32%;
+}
+
+.sort-placeholder {
+    height: 2.4rem;
+    background-color: #eee;
+    border: 1px dashed #aaa;
+    border-radius: 0.5rem;
+    margin: 0;
+}
+
+.ui-sortable-helper {
+    -webkit-box-shadow: 0px 6px 5px -1px rgba(0, 0, 0, 0.39);
+    -moz-box-shadow: 0px 6px 5px -1px rgba(0, 0, 0, 0.39);
+    box-shadow: 0px 6px 5px -1px rgba(0, 0, 0, 0.39);
+}
+
+/* Save Alert */
+.alert {
+    margin: 1rem 0 0;
+    border-radius: 1rem;
+}
+
+.close-alert {
+    color: #f08080;
+    text-shadow: none;
+}
+
+.close-alert:hover {
+    color: #f00;
+}
+
+/* Media Queries */
+
+@media only screen and (max-width: 992px) {
+    h1.logo {
+        font-size: 1.3rem;
+    }
+
+    .navbar-toggler {
+        position: absolute;
+        top: 1rem;
+        right: 0.2rem;
+        border: 0;
+    }
+
+    #cv {
+        padding: 0.1rem;
+    }
+    .main-container {
+        width: 95%;
+    }
+
+    .deletable {
+        padding: 0.5rem 1.5rem;
+        margin: 0.2rem 0.5rem;
+    }
+
+    .listing-date-col {
+        padding: 0.2rem 0.2rem 0;
+    }
+
+    .info-label {
+        padding-left: 0;
+    }
+
+    .info-content {
+        padding-left: 0;
+        margin-left: 0.6rem;
+    }
+
+    .three-column .sort-placeholder {
+        flex: 0 0 49%;
+        max-width: 100%;
+    }
+
+    .three-column .deletable,
+    .three-column .add-element {
+        margin: 0.1rem;
+        flex: 0 0 49%;
+        max-width: 49%;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .three-column .sort-placeholder {
+        flex: auto;
+        max-width: 100%;
+    }
+
+    .three-column .deletable,
+    .three-column .add-element {
+        margin: 0.1rem;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
