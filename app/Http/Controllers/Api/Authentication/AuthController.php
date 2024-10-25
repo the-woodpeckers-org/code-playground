@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Authentication;
 
 use App\Http\Controllers\Api\Controller;
+use App\Http\Requests\ForgotPasswordFormRequest;
 use App\Http\Requests\LoginFormRequest;
 use App\Http\Requests\RegisterFormRequest;
+use App\Http\Requests\ResetPasswordFormRequest;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 
@@ -17,20 +19,28 @@ class AuthController
     }
     public function login(LoginFormRequest $request)
     {
-        return $this->service->login($request);
+        return response()->json($this->service->login($request));
     }
 
     public function register(RegisterFormRequest $request)
     {
-        return $this->service->register($request);
+        return response()->json($this->service->register($request));
     }
 
     public function logout()
     {
-        return $this->service->logout();
+        return response()->json($this->service->logout());
+    }
+
+    public function forgotPassword(ForgotPasswordFormRequest $request) {
+        return response()->json($this->service->forgotPassword($request));
+    }
+
+    public function resetPassword(ResetPasswordFormRequest $request) {
+        return response()->json($this->service->resetPassword($request));
     }
 
     public function getAuthenticatedUser(Request $request) {
-        return $this->service->getAuthenticatedUser($request);
+
     }
 }

@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role'
     ];
 
     /**
@@ -48,5 +49,13 @@ class User extends Authenticatable
 
     public function attempts() {
         return $this->hasMany(Attempt::class, 'user_id', 'id');
+    }
+
+    public function getRole() {
+        return $this->role;
+    }
+
+    public function getResetPasswordToken() {
+        return Password_Reset_Tokens::where('email', $this->getEmailForPasswordReset())->first();
     }
 }

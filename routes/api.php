@@ -38,6 +38,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/participate/get', [ParticipationController::class, 'getParticipationU'])->name('participate.getParticipationU');
 });
 
+// Password reset
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('auth.resetPassword');
 
 Route::post('/newCV',[CvController::class,'newCV'])->name('newCV');
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');
