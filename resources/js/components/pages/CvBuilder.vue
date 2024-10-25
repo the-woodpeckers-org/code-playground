@@ -1,4 +1,6 @@
 <script>
+import axios from 'axios';
+
 export default {
     name: "CvBuilder",
     updated() { // Corrected 'onUpdated' to 'updated'
@@ -49,7 +51,14 @@ export default {
           if(saveCV)
           {
             const cvData = JSON.parse(saveCV);
-            console.log(cvData);
+            const _content = JSON.stringify(cvData);
+            axios.post('/api/saveCV',{content:_content})
+            .then(response => {
+                console.log("CAcc");
+              console.log(response);
+            }).catch(error=>{
+              console.log(error);
+            });
           }
           
         },

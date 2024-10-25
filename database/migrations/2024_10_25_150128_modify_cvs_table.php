@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::table('cvs', function (Blueprint $table) {
         
             $table->renameColumn('file_path', 'content');
+            $table->text('content')->change();
+            $table->string('title');
         });
     }
 
