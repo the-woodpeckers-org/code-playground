@@ -39,7 +39,10 @@ export default {
             const scriptHtml2Pdf = document.createElement('script');
             scriptHtml2Pdf.src = '/js/lib/PageCV/html2pdf.bundle.min.js';
             document.body.appendChild(scriptHtml2Pdf);
-        }
+        },
+        reset() {
+            location.reload();
+        },
     },
 };
 </script>
@@ -58,7 +61,7 @@ export default {
 }
 
 :deep .container {
-    width: 100%;
+    width: 100% !important;
 }
 :deep .row{
     width: 100%;
@@ -506,6 +509,7 @@ export default {
 
     :deep #cv {
         padding: 0.1rem;
+        width: 100% !important;
     }
     :deep .main-container {
         width: 100% !important;
@@ -552,6 +556,11 @@ export default {
     :deep .three-column .add-element {
         margin: 0.1rem;
         flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+@media (min-width: 1024px) {
+    .container {
         max-width: 100%;
     }
 }
@@ -697,7 +706,7 @@ export default {
         </nav>
       </header>
   
-      <div class="container main-container">
+      <div class="container main-container w-full">
         <div id="cv">
           <!-- PRINTABLE HTML -->
           <div id="printable" class="ml-auto mr-auto sortable-list"></div>
@@ -755,7 +764,7 @@ export default {
   
         <!-- Action Buttons -->
         <div class=" actions text-center">
-          <button class="btn btn-primary action-btn" id="reset-alert-btn" aria-label="Reset CV">
+          <button class="btn btn-primary action-btn" id="reset-alert-btn" onclick="confirm_reset_modal.showModal()" aria-label="Reset CV">
             RESET
             <i class="fas fa-undo-alt"></i>
           </button>
@@ -769,7 +778,18 @@ export default {
           </button>
         </div>
       </div>
-  
+      <dialog class="modal" id="confirm_reset_modal">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">Are you sure you want to reset?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="reset">Yes</button>
+                    <button class="btn btn-sm m-1 border">No</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
       <!-- Modal Window to reset content to default-->
       <div class="modal" id="reset-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
