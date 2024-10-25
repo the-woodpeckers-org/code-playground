@@ -16,7 +16,7 @@
         savedCv = JSON.parse(localStorage.getItem("CV"));
         usedTheme = JSON.parse(localStorage.getItem("theme"));
     } catch (error) {
-        console.log(error);
+        console.log(error);c
     }
 
     //Display CV on page

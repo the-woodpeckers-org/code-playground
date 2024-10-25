@@ -43,6 +43,16 @@ export default {
         reset() {
             location.reload();
         },
+        save()  
+        {
+          const saveCV  = localStorage.getItem('CV');
+          if(saveCV)
+          {
+            const cvData = JSON.parse(saveCV);
+            console.log(cvData);
+          }
+          
+        },
     },
 };
 </script>
@@ -763,12 +773,12 @@ export default {
         </div>
   
         <!-- Action Buttons -->
-        <div class=" actions text-center">
+        <div class="flex justify-center gap-2 p-3">
           <button class="btn btn-primary action-btn" id="reset-alert-btn" onclick="confirm_reset_modal.showModal()" aria-label="Reset CV">
             RESET
             <i class="fas fa-undo-alt"></i>
           </button>
-          <button class="btn btn-primary action-btn" id="save-btn" aria-label="Save Cv">
+          <button class="btn btn-primary action-btn" id="save-btn" aria-label="Save Cv"  @click="save">
             SAVE
             <i class="far fa-save"></i>
           </button>
@@ -790,39 +800,9 @@ export default {
             </div>
         </div>
     </dialog>
-      <!-- Modal Window to reset content to default-->
-      <div class="modal" id="reset-modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Are you sure?</h4>
-              <button type="button" class="close close-modal" aria-label="Close">
-                <span aria-hidden="true">
-                  <i class="fas fa-times-circle"></i>
-                </span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>
-                By resetting the content, you will lose all your
-                changes.
-              </p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" id="reset-btn" aria-label="reset">
-                Reset
-                <i class="fas fa-undo-alt"></i>
-              </button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="cancel">
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
   
-      <footer class="container-fluid custom-footer">
-        <div class="container text-right">
+      <footer class="w-full h-fit custom-footer">
+        <div class="container text-right p-3">
           CV Builder by The Woodpeckers 2024
         </div>
       </footer>
