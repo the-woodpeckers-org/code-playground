@@ -44,4 +44,24 @@ class CvService
             ]);
         }
     }
+    public function getCvsU(Request $request)   
+    {
+        $userId = 1;
+        $cvs = Cv::where('user_id', $userId)->get();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success',
+            'data' => $cvs
+        ]);  
+    }
+    public function getCV(Request $request)
+    {
+        $userId = 1;
+        $cv = Cv::where('id', $request->input('idCV'))->first();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success',
+            'data' => $cv
+        ]);
+    }
 }

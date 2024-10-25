@@ -22,4 +22,13 @@ class CvController
     {
         return $this->service->saveCV($request);
     }
+    public function getCvsU(Request $request)
+    {
+        return $this->service->getCvsU($request);
+    }
+
+    public function getCV(Request $request)
+    {
+        return $this->service->getCV($request);
+    }
 }
