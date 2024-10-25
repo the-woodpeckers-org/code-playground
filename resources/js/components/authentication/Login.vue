@@ -1,4 +1,7 @@
 <script>
+import {setAuth} from "@/services/user.js";
+import {HTTP} from "@/http-common.js";
+
 export default {
     name: "Login",
     data: function () {
@@ -13,8 +16,7 @@ export default {
     methods: {
         login() {
             let _this = this
-            axios.post('/api/login', {
-                _token: document.querySelector('meta[name="csrf-token"]').content,
+            HTTP.post('/api/login', {
                 email: _this.input_email,
                 password: _this.input_password
             }).then(function (response) {
@@ -62,7 +64,7 @@ export default {
                     </div>
                 </div>
                 <p class="my-2"><span><router-link class="link text-cyan-600 font-semibold"
-                                                   to="/reset-password">I forgot my password!</router-link></span></p>
+                                                   to="/forgot-password">I forgot my password!</router-link></span></p>
                 <input class="p-1 me-3" type="checkbox">
                 <label class="my-auto">Keep me logged in</label>
                 <div class="text-center w-full my-3">

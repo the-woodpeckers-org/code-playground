@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
+const ForgotPassword = () => import("@/components/pages/ForgotPassword.vue");
+const ResetPassword = () => import("@/components/pages/ResetPassword.vue");
 const CodePlaygroundCVPanel = () => import("@/components/pages/CpCvPanel.vue");
 const MyCVPanel = () => import("@/components/pages/MyCVPanel.vue");
 const ContestResult = () => import("@/components/pages/ContestResult.vue");
@@ -91,7 +93,7 @@ const routes = [
         component: ContestDetail,
         name: 'contest-detail'
     },
-    {   
+    {
         path: '/contest/participate/:c_id',
         component: ContestPanel,
         name: 'contest-participate'
@@ -125,8 +127,17 @@ const routes = [
         path:'/CvBuilder',
         component: CvBuilder,
         name: 'cvbuilder'
+    },
+    {
+        path:'/forgot-password',
+        component: ForgotPassword,
+        name: 'forgot-password'
+    },
+    {
+        path: '/reset-password/:reset-token',
+        component: ResetPassword,
+        name: 'reset-password'
     }
-   
 ]
 
 export default createRouter({
