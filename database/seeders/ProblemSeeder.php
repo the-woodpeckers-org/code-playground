@@ -27,6 +27,17 @@ class ProblemSeeder extends Seeder
 
         User::create($user);
 
+        $user = [
+            'name' => 'Demo User',
+            'email' => 'barovinh@gmail.com',
+            'password' => Hash::make('123'),
+            'address' => 'Demo Address, City',
+            'phone_number' => '0360100250',
+            'gender' => 'None',
+            'birthday' => '2003-01-01'
+        ];
+
+        User::create($user);
         $problems = [
             [
                 'title' => 'Sum of two numbers',

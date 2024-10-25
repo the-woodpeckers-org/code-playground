@@ -16,7 +16,7 @@
         savedCv = JSON.parse(localStorage.getItem("CV"));
         usedTheme = JSON.parse(localStorage.getItem("theme"));
     } catch (error) {
-        console.log(error);c
+        console.log(error); c
     }
 
     //Display CV on page
@@ -115,11 +115,10 @@
         let dataTable2 = convertTableToHtml(section.table2);
         numOfSections++;
         return `<section class="section info deletable sortable break-after" id="section${numOfSections}">
-            <h2 contenteditable="true" class="text-center info-name">${
-                section.name
+            <h2 contenteditable="true" class="text-center info-name">${section.name
             }</h2><div class="row flex flex-grow ">${dataTable1 + dataTable2}</div></section>`;
     }
-    
+
     //Generate HTML for tables in info sections, returns a string of HTML
     function convertTableToHtml(table) {
         let dataTable = "";
@@ -144,7 +143,7 @@
         }
         return dataTable;
     }
-    
+
     //Generate HTML for single block sections
     function singleBlockToHtml(
         section = { title: "New Single Block", list: ["Description"] }
@@ -157,7 +156,7 @@
         return `<section class="break-after section single-block deletable extendable sortable-list sortable" id="section${numOfSections}">
     <h3 contenteditable="true" class="section-heading single-block-title">${section.title}</h3>${htmlList}</section>`;
     }
-    
+
     //Generate HTML for listing sections
     function listingToHtml(
         section = {
@@ -188,7 +187,7 @@
         }
     ) {
         let htmlList = "";
-    
+
         for (j in section.list) {
             htmlList += createThreeColumnItem(section.list[j]);
         }
@@ -199,7 +198,7 @@
     }
     /* Generate HTML for elements within sections
     Default parameters are used when a new element is created*/
-    
+
     //Create HTML for item in Info section
     function createInfoItem(label = "Label", content = "Information") {
         return `<div class=" deletable sortable">
@@ -207,7 +206,7 @@
         <div contenteditable="true" class="info-content">${content}</div>
     </div>`;
     }
-    
+
     //Create HTML for item in Listing section
     function createListingItem(
         listing = {
@@ -234,25 +233,25 @@
     </div>
 </div>`;
     }
-    
+
     //Create HTML for item in Single Block section
     function createSingleBlockItem(textContent = "Description") {
         return `<div class="flex flex-wrap deletable sortable"><div class="flex-1"><div contenteditable="true" class="single-block-content">${textContent}</div></div></div>
     </div>`;
     }
-    
+
     //Create HTML for item in Three Column section
     function createThreeColumnItem(item = "New Item") {
         return `<div class="w-full md:w-1/3 sortable deletable"><ul><li contenteditable="true" class="three-col-item">${item}</li></ul></div>`;
     }
-    
+
 
     /* Adding a new section to CV */
 
     //Toggle buttons to add new section
     function toggleSectionBtns() {
         $("#close-section").toggle();
-        $("#add-section-btn").toggle();  
+        $("#add-section-btn").toggle();
         $("#new-section-buttons").toggle("blind", "swing", 300);
     }
 
@@ -553,6 +552,17 @@
             setTimeout(function () {
                 $("#save-alert").hide("blind", 100);
             }, 8000);
+
+            const saveCV = localStorage.getItem('CV');
+            if (saveCV) {
+                const _content = JSON.stringify(JSON.stringify(currentCv));
+                axios.post('/api/saveCV', { content: _content })
+                    .then(response => {
+                        console.log(response);
+                    }).catch(error => {
+                        console.log(error);
+                    });
+            }
         });
 
         $("#save-alert .close").click(function () {
@@ -565,8 +575,11 @@
             changeTheme("theme-default");
             localStorage.clear();
         });
-
-        //Fetch default CV data and display as formatted HTML
+        function hello($hehe) {
+            console.log("hello", $hehe);
+        }
+        // console.log(window.location.href);
+//        Fetch default CV data and display as formatted HTML
         fetch("data/defaultcv.json")
             .then((res) => res.json())
             .then((data) => {

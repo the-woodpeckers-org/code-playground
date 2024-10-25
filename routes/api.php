@@ -45,4 +45,5 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('
 Route::post('/newCV',[CvController::class,'newCV'])->name('newCV');
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');
 Route::get('/contest/', [ContestController::class, 'getAll'])->name('contest.getAll');
-Route::post('/saveCV', [CvController::class, 'saveCV'])->name('cv.save');
+Route::post('/saveCV', [CvController::class, 'saveCV'])->name('saveCV');
+Route::get('/cvsU',[CvController::class,'getCvsU'])->name('getCvsU');

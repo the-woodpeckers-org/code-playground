@@ -1,11 +1,12 @@
 <script>
+import axios from 'axios';
+
 export default {
     name: "CvBuilder",
-    updated() { // Corrected 'onUpdated' to 'updated'
-        this.loadScripts(); // Call loadScripts directly in updated lifecycle hook
+    updated() {
+        this.loadScripts();
     },
     mounted() {
-        // Add jQuery
         const scriptJquery = document.createElement('script');
         scriptJquery.src = "https://code.jquery.com/jquery-3.6.0.min.js";
         scriptJquery.onload = () => {
@@ -19,39 +20,25 @@ export default {
             const scriptJQueryUI = document.createElement('script');
             scriptJQueryUI.src = 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js';
             scriptJQueryUI.onload = () => {
-                // When jQuery UI is loaded, call loadScripts to add other scripts
                 this.loadScripts();
             };
             document.body.appendChild(scriptJQueryUI);
         },
         loadScripts() {
-            // Add script for Anchorme
             const scriptAnchorme = document.createElement('script');
             scriptAnchorme.src = '/js/lib/PageCV/anchorme.min.js';
             document.body.appendChild(scriptAnchorme);
 
-            // Add script for CvEditor
             const scriptCvEditor = document.createElement('script');
             scriptCvEditor.src = '/js/lib/PageCV/CvEditor.js';
             document.body.appendChild(scriptCvEditor);
 
-            // Add script for html2pdf
             const scriptHtml2Pdf = document.createElement('script');
             scriptHtml2Pdf.src = '/js/lib/PageCV/html2pdf.bundle.min.js';
             document.body.appendChild(scriptHtml2Pdf);
         },
         reset() {
             location.reload();
-        },
-        save()  
-        {
-          const saveCV  = localStorage.getItem('CV');
-          if(saveCV)
-          {
-            const cvData = JSON.parse(saveCV);
-            console.log(cvData);
-          }
-          
         },
     },
 };

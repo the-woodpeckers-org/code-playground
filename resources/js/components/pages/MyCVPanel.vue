@@ -13,13 +13,28 @@ export default {
     return {
       router: useRouter(),
       route: useRoute(),
+      listItemcvs: Array,
     };
   },
   components: {
     NavigatorCV, CvItem
   },
+  async mounted() {
+    let _this = this
+    await
+        axios.get('/api/cvsU')
+          .then(response => {
+            console.log(response.data);
+            _this.listItemcvs = response.data.data;
+          })
+          .catch(error => {
+            console.error(error);
+          });
+       
+      
+  },
   methods: {
-    newCV() {
+   async newCV() {
       axios.post('/api/newCV', {})
         .then(response => {
           console.log("Đang vào controller để xử lý");
@@ -32,7 +47,8 @@ export default {
         .catch(error => {
           console.error(error);
         });
-    }
+    },
+    
   }
 }
 
@@ -112,7 +128,7 @@ export default {
         </thead>
 
         <tbody>
-          <CvItem v-for="index in 5" :key="index"></CvItem>
+          <CvItem v-for="index in listItemcvs " :title="index.title" :id ="index.id" :updated="index.updated_at" ></CvItem>
         </tbody>
       </table>
     </div>
