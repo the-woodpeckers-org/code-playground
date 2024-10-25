@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('file_path');
             $table->boolean('isPrimary')->default(false);
             $table->timestamps();
-
         });
     
     }
@@ -28,6 +27,13 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cvs');
+        Schema::create('cvs', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->string('file_path');
+            $table->boolean('isPrimary')->default(false);
+            $table->timestamps();
+        });
     }
 };

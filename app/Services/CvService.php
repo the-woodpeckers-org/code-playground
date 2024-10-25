@@ -17,4 +17,21 @@ class CvService
             'id' => 1
         ]);
     }
+
+    public function saveCV(Request $request)
+    {
+        if (auth('sanctum')->check()) {
+            $userId = auth('sanctum')->user()->id;
+           
+            $exist = Cv::where('id', $request->id)->first();
+            if($exist)
+            {
+                
+            }
+            else{
+                $cv = new Cv();
+             //   $cv->user_id = 
+            }
+        }
+    }
 }

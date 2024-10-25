@@ -17,4 +17,8 @@ class CvController
     {
         return $this->service->newCV();
     }
+    public function saveCV(Request $request)
+    {
+        return $this->service->saveCV($request);
+    }
 }
