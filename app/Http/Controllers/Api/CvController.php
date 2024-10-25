@@ -31,4 +31,8 @@ class CvController
     {
         return $this->service->getCV($request);
     }
+    public function deleteCV($id)
+    {
+        return $this->service->deleteCV($id);
+    }
 }

@@ -36,14 +36,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/submit/participation', [ProblemController::class, 'submitParticipation'])->name('problem.submitParticipation');
     Route::post('/participate/finish', [ParticipationController::class, 'finish'])->name('participate.finish');
     Route::get('/participate/get', [ParticipationController::class, 'getParticipationU'])->name('participate.getParticipationU');
+    Route::post('/saveCV', [CvController::class, 'saveCV'])->name('saveCV');
+    Route::get('/cvsU',[CvController::class,'getCvsU'])->name('getCvsU');
+    Route::post('/newCV',[CvController::class,'newCV'])->name('newCV');
+    Route::get('/deleteCV/{id}',[CvController::class,'deleteCV'])->name('deleteCV');
 });
 
 // Password reset
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('auth.resetPassword');
 
-Route::post('/newCV',[CvController::class,'newCV'])->name('newCV');
+
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');
 Route::get('/contest/', [ContestController::class, 'getAll'])->name('contest.getAll');
-Route::post('/saveCV', [CvController::class, 'saveCV'])->name('saveCV');
-Route::get('/cvsU',[CvController::class,'getCvsU'])->name('getCvsU');

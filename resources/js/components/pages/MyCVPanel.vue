@@ -1,6 +1,7 @@
 <script>
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
 import CvItem from '@/components/listItems/CvItem.vue';
+import {HTTP} from "@/http-common.js";
 import {
   RouterView,
   RouterLink,
@@ -14,6 +15,7 @@ export default {
       router: useRouter(),
       route: useRoute(),
       listItemcvs: Array,
+      isLoading: false,
     };
   },
   components: {
@@ -22,7 +24,7 @@ export default {
   async mounted() {
     let _this = this
     await
-        axios.get('/api/cvsU')
+        HTTP.get('/api/cvsU')
           .then(response => {
             console.log(response.data);
             _this.listItemcvs = response.data.data;
@@ -30,12 +32,11 @@ export default {
           .catch(error => {
             console.error(error);
           });
-       
-      
+       _this.isLoading = true;  
   },
   methods: {
    async newCV() {
-      axios.post('/api/newCV', {})
+      HTTP.post('/api/newCV', {})
         .then(response => {
           console.log("Đang vào controller để xử lý");
           console.log(response.data);
@@ -48,7 +49,9 @@ export default {
           console.error(error);
         });
     },
-    
+    removeCv(id) {
+      this.listItemcvs = this.listItemcvs.filter(cv => cv.id !== id);
+    }
   }
 }
 
@@ -114,21 +117,21 @@ export default {
       </div>
     </div>
     <div class="mt-20 sm:mt-20 md:mt-20 lg:clear-both"></div>
-    <!-- =)) vài bữa đẩy cái số lượng vào 10 record 1 trang maybe:D -->
+
     <div class="overflow-x-auto">
       <table class="table">
         <!-- head -->
         <thead>
+      
           <tr class="bg-base-200 text-zinc-900 text-md md:text-lg lg:text-xl font-semibold">
             <th>CV Name</th>
             <th>CV's Status</th>
             <th>Updated at</th>
             <th>Actions</th>
-          </tr>
+          </tr>            
         </thead>
-
-        <tbody>
-          <CvItem v-for="index in listItemcvs " :title="index.title" :id ="index.id" :updated="index.updated_at" ></CvItem>
+        <tbody>      
+          <CvItem v-for="index in listItemcvs " :title="index.title" :id ="index.id" :updated="index.updated_at" @delete="removeCv"></CvItem>
         </tbody>
       </table>
     </div>
