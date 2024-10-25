@@ -18,13 +18,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthService
 {
-    public function login(LoginFormRequest $request)
+    public function login(LoginFormRequest $request): array
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('token')->plainTextToken;
-            return response()->json(['user' => $user, 'token' => $token]);
+            return ['user' => $user, 'token' => $token];
         }
         return throw new BadRequestHttpException('Unauthorized');
     }

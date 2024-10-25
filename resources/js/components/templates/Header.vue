@@ -5,7 +5,7 @@ export default {
             isMenuOpen: false
         }
     },
-    methods: { 
+    methods: {
         logout() {
             let _this = this
             axios.get('/api/logout')
@@ -18,7 +18,7 @@ export default {
                 })
         },
         OpenMenu() {
-            this.isMenuOpen = !this.isMenuOpen; 
+            this.isMenuOpen = !this.isMenuOpen;
         }
     }
 
@@ -66,7 +66,7 @@ export default {
                     Career
                 </router-link>
             </div>
-        
+
         </div>
         <div class="lg:hidden items-center">
                 <button @click="OpenMenu" class="text-white focus:outline-none hover:bg-gray-600 transition rounded-3xl">
