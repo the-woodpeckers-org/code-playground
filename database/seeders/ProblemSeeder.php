@@ -17,7 +17,7 @@ class ProblemSeeder extends Seeder
     {
         $user = [
             'name' => 'Demo User',
-            'email' => 'demo@demo.com',
+            'email' => 'duongdeptrai102x@gmail.com',
             'password' => Hash::make('123'),
             'address' => 'Demo Address, City',
             'phone_number' => '0360100250',
