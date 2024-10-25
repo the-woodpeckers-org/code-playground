@@ -23,13 +23,14 @@ class CvService
 
     public function saveCV(Request $request)
     {
-        $userId = 1;
+        $userId = $request->user()->id;
         $content = $request->input('content');
         try {
+         
             $cv = new Cv();
             $cv->user_id = $userId;
             $cv->content = $content;
-            $cv->title ='test';
+            $cv->title = 'test';
             $cv->save();
             return response()->json([
                 'status' => 200,
@@ -38,30 +39,39 @@ class CvService
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'status' => 200,
+                'status' => 501,
                 'message' => $th,
                 'data' => $content
             ]);
         }
     }
-    public function getCvsU(Request $request)   
+    public function getCvsU(Request $request)
     {
-        $userId = 1;
+        $userId = $request->user()->id;
         $cvs = Cv::where('user_id', $userId)->get();
         return response()->json([
             'status' => 200,
             'message' => 'Success',
             'data' => $cvs
-        ]);  
+        ]);
     }
     public function getCV(Request $request)
     {
-        $userId = 1;
-        $cv = Cv::where('id', $request->input('idCV'))->first();
+      
+        $cv = Cv::where('id', $request->input('id'))->first();
         return response()->json([
             'status' => 200,
             'message' => 'Success',
             'data' => $cv
+        ]);
+    }
+    public function deleteCV($id)
+    {
+        $cv = Cv::where('id', $id)->first();
+        $cv->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success',
         ]);
     }
 }
