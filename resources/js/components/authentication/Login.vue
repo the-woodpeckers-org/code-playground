@@ -1,5 +1,4 @@
 <script>
-import {setAuth} from "@/services/user.js";
 import {HTTP} from "@/http-common.js";
 
 export default {
