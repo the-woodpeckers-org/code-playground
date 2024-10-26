@@ -12,13 +12,31 @@ use PhpParser\Node\Stmt\TryCatch;
 class CvService
 {
 
-    public function newCV()
+    public function newCV(Request $request)
     {
         // xử lý logic và các phần khác sẽ tiến hành sau khi có các dữ liệu data user, cv
-        return response()->json([
-            'message' => 'hehehe?',
-            'id' => 1
-        ]);
+        try {
+            $userId = $request->user()->id;
+            $cv = new Cv();
+            $cv->user_id = $userId;
+            $cv->title = $request->input('title');
+            $cv ->content = '';
+            $cv->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Success',
+                'title'=>$cv->title,
+                'id' => $cv->id,
+
+            ]);
+        }
+        catch (\Throwable $th)
+        {
+            return response()->json([
+                'message' => 'fail',
+            ]);
+        }
+       
     }
 
     public function saveCV(Request $request)
@@ -26,7 +44,7 @@ class CvService
         $userId = $request->user()->id;
         $content = $request->input('content');
         try {
-         
+
             $cv = new Cv();
             $cv->user_id = $userId;
             $cv->content = $content;
@@ -57,7 +75,7 @@ class CvService
     }
     public function getCV(Request $request)
     {
-      
+
         $cv = Cv::where('id', $request->input('id'))->first();
         return response()->json([
             'status' => 200,
