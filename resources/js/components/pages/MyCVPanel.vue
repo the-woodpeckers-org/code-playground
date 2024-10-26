@@ -16,6 +16,7 @@ export default {
       route: useRoute(),
       listItemcvs: Array,
       isLoading: false,
+      title: null,
     };
   },
   components: {
@@ -36,22 +37,28 @@ export default {
   },
   methods: {
    async newCV() {
-      HTTP.post('/api/newCV', {})
+      if(!this.title) {
+        alert('Please enter the title');
+        new_cv_modal.showModal();
+        return;
+      }
+      HTTP.post('/api/newCV', {title: this.title})
         .then(response => {
           console.log("Đang vào controller để xử lý");
-          console.log(response.data);
           const cvId = response.data.id;
           if (cvId) {
             this.router.push({ name: 'cvbuilder', params: { id: cvId } });
           }
         })
         .catch(error => {
-          console.error(error);
+          
+          console.log( error);
         });
     },
     removeCv(id) {
       this.listItemcvs = this.listItemcvs.filter(cv => cv.id !== id);
-    }
+    },
+    
   }
 }
 
@@ -81,7 +88,7 @@ export default {
         <form method="dialog">
           <label class="input input-bordered flex items-center gap-2 w-full m-3">
             Name CV
-            <input type="text" class="grow required" placeholder="Daisy" />
+            <input type="text" class="grow required" v-model="title" placeholder="Daisy" />
           </label>
           <select class="select select-info w-full m-3">
             <option disabled selected>Select language</option>

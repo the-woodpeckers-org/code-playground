@@ -12,11 +12,24 @@ class CvController
     //
     public function __construct(CvService $_service)
     {
+        
         $this->service = $_service;
     }
-    public function newCV()
-    {
-        return $this->service->newCV();
+    public function newCV(Request $request)
+    {   
+        try {
+            $request->validate([
+                'title' => 'required',         
+            ]);
+            return $this->service->newCV($request);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'fail',
+            ]);
+        }
+      
+
+    
     }
     public function saveCV(Request $request)
     {

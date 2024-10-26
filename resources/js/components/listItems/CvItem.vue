@@ -8,8 +8,8 @@ export default {
         id: Number,
         title: String,
         isPrimary: Boolean,
-
     },
+    emits: ['delete'],
     data() {
         return {
             isDeleteModalVisible: false, // Trạng thái hiển thị modal xác nhận xóa
