@@ -719,21 +719,21 @@ export default {
             <div class="flex flex-grow w-full text-center hide gap-4" id="new-section-buttons">
                     <button class="section-btn pb-4 pb-md-0" id="newinfo-btn"
                         aria-label="Add new info section">
-                        <img src="images\new-section-info.png" alt="Add new info section" />
+                        <img src="\images\new-section-info.png" alt="Add new info section" />
                         Info
                     </button>
                     <button class="section-btn pb-4 pb-md-0" id="newlisting-btn"
                         aria-label="Add new listing section">
-                        <img src="images\new-section-listing.png" alt="Add new listing section" />
+                        <img src="\images\new-section-listing.png" alt="Add new listing section" />
                         Listing
                     </button>
                     <button class="section-btn pb-4 pb-md-0" id="new3col-btn"
                         aria-label="Add new three column section">
-                        <img src="images\new-section-3-col.png" alt="Add new three column section" />
+                        <img src="\images\new-section-3-col.png" alt="Add new three column section" />
                         Three Columns
                     </button>
                     <button class="section-btn" id="newsingleblock-btn" aria-label="Add new block section">
-                        <img src="images\new-section-block.png" alt="Add new block section" />
+                        <img src="\images\new-section-block.png" alt="Add new block section" />
                         Block
                     </button>
                 </div>

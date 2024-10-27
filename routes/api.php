@@ -41,6 +41,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/newCV',[CvController::class,'newCV'])->name('newCV');
     Route::get('/deleteCV/{id}',[CvController::class,'deleteCV'])->name('deleteCV');
 });
+Route::get('/getCV/{id}', [CvController::class, 'getCV'])->name('getCV');
 
 // Password reset
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
