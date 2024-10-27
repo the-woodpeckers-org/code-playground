@@ -584,23 +584,25 @@
             localStorage.clear();
         });    
 
-    
+        //Fetch CV data from server
         if (idCV) {
-            fetch(`/api/getCV/${idCV}`)
+            fetch(`/api/getCV/${idCV}`,{headers: {  'Authorization': `Bearer ${token}` }})
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
-                    return response.json(); // Chuyển đổi phản hồi sang JSON
+                    return response.json();
                 })
                 .then(data => {
-                    console.log(data); // Xử lý dữ liệu nhận được
+                    const cleanedJsonString = data.content.replace(/\\n/g, '').replace(/\s+/g, ' ');
+                    const jsonObject = JSON.parse(cleanedJsonString);
+                    setContent(jsonObject);             
                 })
                 .catch(error => {
-                    console.error('Fetch error:', error); // Xử lý lỗi
+                    console.error('Fetch error:', error); 
                 });
         } else {
-            console.error('No CV ID found in URL.'); // Thông báo nếu không có ID CV
+            console.error('No CV ID found in URL.'); 
         }
         
 

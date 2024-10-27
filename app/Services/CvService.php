@@ -42,10 +42,10 @@ class CvService
         $content = $request->input('content');
         try {
 
-            $cv = new Cv();
+            $cv = CV::find($request->input('idCV'));
             $cv->user_id = $userId;
             $cv->content = $content;
-            $cv->title = 'test';
+            // $cv->title = 'test';
             $cv->save();
             return response()->json([
                 'status' => 200,
