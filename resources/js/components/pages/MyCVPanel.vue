@@ -138,7 +138,7 @@ export default {
           </tr>            
         </thead>
         <tbody>      
-          <CvItem v-for="index in listItemcvs " :title="index.title" :id ="index.id" :updated="index.updated_at" @delete="removeCv"></CvItem>
+          <CvItem v-for="index in listItemcvs " :title="index.title" :id ="index.id" :updated="index.updated_at" @delete="removeCv" ></CvItem>
         </tbody>
       </table>
     </div>
