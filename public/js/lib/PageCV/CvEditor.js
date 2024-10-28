@@ -18,6 +18,8 @@
     } catch (error) {
         console.log(error); c
     }
+    const idCV = window.location.href.split('/').pop();
+    const token = localStorage.getItem('accessToken');
 
     //Display CV on page
     function setContent(cvContent) {
@@ -545,6 +547,7 @@
         //Save to local storage when save button is clicked
         $("#save-btn").click(function () {
             let currentCv = saveCvToArray();
+            
             localStorage.setItem("CV", JSON.stringify(currentCv));
             localStorage.setItem("theme", JSON.stringify(usedTheme));
             //Display confirmation alert when saved
@@ -555,13 +558,18 @@
 
             const saveCV = localStorage.getItem('CV');
             if (saveCV) {
-                const _content = JSON.stringify(JSON.stringify(currentCv));
-                axios.post('/api/saveCV', { content: _content })
-                    .then(response => {
-                        console.log(response);
-                    }).catch(error => {
-                        console.log(error);
+                const content = JSON.stringify(currentCv); 
+                try {
+                    const response = axios.post('/api/saveCV', { content, idCV: idCV }, {
+                        headers: {
+                            'Authorization': `Bearer ${token}` 
+                        }
                     });
+                    console.log(response);
+                } catch (error) {
+                    console.error("Error saving CV:", error);
+                    $("#error-alert").text("Failed to save CV. Please try again.").show();
+                };
             }
         });
 
@@ -574,25 +582,44 @@
             setContent(defaultCv);
             changeTheme("theme-default");
             localStorage.clear();
-        });
-        function hello($hehe) {
-            console.log("hello", $hehe);
+        });    
+
+        //Fetch CV data from server
+        if (idCV) {
+            fetch(`/api/getCV/${idCV}`,{headers: {  'Authorization': `Bearer ${token}` }})
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const cleanedJsonString = data.content.replace(/\\n/g, '').replace(/\s+/g, ' ');
+                    const jsonObject = JSON.parse(cleanedJsonString);
+                    setContent(jsonObject);             
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error); 
+                });
+        } else {
+            console.error('No CV ID found in URL.'); 
         }
-        // console.log(window.location.href);
-//        Fetch default CV data and display as formatted HTML
-        fetch("data/defaultcv.json")
-            .then((res) => res.json())
-            .then((data) => {
-                defaultCv = data;
-                // If no saved CV has been saved, set content to default CV
-                if (!savedCv) {
-                    setContent(defaultCv);
-                }
-                // Set content to saved CV and theme
-                else {
-                    setContent(savedCv);
-                    changeTheme(usedTheme);
-                }
-            });
+        
+
+//    Fetch default CV data and display as formatted HTML
+        // fetch("/data/defaultcv.json")
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         defaultCv = data;
+        //         // If no saved CV has been saved, set content to default CV
+        //         if (!savedCv) {
+        //             setContent(defaultCv);
+        //         }
+        //         // Set content to saved CV and theme
+        //         else {
+        //             setContent(savedCv);
+        //             changeTheme(usedTheme);
+        //         }
+        //     });
     });
 })();

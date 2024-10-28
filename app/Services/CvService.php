@@ -20,23 +20,20 @@ class CvService
             $cv = new Cv();
             $cv->user_id = $userId;
             $cv->title = $request->input('title');
-            $cv ->content = '';
+            $cv->content = '';
             $cv->save();
             return response()->json([
                 'status' => 200,
                 'message' => 'Success',
-                'title'=>$cv->title,
+                'title' => $cv->title,
                 'id' => $cv->id,
 
             ]);
-        }
-        catch (\Throwable $th)
-        {
+        } catch (\Throwable $th) {
             return response()->json([
                 'message' => 'fail',
             ]);
         }
-       
     }
 
     public function saveCV(Request $request)
@@ -45,10 +42,10 @@ class CvService
         $content = $request->input('content');
         try {
 
-            $cv = new Cv();
+            $cv = CV::find($request->input('idCV'));
             $cv->user_id = $userId;
             $cv->content = $content;
-            $cv->title = 'test';
+            // $cv->title = 'test';
             $cv->save();
             return response()->json([
                 'status' => 200,
@@ -73,19 +70,24 @@ class CvService
             'data' => $cvs
         ]);
     }
-    public function getCV(Request $request)
-    {
 
-        $cv = Cv::where('id', $request->input('id'))->first();
-        return response()->json([
-            'status' => 200,
-            'message' => 'Success',
-            'data' => $cv
-        ]);
+    public function getCV($id)
+    {
+        // Tìm kiếm CV theo ID
+        $cv = Cv::find($id); // hoặc Cv::where('id', $id)->first();
+
+        // Kiểm tra nếu CV không tồn tại
+        if (!$cv) {
+            return response()->json(['error' => 'CV not found'], 404);
+        }
+
+        // Trả về dữ liệu CV
+        return response()->json($cv);
     }
+
     public function deleteCV($id)
     {
-        $cv = Cv::where('id', $id)->first();
+        $cv = Cv::find($id);
         $cv->delete();
         return response()->json([
             'status' => 200,

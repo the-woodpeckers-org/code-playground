@@ -124,7 +124,7 @@ const routes = [
         name: 'code-playground-cv'
     },
     {
-        path:'/CvBuilder',
+        path:'/CvBuilder/:id',
         component: CvBuilder,
         name: 'cvbuilder'
     },

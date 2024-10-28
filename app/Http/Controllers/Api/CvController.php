@@ -40,9 +40,9 @@ class CvController
         return $this->service->getCvsU($request);
     }
 
-    public function getCV(Request $request)
+    public function getCV($id)
     {
-        return $this->service->getCV($request);
+        return $this->service->getCV($id);
     }
     public function deleteCV($id)
     {
