@@ -1,52 +1,105 @@
 <script>
-import axios from 'axios';
-
 export default {
-    name: "CvBuilder",
-    updated() {
-        this.loadScripts();
-    },
-    mounted() {
-        const scriptJquery = document.createElement('script');
-        scriptJquery.src = "https://code.jquery.com/jquery-3.6.0.min.js";
-        scriptJquery.onload = () => {
-            // When jQuery is loaded, load jQuery UI
-            this.loadJQueryUI();
+    name: "CvShowPdf",
+    data() {
+        return {
+            pdfBlobUrl: null, // Temporary PDF Blob URL
+            html2pdfLoaded: false, // Status of html2pdf loading
+            loadScriptsLoaded: false,
         };
-        document.body.appendChild(scriptJquery);
     },
+    async mounted() {
+        await this.loadJQuery();
+        await this.loadJQueryUI();
+        this.loadScriptsLoaded = true;
+        setTimeout(() => {
+            this.generatePDF();
+        }, 800);
+    },
+
     methods: {
+        loadJQuery() {
+            return new Promise((resolve) => {
+                const scriptJquery = document.createElement("script");
+                scriptJquery.src = "https://code.jquery.com/jquery-3.6.0.min.js";
+                scriptJquery.onload = () => {
+                    console.log("jQuery loaded");
+                    resolve();
+                };
+                document.body.appendChild(scriptJquery);
+            });
+        },
         loadJQueryUI() {
-            const scriptJQueryUI = document.createElement('script');
-            scriptJQueryUI.src = 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js';
-            scriptJQueryUI.onload = () => {
-                this.loadScripts();
-            };
-            document.body.appendChild(scriptJQueryUI);
+            return new Promise((resolve) => {
+                const scriptJQueryUI = document.createElement("script");
+                scriptJQueryUI.src = "https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js";
+                scriptJQueryUI.onload = () => {
+                    console.log("jQuery UI loaded");
+                    this.loadScripts(); // Load other scripts after jQuery UI
+                    resolve();
+                };
+                document.body.appendChild(scriptJQueryUI);
+            });
         },
         loadScripts() {
-            const scriptAnchorme = document.createElement('script');
-            scriptAnchorme.src = '/js/lib/PageCV/anchorme.min.js';
+            // Load additional scripts here
+            const scriptAnchorme = document.createElement("script");
+            scriptAnchorme.src = "/js/lib/PageCV/anchorme.min.js";
             document.body.appendChild(scriptAnchorme);
 
-            const scriptCvEditor = document.createElement('script');
-            scriptCvEditor.src = '/js/lib/PageCV/CvEditor.js';
+            const scriptCvEditor = document.createElement("script");
+            scriptCvEditor.src = "/js/lib/PageCV/CvEditor.js";
+            scriptCvEditor.onload = () => {
+                console.log("CvEditor loaded");
+            };
             document.body.appendChild(scriptCvEditor);
 
-            const scriptHtml2Pdf = document.createElement('script');
-            scriptHtml2Pdf.src = '/js/lib/PageCV/html2pdf.bundle.min.js';
+            const scriptHtml2Pdf = document.createElement("script");
+            scriptHtml2Pdf.src = "/js/lib/PageCV/html2pdf.bundle.min.js";
+            scriptHtml2Pdf.onload = () => {
+                this.html2pdfLoaded = true;
+                console.log("html2pdf loaded");
+            };
             document.body.appendChild(scriptHtml2Pdf);
         },
-        reset() {
-            location.reload();
+        async generatePDF() {
+            if (this.html2pdfLoaded) {
+                const element = this.$refs.content;
+                const pdfBlob = await window.html2pdf()
+                    .from(element)
+                    .toPdf()
+                    .outputPdf("blob");
+
+                // Set Blob URL to display in iframe
+                this.pdfBlobUrl = URL.createObjectURL(pdfBlob);
+                console.log(this.pdfBlobUrl);
+                window.location.href = this.pdfBlobUrl; 
+              
+            } else {
+                console.error("html2pdf has not finished loading.");
+            }
         },
     },
 };
 </script>
 
+<template>
+    <div class="h-max">
+        <div id="cv" v-if="!pdfBlobUrl">
+            <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!pdfBlobUrl">
+        <span class="loading loading-dots loading-lg"></span>
+    </div>
+            <!-- Content to be converted to PDF -->
+            <div id="printable" class="ml-auto mr-auto sortable-list" ref="content">
+                <!-- Add other HTML content if needed -->
+            </div>
+        </div>
+    </div>
+</template>
 
-  
+
 <style scoped>
+
 :deep(body) {
     font-family: helvetica, arial, sans-serif;
     font-size: 14px;
@@ -65,7 +118,7 @@ export default {
     width: 100%;
 }
 
-:deep( h1.logo){
+:deep(h1.logo) {
     font-weight: 700;
     border: 0.3rem dashed;
     border-radius: 1rem;
@@ -676,141 +729,3 @@ export default {
     font-family: helvetica, arial, sans-serif;
 }
 </style>
-  
-<template>
-    <div>
-      <!-- HEADER -->
-      <header class="custom-header">
-        <nav class="navbar navbar-expand-lg static-top navbar-dark">
-          <div class="container">
-            <h1 class="logo">cv builder</h1>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-              aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <!-- NAVIGATION -->
-            <div class="collapse navbar-collapse mt-md-3" id="navbarResponsive">
-              <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                  <span id="nav-title">Themes:</span>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link active pl-0 pr-0" id="theme-default-link"
-                    aria-label="Switch to default theme"> Default <span class="sr-only">(current)</span>
-                  </button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link pl-0 pr-0" id="theme-modern-link" aria-label="Switch to modern theme">
-                    Modern
-                  </button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link pl-0 pr-0" id="theme-lavender-link" aria-label="Switch to lavender theme">
-                    Lavender
-                  </button>
-                </li>
-                <li class="nav-item">
-                  <button class="nav-link pl-0 pr-0" id="theme-deco-link" aria-label="Switch to deco theme">
-                    Deco
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </header>
-  
-      <div class="container main-container w-full">
-        <div id="cv">
-          <!-- PRINTABLE HTML -->
-          <div id="printable" class="ml-auto mr-auto sortable-list"></div>
-        
-          <!-- New Section Buttons -->
-          <div id="add-section">
-            <button id="add-section-btn" class="text-center" aria-label="Add new section">
-              <i class="fas fa-plus-circle"></i> New Section
-            </button>
-            <div id="close-section" class="text-right">
-              <i class="fas fa-times-circle"></i>
-            </div>
-            <div class="flex flex-grow w-full text-center hide gap-4" id="new-section-buttons">
-                    <button class="section-btn pb-4 pb-md-0" id="newinfo-btn"
-                        aria-label="Add new info section">
-                        <img src="\images\new-section-info.png" alt="Add new info section" />
-                        Info
-                    </button>
-                    <button class="section-btn pb-4 pb-md-0" id="newlisting-btn"
-                        aria-label="Add new listing section">
-                        <img src="\images\new-section-listing.png" alt="Add new listing section" />
-                        Listing
-                    </button>
-                    <button class="section-btn pb-4 pb-md-0" id="new3col-btn"
-                        aria-label="Add new three column section">
-                        <img src="\images\new-section-3-col.png" alt="Add new three column section" />
-                        Three Columns
-                    </button>
-                    <button class="section-btn" id="newsingleblock-btn" aria-label="Add new block section">
-                        <img src="\images\new-section-block.png" alt="Add new block section" />
-                        Block
-                    </button>
-                </div>
-            <!-- Add more sections if needed -->
-          </div>
-        </div>
-      </div>
-  
-      <div class="container">
-        <!-- Succesful save alert -->
-        <div id="save-alert" class="alert alert-success alert-dismissible fade show text-center" role="alert">
-          <strong>CV saved successfully!</strong>
-          <p>
-            Your CV has been saved locally.
-            <br />
-            Be aware that clearing your browser's cache will result in
-            the loss of your saved information.
-          </p>
-          <button type="button" class="close" aria-label="Close alert">
-            <span aria-hidden="true" class="close-alert">
-              <i class="fas fa-times-circle"></i>
-            </span>
-          </button>
-        </div>
-  
-        <!-- Action Buttons -->
-        <div class="flex justify-center gap-2 p-3">
-          <button class="btn btn-primary action-btn" id="reset-alert-btn" onclick="confirm_reset_modal.showModal()" aria-label="Reset CV">
-            RESET
-            <i class="fas fa-undo-alt"></i>
-          </button>
-          <button class="btn btn-primary action-btn" id="save-btn" aria-label="Save Cv"  @click="save">
-            SAVE
-            <i class="far fa-save"></i>
-          </button>
-          <button class="btn btn-primary action-btn" id="download-btn" aria-label="Download as pdf">
-            DOWNLOAD AS PDF
-            <i class="fas fa-file-download"></i>
-          </button>
-        </div>
-      </div>
-      <dialog class="modal" id="confirm_reset_modal">
-        <div class="modal-box bg-base-100">
-            <h3 class="text-lg font-semibold">Warning</h3>
-            <p class="py-4 text-base">Are you sure you want to reset?</p>
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="reset">Yes</button>
-                    <button class="btn btn-sm m-1 border">No</button>
-                </form>
-            </div>
-        </div>
-    </dialog>
-  
-      <footer class="w-full h-fit custom-footer">
-        <div class="container text-right p-3">
-          CV Builder by The Woodpeckers 2024
-        </div>
-      </footer>
-    </div>
-  </template>
-  
- 
