@@ -45,6 +45,11 @@ export default {
         },
         editCV() {
             this.$router.push({ name: 'cvbuilder', params: { id: this.id } });
+        },
+        showDetail()
+        {
+            const url = this.$router.resolve({ name: 'cv-show', params: { id: this.id } }).href;
+            window.open(url, '_blank');
         }
     },
 
@@ -58,7 +63,7 @@ export default {
 
         <td>
             <div class="grid grid-cols-1 lg:grid-cols-4">
-                <a :id="`view-${id}`"
+                <a @click="showDetail"
                     class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300">
                     <i class="fa-regular fa-eye"></i>
                 </a>
@@ -81,7 +86,7 @@ export default {
     <dialog ref="deleteModal" class="modal">
         <div class="modal-box bg-base-100">
             <h3 class="text-lg font-semibold">Warning</h3>
-            <p class="py-4 text-base">Are you sure you want delete thss?</p>
+            <p class="py-4 text-base">Are you sure you want delete this?</p>
             <div class="modal-action">
                 <form method="dialog">
                     <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"

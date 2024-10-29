@@ -21,7 +21,7 @@ const ContestDetail = () => import('@/components/pages/ContestDetail.vue');
 const ContestPanel = () => import('@/components/pages/ContestPanel.vue');
 const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
 const CvBuilder =()=>import("@/components/pages/CvBuilder.vue");
-
+const CvShowPDF =()=>import("@/components/pages/CvShowPDF.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -137,6 +137,11 @@ const routes = [
         path: '/reset-password/:reset-token',
         component: ResetPassword,
         name: 'reset-password'
+    },
+    {
+        path: '/cv/show/:id',
+        component: CvShowPDF,
+        name: 'cv-show'
     }
 ]
 
