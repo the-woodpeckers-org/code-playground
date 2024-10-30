@@ -1,6 +1,7 @@
 <script>
 import { format } from 'date-fns';
 import { HTTP } from "@/http-common.js";
+import CvShowPDF from '@/components/pages/CvShowPDF.vue';
 import {
     RouterView,
     RouterLink,
@@ -9,6 +10,9 @@ import {
 } from 'vue-router';
 export default {
     name: 'CvItem',
+    components: {
+        CvShowPDF
+    },
     props: {
         updated: String,
         id: Number,
@@ -19,6 +23,7 @@ export default {
     data() {
         return {
             isDeleteModalVisible: false, // Trạng thái hiển thị modal xác nhận xóa
+            isloadCV:false,
         };
     },
     computed: {
@@ -46,16 +51,63 @@ export default {
         editCV() {
             this.$router.push({ name: 'cvbuilder', params: { id: this.id } });
         },
-        showDetail()
-        {
+        async showDetail() {
             const url = this.$router.resolve({ name: 'cv-show', params: { id: this.id } }).href;
             window.open(url, '_blank');
-        }
-    },
+        },
+        async downloadCV() {
+            const url = this.$router.resolve({ name: 'cv-show', params: { id: this.id } }).href;
+            const newWindow = window.open(url, '_blank');
+                console.log("Dang vao cai moi");    
+            // Đảm bảo rằng newWindow không null
+            if (newWindow) {
+                if (newWindow.document.readyState === 'complete') {
+                    setTimeout(() => {
+                        newWindow.close();
+                    }, 800);
+                    this.isloadCV = true;
+                }
+            }
+            setTimeout(() => {
+                const pdfBlobUrltemp = localStorage.getItem('pdfBlobUrl');
+                console.log('PDF Blob URL 2222: ' + this.title , pdfBlobUrltemp);
+            if(this.isloadCV)
+            {
+                this.base64ToPDF(pdfBlobUrltemp, this.title + '.pdf');
+            }
+            },1000);
+            
+        },
+        base64ToPDF(base64Data, fileName) {
+            // Tạo Blob từ dữ liệu base64
+            const byteCharacters = atob(base64Data);
+            const byteNumbers = new Uint8Array(byteCharacters.length);
 
+            // Chuyển đổi từng ký tự thành byte
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            // Tạo đối tượng Blob từ byte array
+            const blob = new Blob([byteNumbers], { type: 'application/pdf' });
+            // Tạo URL cho blob
+            const blobUrl = URL.createObjectURL(blob);
+            // Tạo liên kết để tải xuống PDF
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = fileName; // Tên tệp tải xuống
+            document.body.appendChild(link); // Thêm liên kết vào DOM
+            link.click(); // Tự động nhấp vào liên kết để tải xuống
+            document.body.removeChild(link); // Xóa liên kết khỏi DOM
+            URL.revokeObjectURL(blobUrl); // Giải phóng URL blob
+            this.isloadCV = false;
+            localStorage.removeItem('pdfBlobUrl');
+        }
+
+    },
 }
 </script>
 <template>
+    <div ref="content"></div>
     <tr class="text-pretty text-md md:text-sm lg:text-lg border-b border-gray-500">
         <td>{{ title }}</td>
         <td>{{ isPrimary ? 'Ứng tuyển công ty hehe' : 'Chưa dùng được ứng tuyển vị trí nào' }}</td>
@@ -72,7 +124,7 @@ export default {
                     class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300">
                     <i class="fa-regular fa-pen-to-square"></i>
                 </a>
-                <a :id="`download-${id}`"
+                <a @click="downloadCV"
                     class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300">
                     <i class="fa-solid fa-cloud-arrow-down"></i>
                 </a>
@@ -96,4 +148,7 @@ export default {
             </div>
         </div>
     </dialog>
+    <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="this.isloadCV">
+                <span class="loading loading-dots loading-lg"></span>
+            </div>
 </template>
