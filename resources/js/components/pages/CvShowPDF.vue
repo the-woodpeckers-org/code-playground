@@ -1,6 +1,7 @@
 <script>
 export default {
-    name: "CvShowPdf",
+    name: "CvShowPDF",
+    emits: ['pdf-generated'],
     data() {
         return {
             pdfBlobUrl: null, // Temporary PDF Blob URL
@@ -9,6 +10,7 @@ export default {
         };
     },
     async mounted() {
+        localStorage.removeItem('pdfBlobUrl');
         await this.loadJQuery();
         await this.loadJQueryUI();
         this.loadScriptsLoaded = true;
@@ -63,22 +65,27 @@ export default {
             document.body.appendChild(scriptHtml2Pdf);
         },
         async generatePDF() {
-            if (this.html2pdfLoaded) {
+            if (this.html2pdfLoaded) {              
                 const element = this.$refs.content;
                 const pdfBlob = await window.html2pdf()
                     .from(element)
                     .toPdf()
                     .outputPdf("blob");
-
-                // Set Blob URL to display in iframe
                 this.pdfBlobUrl = URL.createObjectURL(pdfBlob);
                 console.log(this.pdfBlobUrl);
-                window.location.href = this.pdfBlobUrl; 
-              
+
+                const reader = new FileReader();
+       
+                reader.onloadend = () => {
+                    const base64data = reader.result.split(',')[1];
+                    localStorage.setItem("pdfBlobUrl", base64data);
+                    window.location.href = this.pdfBlobUrl;
+                };
+                reader.readAsDataURL(pdfBlob);
             } else {
                 console.error("html2pdf has not finished loading.");
             }
-        },
+        }
     },
 };
 </script>
@@ -87,8 +94,8 @@ export default {
     <div class="h-max">
         <div id="cv" v-if="!pdfBlobUrl">
             <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!pdfBlobUrl">
-        <span class="loading loading-dots loading-lg"></span>
-    </div>
+                <span class="loading loading-dots loading-lg"></span>
+            </div>
             <!-- Content to be converted to PDF -->
             <div id="printable" class="ml-auto mr-auto sortable-list" ref="content">
                 <!-- Add other HTML content if needed -->
@@ -99,7 +106,6 @@ export default {
 
 
 <style scoped>
-
 :deep(body) {
     font-family: helvetica, arial, sans-serif;
     font-size: 14px;
