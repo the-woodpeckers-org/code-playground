@@ -65,7 +65,7 @@ export default {
             document.body.appendChild(scriptHtml2Pdf);
         },
         async generatePDF() {
-            if (this.html2pdfLoaded) {              
+            if (this.html2pdfLoaded) {
                 const element = this.$refs.content;
                 const pdfBlob = await window.html2pdf()
                     .from(element)
@@ -75,7 +75,7 @@ export default {
                 console.log(this.pdfBlobUrl);
 
                 const reader = new FileReader();
-       
+
                 reader.onloadend = () => {
                     const base64data = reader.result.split(',')[1];
                     localStorage.setItem("pdfBlobUrl", base64data);
