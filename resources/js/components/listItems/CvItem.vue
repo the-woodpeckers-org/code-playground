@@ -64,7 +64,7 @@ export default {
                 if (newWindow.document.readyState === 'complete') {
                     setTimeout(() => {
                         newWindow.close();
-                    }, 800);
+                    }, 1500);
                     this.isloadCV = true;
                 }
             }

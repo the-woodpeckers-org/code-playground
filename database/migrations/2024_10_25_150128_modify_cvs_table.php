@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cvs', function (Blueprint $table) {
-        
+        Schema::table('cvs', function (Blueprint $table) {        
             $table->renameColumn('file_path', 'content');
-            $table->text('content')->change();
+            $table->text('content')->change()->nullable();
+            $table->text('base64_content')->nullable(); // Mục đích scan content thành file rồi lưu vào cho show_pdf đỡ mất thời gian! nhưng tốn bộ nhớ =))
             $table->string('title');
         });
     }
-
     /**
      * Reverse the migrations.
      */
