@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('phone_number')->nullable();
             $table->string('gender')->nullable();
             $table->date('birthday')->nullable();
+            $table->boolean('is_active')->default(false);
         });
     }
 

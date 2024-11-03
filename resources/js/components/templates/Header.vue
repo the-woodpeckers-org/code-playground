@@ -134,3 +134,8 @@ export default {
 <script setup>
 
 </script>
+<style scoped>
+.router-link-active {
+  color: red;
+}
+</style>
