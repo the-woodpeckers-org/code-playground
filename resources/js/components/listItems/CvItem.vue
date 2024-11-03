@@ -71,10 +71,10 @@ export default {
             setTimeout(() => {
                 const pdfBlobUrltemp = localStorage.getItem('pdfBlobUrl');
                 console.log('PDF Blob URL 2222: ' + this.title , pdfBlobUrltemp);
-            if(this.isloadCV)
-            {
-                this.base64ToPDF(pdfBlobUrltemp, this.title + '.pdf');
-            }
+                if(this.isloadCV)
+                {
+                    this.base64ToPDF(pdfBlobUrltemp, this.title + '.pdf');
+                }
             },1000);
 
         },
