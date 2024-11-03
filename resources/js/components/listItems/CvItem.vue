@@ -58,25 +58,25 @@ export default {
         async downloadCV() {
             const url = this.$router.resolve({ name: 'cv-show', params: { id: this.id } }).href;
             const newWindow = window.open(url, '_blank');
-                console.log("Dang vao cai moi");    
+                console.log("Dang vao cai moi");
             // Đảm bảo rằng newWindow không null
             if (newWindow) {
                 if (newWindow.document.readyState === 'complete') {
                     setTimeout(() => {
                         newWindow.close();
-                    }, 800);
+                    }, 1500);
                     this.isloadCV = true;
                 }
             }
             setTimeout(() => {
                 const pdfBlobUrltemp = localStorage.getItem('pdfBlobUrl');
                 console.log('PDF Blob URL 2222: ' + this.title , pdfBlobUrltemp);
-            if(this.isloadCV)
-            {
-                this.base64ToPDF(pdfBlobUrltemp, this.title + '.pdf');
-            }
+                if(this.isloadCV)
+                {
+                    this.base64ToPDF(pdfBlobUrltemp, this.title + '.pdf');
+                }
             },1000);
-            
+
         },
         base64ToPDF(base64Data, fileName) {
             // Tạo Blob từ dữ liệu base64
