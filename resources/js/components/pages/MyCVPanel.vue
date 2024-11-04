@@ -63,14 +63,6 @@ export default {
     },
     onFileChange(event) {
       this.file = event.target.files[0];
-    },
-    uploadCV()
-    {
-      if (!this.file) {
-        alert("Please select a file.");
-        upload_cv_modal.showModal();
-        return;
-      }
     }
   }
 }
@@ -116,35 +108,7 @@ export default {
       </div>
     </div>
   </dialog>
-  <dialog id="upload_cv_modal" class="modal">
-  <div class="modal-box bg-white rounded-lg shadow-lg p-6">
-    <h2 class="text-center text-teal-600 font-extrabold text-xl mb-4">Upload CV from Your Computer</h2>
-    <label for="" class="text-gray-600 text-sm block mb-2">
-      You can upload your CV in (.doc, .docx, or .pdf format) &lt; 5MB
-    </label>
-    <form method="dialog">
-      <div class="border border-gray-300 rounded-lg p-4 bg-gray-50 mb-4">
-        <input
-          class="form-control block w-full text-gray-700 border border-gray-300 rounded-md p-3 cursor-pointer file:bg-teal-500 file:text-white file:rounded-md hover:file:bg-teal-600"
-          type="file" id="input-file" name="input" accept=".doc, .docx, .pdf" @change="onFileChange" />
-      </div>
-      <div class="w-full mb-4 p-4 border border-gray-300 rounded-lg bg-gray-50">
-        <div class="grid grid-cols-2 items-center gap-2">
-          <label class="text-gray-600 font-medium">Activate the primary CV and 'Looking for Job'.</label>
-            <label class="swap p-3 ":class="{'bg-green-100': isLookingForJob, 'bg-red-100': !isLookingForJob}" >
-            <input type="checkbox"  v-model="isLookingForJob"/>
-            <div class="swap-on text-green-600 font-bold">ON</div>
-            <div class="swap-off text-red-600 font-bold">OFF</div>
-          </label>
-        </div>
-      </div>
-      <div class="flex justify-end gap-4">
-        <button class="btn bg-gray-200 text-gray-700 hover:bg-gray-300 font-medium px-4 py-2 rounded-md">Close</button>
-        <button @click="uploadCV" class="btn bg-teal-500 text-white hover:bg-teal-600 font-medium px-4 py-2 rounded-md" type="submit">Begin</button>
-      </div>
-    </form>
-  </div>
-</dialog>
+
 
   <div>
     <NavigatorCV pageActive="My CV"></NavigatorCV>
@@ -158,9 +122,6 @@ export default {
           class="text-[#0E7490] text-sm md:text-lg lg:text-2xl font-semibold lg:hover:scale-105">Cover Letter</a>
       </div>
       <div class="lg:float-right flex">
-        <span class=""><a onclick="upload_cv_modal.showModal()"
-            class="btn sm:btn-sm md:btn-md lg:btn-lg bg-[#393E46]  text-white font-extrabold m-3 lg:hover:scale-105 lg:hover:bg-lime-950">Upload
-            CV <i class="ml-3 fa-solid fa-cloud-arrow-up"></i></a></span>
         <span class=""><a onclick="new_cv_modal.showModal()"
             class="btn sm:btn-sm md:btn-md lg:btn-lg bg-[#0D91B7] text-white font-extrabold m-3 lg:hover:scale-105 lg:hover:bg-primary">New
             CV <i class="ml-3 fa-regular fa-newspaper"></i></a></span>

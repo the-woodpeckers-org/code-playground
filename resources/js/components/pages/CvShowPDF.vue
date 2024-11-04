@@ -10,13 +10,16 @@ export default {
         };
     },
     async mounted() {
-        localStorage.removeItem('pdfBlobUrl');
-        this.loadJQuery();
-        this.loadJQueryUI();
+        if(localStorage.getItem("pdfBlobUrl"))
+        {
+            localStorage.setItem("pdfBlobUrl", null);
+        }
+       await this.loadJQuery();
+       await this.loadJQueryUI();
         this.loadScriptsLoaded = true;
         setTimeout(() => {
             this.generatePDF();
-        }, 800);
+        }, 1500);
     },
 
     methods: {
@@ -72,6 +75,7 @@ export default {
               }
                 console.log("1");          
                 const element = this.$refs.content;
+                console.log(element);
                 const pdfBlob = await window.html2pdf()
                     .from(element)
                     .toPdf()

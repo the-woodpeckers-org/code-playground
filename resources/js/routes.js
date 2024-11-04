@@ -120,7 +120,7 @@ const routes = [
         name: 'contest-result'
     },
     {
-        path: '/CpMycv',
+        path: '/ProfileCV',
         component: ProfileCV,
         name: 'code-playground-cv'
     },
