@@ -5,10 +5,258 @@ import {
     RouterLink
 } from 'vue-router';
 export default {
-    components: { NavigatorCV }
+    data() {
+        return {
+            selectedSkills: [],
+            availableSkills: ['Java', 'Go', 'C', 'C#', 'C++', 'Rust', 'JavaScript', 'Python']
+        };
+    },
+    components: { NavigatorCV },
+    methods: {
+        showProfile() {
+            profile_modal.showModal();
+        }, addSkill(event) {
+            const skill = event.target.value;
+            if (skill && !this.selectedSkills.includes(skill)) {
+                this.selectedSkills.push(skill);
+                this.availableSkills = this.availableSkills.filter(s => s !== skill);
+            }
+            event.target.value = "Select a skill";
+            console.log(this.selectedSkills);
+        },
+        removeSkill(skill) {
+            this.selectedSkills = this.selectedSkills.filter(s => s !== skill);
+            if (!this.availableSkills.includes(skill)) {
+                this.availableSkills.push(skill);
+            }
+        },
+        removeAll() {
+            this.availableSkills = [...this.availableSkills, ...this.selectedSkills];
+            this.selectedSkills = [];
+        }
+    }
 }
 </script>
 <template>
+
+    <dialog id="profile_modal" class="modal">
+        <div class="modal-box w-11/12 max-w-3xl">
+            <div
+                class="flex items-start justify-between rounded-t dark:border-gray-600 border-b p-5 rounded-tl-xl md:rounded">
+                <h3 id=":r9:" class="text-xl font-medium text-gray-900 dark:text-white">
+                    <p class="font-bold text-black">Personal information at a glance</p>
+                    <p class="text-base font-normal text-gray-400">Fill in all the information to help you reach out to the recruiter
+                        use it with ease </p>
+                </h3>
+            </div>
+            <div class="p-6 flex-1 overflow-auto">
+                <form id="basic-information-form">
+                    <div class="space-y-6">
+                        <h2 class="text-sm font-bold uppercase text-gray-400">Information</h2>
+                        <div class="flex flex-wrap gap-3 md:gap-5">
+                            <div class="w-full md:w-auto">
+                                <div class="h-40 w-40 relative overflow-hidden rounded-full bg-gray-200"><img
+                                        alt="Avatar" loading="lazy" width="160" height="160" decoding="async"
+                                        data-nimg="1" class="h-40 w-40 rounded-full"
+                                        srcset="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s 1x, https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s 2x"
+                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s"
+                                        style="color: transparent;"><label
+                                        class="text-4xl absolute bottom-0 flex w-full cursor-pointer justify-center py-2 text-white backdrop-blur"><input
+                                            class="hidden" type="file"><svg stroke="currentColor" fill="currentColor"
+                                            stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="1em"
+                                            width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z"></path>
+                                            <path fill-rule="evenodd"
+                                                d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                                                clip-rule="evenodd"></path>
+                                        </svg></label></div>
+                            </div>
+                            <div class="grid grow grid-cols-2 gap-5">
+                                <div class="form-group col-span-1"><label for="display_name"
+                                        class="text-sm font-bold text-gray-500">Full name<span
+                                            class="font-normal text-primary">*</span></label>
+                                    <div class="relative">
+                                        <div class="flex">
+                                            <div class="relative w-full"><input
+                                                    class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                    id="display_name" placeholder="Nguyễn Văn A"
+                                                    value="PHAN NGOC BAO VINH"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-span-2 md:col-span-1"><label for="birthday"
+                                        class="text-sm font-bold text-gray-500">Dob </label>
+                                    <div class="relative w-full text-gray-700"><input
+                                            class="relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed focus:border-blue-500 focus:ring-blue-500/20"
+                                            placeholder="DD/MM/YYYY" id="birthday" autocomplete="off"
+                                            role="presentation" type="text" value=""><button type="button"
+                                            class="absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"><svg
+                                                class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z">
+                                                </path>
+                                            </svg></button>
+
+                                    </div>
+                                </div>
+                                <div class="form-group col-span-2 md:col-span-1"><label for=""
+                                        class="text-sm font-bold text-gray-500">Sex</label>
+                                    <div class="grid grid-cols-3 justify-items-stretch overflow-hidden">
+                                        <button type="button"  class="h-[40px] rounded-bl rounded-tl border">Male</button>
+                                            <button type="button" class="h-[40px] border">Female</button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h2 class="text-sm font-bold uppercase text-gray-400"></h2>
+                        <div class="grid grid-cols-2 gap-3 md:gap-5">
+                            <div class="form-group col-span-2 md:col-span-1"><label for="position"
+                                    class="text-sm font-bold text-gray-500">Job a position<span
+                                        class="font-normal text-primary">*</span></label>
+                                <div class="relative">
+                                    <div class="flex">
+                                        <div class="relative w-full"><input
+                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                id="position" placeholder="Ví dụ: Back- end developer"
+                                                value="developer"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-span-2 md:col-span-1"><label for=""
+                                    class="text-sm font-bold text-gray-500">Year a experience<span
+                                        class="font-normal text-primary">*</span></label>
+                                <div class="relative">
+                                    <div class="flex">
+                                        <div class="relative w-full"><input
+                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                min="0" placeholder="Ví dụ: 2" type="number" value="1"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-span-2 md:col-span-1"><label for=""
+                                    class="text-sm font-bold text-gray-500">Email </label>
+                                <div class="flex">
+                                    <div class="relative w-full"><input
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            disabled="" value="pv198357@gmail.com" readonly></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-span-2 md:col-span-1"><label for=""
+                                    class="text-sm font-bold text-gray-500">Contact <span
+                                        class="font-normal text-primary"></span></label>
+                                <div class="relative">
+                                    <div class="flex">
+                                        <div class="relative w-full"><input
+                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                placeholder="Nhập số điện thoại" value="0344052691" readonly></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-span-2 md:col-span-1"><label for=""
+                                    class="text-sm font-bold text-gray-500">Address </label>
+                                <div class="flex">
+                                    <div class="relative w-full"><input
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            placeholder="Nhập tên đường, phường, quận" value=""></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-span-2 md:col-span-1"><label for=""
+                                    class="text-sm font-bold text-gray-500">Thành phố/ Tỉnh<span
+                                        class="font-normal text-primary">*</span></label>
+                                <!-- <div class="relative">
+                                    <div class=" css-b62m3t-container"><span id="react-select-2-live-region"
+                                            class="css-7pg0cj-a11yText"></span><span aria-live="polite"
+                                            aria-atomic="false" aria-relevant="additions text"
+                                            class="css-7pg0cj-a11yText"></span>
+                                        <div class="select__control css-13cymwt-control">
+                                            <div
+                                                class="select__value-container select__value-container--has-value css-hlgwow">
+                                                <div class="select__single-value css-1dimb5e-singleValue">Hồ Chí Minh
+                                                </div>
+                                                <div class="select__input-container css-19bb58m" data-value=""><input
+                                                        class="select__input" autocapitalize="none" autocomplete="off"
+                                                        autocorrect="off" id="react-select-2-input" spellcheck="false"
+                                                        tabindex="0" aria-autocomplete="list" aria-expanded="false"
+                                                        aria-haspopup="true" role="combobox" type="text" value=""
+                                                        style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;">
+                                                </div>
+                                            </div>
+                                            <div class="select__indicators css-1wy0on6"><span
+                                                    class="select__indicator-separator css-1u9des2-indicatorSeparator"></span>
+                                                <div class="select__indicator select__dropdown-indicator css-1xc3v61-indicatorContainer"
+                                                    aria-hidden="true"><svg height="20" width="20" viewBox="0 0 20 20"
+                                                        aria-hidden="true" focusable="false" class="css-8mmkcg">
+                                                        <path
+                                                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z">
+                                                        </path>
+                                                    </svg></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="form-group col-span-2 md:col-span-1"><label for=""
+                                    class="text-sm font-bold text-gray-500">Social </label>
+                                <div class="flex">
+                                    <div class="relative w-full"><input
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            placeholder="https://www.linkedin.com/username" value=""></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-span-2 md:col-span-1"><label for=""
+                                    class="hidden text-sm font-bold text-gray-500 md:block">&nbsp;</label>
+                                <div class="flex">
+                                    <div class="relative w-full"><input
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            placeholder="https://github.com/username" value=""></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-span-2"><label for="" class="text-sm font-bold text-gray-500">Skill<span class="font-normal text-primary">*</span></label>
+                                <div class="relative w-full border rounded-md h-min p-3">
+                                    <div class="grid grid-cols-6 gap-4">
+                                        <div class="col-start-1 col-end-6">
+                                            <div class="flex flex-wrap gap-2 w-2/3" id="skill-selected">
+                                                <kbd v-for="(skill, index) in selectedSkills" :key="index" class="kbd">
+                                                    {{ skill }}
+                                                    <button @click="removeSkill(skill)" class="ml-2 text-red-500">
+                                                        <i class="fa-solid fa-x"></i>
+                                                    </button>
+                                                </kbd>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-end items-center gap-2">
+                                            <button v-if="selectedSkills.length" @click="removeAll"
+                                                class="flex items-center justify-center w-10 h-10 text-red-500">
+                                                <i class="fa-solid fa-x"></i>
+                                            </button>
+                                            <p class="divider divider-horizontal divider-neutral h-auto"></p>
+                                            <select class="select w-auto" @change="addSkill($event)">
+                                                <option disabled selected>Select a skill</option>
+                                                <option v-for="(skill, index) in availableSkills" :key="index"
+                                                    :value="skill">
+                                                    {{ skill }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-action">
+                <form method="dialog">
+                    <div class="flex gap-2">
+
+                        <button class="btn ">Close</button>
+                        <button class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </dialog>
     <div>
         <NavigatorCV></NavigatorCV>
         <div class="mt-9 grid grid-cols-1 md:grid md:grid-cols-1 lg:flex">
@@ -58,7 +306,7 @@ export default {
             </div>
             <div class="mt-3 md:mt-3 lg:m-0 w-full">
                 <div class="flex flex-col w-full justify-between">
-                   
+
                     <div>
                         <div class="m-3 flex flex-1 justify-between w-full">
                             <label for="" class="text-sm md:text-md lg:text-base font-bold">Information</label>
@@ -113,8 +361,10 @@ export default {
                                         <path
                                             d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z">
                                         </path>
-                                    </svg><span class="px-4 py-2 text-sm font-semibold text-neutral-900">Sửa hồ
-                                        sơ</span></button></div>
+                                    </svg>
+                                    <span @click="showProfile"
+                                        class="px-4 py-2 text-sm font-semibold text-neutral-900">Edit
+                                        profile</span></button></div>
                         </div>
                     </div>
                 </div>
