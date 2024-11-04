@@ -75,7 +75,7 @@ export default {
                 {
                     this.base64ToPDF(pdfBlobUrltemp, this.title + '.pdf');
                 }
-            },1000);
+            },1500);
 
         },
         base64ToPDF(base64Data, fileName) {
@@ -100,7 +100,6 @@ export default {
             document.body.removeChild(link); // Xóa liên kết khỏi DOM
             URL.revokeObjectURL(blobUrl); // Giải phóng URL blob
             this.isloadCV = false;
-            localStorage.removeItem('pdfBlobUrl');
         }
 
     },

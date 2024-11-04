@@ -6,7 +6,7 @@ export default {
 <template>
     <div class="navbar bg-gradient-to-tr from-cyan-300 to-purple-300 grid grid-cols-1 lg:flex lg:justify-between">
         <p class="relative inline-block group">
-            <router-link to="/CpMycv" class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">
+            <router-link to="/ProfileCV" class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">
               View profile  
             </router-link>
             <span

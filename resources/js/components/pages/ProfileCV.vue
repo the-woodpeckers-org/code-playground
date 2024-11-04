@@ -58,21 +58,7 @@ export default {
             </div>
             <div class="mt-3 md:mt-3 lg:m-0 w-full">
                 <div class="flex flex-col w-full justify-between">
-                    <div class="flex grid-cols-3 flex-col items-center bg-white p-4 md:flex-row md:px-6 md:py-4">
-                        <div class=" col-span-2 w-auto md:max-w-[539px] p-3 text-balance">
-                            <p class="text-gray-950 font-bold text-xs md:text-base lg:text-md">CodePlayground CV</p>
-                            <p>Optimize your CV according to ATS standards by uploading existing CVs, converting,
-                                editing, and applying</p>
-                        </div>
-                        <div class="col-span-1 mt-4 flex items-center justify-center md:mx-auto md:mt-0">
-                            <button
-                                class="btn  sm:btn-sm md:btn-md lg:btn-base bg-primary text-white font-bold m-3 lg:hover:scale-105 lg:hover:bg-primary">Upload
-                                Profile<i class="fa-sharp fa-solid fa-cloud-arrow-up text-md"></i></button>
-                            <button
-                                class="btn  sm:btn-sm md:btn-md lg:btn-base bg-slate-500 text-white font-bold m-3 lg:hover:scale-105 lg:hover:bg-slate-500">Download
-                                <i class="fa-solid fa-file-arrow-down"></i></button>
-                        </div>
-                    </div>
+                   
                     <div>
                         <div class="m-3 flex flex-1 justify-between w-full">
                             <label for="" class="text-sm md:text-md lg:text-base font-bold">Information</label>
