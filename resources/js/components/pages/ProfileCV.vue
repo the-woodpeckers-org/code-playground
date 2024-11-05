@@ -1,5 +1,6 @@
 <script>
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
+import LocationPicker from '@/components/locationPicker/LocationPicker.vue';
 import {
     RouterView,
     RouterLink
@@ -11,7 +12,7 @@ export default {
             availableSkills: ['Java', 'Go', 'C', 'C#', 'C++', 'Rust', 'JavaScript', 'Python']
         };
     },
-    components: { NavigatorCV },
+    components: { NavigatorCV ,LocationPicker},
     methods: {
         showProfile() {
             profile_modal.showModal();
@@ -33,21 +34,30 @@ export default {
         removeAll() {
             this.availableSkills = [...this.availableSkills, ...this.selectedSkills];
             this.selectedSkills = [];
+        },
+        closeProfile() {
+            profile_modal.close();
         }
     }
 }
 </script>
 <template>
-
+     
     <dialog id="profile_modal" class="modal">
+     
         <div class="modal-box w-11/12 max-w-3xl">
-            <div
+            <div class="flex flex-col-reverse">
+                <div
                 class="flex items-start justify-between rounded-t dark:border-gray-600 border-b p-5 rounded-tl-xl md:rounded">
                 <h3 id=":r9:" class="text-xl font-medium text-gray-900 dark:text-white">
                     <p class="font-bold text-black">Personal information at a glance</p>
                     <p class="text-base font-normal text-gray-400">Fill in all the information to help you reach out to the recruiter
                         use it with ease </p>
-                </h3>
+                    </h3>
+                </div>
+                <div class="flex justify-end p-0">
+                    <button class="btn rounded-full bg-blue-200 text-white hover:bg-red-100 hover:text-black" @click="closeProfile">X</button>
+                </div>
             </div>
             <div class="p-6 flex-1 overflow-auto">
                 <form id="basic-information-form">
@@ -80,7 +90,7 @@ export default {
                                             <div class="relative w-full"><input
                                                     class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                     id="display_name" placeholder="Nguyễn Văn A"
-                                                    value="PHAN NGOC BAO VINH"></div>
+                                                    value="PHAN NGOC BAO VINH" readonly></div>
                                         </div>
                                     </div>
                                 </div>
@@ -130,7 +140,7 @@ export default {
                                     <div class="flex">
                                         <div class="relative w-full"><input
                                                 class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                                min="0" placeholder="Ví dụ: 2" type="number" value="1"></div>
+                                                min="0" placeholder="Ví dụ: 2" type="number" value="1" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" ></div>
                                     </div>
                                 </div>
                             </div>
@@ -164,37 +174,7 @@ export default {
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
                                     class="text-sm font-bold text-gray-500">Thành phố/ Tỉnh<span
                                         class="font-normal text-primary">*</span></label>
-                                <!-- <div class="relative">
-                                    <div class=" css-b62m3t-container"><span id="react-select-2-live-region"
-                                            class="css-7pg0cj-a11yText"></span><span aria-live="polite"
-                                            aria-atomic="false" aria-relevant="additions text"
-                                            class="css-7pg0cj-a11yText"></span>
-                                        <div class="select__control css-13cymwt-control">
-                                            <div
-                                                class="select__value-container select__value-container--has-value css-hlgwow">
-                                                <div class="select__single-value css-1dimb5e-singleValue">Hồ Chí Minh
-                                                </div>
-                                                <div class="select__input-container css-19bb58m" data-value=""><input
-                                                        class="select__input" autocapitalize="none" autocomplete="off"
-                                                        autocorrect="off" id="react-select-2-input" spellcheck="false"
-                                                        tabindex="0" aria-autocomplete="list" aria-expanded="false"
-                                                        aria-haspopup="true" role="combobox" type="text" value=""
-                                                        style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;">
-                                                </div>
-                                            </div>
-                                            <div class="select__indicators css-1wy0on6"><span
-                                                    class="select__indicator-separator css-1u9des2-indicatorSeparator"></span>
-                                                <div class="select__indicator select__dropdown-indicator css-1xc3v61-indicatorContainer"
-                                                    aria-hidden="true"><svg height="20" width="20" viewBox="0 0 20 20"
-                                                        aria-hidden="true" focusable="false" class="css-8mmkcg">
-                                                        <path
-                                                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z">
-                                                        </path>
-                                                    </svg></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
+                                 <LocationPicker ></LocationPicker>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
                                     class="text-sm font-bold text-gray-500">Social </label>
@@ -249,7 +229,6 @@ export default {
             <div class="modal-action">
                 <form method="dialog">
                     <div class="flex gap-2">
-
                         <button class="btn ">Close</button>
                         <button class="btn btn-primary">Save</button>
                     </div>
