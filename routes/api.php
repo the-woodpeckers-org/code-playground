@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\ContestController;
 use App\Http\Controllers\Api\CvController;
 use App\Http\Controllers\testController;
 use App\Http\Controllers\Api\ParticipationController;
+use App\Http\Controllers\Api\ProfileUserController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -41,6 +42,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/newCV',[CvController::class,'newCV'])->name('newCV');
     Route::get('/deleteCV/{id}',[CvController::class,'deleteCV'])->name('deleteCV');
     Route::get('/getCV/{id}', [CvController::class, 'getCV'])->name('getCV');
+    Route::get('/getProfileCV', [ProfileUserController::class, 'getProfileCV'])->name('getProfileCV');
 });
 
 // Password reset

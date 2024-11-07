@@ -14,7 +14,6 @@ class CvService
 
     public function newCV(Request $request)
     {
-        // xử lý logic và các phần khác sẽ tiến hành sau khi có các dữ liệu data user, cv
         try {
             $userId = $request->user()->id;
             $cv = new Cv();
@@ -73,15 +72,11 @@ class CvService
 
     public function getCV($id)
     {
-        // Tìm kiếm CV theo ID
-        $cv = Cv::find($id); // hoặc Cv::where('id', $id)->first();
-
-        // Kiểm tra nếu CV không tồn tại
+      
+        $cv = Cv::find($id); 
         if (!$cv) {
             return response()->json(['error' => 'CV not found'], 404);
         }
-
-        // Trả về dữ liệu CV
         return response()->json($cv);
     }
 

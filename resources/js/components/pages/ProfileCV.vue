@@ -1,6 +1,7 @@
 <script>
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
 import LocationPicker from '@/components/locationPicker/LocationPicker.vue';
+import { HTTP } from "@/http-common.js";
 import {
     RouterView,
     RouterLink
@@ -8,11 +9,14 @@ import {
 export default {
     data() {
         return {
+            User: {},
+            Profile: {},
             selectedSkills: [],
-            availableSkills: ['Java', 'Go', 'C', 'C#', 'C++', 'Rust', 'JavaScript', 'Python']
+            socials: [],
+            availableSkills: ['Java', 'Go', 'C', 'C#', 'C++', 'Rust', 'JavaScript', 'Python'],
         };
     },
-    components: { NavigatorCV ,LocationPicker},
+    components: { NavigatorCV, LocationPicker },
     methods: {
         showProfile() {
             profile_modal.showModal();
@@ -37,26 +41,52 @@ export default {
         },
         closeProfile() {
             profile_modal.close();
+        },
+        async onLoad() {
+            try {
+                const response = await HTTP.get('/api/getProfileCV');
+                this.User = response.data.user;
+                this.User.address = JSON.parse(this.User.address.replace(/'/g, '"'));
+                this.Profile = response.data.profile;
+                if (this.Profile === "null") {
+                    //   this.Profile={};
+                }
+                else {
+                    //set profile
+                    const arrayOfSkills = JSON.parse(this.Profile.skill.replace(/'/g, '"'));
+                    this.selectedSkills = arrayOfSkills;
+                    this.availableSkills = this.availableSkills.filter(skill => !this.selectedSkills.includes(skill));
+                    const arrayOfSocials = JSON.parse(this.Profile.social.replace(/'/g, '"'));
+                    this.socials = arrayOfSocials.map(social => social.trim());
+                }
+            } catch (error) {
+                console.error("Failed to load profile:", error);
+            }
         }
+    },
+    async mounted() {
+        await this.onLoad();
+
     }
+
 }
 </script>
 <template>
-     
     <dialog id="profile_modal" class="modal">
-     
         <div class="modal-box w-11/12 max-w-3xl">
             <div class="flex flex-col-reverse">
                 <div
-                class="flex items-start justify-between rounded-t dark:border-gray-600 border-b p-5 rounded-tl-xl md:rounded">
-                <h3 id=":r9:" class="text-xl font-medium text-gray-900 dark:text-white">
-                    <p class="font-bold text-black">Personal information at a glance</p>
-                    <p class="text-base font-normal text-gray-400">Fill in all the information to help you reach out to the recruiter
-                        use it with ease </p>
+                    class="flex items-start justify-between rounded-t dark:border-gray-600 border-b p-5 rounded-tl-xl md:rounded">
+                    <h3 id=":r9:" class="text-xl font-medium text-gray-900 dark:text-white">
+                        <p class="font-bold text-black">Personal information at a glance</p>
+                        <p class="text-base font-normal text-gray-400">Fill in all the information to help you reach out
+                            to the recruiter
+                            use it with ease </p>
                     </h3>
                 </div>
                 <div class="flex justify-end p-0">
-                    <button class="btn rounded-full bg-blue-200 text-white hover:bg-red-100 hover:text-black" @click="closeProfile">X</button>
+                    <button class="btn rounded-full bg-blue-200 text-white hover:bg-red-100 hover:text-black"
+                        @click="closeProfile">X</button>
                 </div>
             </div>
             <div class="p-6 flex-1 overflow-auto">
@@ -99,24 +129,32 @@ export default {
                                     <div class="relative w-full text-gray-700"><input
                                             class="relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed focus:border-blue-500 focus:ring-blue-500/20"
                                             placeholder="DD/MM/YYYY" id="birthday" autocomplete="off"
-                                            role="presentation" type="text" value=""><button type="button"
+                                            role="presentation" type="date" :value="this.User.birthday"><button
+                                            type="button"
                                             class="absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"><svg
                                                 class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z">
-                                                </path>
                                             </svg></button>
 
                                     </div>
                                 </div>
-                                <div class="form-group col-span-2 md:col-span-1"><label for=""
-                                        class="text-sm font-bold text-gray-500">Sex</label>
+                                <div class="form-group col-span-2 md:col-span-1">
+                                    <label for="gender" class="text-sm font-bold text-gray-500">Sex</label>
                                     <div class="grid grid-cols-3 justify-items-stretch overflow-hidden">
-                                        <button type="button"  class="h-[40px] rounded-bl rounded-tl border">Male</button>
-                                            <button type="button" class="h-[40px] border">Female</button>
-                                        </div>
+                                        <button type="button" class="h-[40px] rounded-bl rounded-tl border"
+                                            :class="{ 'bg-blue-500 text-white': User.gender === 'Nam' }"
+                                            @click="User.gender = 'Nam'">
+                                            Male
+                                        </button>
+                                        <button type="button" class="h-[40px] border"
+                                            :class="{ 'bg-blue-500 text-white': User.gender === 'Nữ' }"
+                                            @click="User.gender = 'Nữ'">
+                                            Female
+                                        </button>
+                                    </div>
                                 </div>
+
+
                             </div>
                         </div>
                         <h2 class="text-sm font-bold uppercase text-gray-400"></h2>
@@ -140,7 +178,9 @@ export default {
                                     <div class="flex">
                                         <div class="relative w-full"><input
                                                 class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                                min="0" placeholder="Ví dụ: 2" type="number" value="1" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" ></div>
+                                                min="0" placeholder="Ví dụ: 2" type="number" value="1"
+                                                onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -149,7 +189,7 @@ export default {
                                 <div class="flex">
                                     <div class="relative w-full"><input
                                             class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            disabled="" value="pv198357@gmail.com" readonly></div>
+                                            disabled="" value="hehe" readonly></div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
@@ -174,7 +214,7 @@ export default {
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
                                     class="text-sm font-bold text-gray-500">Thành phố/ Tỉnh<span
                                         class="font-normal text-primary">*</span></label>
-                                 <LocationPicker ></LocationPicker>
+                                <LocationPicker></LocationPicker>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
                                     class="text-sm font-bold text-gray-500">Social </label>
@@ -192,7 +232,9 @@ export default {
                                             placeholder="https://github.com/username" value=""></div>
                                 </div>
                             </div>
-                            <div class="form-group col-span-2"><label for="" class="text-sm font-bold text-gray-500">Skill<span class="font-normal text-primary">*</span></label>
+                            <div class="form-group col-span-2"><label for=""
+                                    class="text-sm font-bold text-gray-500">Skill<span
+                                        class="font-normal text-primary">*</span></label>
                                 <div class="relative w-full border rounded-md h-min p-3">
                                     <div class="grid grid-cols-6 gap-4">
                                         <div class="col-start-1 col-end-6">
@@ -253,7 +295,7 @@ export default {
                                     </div>
                                 </div>
                                 <div class="stat-value sm:text-sm md:text-lg lg:text-2xl">10%</div>
-                                <div class="stat-title sm:text-base md:text-md lg:text-md">Phan Ngọc Bảo Vinh</div>
+                                <div class="stat-title sm:text-base md:text-md lg:text-md">{{ this.User.name }}</div>
                             </div>
                         </div>
                     </div>
@@ -305,31 +347,48 @@ export default {
                             <div class="flex-auto overflow-hidden">
                                 <div class="flex flex-col">
                                     <div class="flex items-center gap-1.5">
-                                        <h4 class="overflow-hidden text-2xl font-bold text-black"> PHAN NGOC BAO VINH
+                                        <h4 class="overflow-hidden text-2xl font-bold text-black" v-if="User"> {{
+                                            this.User.name }}
                                         </h4>
                                         <span
                                             class="ml-2 rounded-full bg-blue-50 px-3 py-[2px] text-sm font-bold text-blue-500">50%</span>
                                     </div>
                                     <div class="flex">
                                         <div class="flex items-center"><span
-                                                class="overflow-hidden text-xl font-bold text-neutral-600">Software
-                                                Developer</span>
+                                                class="overflow-hidden text-xl font-bold text-neutral-600">{{
+                                                    this.Profile.job_position || 'Add job position' }}</span>
                                             <div class="w-[30px] items-center justify-center text-center">-</div>
                                         </div>
-                                        <div class="flex-none text-xl text-gray-500">1 Năm kinh nghiệm</div>
+                                        <div class="flex-none text-xl text-gray-500">Number a experience: {{
+                                            this.Profile.experience || '0' }}</div>
                                     </div>
-                                    <div class="mt-4 text-lg text-gray-400">
-                                        <div class="flex w-96 truncate">Hồ Chí Minh</div>
-                                        <div class="mt-1 flex">
-                                            <div class="flex"><a class="underline">pv198357@gmail.com</a></div>
-                                            <div class="w-[30px] text-center">-</div>
-                                            <div>0344052691</div>
-                                            <div class="w-[30px] text-center">-</div>
-                                            <div><span class="whitespace-nowrap text-gray-300">Thêm ngày tháng năm
-                                                    sinh</span></div>
+                                    <div class="mt-4 text-lg text-gray-600">
+                                        <div class="flex w-96 truncate">
+                                            <span v-for="(item, index) in User.address" :key="index"
+                                                class="text-center">
+                                                {{ item }}<span v-if="index < User.address.length - 1">,</span>
+                                            </span>
                                         </div>
-                                        <div class="mt-1 flex  gap-4"><span class="text-gray-300">Thêm liên kết mạng xã
-                                                hội</span></div>
+                                        <div class="mt-1 flex">
+                                            <div class="flex">
+                                                <a class="underline">{{ User.email || 'Thêm mail' }}</a>
+                                            </div>
+                                            <div class="w-[30px] text-center">-</div>
+                                            <div>{{ this.User.phone_number }}</div>
+                                            <div class="w-[30px] text-center">-</div>
+                                            <div><span class="whitespace-nowrap text-gray-700">{{ this.User.birthday ||
+                                                "Add DOB" }}</span></div>
+                                        </div>
+                                        <div class="mt-1 flex gap-4"><span class="text-gray-700"
+                                                v-for="(item, index) in this.selectedSkills" :key="index">{{ item + ','
+                                                    || "Add Skill" }}</span></div>
+                                        <div class="mt-1 flex gap-4">
+                                            <a v-for="(item, index) in socials" :key="index"
+                                                class="text-gray-700 underline" :href="item" target="_blank"
+                                                rel="noopener noreferrer">
+                                                {{ item }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

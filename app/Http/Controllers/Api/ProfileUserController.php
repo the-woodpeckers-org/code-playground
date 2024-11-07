@@ -3,14 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use App\Services\ProfileUser;
+use App\Services\ProfileUserService;
+
 class ProfileUserController
 {
     //
-    
-        private ProfileUser $service;
-        public function __construct(ProfileUser $_service)
-        {
-            $this->service = $_service;
-        }
+
+    private ProfileUserService $service;
+    public function __construct(ProfileUserService $_service)
+    {
+        $this->service = $_service;
+    }
+    public function getProfileCV(Request $request) {
+        return $this->service->getProfileCV($request);
+    }
 }
