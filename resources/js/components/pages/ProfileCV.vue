@@ -6,6 +6,7 @@ import {
     RouterView,
     RouterLink
 } from 'vue-router';
+import { add, isFirstDayOfMonth } from 'date-fns';
 export default {
     data() {
         return {
@@ -13,7 +14,16 @@ export default {
             Profile: {},
             selectedSkills: [],
             socials: [],
+            isLoading: false,
             availableSkills: ['Java', 'Go', 'C', 'C#', 'C++', 'Rust', 'JavaScript', 'Python'],
+            imagePreview: null,
+            isMissingInfo: [],
+            address: {
+                province: null,
+                district: null,
+                ward: null,
+                name: null
+            }
         };
     },
     components: { NavigatorCV, LocationPicker },
@@ -46,27 +56,79 @@ export default {
             try {
                 const response = await HTTP.get('/api/getProfileCV');
                 this.User = response.data.user;
-                this.User.address = JSON.parse(this.User.address.replace(/'/g, '"'));
+                if (this.User.address != null) {
+                    this.User.address = JSON.parse(this.User.address.replace(/'/g, '"'));
+                    this.address.province = this.User.address[0];
+                    this.address.district = this.User.address[1];
+                    this.address.ward = this.User.address[2];
+                    this.address.name = this.User.address[3];
+                }
                 this.Profile = response.data.profile;
                 if (this.Profile === "null") {
                     //   this.Profile={};
                 }
                 else {
                     //set profile
-                    const arrayOfSkills = JSON.parse(this.Profile.skill.replace(/'/g, '"'));
-                    this.selectedSkills = arrayOfSkills;
-                    this.availableSkills = this.availableSkills.filter(skill => !this.selectedSkills.includes(skill));
-                    const arrayOfSocials = JSON.parse(this.Profile.social.replace(/'/g, '"'));
-                    this.socials = arrayOfSocials.map(social => social.trim());
+                    if (this.Profile.skill != null && this.Profile.social != null) {
+                        const arrayOfSkills = JSON.parse(this.Profile.skill.replace(/'/g, '"'));
+                        this.selectedSkills = arrayOfSkills;
+                        this.availableSkills = this.availableSkills.filter(skill => !this.selectedSkills.includes(skill));
+                        const arrayOfSocials = JSON.parse(this.Profile.social.replace(/'/g, '"'));
+                        this.socials = arrayOfSocials.map(social => social.trim());
+
+                    }
                 }
             } catch (error) {
                 console.error("Failed to load profile:", error);
             }
+        },
+        onFileChange(event) {
+            const file = event.target.files[0];
+            if (file) {
+                this.imagePreview = URL.createObjectURL(file);
+            }
+        },
+        SaveProfile() {
+
+            console.log(this.address);
+            const data = {
+                user: {
+                    id: this.User.id,
+                    birthday: this.User.birthday,
+                    gender: this.User.gender,
+                    address: [this.address.province, this.address.district, this.address.ward, this.address.name] 
+                },
+                profile: {
+                    job_position: this.Profile.job_position,
+                    experience: this.Profile.experience,
+                    social: JSON.stringify(this.socials),
+                    skill: JSON.stringify(this.selectedSkills)
+                }
+            };
+            HTTP.post('/api/updateProfileCV', data)
+                .then(response => {
+                    console.log(response.data);
+                    alert("Save successfully");
+
+                })
+                .catch(error => {
+                    console.error("Failed to save profile:", error);
+                    alert("Save failed");
+                });
+        },
+        handleAddressUpdated(address) {
+            this.address.district = address.district;
+            this.address.province = address.province;
+            this.address.ward = address.ward;
+          
         }
     },
     async mounted() {
         await this.onLoad();
-
+    },
+    updated() {
+        console.log(this.User);
+        console.log(this.address);
     }
 
 }
@@ -95,21 +157,25 @@ export default {
                         <h2 class="text-sm font-bold uppercase text-gray-400">Information</h2>
                         <div class="flex flex-wrap gap-3 md:gap-5">
                             <div class="w-full md:w-auto">
-                                <div class="h-40 w-40 relative overflow-hidden rounded-full bg-gray-200"><img
-                                        alt="Avatar" loading="lazy" width="160" height="160" decoding="async"
-                                        data-nimg="1" class="h-40 w-40 rounded-full"
-                                        srcset="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s 1x, https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s 2x"
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s"
-                                        style="color: transparent;"><label
-                                        class="text-4xl absolute bottom-0 flex w-full cursor-pointer justify-center py-2 text-white backdrop-blur"><input
-                                            class="hidden" type="file"><svg stroke="currentColor" fill="currentColor"
-                                            stroke-width="0" viewBox="0 0 24 24" aria-hidden="true" height="1em"
-                                            width="1em" xmlns="http://www.w3.org/2000/svg">
+                                <div class="h-40 w-40 relative overflow-hidden rounded-full bg-gray-200">
+                                    <img v-if="imagePreview" :src="imagePreview" alt="Avatar"
+                                        class="h-40 w-40 rounded-full" />
+                                    <img v-else alt="Avatar" class="h-40 w-40 rounded-full"
+                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s" />
+
+                                    <label
+                                        class="text-4xl absolute bottom-0 flex w-full cursor-pointer justify-center py-2 text-white backdrop-blur">
+                                        <input class="hidden" type="file" @change="onFileChange" />
+                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                            viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em"
+                                            xmlns="http://www.w3.org/2000/svg">
                                             <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z"></path>
                                             <path fill-rule="evenodd"
                                                 d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z"
                                                 clip-rule="evenodd"></path>
-                                        </svg></label></div>
+                                        </svg>
+                                    </label>
+                                </div>
                             </div>
                             <div class="grid grow grid-cols-2 gap-5">
                                 <div class="form-group col-span-1"><label for="display_name"
@@ -129,8 +195,8 @@ export default {
                                     <div class="relative w-full text-gray-700"><input
                                             class="relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed focus:border-blue-500 focus:ring-blue-500/20"
                                             placeholder="DD/MM/YYYY" id="birthday" autocomplete="off"
-                                            role="presentation" type="date" :value="this.User.birthday"><button
-                                            type="button"
+                                            role="presentation" type="date"v-model="this.User.birthday"
+                                        ><button type="button"
                                             class="absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"><svg
                                                 class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -167,7 +233,7 @@ export default {
                                         <div class="relative w-full"><input
                                                 class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                 id="position" placeholder="Ví dụ: Back- end developer"
-                                                value="developer"></div>
+                                                v-model="this.Profile.job_position"></div>
                                     </div>
                                 </div>
                             </div>
@@ -207,21 +273,27 @@ export default {
                                     class="text-sm font-bold text-gray-500">Address </label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            placeholder="Nhập tên đường, phường, quận" value=""></div>
+                                        class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                        placeholder="Nhập tên đường, phường, quận"
+                                        v-model="address.name" >
+                                        </div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
                                     class="text-sm font-bold text-gray-500">Thành phố/ Tỉnh<span
                                         class="font-normal text-primary">*</span></label>
-                                <LocationPicker></LocationPicker>
+                                <LocationPicker v-if="User && User.address" :province="User.address[0] || null"
+                                    :district="User.address[1] || null" :ward="User.address[2] || null"
+                                    @address-updated="handleAddressUpdated" />
+                                <LocationPicker v-else @address-updated="handleAddressUpdated" />
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
                                     class="text-sm font-bold text-gray-500">Social </label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
                                             class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            placeholder="https://www.linkedin.com/username" value=""></div>
+                                            placeholder="https://www.linkedin.com/username" v-model="this.socials[0]">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
@@ -229,7 +301,7 @@ export default {
                                 <div class="flex">
                                     <div class="relative w-full"><input
                                             class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            placeholder="https://github.com/username" value=""></div>
+                                            placeholder="https://github.com/username" v-model="this.socials[1]"></div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2"><label for=""
@@ -272,7 +344,7 @@ export default {
                 <form method="dialog">
                     <div class="flex gap-2">
                         <button class="btn ">Close</button>
-                        <button class="btn btn-primary">Save</button>
+                        <button class="btn btn-primary" @click="SaveProfile">Save</button>
                     </div>
                 </form>
             </div>
@@ -364,10 +436,9 @@ export default {
                                     </div>
                                     <div class="mt-4 text-lg text-gray-600">
                                         <div class="flex w-96 truncate">
-                                            <span v-for="(item, index) in User.address" :key="index"
-                                                class="text-center">
-                                                {{ item }}<span v-if="index < User.address.length - 1">,</span>
-                                            </span>
+                                            <span v-if="this.User.address">{{ this.address.province }} , {{ this.address.district }} , {{ this.address.ward }} , {{ this.address.name }}</span> 
+                                            <span v-else> Add address</span> 
+
                                         </div>
                                         <div class="mt-1 flex">
                                             <div class="flex">
@@ -380,9 +451,10 @@ export default {
                                                 "Add DOB" }}</span></div>
                                         </div>
                                         <div class="mt-1 flex gap-4"><span class="text-gray-700"
-                                                v-for="(item, index) in this.selectedSkills" :key="index">{{ item + ','
-                                                    || "Add Skill" }}</span></div>
-                                        <div class="mt-1 flex gap-4">
+                                                v-for="(item, index) in this.selectedSkills" :key="index">{{ item
+                                                    || "Add Skill" }} <span
+                                                    v-if="index < this.selectedSkills.length - 1">,</span></span></div>
+                                        <div class="mt-1 flex flex-col gap-4">
                                             <a v-for="(item, index) in socials" :key="index"
                                                 class="text-gray-700 underline" :href="item" target="_blank"
                                                 rel="noopener noreferrer">
