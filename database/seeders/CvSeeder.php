@@ -22,7 +22,7 @@ class CvSeeder extends Seeder
         $pv->job_position = 'Software developer';
         $pv->experience = 5;
         $pv->social = 'https://www.linkedin.com/,https://www.linkedin.com/';
-        $pv->skill = 'Java, Go, C';
+        $pv->skill = '["C","Java","Python"]';
         $pv->save();
 
     }

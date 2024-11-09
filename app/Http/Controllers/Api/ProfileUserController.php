@@ -17,4 +17,7 @@ class ProfileUserController
     public function getProfileCV(Request $request) {
         return $this->service->getProfileCV($request);
     }
+    public function updateProfileCV(Request $request) {
+        return $this->service->updateProfileCV($request);
+    }
 }
