@@ -145,7 +145,7 @@ export default {
 <template>
   <div class="w-full">
     <div>
-      <h2 for="province">Tỉnh:</h2>
+      <h2 for="province">Province:</h2>
       <select class="select select-secondary w-full" id="province" v-model="selectedProvince" @change="fetchDistricts">
         <option value="">Chọn tỉnh</option>
         <option v-for="province in provinces" :key="province.code" :value="province.code">
@@ -154,7 +154,7 @@ export default {
       </select>
     </div>
     <div  v-if="districts.length">
-      <h2 for="district">Huyện/Quận:</h2>
+      <h2 for="district">Districts</h2>
       <select class="select select-secondary w-full" id="district" v-model="selectedDistrict" @change="fetchWards">
         <option value="">Chọn huyện</option>
         <option v-for="district in districts" :key="district.code" :value="district.code">
@@ -163,7 +163,7 @@ export default {
       </select>
     </div>
     <div  v-if="wards.length">
-      <h2 for="ward">Xã/Phường:</h2>
+      <h2 for="ward">Ward</h2>
       <select class="select select-secondary w-full" id="ward" v-model="selectedWard" @change="emitFullAddress">
         <option value="">Chọn xã</option>
         <option v-for="ward in wards" :key="ward.code" :value="ward.code">

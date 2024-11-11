@@ -19,7 +19,6 @@ export default {
       title: null,
       file: null,
       isLookingForJob: false,
-      
     };
   },
   components: {

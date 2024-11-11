@@ -1,23 +1,213 @@
 <script>
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
+import CvItem2 from '@/components/listItems/CvItem2.vue';
+import { HTTP } from "@/http-common.js";
 import {
-  RouterView,
-  RouterLink,
-  useRouter,
-  useRoute
+    RouterView,
+    RouterLink,
+    useRouter,
+    useRoute
 }
-  from 'vue-router';
+    from 'vue-router';
+import { set } from 'date-fns';
 export default {
     components: {
-        NavigatorCV
+        NavigatorCV, CvItem2
     },
+    data() {
+        return {
+            User: {},
+            Profile: {},
+            isLoading: false,
+            listItemcvs: Array,
+            settingSelectedCv: null,
+            settingActivce: null,
+            list_company_hidden: [],
+        };
+    },
+    async mounted() {
+        await this.getUser();
+        await this.getCvU();
+    },
+    methods: {
+        async getUser() {
+            let _this = this
+            await
+                HTTP.get('/api/getProfileCV')
+                    .then(response => {
+                        console.log(response.data);
+                        _this.User = response.data.user;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+        },
+        async getCvU() {
+            let _this = this
+            await
+                HTTP.get('/api/cvsU')
+                    .then(response => {
+                        console.log(response.data);
+                        _this.listItemcvs = response.data.data;
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            _this.isLoading = true;
+        },
+        async setPrimaryCV(id) {
+            let _this = this
+            const cv_id = _this.id;
+            await
+                HTTP.post(`/api/setPrimaryCv`, { cv_id: id })
+                    .then(response => {
+                        console.log(response.data);
+                        console.log(id);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+        },
+        async setActive() {
+            let _this = this;
+            await HTTP.post('api/setActiveProfile')
+                .then(response => {
+                    console.log(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        }
+    }
 }
 </script>
 <template>
     <div>
         <NavigatorCV></NavigatorCV>
+        <div class="mt-9 grid grid-cols-1 md:grid md:grid-cols-1 lg:flex">
+            <div class="w-full lg:w-1/3 min-h-96 mr-9 rounded-xl">
+                <div class="flex flex-col">
+                    <div class=" bg-base-100">
+                        <div class=" shadow w-full rounded-t-full ">
+                            <div class="stat md:p-0 lg:p-3">
+                                <div class="stat-figure text-secondary ">
+                                    <div class="avatar">
+                                        <div class="w-16 md:w-20 lg:w-20 rounded-full h-auto">
+                                            <img
+                                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="stat-value sm:text-sm md:text-lg lg:text-xl">Hello
+                                </div>
+                                <span class="sm:text-md md:text-md lg:text-lg">{{ this.User.name }}</span>
+                                <div class="stat-title sm:text-base md:text-md lg:text-md">Percent</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 p-3 bg-base-100 h-fit">
+                        <label class="text-sm md:text-md lg:text-lg">🧑🏻‍💻The working state:</label>
+                        <div class="m-2 text-center">
+                            <input type="checkbox" class="toggle toggle-md toggle-info" :checked="this.User.is_active"
+                                v-on:click="setActive" />
+                        </div>
+                        <label for="">Help you find the bussiness </label>
+                    </div>
+
+                </div>
+            </div>
+            <div class="mt-3 md:mt-3 lg:m-0 w-full">
+                <div class="flex flex-col w-full justify-between">
+                    <div class="m-3 flex flex-1 justify-between w-full">
+                        <div class="bg-base-100 w-full">
+                            <div class="flex flex-wrap items-center justify-between gap-4 rounded bg-white p-4">
+                                <h5 class="text-base font-bold lg:text-xl">Want to hide your profile from some
+                                    employers?</h5>
+                                <a class="inline-flex h-8 items-center justify-center rounded-sm bg-gray-200 px-4 text-sm font-semibold text-gray-600 transition-all hover:bg-gray-300"
+                                    href="#hide">Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="m-3 p-4 bg-base-100">
+                            <h4 class="font-semibold capitalize text-neutral-950 md:text-2xl">Select your main CV to
+                                display to potential Employers.</h4>
+                            <p class="text-sm font-normal text-neutral-500 md:text-base">Please choose the most complete
+                                CV to provide full information to the Employer</p>
+                            <div class="gap-4 mt-4 md:p-4">
+                                <span class="block pb-2 font-bold border-b text-neutral-900">Your list CV:</span>
+                                <div class="pt-4">
+                                    <div class="flex flex-col gap-2">
+                                        <div v-for="(index, idx) in listItemcvs" :key="index.id"
+                                            class="flex items-center gap-2">
+                                            <input type="radio" :id="'radio-' + index.id" name="settingSelectedCv"
+                                                :value="index.id"
+                                                class="dots-resume mx-2 inline-block h-4 w-4 rounded-full border border-gray-300"
+                                                v-model="settingSelectedCv" :checked="index.isPrimary"
+                                                v-on:click="this.setPrimaryCV(index.id)" />
+                                            <CvItem2 :title="index.title" :id="index.id" :updatedAt="index.updated_at"
+                                                :isPrimary="index.isPrimary">
+                                            </CvItem2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-4 mt-4 bg-white rounded scroll-mt-28" id="hide">
+                        <h3 class="text-2xl font-semibold text-black capitalize">Hide my profile from recruiters</h3>
+                        <div class="mt-4">
+                            <div class="p-4 bg-gray-100">
+                                <label for="compnay_name" class="block mb-1 font-bold text-gray-500">Enter the company
+                                    name</label>
+                                <div class="relative"><input type="text" id="compnay_name"
+                                        class="bg-white block w-full rounded-[4px] border border-gray-300 px-5 py-[15px] text-sm placeholder:text-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                                        placeholder="Applancer JSC." value=""></div>
+                                <ul v-if="this.list_company_hidden.length" class="flex flex-wrap gap-2 mt-2">
+                                    <li class="flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-200 rounded">
+                                        MMO t-shirts<svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                            viewBox="0 0 24 24" aria-hidden="true"
+                                            class="w-5 h-5 ml-1 cursor-pointer hover:text-primary" height="1em"
+                                            width="1em" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                                                clip-rule="evenodd"></path>
+                                        </svg></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 rounded bg-white">
+                        <div class="border-b border-solid border-gray-200 p-4">
+                            <h4 class="text-2xl font-semibold">The employer has viewed the profile</h4>
+                        </div>
+                        <div class="p-4 text-center"><img alt="Not found employers" loading="lazy" width="453"
+                                height="450" decoding="async" data-nimg="1"
+                                class="mx-auto h-auto max-w-[9rem] object-contain" style="color: transparent;"
+                                srcset="https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp 1x, https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp 2x"
+                                src="https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp">
+                            <div class="p-4 text-gray-500">
+                                <h5 class="mt-4 text-xl font-bold">Chưa có nhà tuyển dụng nào xem hồ sơ của bạn</h5>
+                                <p class="mt-2">Để thu hút nhiều nhà tuyển dụng, hãy <a title="Hoàn thành TopDev CV"
+                                        href="/users/profile"
+                                        class="font-weight cursor-pointer font-bold text-primary underline">Hoàn thành
+                                        TopDev CV</a> hoặc <a title="Tạo CV" href="/tao-cv-online"
+                                        class="font-weight cursor-pointer font-bold text-primary underline">Tạo CV</a>,
+                                    sau đó bật chế độ <span title="Đang tìm việc"
+                                        class="cursor-pointer font-semibold text-primary underline">Đang tìm
+                                        việc</span>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
-<style>
-    
+<style scoped>
+.bg-primary {
+    background-color: #3490dc;
+}
 </style>

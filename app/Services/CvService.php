@@ -7,6 +7,7 @@ use App\Models\Cv;
 use Illuminate\Http\Request;
 use App\Responses\APIResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use PhpParser\Node\Stmt\TryCatch;
 
 class CvService
@@ -89,4 +90,24 @@ class CvService
             'message' => 'Success',
         ]);
     }
+
+    public function setPrimaryCv(Request $request)
+    {
+        $userId = $request->user()->id;
+        $cvs = Cv::where('user_id', $userId)->get();
+        foreach ($cvs as $cv) {
+            if ($cv->id == $request->input('cv_id')) {
+                $cv->isPrimary = 1;
+            } else {
+                $cv->isPrimary = 0;
+            }
+            $cv->save();
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success',
+            'data' => $cvs
+        ]);
+    }
+   
 }

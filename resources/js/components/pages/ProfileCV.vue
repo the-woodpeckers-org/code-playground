@@ -75,9 +75,9 @@ export default {
                         this.availableSkills = this.availableSkills.filter(skill => !this.selectedSkills.includes(skill));
                         const arrayOfSocials = JSON.parse(this.Profile.social.replace(/'/g, '"'));
                         this.socials = arrayOfSocials.map(social => social.trim());
-
                     }
                 }
+                this.isLoading = true;
             } catch (error) {
                 console.error("Failed to load profile:", error);
             }
@@ -89,7 +89,6 @@ export default {
             }
         },
         SaveProfile() {
-
             console.log(this.address);
             const data = {
                 user: {
@@ -119,8 +118,7 @@ export default {
         handleAddressUpdated(address) {
             this.address.district = address.district;
             this.address.province = address.province;
-            this.address.ward = address.ward;
-          
+            this.address.ward = address.ward;          
         }
     },
     async mounted() {
@@ -154,7 +152,7 @@ export default {
             <div class="p-6 flex-1 overflow-auto">
                 <form id="basic-information-form">
                     <div class="space-y-6">
-                        <h2 class="text-sm font-bold uppercase text-gray-400">Information</h2>
+                        <h2 class="text-sm font-bold uppercase text-gray-400 md:text-md lg:text-2xl">Information</h2>
                         <div class="flex flex-wrap gap-3 md:gap-5">
                             <div class="w-full md:w-auto">
                                 <div class="h-40 w-40 relative overflow-hidden rounded-full bg-gray-200">
@@ -184,7 +182,7 @@ export default {
                                     <div class="relative">
                                         <div class="flex">
                                             <div class="relative w-full"><input
-                                                    class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                    class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                     id="display_name" placeholder="Nguyễn Văn A"
                                                     value="PHAN NGOC BAO VINH" readonly></div>
                                         </div>
@@ -231,7 +229,7 @@ export default {
                                 <div class="relative">
                                     <div class="flex">
                                         <div class="relative w-full"><input
-                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                 id="position" placeholder="Ví dụ: Back- end developer"
                                                 v-model="this.Profile.job_position"></div>
                                     </div>
@@ -243,7 +241,7 @@ export default {
                                 <div class="relative">
                                     <div class="flex">
                                         <div class="relative w-full"><input
-                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                 min="0" placeholder="Ví dụ: 2" type="number" value="1"
                                                 onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                                         </div>
@@ -254,8 +252,8 @@ export default {
                                     class="text-sm font-bold text-gray-500">Email </label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            disabled="" value="hehe" readonly></div>
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            disabled="" v-model="this.User.email" readonly placeholder="Please setting email in the profile"></div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
@@ -264,8 +262,8 @@ export default {
                                 <div class="relative">
                                     <div class="flex">
                                         <div class="relative w-full"><input
-                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                                placeholder="Nhập số điện thoại" value="0344052691" readonly></div>
+                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                placeholder="Please setting phone number in the profile" v-model="User.phone_number" readonly></div>
                                     </div>
                                 </div>
                             </div>
@@ -273,14 +271,14 @@ export default {
                                     class="text-sm font-bold text-gray-500">Address </label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                        class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                        placeholder="Nhập tên đường, phường, quận"
+                                        class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                        placeholder="Please fill the name street!"
                                         v-model="address.name" >
                                         </div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
-                                    class="text-sm font-bold text-gray-500">Thành phố/ Tỉnh<span
+                                    class="text-sm font-bold text-gray-500">City/Provicent<span
                                         class="font-normal text-primary">*</span></label>
                                 <LocationPicker v-if="User && User.address" :province="User.address[0] || null"
                                     :district="User.address[1] || null" :ward="User.address[2] || null"
@@ -291,7 +289,7 @@ export default {
                                     class="text-sm font-bold text-gray-500">Social </label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                             placeholder="https://www.linkedin.com/username" v-model="this.socials[0]">
                                     </div>
                                 </div>
@@ -300,7 +298,7 @@ export default {
                                     class="hidden text-sm font-bold text-gray-500 md:block">&nbsp;</label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                             placeholder="https://github.com/username" v-model="this.socials[1]"></div>
                                 </div>
                             </div>
@@ -402,7 +400,7 @@ export default {
 
                     <div>
                         <div class="m-3 flex flex-1 justify-between w-full">
-                            <label for="" class="text-sm md:text-md lg:text-base font-bold">Information</label>
+                            <label for="" class="text-sm md:text-md lg:text-2xl  font-bold">Information</label>
                             <p></p>
                             <label for=""
                                 class="items-center py-1 pl-3 pr-2 mb-3 text-xs font-normal border border-blue-500 rounded-full bg-blue-50">50%</label>
@@ -435,10 +433,10 @@ export default {
                                             this.Profile.experience || '0' }}</div>
                                     </div>
                                     <div class="mt-4 text-lg text-gray-600">
-                                        <div class="flex w-96 truncate">
-                                            <span v-if="this.User.address">{{ this.address.province }} , {{ this.address.district }} , {{ this.address.ward }} , {{ this.address.name }}</span> 
+                                        <div class="flex w-100 truncate">
+                                            <span v-if="this.User.address">{{ this.address.province + "," || " " }} {{ this.address.district + "," || " " }} {{ this.address.ward  || " "}} <span v-if="this.address.name">{{", "+this.address.name }}</span></span> 
                                             <span v-else> Add address</span> 
-
+                                            
                                         </div>
                                         <div class="mt-1 flex">
                                             <div class="flex">
