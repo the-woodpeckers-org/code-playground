@@ -23,6 +23,7 @@ const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
 const CvBuilder =()=>import("@/components/pages/CvBuilder.vue");
 const CvShowPDF =()=>import("@/components/pages/CvShowPDF.vue");
 const JobManager =()=>import("@/components/pages/JobManager.vue");
+const JobApplied =()=>import("@/components/pages/JobApplied.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -148,6 +149,11 @@ const routes = [
         path:'/Job-manager',
         component: JobManager,
         name: 'job-manager'
+    },
+    {
+        path:'/Job-applied',
+        component: JobApplied,
+        name: 'job-applied'
     }
 ]
 
