@@ -2,12 +2,6 @@
 import { format } from 'date-fns';
 import { HTTP } from "@/http-common.js";
 import CvShowPDF from '@/components/pages/CvShowPDF.vue';
-import {
-    RouterView,
-    RouterLink,
-    useRouter,
-    useRoute
-} from 'vue-router';
 export default {
     name: 'CvItem',
     components: {
@@ -18,7 +12,7 @@ export default {
         id: Number,
         title: String,
         isPrimary: Boolean,
-        companys: Array,
+        companies: Array,
     },
     emits: ['delete'],
     data() {
@@ -110,7 +104,7 @@ export default {
     <div ref="content"></div>
     <tr class="text-pretty text-md md:text-sm lg:text-lg border-b border-gray-500">
         <td>{{ title }}</td>
-        <td>{{ isPrimary ? 'Ứng tuyển công ty hehe' : 'Chưa dùng được ứng tuyển vị trí nào' }}</td>
+        <td><p v-for="(item, index) in this.companies" :key="index">{{ item.job.title }}</p></td>
         <td>{{ formattedDate }}</td>
 
         <td>

@@ -1,7 +1,7 @@
 <template lang="">
         <tr >
                         <td>{{ title}}</td>
-                        <td>{{ companyASDASD }}</td>
+                        <td>{{ company }}</td>
                         <td>{{ location }}</td>
                         <td>{{ formattedDate}}</td>
                         <td>
@@ -13,7 +13,7 @@
 import { format } from 'date-fns';
 export default {
 
-    name: 'JobApplied',
+    name: 'JobAppliedItem',
     props: {
             title: String,
             company: String,
