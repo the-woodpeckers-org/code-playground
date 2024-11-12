@@ -18,6 +18,7 @@ export default {
         id: Number,
         title: String,
         isPrimary: Boolean,
+        companys: Array,
     },
     emits: ['delete'],
     data() {

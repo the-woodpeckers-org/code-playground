@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\CvController;
 use App\Http\Controllers\testController;
 use App\Http\Controllers\Api\ParticipationController;
 use App\Http\Controllers\Api\ProfileUserController;
+use App\Http\Controllers\Api\ApplicationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -46,7 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/updateProfileCV', [ProfileUserController::class, 'updateProfileCV'])->name('updateProfileCV');
     Route::post('/setPrimaryCv', [CvController::class, 'setPrimaryCv'])->name('setPrimaryCv');
     Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile'); 
-    
+    Route::get('/getJobsApplied',[ApplicationController::class,'getJobsApplied'])->name('getJobsApplied');
 });
 
 // Password reset

@@ -15,6 +15,7 @@ export default {
       router: useRouter(),
       route: useRoute(),
       listItemcvs: Array,
+      listCompanys:Array,
       isLoading: false,
       title: null,
       file: null,
@@ -29,8 +30,10 @@ export default {
     await
       HTTP.get('/api/cvsU')
         .then(response => {
-          console.log(response.data);
+         // console.log(response.data);
           _this.listItemcvs = response.data.data;
+          _this.listCompanys = response.data.applications;
+          console.log(response.data.applications);
         })
         .catch(error => {
           console.error(error);
@@ -76,7 +79,6 @@ export default {
       <p class="py-4">Press ESC key or click the button below to close</p>
       <div class="modal-action">
         <form method="dialog">
-
           <button class="btn">Close</button>
         </form>
       </div>
@@ -132,7 +134,6 @@ export default {
       <table class="table">
         <!-- head -->
         <thead>
-
           <tr class="bg-base-200 text-zinc-900 text-md md:text-lg lg:text-xl font-semibold">
             <th>CV Name</th>
             <th>CV's Status</th>
@@ -143,9 +144,9 @@ export default {
         <tbody>
           <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!isLoading">
             <span class="loading loading-dots loading-lg"></span>
-          </div>
-          <CvItem v-for="index in listItemcvs " :title="index.title" :id="index.id" :updated="index.updated_at"
-            @delete="removeCv"></CvItem>
+          </div> 
+          <CvItem v-for="index in listItemcvs " :title="index.title" :id="index.id" :updated="index.updated_at" 
+            @delete="removeCv" ></CvItem>
         </tbody>
       </table>
     </div>

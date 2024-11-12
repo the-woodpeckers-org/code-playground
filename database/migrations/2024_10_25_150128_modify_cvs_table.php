@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('content')->change()->nullable();
             $table->text('base64_content')->nullable(); // Mục đích scan content thành file rồi lưu vào cho show_pdf đỡ mất thời gian! nhưng tốn bộ nhớ =))
             $table->string('title');
+          
         });
     }
     /**

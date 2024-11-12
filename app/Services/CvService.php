@@ -63,11 +63,17 @@ class CvService
     public function getCvsU(Request $request)
     {
         $userId = $request->user()->id;
-        $cvs = Cv::where('user_id', $userId)->get();
+        $cvs = Cv::where('user_id', $userId)
+         ->with('application') 
+         ->get();
+         $applications = $cvs->pluck('application') 
+                        ->flatten();
+
         return response()->json([
             'status' => 200,
             'message' => 'Success',
-            'data' => $cvs
+            'data' => $cvs,
+            'applications' => $applications
         ]);
     }
 

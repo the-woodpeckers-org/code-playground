@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\User;
+use App\Models\Application;
 class Cv extends Model
 {
     use HasFactory;
@@ -19,5 +20,9 @@ class Cv extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+    public function application()
+    {
+        return $this->hasMany(Application::class, 'cv_id');
     }
 }
