@@ -20,4 +20,7 @@ class ProfileUserController
     public function updateProfileCV(Request $request) {
         return $this->service->updateProfileCV($request);
     }
+    public function setActiveProfile(Request $request) {
+        return $this->service->setActiveProfile($request);
+    }
 }

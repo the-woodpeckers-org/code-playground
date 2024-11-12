@@ -81,5 +81,14 @@ class ProfileUserService
             ]);
         }
     }
-    
+    public function setActiveProfile(Request $request)
+    {
+        $user = request()->user();
+        $user->is_active = !$user->is_active;
+        $user->save();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success',
+        ]);
+    }
 }

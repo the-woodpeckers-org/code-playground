@@ -44,6 +44,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getCV/{id}', [CvController::class, 'getCV'])->name('getCV');
     Route::get('/getProfileCV', [ProfileUserController::class, 'getProfileCV'])->name('getProfileCV');
     Route::post('/updateProfileCV', [ProfileUserController::class, 'updateProfileCV'])->name('updateProfileCV');
+    Route::post('/setPrimaryCv', [CvController::class, 'setPrimaryCv'])->name('setPrimaryCv');
+    Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile'); 
+    
 });
 
 // Password reset
