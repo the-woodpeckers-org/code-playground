@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Application;
+use App\Models\JobRecruitment;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
@@ -61,5 +62,9 @@ class User extends Authenticatable
 
     public function getJobApplied() {
         return $this->hasMany(Application::class, 'user_id', 'id');
+    }
+
+    public function getJobPosted() {
+        return $this->hasMany(JobRecruitment::class, 'user_id', 'id');
     }
 }
