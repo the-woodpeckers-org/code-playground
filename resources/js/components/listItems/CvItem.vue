@@ -2,12 +2,6 @@
 import { format } from 'date-fns';
 import { HTTP } from "@/http-common.js";
 import CvShowPDF from '@/components/pages/CvShowPDF.vue';
-import {
-    RouterView,
-    RouterLink,
-    useRouter,
-    useRoute
-} from 'vue-router';
 export default {
     name: 'CvItem',
     components: {
@@ -18,7 +12,7 @@ export default {
         id: Number,
         title: String,
         isPrimary: Boolean,
-        companys: Array,
+        companies: Array,
     },
     emits: ['delete'],
     data() {
