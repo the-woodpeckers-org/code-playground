@@ -16,6 +16,7 @@ export default {
       route: useRoute(),
       listItemcvs: Array,
       listCompanys:Array,
+      listJobCruitment:Array,
       isLoading: false,
       title: null,
       file: null,
@@ -30,10 +31,8 @@ export default {
     await
       HTTP.get('/api/cvsU')
         .then(response => {
-         // console.log(response.data);
           _this.listItemcvs = response.data.data;
           _this.listCompanys = response.data.applications;
-          console.log(response.data.applications);
         })
         .catch(error => {
           console.error(error);
@@ -65,6 +64,10 @@ export default {
     },
     onFileChange(event) {
       this.file = event.target.files[0];
+    },
+    getCompaniesByCvId(cvId) {
+     const temp = this.listCompanys.filter(company => company.cv_id === cvId);
+      return temp;
     }
   }
 }
@@ -136,7 +139,7 @@ export default {
         <thead>
           <tr class="bg-base-200 text-zinc-900 text-md md:text-lg lg:text-xl font-semibold">
             <th>CV Name</th>
-            <th>CV's Status</th>
+            <th>CV's Applied</th>
             <th>Updated at</th>
             <th>Actions</th>
           </tr>
@@ -145,7 +148,7 @@ export default {
           <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!isLoading">
             <span class="loading loading-dots loading-lg"></span>
           </div> 
-          <CvItem v-for="index in listItemcvs " :title="index.title" :id="index.id" :updated="index.updated_at" 
+          <CvItem v-for="index in listItemcvs " :title="index.title" :id="index.id" :companys="getCompaniesByCvId(index.id)" :updated="index.updated_at" 
             @delete="removeCv" ></CvItem>
         </tbody>
       </table>

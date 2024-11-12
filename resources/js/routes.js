@@ -24,6 +24,7 @@ const CvBuilder =()=>import("@/components/pages/CvBuilder.vue");
 const CvShowPDF =()=>import("@/components/pages/CvShowPDF.vue");
 const JobManager =()=>import("@/components/pages/JobManager.vue");
 const JobApplied =()=>import("@/components/pages/JobApplied.vue");
+const DetailJobs =()=>import("@/components/pages/DetailJobs.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -154,6 +155,11 @@ const routes = [
         path:'/Job-applied',
         component: JobApplied,
         name: 'job-applied'
+    },
+    {
+        path:'/Job-detail/:id',
+        component: DetailJobs,
+        name: 'job-detail'
     }
 ]
 

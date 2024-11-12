@@ -68,12 +68,14 @@ class CvService
          ->get();
          $applications = $cvs->pluck('application') 
                         ->flatten();
+         $job_recruitments = $applications->pluck('job')->flatten();
 
         return response()->json([
             'status' => 200,
             'message' => 'Success',
             'data' => $cvs,
-            'applications' => $applications
+            'applications' => $applications,
+            'job_recruitments' => $job_recruitments
         ]);
     }
 

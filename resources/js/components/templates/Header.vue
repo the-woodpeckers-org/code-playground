@@ -42,7 +42,7 @@ export default {
             </div>
         </div>
     </dialog>
-    <div class="navbar bg-secondary">
+    <div class="navbar bg-secondary" id="header_nav">
         <div class="flex-1 gap-10">
             <router-link class="text-xl" to="/">
                 <img src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726071143/CP-Photoroom_1_vl6kzc.png"
