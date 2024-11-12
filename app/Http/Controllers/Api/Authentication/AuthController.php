@@ -36,6 +36,10 @@ class AuthController
         return response()->json($this->service->forgotPassword($request));
     }
 
+    public function verifyPasswordResetToken(Request $request) {
+        return response()->json($this->service->verifyPasswordResetPassword($request));
+    }
+
     public function resetPassword(ResetPasswordFormRequest $request) {
         return response()->json($this->service->resetPassword($request));
     }

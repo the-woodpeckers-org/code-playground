@@ -6,7 +6,6 @@ use App\Http\Requests\ForgotPasswordFormRequest;
 use App\Http\Requests\LoginFormRequest;
 use App\Http\Requests\RegisterFormRequest;
 use App\Http\Requests\ResetPasswordFormRequest;
-use App\Jobs\SendEmail;
 use App\Mail\MailNotify;
 use App\Models\Password_Reset_Tokens;
 use App\Models\User;
@@ -17,7 +16,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthService
 {
@@ -56,7 +54,8 @@ class AuthService
         return 'ok bro';
     }
 
-    public function forgotPassword(ForgotPasswordFormRequest $request): array {
+    public function forgotPassword(ForgotPasswordFormRequest $request): array
+    {
         $user = User::where('email', $request->input('email'))->first();
         if ($user) {
             Password_Reset_Tokens::where('email', $user->email)->delete();
@@ -73,7 +72,17 @@ class AuthService
         return throw new BadRequestHttpException('User not found!');
     }
 
-    public function resetPassword(ResetPasswordFormRequest $request): array {
+    public function verifyPasswordResetPassword(Request $request): array
+    {
+        $existToken = Password_Reset_Tokens::where('token', $request->input('token'))->first();
+        if ($existToken) {
+            return ['message' => 'Password reset token is valid', 'isValid' => true];
+        }
+        throw new BadRequestHttpException($request->input('token') . ' ');
+    }
+
+    public function resetPassword(ResetPasswordFormRequest $request): array
+    {
         $token = Password_Reset_Tokens::where('token', $request->input('token'))->first();
         if ($token) {
             $user = $token->user();

@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
+
 const ForgotPassword = () => import("@/components/pages/ForgotPassword.vue");
 const ResetPassword = () => import("@/components/pages/ResetPassword.vue");
 const ProfileCV = () => import("@/components/pages/ProfileCV.vue");
@@ -20,10 +21,10 @@ const Profile = () => import("@/components/pages/Profile.vue");
 const ContestDetail = () => import('@/components/pages/ContestDetail.vue');
 const ContestPanel = () => import('@/components/pages/ContestPanel.vue');
 const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
-const CvBuilder =()=>import("@/components/pages/CvBuilder.vue");
-const CvShowPDF =()=>import("@/components/pages/CvShowPDF.vue");
-const JobManager =()=>import("@/components/pages/JobManager.vue");
-const JobApplied =()=>import("@/components/pages/JobApplied.vue");
+const CvBuilder = () => import("@/components/pages/CvBuilder.vue");
+const CvShowPDF = () => import("@/components/pages/CvShowPDF.vue");
+const JobManager = () => import("@/components/pages/JobManager.vue");
+const JobApplied = () => import("@/components/pages/JobApplied.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -106,11 +107,6 @@ const routes = [
         name: 'text-editor'
     },
     {
-        path: '/:pathMatch(.*)*',
-        component: NotFound,
-        name: 'notfound'
-    },
-    {
         path: '/MyCv',
         component: MyCVPanel,
         name: 'MyCv'
@@ -126,17 +122,17 @@ const routes = [
         name: 'code-playground-cv'
     },
     {
-        path:'/CvBuilder/:id',
+        path: '/CvBuilder/:id',
         component: CvBuilder,
         name: 'cvbuilder'
     },
     {
-        path:'/forgot-password',
+        path: '/forgot-password',
         component: ForgotPassword,
         name: 'forgot-password'
     },
     {
-        path: '/reset-password/:reset-token',
+        path: '/reset-password/:resetToken',
         component: ResetPassword,
         name: 'reset-password'
     },
@@ -146,21 +142,26 @@ const routes = [
         name: 'cv-show'
     },
     {
-        path:'/Job-manager',
+        path: '/Job-manager',
         component: JobManager,
         name: 'job-manager'
     },
     {
-        path:'/Job-applied',
+        path: '/Job-applied',
         component: JobApplied,
         name: 'job-applied'
-    }
+    },
+    {
+        path: '/:pathMatch(.*)*',
+        component: NotFound,
+        name: 'notfound'
+    },
 ]
 
 export default createRouter({
     history: createWebHistory(),
     routes,
     scrollBehavior() {
-        document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('app').scrollIntoView({behavior: 'smooth'});
     }
 })

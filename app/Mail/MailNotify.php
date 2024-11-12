@@ -38,6 +38,7 @@ class MailNotify extends Mailable
     {
         return new Content(
             view: 'mails.reset-password',
+            with: ['token' => $this->token]
         );
     }
 

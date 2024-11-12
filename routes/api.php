@@ -46,14 +46,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getProfileCV', [ProfileUserController::class, 'getProfileCV'])->name('getProfileCV');
     Route::post('/updateProfileCV', [ProfileUserController::class, 'updateProfileCV'])->name('updateProfileCV');
     Route::post('/setPrimaryCv', [CvController::class, 'setPrimaryCv'])->name('setPrimaryCv');
-    Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile'); 
+    Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile');
     Route::get('/getJobsApplied',[ApplicationController::class,'getJobsApplied'])->name('getJobsApplied');
 });
 
 // Password reset
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('auth.resetPassword');
-
+Route::get('/verify-reset-token', [AuthController::class, 'verifyPasswordResetToken'])->name('auth.verifyToken');
 
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');
 Route::get('/contest/', [ContestController::class, 'getAll'])->name('contest.getAll');
