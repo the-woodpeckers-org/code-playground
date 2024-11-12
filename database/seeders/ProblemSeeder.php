@@ -36,6 +36,18 @@ class ProblemSeeder extends Seeder
             'gender' => 'None',
             'birthday' => '2003-01-01'
         ];
+        User::create($user);
+
+        $user = [
+            'name' => 'tao là nhà tuyển dụng',
+            'email' => 'tuyendung@gmail.com',
+            'password' => Hash::make('123'),
+            'address' => null,
+            'role'=> 1,
+            'phone_number' => '0123456789',
+            'gender' => 'None',
+            'birthday' => '2003-01-01'
+        ]; 
 
         User::create($user);
         $problems = [

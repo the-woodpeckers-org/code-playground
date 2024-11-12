@@ -27,4 +27,5 @@ class JobRecruitment extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
 }

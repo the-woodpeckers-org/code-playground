@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Models\Application;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
@@ -57,5 +57,9 @@ class User extends Authenticatable
 
     public function getResetPasswordToken() {
         return Password_Reset_Tokens::where('email', $this->getEmailForPasswordReset())->first();
+    }
+
+    public function getJobApplied() {
+        return $this->hasMany(Application::class, 'user_id', 'id');
     }
 }
