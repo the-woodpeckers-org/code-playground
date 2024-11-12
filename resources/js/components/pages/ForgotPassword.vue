@@ -29,7 +29,7 @@ export default {
                 .catch((error) => {
                     this.errorMessage = error.message;
                 });
-        }
+        },
     }
 }
 </script>
@@ -49,12 +49,11 @@ export default {
     <dialog id="success_modal" class="modal" :class="{'modal-open': this.isSucceed}">
         <div class="modal-box">
             <h3 class="text-lg font-bold">Success!</h3>
-            <p class="py-4">Press 'Reset password' to reset your password now!</p>
+            <p class="py-4">A new email has been sent to you. Please check your email to confirm!</p>
             <div class="modal-action">
                 <form method="dialog">
                     <!-- if there is a button in form, it will close the modal -->
-                    <button class="btn mx-1">Reset password</button>
-                    <button class="btn" @click="this.isSucceed = false">Close</button>
+                    <button class="btn" @click="this.isSucceed = false">Ok</button>
                 </form>
             </div>
         </div>
