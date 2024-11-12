@@ -21,10 +21,11 @@ const Profile = () => import("@/components/pages/Profile.vue");
 const ContestDetail = () => import('@/components/pages/ContestDetail.vue');
 const ContestPanel = () => import('@/components/pages/ContestPanel.vue');
 const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
-const CvBuilder = () => import("@/components/pages/CvBuilder.vue");
-const CvShowPDF = () => import("@/components/pages/CvShowPDF.vue");
-const JobManager = () => import("@/components/pages/JobManager.vue");
-const JobApplied = () => import("@/components/pages/JobApplied.vue");
+const CvBuilder =()=>import("@/components/pages/CvBuilder.vue");
+const CvShowPDF =()=>import("@/components/pages/CvShowPDF.vue");
+const JobManager =()=>import("@/components/pages/JobManager.vue");
+const JobApplied =()=>import("@/components/pages/JobApplied.vue");
+const DetailJobs =()=>import("@/components/pages/DetailJobs.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -156,6 +157,11 @@ const routes = [
         component: NotFound,
         name: 'notfound'
     },
+    {
+        path:'/Job-detail/:id',
+        component: DetailJobs,
+        name: 'job-detail'
+    }
 ]
 
 export default createRouter({

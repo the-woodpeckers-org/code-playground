@@ -1,11 +1,11 @@
 <script>
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue'
-import JobApplied from '@/components/listItems/JobApplied.vue'
+import JobAppliedItem from '@/components/listItems/JobAppliedItem.vue'
 import {HTTP} from '@/http-common.js'
 export default {
 
     components: {
-        NavigatorCV,JobApplied
+        NavigatorCV,JobAppliedItem
     },
     
     data: function () {
@@ -50,7 +50,7 @@ export default {
                 </tr>
             </thead>
             <tbody>
-                <JobApplied v-for="job in jobs" :key="job.id" :title="job.title" :company="job.user.name" :location="job.location" :applied_at="job.created_at"></JobApplied>
+                <JobAppliedItem v-for="job in jobs" :key="job.id" :title="job.title" :company="job.user.name" :location="job.location" :applied_at="job.created_at"></JobAppliedItem>
             </tbody>
         </table>
     </div>
