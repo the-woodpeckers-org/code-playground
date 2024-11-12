@@ -10,7 +10,7 @@ export default {
 </script>
 
 <template>
-    <router-link class="card bg-base-100 shadow-xl my-1 text-sm hover:bg-gray-200 hover:scale-105 duration-300 transition" to="">
+    <router-link class="card bg-base-100 shadow-xl my-1 text-sm hover:bg-gray-200 hover:scale-105 duration-300 transition" to="/View-Company/1">
         <figure class="h-40">
             <img
                 :src="imgUrl" loading="lazy"/>
