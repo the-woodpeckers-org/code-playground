@@ -1,7 +1,7 @@
 <script>
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
 import CvItem from '@/components/listItems/CvItem.vue';
-import {HTTP} from "@/http-common.js";
+import { HTTP } from "@/http-common.js";
 import {
   RouterView,
   RouterLink,
@@ -15,8 +15,11 @@ export default {
       router: useRouter(),
       route: useRoute(),
       listItemcvs: Array,
+      listCompanys:Array,
       isLoading: false,
       title: null,
+      file: null,
+      isLookingForJob: false,
     };
   },
   components: {
@@ -25,24 +28,26 @@ export default {
   async mounted() {
     let _this = this
     await
-        HTTP.get('/api/cvsU')
-          .then(response => {
-            console.log(response.data);
-            _this.listItemcvs = response.data.data;
-          })
-          .catch(error => {
-            console.error(error);
-          });
-       _this.isLoading = true;  
+      HTTP.get('/api/cvsU')
+        .then(response => {
+         // console.log(response.data);
+          _this.listItemcvs = response.data.data;
+          _this.listCompanys = response.data.applications;
+          console.log(response.data.applications);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    _this.isLoading = true;
   },
   methods: {
-   async newCV() {
-      if(!this.title) {
+    async newCV() {
+      if (!this.title) {
         alert('Please enter the title');
         new_cv_modal.showModal();
         return;
       }
-      HTTP.post('/api/newCV', {title: this.title})
+      HTTP.post('/api/newCV', { title: this.title })
         .then(response => {
           console.log("Đang vào controller để xử lý");
           const cvId = response.data.id;
@@ -51,14 +56,16 @@ export default {
           }
         })
         .catch(error => {
-          
-          console.log( error);
+
+          console.log(error);
         });
     },
     removeCv(id) {
       this.listItemcvs = this.listItemcvs.filter(cv => cv.id !== id);
     },
-    
+    onFileChange(event) {
+      this.file = event.target.files[0];
+    }
   }
 }
 
@@ -72,7 +79,6 @@ export default {
       <p class="py-4">Press ESC key or click the button below to close</p>
       <div class="modal-action">
         <form method="dialog">
-
           <button class="btn">Close</button>
         </form>
       </div>
@@ -103,6 +109,8 @@ export default {
       </div>
     </div>
   </dialog>
+
+
   <div>
     <NavigatorCV pageActive="My CV"></NavigatorCV>
     <div class="mt-6 border-b"></div>
@@ -115,9 +123,6 @@ export default {
           class="text-[#0E7490] text-sm md:text-lg lg:text-2xl font-semibold lg:hover:scale-105">Cover Letter</a>
       </div>
       <div class="lg:float-right flex">
-        <span class=""><a
-            class="btn sm:btn-sm md:btn-md lg:btn-lg bg-[#393E46]  text-white font-extrabold m-3 lg:hover:scale-105 lg:hover:bg-lime-950">Upload
-            CV <i class="ml-3 fa-solid fa-cloud-arrow-up"></i></a></span>
         <span class=""><a onclick="new_cv_modal.showModal()"
             class="btn sm:btn-sm md:btn-md lg:btn-lg bg-[#0D91B7] text-white font-extrabold m-3 lg:hover:scale-105 lg:hover:bg-primary">New
             CV <i class="ml-3 fa-regular fa-newspaper"></i></a></span>
@@ -129,19 +134,19 @@ export default {
       <table class="table">
         <!-- head -->
         <thead>
-      
           <tr class="bg-base-200 text-zinc-900 text-md md:text-lg lg:text-xl font-semibold">
             <th>CV Name</th>
             <th>CV's Status</th>
             <th>Updated at</th>
             <th>Actions</th>
-          </tr>            
+          </tr>
         </thead>
-        <tbody>      
+        <tbody>
           <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!isLoading">
-                <span class="loading loading-dots loading-lg"></span>
-            </div>
-          <CvItem v-for="index in listItemcvs " :title="index.title" :id ="index.id" :updated="index.updated_at" @delete="removeCv" ></CvItem>
+            <span class="loading loading-dots loading-lg"></span>
+          </div> 
+          <CvItem v-for="index in listItemcvs " :title="index.title" :id="index.id" :updated="index.updated_at" 
+            @delete="removeCv" ></CvItem>
         </tbody>
       </table>
     </div>
@@ -159,7 +164,6 @@ export default {
               aria-label="Previous">
               <span>&laquo;</span>
             </button>
-
             <button
               class="flex items-center justify-center w-8 h-8 text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-blue-600 transition duration-200">1</button>
             <button
@@ -180,4 +184,11 @@ export default {
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.bg-green-100 {
+  background-color: #d1fae5;
+}
+.bg-red-100 {
+  background-color: #fee2e2;
+}
+</style>

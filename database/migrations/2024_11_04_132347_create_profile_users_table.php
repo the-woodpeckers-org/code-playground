@@ -11,28 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cvs', function (Blueprint $table) {
+        Schema::create('profile_users', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
-            $table->string('file_path');
-            $table->boolean('isPrimary')->default(false);
+            $table->text('job_position')->nullable();
+            $table->integer('experience')->nullable();
+            $table->text('social')->nullable();
+            $table->text('skill')->nullable();
             $table->timestamps();
         });
-    
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::create('cvs', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->string('file_path');
-            $table->boolean('isPrimary')->default(false);
-            $table->timestamps();
-        });
+        Schema::dropIfExists('profile_users');
     }
 };

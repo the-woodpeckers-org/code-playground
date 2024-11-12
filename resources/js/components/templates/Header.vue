@@ -6,6 +6,7 @@ export default {
         }
     },
     methods: {
+        
         logout() {
             let _this = this
             axios.get('/api/logout')
@@ -19,8 +20,10 @@ export default {
         },
         OpenMenu() {
             this.isMenuOpen = !this.isMenuOpen;
-        }
-    }
+        },
+        
+    },
+   
 
 }
 
@@ -66,7 +69,6 @@ export default {
                     Career
                 </router-link>
             </div>
-
         </div>
         <div class="lg:hidden items-center">
                 <button @click="OpenMenu" class="text-white focus:outline-none hover:bg-gray-600 transition rounded-3xl">
@@ -129,8 +131,14 @@ export default {
         <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
             Career
         </router-link>
+
     </div>
 </template>
 <script setup>
 
 </script>
+<style scoped>
+.router-link-active {
+  color: red;
+}
+</style>

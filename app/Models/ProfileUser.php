@@ -4,25 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
-use App\Models\Application;
-class Cv extends Model
+
+class ProfileUser extends Model
 {
+    //
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'content',
+        'job_position',
+        'experience',
+        'social',
+        'skill',
     ];
-
     /**
-     * Get the user that owns the CV.
+     * Get the user that owns the profile_user.
      */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function application()
-    {
-        return $this->hasMany(Application::class, 'cv_id');
-    }
+    
 }

@@ -7,6 +7,7 @@ use App\Models\Cv;
 use Illuminate\Http\Request;
 use App\Responses\APIResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use PhpParser\Node\Stmt\TryCatch;
 
 class CvService
@@ -14,7 +15,6 @@ class CvService
 
     public function newCV(Request $request)
     {
-        // xử lý logic và các phần khác sẽ tiến hành sau khi có các dữ liệu data user, cv
         try {
             $userId = $request->user()->id;
             $cv = new Cv();
@@ -63,25 +63,27 @@ class CvService
     public function getCvsU(Request $request)
     {
         $userId = $request->user()->id;
-        $cvs = Cv::where('user_id', $userId)->get();
+        $cvs = Cv::where('user_id', $userId)
+         ->with('application') 
+         ->get();
+         $applications = $cvs->pluck('application') 
+                        ->flatten();
+
         return response()->json([
             'status' => 200,
             'message' => 'Success',
-            'data' => $cvs
+            'data' => $cvs,
+            'applications' => $applications
         ]);
     }
 
     public function getCV($id)
     {
-        // Tìm kiếm CV theo ID
-        $cv = Cv::find($id); // hoặc Cv::where('id', $id)->first();
-
-        // Kiểm tra nếu CV không tồn tại
+      
+        $cv = Cv::find($id); 
         if (!$cv) {
             return response()->json(['error' => 'CV not found'], 404);
         }
-
-        // Trả về dữ liệu CV
         return response()->json($cv);
     }
 
@@ -94,4 +96,24 @@ class CvService
             'message' => 'Success',
         ]);
     }
+
+    public function setPrimaryCv(Request $request)
+    {
+        $userId = $request->user()->id;
+        $cvs = Cv::where('user_id', $userId)->get();
+        foreach ($cvs as $cv) {
+            if ($cv->id == $request->input('cv_id')) {
+                $cv->isPrimary = 1;
+            } else {
+                $cv->isPrimary = 0;
+            }
+            $cv->save();
+        }
+        return response()->json([
+            'status' => 200,
+            'message' => 'Success',
+            'data' => $cvs
+        ]);
+    }
+   
 }

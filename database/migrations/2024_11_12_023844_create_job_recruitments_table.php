@@ -11,19 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cvs', function (Blueprint $table) {        
-            $table->renameColumn('file_path', 'content');
-            $table->text('content')->change()->nullable();
-            $table->text('base64_content')->nullable(); // Mục đích scan content thành file rồi lưu vào cho show_pdf đỡ mất thời gian! nhưng tốn bộ nhớ =))
+        Schema::create('job_recruitments', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
             $table->string('title');
-          
+            $table->string('description');
+            $table->integer('salary');
+            $table->timestamps();
         });
     }
+
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('job_recruitments');
     }
 };

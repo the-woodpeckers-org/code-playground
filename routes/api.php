@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\ContestController;
 use App\Http\Controllers\Api\CvController;
 use App\Http\Controllers\testController;
 use App\Http\Controllers\Api\ParticipationController;
+use App\Http\Controllers\Api\ProfileUserController;
+use App\Http\Controllers\Api\ApplicationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -41,6 +43,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/newCV',[CvController::class,'newCV'])->name('newCV');
     Route::get('/deleteCV/{id}',[CvController::class,'deleteCV'])->name('deleteCV');
     Route::get('/getCV/{id}', [CvController::class, 'getCV'])->name('getCV');
+    Route::get('/getProfileCV', [ProfileUserController::class, 'getProfileCV'])->name('getProfileCV');
+    Route::post('/updateProfileCV', [ProfileUserController::class, 'updateProfileCV'])->name('updateProfileCV');
+    Route::post('/setPrimaryCv', [CvController::class, 'setPrimaryCv'])->name('setPrimaryCv');
+    Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile'); 
+    Route::get('/getJobsApplied',[ApplicationController::class,'getJobsApplied'])->name('getJobsApplied');
 });
 
 // Password reset

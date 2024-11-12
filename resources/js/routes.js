@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 const ForgotPassword = () => import("@/components/pages/ForgotPassword.vue");
 const ResetPassword = () => import("@/components/pages/ResetPassword.vue");
-const CodePlaygroundCVPanel = () => import("@/components/pages/CpCvPanel.vue");
+const ProfileCV = () => import("@/components/pages/ProfileCV.vue");
 const MyCVPanel = () => import("@/components/pages/MyCVPanel.vue");
 const ContestResult = () => import("@/components/pages/ContestResult.vue");
 const CodePanel = () => import("@/components/pages/CodePanel.vue");
@@ -22,6 +22,8 @@ const ContestPanel = () => import('@/components/pages/ContestPanel.vue');
 const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
 const CvBuilder =()=>import("@/components/pages/CvBuilder.vue");
 const CvShowPDF =()=>import("@/components/pages/CvShowPDF.vue");
+const JobManager =()=>import("@/components/pages/JobManager.vue");
+const JobApplied =()=>import("@/components/pages/JobApplied.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -119,8 +121,8 @@ const routes = [
         name: 'contest-result'
     },
     {
-        path: '/CpMycv',
-        component: CodePlaygroundCVPanel,
+        path: '/ProfileCV',
+        component: ProfileCV,
         name: 'code-playground-cv'
     },
     {
@@ -142,6 +144,16 @@ const routes = [
         path: '/cv/show/:id',
         component: CvShowPDF,
         name: 'cv-show'
+    },
+    {
+        path:'/Job-manager',
+        component: JobManager,
+        name: 'job-manager'
+    },
+    {
+        path:'/Job-applied',
+        component: JobApplied,
+        name: 'job-applied'
     }
 ]
 

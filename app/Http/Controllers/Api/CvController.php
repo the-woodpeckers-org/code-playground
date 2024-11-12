@@ -48,4 +48,9 @@ class CvController
     {
         return $this->service->deleteCV($id);
     }
+
+    public function setPrimaryCv(Request $request)
+    {
+        return $this->service->setPrimaryCv($request);
+    }
 }
