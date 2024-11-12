@@ -37,8 +37,8 @@ export default {
 
 <template>
     <Header></Header>
-    <div class="mx-auto max-w-7xl my-6 " style="min-height: 680px">
-        <div class="mx-6">
+    <div class="mx-auto max-w-7xl my-6" style="min-height: 680px">
+        <div class="mx-6 relative">
             <router-view></router-view>
         </div>
     </div>
