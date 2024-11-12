@@ -6,12 +6,15 @@ use App\Http\Requests\ForgotPasswordFormRequest;
 use App\Http\Requests\LoginFormRequest;
 use App\Http\Requests\RegisterFormRequest;
 use App\Http\Requests\ResetPasswordFormRequest;
+use App\Jobs\SendEmail;
+use App\Mail\MailNotify;
 use App\Models\Password_Reset_Tokens;
 use App\Models\User;
 use App\Utils\Token;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -64,6 +67,7 @@ class AuthService
                 'created_at' => Carbon::now()
             ]);
             $passwordResetToken->save();
+            Mail::to($passwordResetToken->email)->send(new MailNotify($passwordResetToken));
             return ['message' => 'successfully', 'passwordResetToken' => $passwordResetToken];
         }
         return throw new BadRequestHttpException('User not found!');

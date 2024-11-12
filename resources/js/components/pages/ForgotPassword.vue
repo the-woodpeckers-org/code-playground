@@ -24,9 +24,11 @@ export default {
                 .then((response) => {
                     if (response.data.passwordResetToken) {
                         this.isSucceed = true;
+                        console.log(response.data);
                     }
                 })
                 .catch((error) => {
+                    console.log(error);
                     this.errorMessage = error.message;
                 });
         },
