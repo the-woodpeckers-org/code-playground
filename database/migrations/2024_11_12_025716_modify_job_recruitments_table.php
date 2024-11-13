@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('job_recruitments', function (Blueprint $table) {
             $table->string('location')->nullable(); // Địa điểm làm việc
             $table->date('deadline')->nullable(); // Hạn cuối nộp đơn
-    
+            $table->string('skill')->nullable(); // Kỹ năng yêu cầu
         });
     }
 

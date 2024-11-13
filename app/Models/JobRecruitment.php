@@ -8,12 +8,12 @@ class JobRecruitment extends Model
 {
     use HasFactory;
 
-    // Các trường được phép mass assign
     protected $fillable = [
         'user_id',        
         'title',      
         'description',
-        'location',      
+        'location',     
+        'skill', 
         'salary',  
         'deadline', 
         'created_at',     
