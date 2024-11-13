@@ -11,7 +11,7 @@ use App\Http\Controllers\testController;
 use App\Http\Controllers\Api\ParticipationController;
 use App\Http\Controllers\Api\ProfileUserController;
 use App\Http\Controllers\Api\ApplicationController;
-
+use App\Http\Controllers\Api\ProfileCompanyController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -48,6 +48,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/setPrimaryCv', [CvController::class, 'setPrimaryCv'])->name('setPrimaryCv');
     Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile');
     Route::get('/getJobsApplied',[ApplicationController::class,'getJobsApplied'])->name('getJobsApplied');
+    Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
 });
 
 // Password reset
