@@ -6,7 +6,6 @@ export default {
         }
     },
     methods: {
-
         logout() {
             let _this = this
             axios.get('/api/logout')
@@ -86,7 +85,7 @@ export default {
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
                         <img v-if="$root.auth" alt="Avatar"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s"
+                            :src="$root.auth.avatar_url"
                             loading="lazy" />
                         <img v-if="!$root.auth" alt="Avatar"
                             src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
@@ -133,7 +132,7 @@ export default {
             Career
         </router-link>
         <router-link to="/Info-Recruitment"
-            class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>  
+            class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
     </div>
 </template>
 <script setup>

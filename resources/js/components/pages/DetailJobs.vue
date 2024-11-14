@@ -69,7 +69,6 @@
                             <div class="absolute z-10 h-2 w-2 rotate-45 bg-gray-900 dark:bg-gray-700"
                                 data-testid="flowbite-tooltip-arrow" style="left: 29px; bottom: -4px;">&nbsp;</div>
                         </div>
-
                     </div>
                 </div>
                 <div id="tabMnf" role="tablist" class="tabs tabs-bordered grid grid-cols-2 bg-white">

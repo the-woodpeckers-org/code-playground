@@ -33,7 +33,6 @@ export default {
             HTTP.get(_url)
                 .then(function (response) {
                     _this.problems = response.data.data
-                    console.log(response.data)
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -41,7 +40,6 @@ export default {
             HTTP.get('api/contest/landing')
                 .then(response => {
                     _this.contests = response.data;
-                    console.log(response)
                 })
                 .catch(error => {
                     console.log(error)

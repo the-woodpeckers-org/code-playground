@@ -15,19 +15,15 @@ export default {
         }
     },
     methods: {},
-    created() {
+    beforeCreate() {
         let _this = this;
-        console.log(localStorage.accessToken)
-        if (localStorage.accessToken) {
-            this.auth = HTTP.get('/api/auth/get')
+        console.log(localStorage.getItem("accessToken"))
+        if (localStorage.getItem("accessToken") != null) {
+            HTTP.get('/api/auth/get')
                 .then((response) => {
-                    if (response.data.id) {
-                        _this.auth = response.data;
-                        console.log(response);
-                    }
+                    _this.auth = response.data;
                 })
                 .catch((error) => {
-                    console.log(error);
                     localStorage.clear();
                 });
         }
