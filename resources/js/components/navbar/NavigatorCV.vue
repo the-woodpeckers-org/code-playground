@@ -48,6 +48,7 @@ export default {
             <span
                 class="absolute left-0 bottom-0 h-[2px] bg-gray-900 w-0 transition-all duration-300 lg:group-hover:w-full"></span>
         </p>
+      
     </div>
 </template>
 

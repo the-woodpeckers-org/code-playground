@@ -143,34 +143,35 @@ export default {
 
 
 <template>
-  <div class="w-full">
-    <div>
-      <h2 for="province">Province:</h2>
+    <div class="flex flex-col space-y-4">
+      <label for="province">Province:
       <select class="select select-secondary w-full" id="province" v-model="selectedProvince" @change="fetchDistricts">
         <option value="">Chọn tỉnh</option>
         <option v-for="province in provinces" :key="province.code" :value="province.code">
           {{ province.name }}
         </option>
       </select>
+    </label>
     </div>
-    <div  v-if="districts.length">
-      <h2 for="district">Districts</h2>
-      <select class="select select-secondary w-full" id="district" v-model="selectedDistrict" @change="fetchWards">
+    <div class="flex flex-col space-y-4" v-if="districts.length">
+      <label for="district">Districts
+      <select  class="select select-secondary w-full" id="district" v-model="selectedDistrict" @change="fetchWards">
         <option value="">Chọn huyện</option>
         <option v-for="district in districts" :key="district.code" :value="district.code">
           {{ district.name }}
         </option>
       </select>
+    </label>
     </div>
-    <div  v-if="wards.length">
-      <h2 for="ward">Ward</h2>
-      <select class="select select-secondary w-full" id="ward" v-model="selectedWard" @change="emitFullAddress">
+    <div class="flex flex-col space-y-4" v-if="wards.length">
+      <label for="ward">Ward
+      <select  class="select select-secondary w-full" id="ward" v-model="selectedWard" @change="emitFullAddress">
         <option value="">Chọn xã</option>
         <option v-for="ward in wards" :key="ward.code" :value="ward.code">
           {{ ward.name }}
         </option>
       </select>
+      </label>
     </div>
-  </div>
 </template>
 <style scoped></style>

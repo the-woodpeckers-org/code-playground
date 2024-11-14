@@ -27,6 +27,9 @@ const JobManager =()=>import("@/components/pages/JobManager.vue");
 const JobApplied =()=>import("@/components/pages/JobApplied.vue");
 const DetailJobs =()=>import("@/components/pages/DetailJobs.vue");
 const ViewCompany= ()=>import("@/components/pages/ViewCompany.vue");
+const RecruitmentManagement =()=>import("@/components/pages/Recruitment/RecruitmentManagement.vue");
+const JobsManagement =()=>import("@/components/pages/Recruitment/JobsManagement.vue");
+
 const routes = [
     {
         path: '/problem/:id',
@@ -167,6 +170,16 @@ const routes = [
         path:'/View-Company/:id',
         component: ViewCompany,
         name: 'view-company'
+    },
+    {
+        path:'/Info-Recruitment',
+        component: RecruitmentManagement,
+        name: 'info-recruitment'
+    },
+    {
+        path:'/Jobs-Management',
+        component: JobsManagement,
+        name: 'jobs-management'
     }
 ]
 
