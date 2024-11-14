@@ -84,28 +84,28 @@ export default {
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
-                        <img v-if="$root.auth" alt="Avatar"
-                            :src="$root.auth.avatar_url"
+                        <img v-if="getAuth()" alt="Avatar"
+                            :src="getAuth().avatar_url"
                             loading="lazy" />
-                        <img v-if="!$root.auth" alt="Avatar"
+                        <img v-if="!getAuth()" alt="Avatar"
                             src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
                             loading="lazy">
                     </div>
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                    <li v-if="$root.auth">
+                    <li v-if="getAuth()">
                         <router-link class="text-base" to="/profile">Profile</router-link>
                     </li>
-                    <li v-if="$root.auth">
+                    <li v-if="getAuth()">
                         <router-link class="text-base" to="/settings">Settings</router-link>
                     </li>
-                    <li v-if="$root.auth"><a class="text-base" onclick="confirm_logout_modal.showModal()">Logout</a>
+                    <li v-if="getAuth()"><a class="text-base" onclick="confirm_logout_modal.showModal()">Logout</a>
                     </li>
-                    <li v-if="!$root.auth">
+                    <li v-if="!getAuth()">
                         <router-link class="text-base" to="/login">Login</router-link>
                     </li>
-                    <li v-if="!$root.auth">
+                    <li v-if="!getAuth()">
                         <router-link class="text-base" to="/register">Register</router-link>
                     </li>
                 </ul>
@@ -137,6 +137,7 @@ export default {
 </template>
 <script setup>
 
+import {getAuth} from "@/utils/authLocalStorage.js";
 </script>
 <style scoped>
 .router-link-active {

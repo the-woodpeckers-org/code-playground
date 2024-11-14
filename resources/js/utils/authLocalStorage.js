@@ -1,5 +1,5 @@
 export function getAuth() {
-    return localStorage.getItem('user');
+    return JSON.parse(localStorage.getItem('user'));
 }
 
 export function getAccessToken() {
@@ -12,5 +12,5 @@ export function setAccessToken(accessToken) {
 
 
 export function setAuth(user) {
-    localStorage.setItem('user', user);
+    localStorage.setItem('user', JSON.stringify(user));
 }

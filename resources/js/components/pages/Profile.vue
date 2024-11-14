@@ -1,15 +1,17 @@
 <script>
 import {HTTP} from "@/http-common.js";
-
+import {getAuth, setAuth} from "@/utils/authLocalStorage.js";
 export default {
     data() {
         return {
             selectedFile: null,
             fileUpload: null,
+            auth: getAuth(),
         };
     },
     methods: {
         handleFileChange(event) {
+
             const maxAllowedSize = 5 * 1024 * 1024;
             if (event.target.files[0].size > maxAllowedSize) {
                 return;
@@ -19,18 +21,20 @@ export default {
         },
 
         async uploadImage() {
-            let _this = this;
             const formData = new FormData();
             formData.append('file', this.selectedFile);
             try {
-                const response = await HTTP.post('/api/avatar-upload', formData, {
+                await HTTP.post('/api/avatar-upload', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
+                }).then((response) => {
+
                 });
                 await HTTP.get('/api/auth/get')
                     .then((response) => {
-                        _this.$root.auth = response.data;
+                        setAuth(response.data);
+                        location.reload();
                     })
                     .catch((error) => {
                         localStorage.clear();
@@ -54,7 +58,7 @@ export default {
 <template>
     <form class="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md space-y-4" @submit.prevent="save">
         <div class="flex justify-center">
-            <img :src="this.$root.auth.avatar_url"
+            <img :src="auth.avatar_url"
                  alt="Profile Picture" class="w-32 h-32 rounded-full border-2 border-gray-300">
         </div>
         <div class="text-center">

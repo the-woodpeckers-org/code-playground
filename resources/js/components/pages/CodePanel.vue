@@ -3,6 +3,7 @@ import Testcase from "@/components/listItems/Testcase.vue";
 import TestcaseList from "@/components/listItems/TestcaseList.vue";
 import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
 import {HTTP} from "@/http-common.js";
+import {getAuth} from "@/utils/authLocalStorage.js";
 
 export default {
     name: "CodePanel",
@@ -83,7 +84,7 @@ export default {
             _this.passedTestcases = 0
 
             let _url = '/api/problem/get?id=' + _this.$route.params.id;
-            if (this.$root.auth) {
+            if (getAuth()) {
                 _url = '/api/problem/get/u?id=';
             }
             HTTP.get(_url + _this.$route.params.id)
