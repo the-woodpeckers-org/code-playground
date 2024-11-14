@@ -20,7 +20,7 @@ export default {
                 password: _this.input_password
             }).then(function (response) {
                 console.log(response.data);
-                _this.$root.auth = response.data.user
+                _this.$root.auth = response.data.user   
                 localStorage.setItem('accessToken', response.data.token);
                 window.location.href = '/';
             }).catch(function (error) {

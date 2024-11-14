@@ -6,7 +6,7 @@ export default {
         }
     },
     methods: {
-        
+
         logout() {
             let _this = this
             axios.get('/api/logout')
@@ -21,9 +21,9 @@ export default {
         OpenMenu() {
             this.isMenuOpen = !this.isMenuOpen;
         },
-        
+
     },
-   
+
 
 }
 
@@ -68,18 +68,19 @@ export default {
                 <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
                     Career
                 </router-link>
+                <router-link to="/Info-Recruitment"
+            class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
             </div>
         </div>
         <div class="lg:hidden items-center">
-                <button @click="OpenMenu" class="text-white focus:outline-none hover:bg-gray-600 transition rounded-3xl">
-                    <!-- đổi cái hình khác -->
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
-            </div>
+            <button @click="OpenMenu" class="text-white focus:outline-none hover:bg-gray-600 transition rounded-3xl">
+                <!-- đổi cái hình khác -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+        </div>
         <div class="flex-none gap-2">
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
@@ -131,7 +132,8 @@ export default {
         <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
             Career
         </router-link>
-
+        <router-link to="/Info-Recruitment"
+            class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>  
     </div>
 </template>
 <script setup>
@@ -139,6 +141,6 @@ export default {
 </script>
 <style scoped>
 .router-link-active {
-  color: red;
+    color: red;
 }
 </style>
