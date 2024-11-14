@@ -1,17 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\CodeExecutionController;
-use App\Http\Controllers\Api\ProblemController;
+use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\Authentication\AuthController;
+use App\Http\Controllers\Api\CodeExecutionController;
 use App\Http\Controllers\Api\ContestController;
 use App\Http\Controllers\Api\CvController;
-use App\Http\Controllers\testController;
 use App\Http\Controllers\Api\ParticipationController;
-use App\Http\Controllers\Api\ProfileUserController;
-use App\Http\Controllers\Api\ApplicationController;
+use App\Http\Controllers\Api\ProblemController;
 use App\Http\Controllers\Api\ProfileCompanyController;
+use App\Http\Controllers\Api\ProfileUserController;
+use App\Http\Controllers\Api\UserController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -21,7 +22,6 @@ Route::post('/compile', [CodeExecutionController::class, 'compileCode'])->name('
 Route::get('/problem', [ProblemController::class, 'getProblems'])->name('problem.getProblems');
 Route::get('/problem/get', [ProblemController::class, 'getProblem'])->name('problem.getProblem');
 
-Route::post('/upload', [testController::class, 'upload'])->name('auth.upload');
 
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
@@ -31,7 +31,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/contest/get', [ContestController::class, 'get'])->name('contest.get');
     Route::get('/problem/u', [ProblemController::class, 'getProblemsU'])->name('problem.getProblemsU');
     Route::get('/problem/get/u', [ProblemController::class, 'getProblemU'])->name('problem.getProblemU');
-    Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
     Route::get('/participate', [ParticipationController::class, 'participate'])->name('participate.participate');
     Route::get('/participate/problem', [ProblemController::class, 'getParticipationProblem'])->name('problem.getProblemParticipation');
     Route::post('/submit', [ProblemController::class, 'submit'])->name('problem.submit');
@@ -49,6 +48,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile');
     Route::get('/getJobsApplied',[ApplicationController::class,'getJobsApplied'])->name('getJobsApplied');
     Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
+    Route::post('/avatar-upload', [UserController::class, 'uploadAvatar'])->name('auth.avatarUpload');
+    Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
 });
 
 // Password reset

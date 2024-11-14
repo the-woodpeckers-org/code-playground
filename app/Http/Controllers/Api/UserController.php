@@ -13,6 +13,10 @@ class UserController
     }
 
     public function getUsers() {
-        
+
+    }
+
+    public function uploadAvatar(Request $request) {
+        return response()->json($this->service->uploadAvatar($request));
     }
 }

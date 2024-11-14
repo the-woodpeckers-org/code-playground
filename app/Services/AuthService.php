@@ -97,7 +97,7 @@ class AuthService
         return throw new BadRequestHttpException("Can't verify token!");
     }
 
-    public function getAuthenticatedUser(Request $request): array
+    public function getAuthenticatedUser(Request $request)
     {
         return User::where('id', $request->user()->id)->first();
     }

@@ -1,5 +1,6 @@
 <script>
 import {HTTP} from "@/http-common.js";
+import {setAuth} from "@/utils/authLocalStorage.js";
 
 export default {
     name: "Login",
@@ -19,10 +20,9 @@ export default {
                 email: _this.input_email,
                 password: _this.input_password
             }).then(function (response) {
-                console.log(response.data);
-                _this.$root.auth = response.data.user   
+                _this.$root.auth = response.data.user
                 localStorage.setItem('accessToken', response.data.token);
-                window.location.href = '/';
+                setAuth(response.data.user);
             }).catch(function (error) {
                 console.log(error)
                 if (error.response.data.errors) {

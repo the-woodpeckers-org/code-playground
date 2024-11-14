@@ -9,6 +9,7 @@ import Ranking from "@/components/listItems/Ranking.vue";
 import NewsSection from "@/components/listItems/NewsSection.vue";
 import CardSkeleton from "@/components/loading/CardSkeleton.vue";
 import {HTTP} from "@/http-common.js";
+import {getAuth} from "@/utils/authLocalStorage.js";
 
 export default {
     name: "ProblemList",
@@ -26,14 +27,13 @@ export default {
     async mounted() {
         let _this = this
         let _url = '/api/problem'
-        if (_this.$root.auth) {
+        if (getAuth()) {
             _url = '/api/problem/u'
         }
         await Promise.all([
             HTTP.get(_url)
                 .then(function (response) {
                     _this.problems = response.data.data
-                    console.log(response.data)
                 })
                 .catch(function (error) {
                     console.log(error)
@@ -41,7 +41,6 @@ export default {
             HTTP.get('api/contest/landing')
                 .then(response => {
                     _this.contests = response.data;
-                    console.log(response)
                 })
                 .catch(error => {
                     console.log(error)

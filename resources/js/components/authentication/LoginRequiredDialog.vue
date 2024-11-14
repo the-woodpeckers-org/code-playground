@@ -1,6 +1,13 @@
 <script>
+import {getAuth} from "@/utils/authLocalStorage.js";
+
 export default {
     name: "LoginRequiredDialog",
+    methods: {
+        getAuth() {
+            return getAuth
+        }
+    },
     props: {
         title: {
             type: String,
@@ -15,7 +22,7 @@ export default {
 </script>
 
 <template>
-    <dialog v-if="!$root.auth" id="require_logged_in_modal" class="modal modal-open">
+    <dialog v-if="!getAuth()" id="require_logged_in_modal" class="modal modal-open">
         <div class="modal-box">
             <h3 class="text-lg font-bold">{{ title }}</h3>
             <p class="py-4">{{ message }}</p>

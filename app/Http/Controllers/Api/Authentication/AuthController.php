@@ -45,6 +45,6 @@ class AuthController
     }
 
     public function getAuthenticatedUser(Request $request) {
-
+        return response()->json($this->service->getAuthenticatedUser($request));
     }
 }
