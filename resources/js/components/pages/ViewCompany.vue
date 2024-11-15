@@ -1,10 +1,10 @@
 <script>
 import { HTTP } from "@/http-common.js";
-import CardJob from "@/components/listItems/CardJob.vue";
+import Job from "../cards/Job.vue";
 export default {
     name: "ViewCompany",
     components: {
-        CardJob,
+        Job,
     },
     data() {
         return {
@@ -126,7 +126,7 @@ export default {
 
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
                     <div class="grid grid-cols-1 gap-4 overflow-x-auto" style="height: 500px;">
-                        <CardJob v-for="job in jobRecruitments" :key="job.id" :title="job.title" :skill="job.skill" />
+                        <Job v-for="job in jobRecruitments" :key="job.id" :title="job.title" :skill="job.skill" />
                     </div>
                 </div>
             </div>
