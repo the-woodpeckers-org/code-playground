@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: "Job",
+    name: "JobM",
     props: {
         title: {
             default: 'N/A'
