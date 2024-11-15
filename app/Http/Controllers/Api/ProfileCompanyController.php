@@ -20,9 +20,13 @@ class ProfileCompanyController
     {
         return $this->_service->getProfileCompany($id);
     }
+    public function getProfileCompanyByUserId(Request $request)
+    {
+        return $this->_service->getProfileCompanyByUserId($request);
+    }
     public function updateProfileCompany(Request $request)
     {
-        
+        return $this->_service->updateProfileCompany($request);
     }
     public function createProfileCompany(Request $request)
     {

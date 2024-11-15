@@ -28,6 +28,49 @@ class ProfileCompanyService
             ]
         ]);
     }
-    
+    public function getProfileCompanyByUserId(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $profile = ProfileCompany::where('user_id', $user_id)->first();
+        $userCompany = $profile->user()->first();
+        $listJobs = JobRecruitment::where('user_id','=', $userCompany->id)->get();
+        if (!$profile) {
+            return response()->json(['status' => 404, 'data' => null]);
+        }
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'profileCompany' => $profile,
+                'userCompany' => $userCompany,
+                'jobRecruitments' => $listJobs
+            ]
+        ]);
+    }
+    // 'user_id',
+    // 'description',
+    // 'general_information',
+    // 'address',
+    // 'phone',
+    // 'email',
+    // 'skill',
+    public function updateProfileCompany(Request $request)
+    {
+        $profile = ProfileCompany::where('user_id', Auth::user()->id)->first();
+        if (!$profile) {
+            return response()->json(['status' => 404, 'data' => null]);
+        }           
+
+        $profile->description = $request->input('profileCompany.description');
+        $profile->general_information = $request->input('profileCompany.general_information');
+        $profile->address = $request->input('profileCompany.address');
+        $profile->phone = $request->input('profileCompany.phone');
+        $profile->email = $request->input('profileCompany.email');
+        $profile->skill = $request->input('profileCompany.skill');
+        $profile->save();
+        return response()->json([
+            'status' => 200,
+            'data' => $profile
+        ]);
+    }
     
 }

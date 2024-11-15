@@ -129,13 +129,13 @@ export default {
         <h1 class="text-xl font-semibold my-3">Available jobs based on your skills</h1>
         <div class="flex flex-row flex-wrap justify-center">
             <Job :imgUrl="'https://maychufpt.com.vn/wp-content/uploads/2022/05/hosting-fpt.png'"
-                 :title="'Project Manager'" :companyName="'FPT Software'" :description="'Up to 3500$'" :url="'#'"></Job>
+                 :title="'Project Manager'" :companyName="'FPT Software'" :description="'Up to 3500$'" :url="'/Job-detail/1'"></Job>
             <Job :imgUrl="'https://ircdn.vingroup.net/storage/Public/VinHMS%20Logo.png'"
-                 :title="'Senior Angular Developer'" :companyName="'VinHMS'" :description="'Up to 3000$'" :url="'#'"></Job>
+                 :title="'Senior Angular Developer'" :companyName="'VinHMS'" :description="'Up to 3000$'" :url="'/Job-detail/1'"></Job>
             <Job :imgUrl="'https://baan.vn/wp-content/uploads/2023/07/RICONS-01-1.png'"
-                 :title="'QA/QC'" :companyName="'Ricons Construction'" :description="'Up to 6000$'" :url="'#'"></Job>
+                 :title="'QA/QC'" :companyName="'Ricons Construction'" :description="'Up to 6000$'" :url="'/Job-detail/1'"></Job>
             <Job :imgUrl="'https://www.techsoup.org/SiteCollectionImages/Product/prod-adobe-logo.png'"
-                 :title="'Junior Front-end Developer'" :companyName="'Adobe Vietnam'" :description="'Up to 1500$'" :url="'#'"></Job>
+                 :title="'Junior Front-end Developer'" :companyName="'Adobe Vietnam'" :description="'Up to 1500$'" :url="'/Job-detail/1'"></Job>
             <Job :imgUrl="'https://play-lh.googleusercontent.com/XEReFv_aetLFZq2VCYEUF6cMeHLwJ3eM_WMcjucGKwdKPm8ob1_ghAdltlMwnHMEsQk'"
                  :title="'PHP Developer'" :companyName="'Báo điện tử VnExpress'" :description="'Up to 2000$'" :url="'#'"></Job>
             <Job :imgUrl="'https://cdn.tuoitre.vn/thumb_w/600/471584752817336320/2023/2/23/29229888323456029822604684420721366064172575n-16771238637691533081421.jpg'"

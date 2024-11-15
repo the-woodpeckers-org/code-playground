@@ -47,10 +47,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/setPrimaryCv', [CvController::class, 'setPrimaryCv'])->name('setPrimaryCv');
     Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile');
     Route::get('/getJobsApplied',[ApplicationController::class,'getJobsApplied'])->name('getJobsApplied');
-    Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
     Route::post('/avatar-upload', [UserController::class, 'uploadAvatar'])->name('auth.avatarUpload');
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
+    Route::post('/updateProfileCompany', [ProfileCompanyController::class, 'updateProfileCompany'])->name('updateProfileCompany');
+    Route::get('/getProfileCompanyByUserId',[ProfileCompanyController::class,'getProfileCompanyByUserId'])->name('getProfileCompanyByUserId');
 });
+
+Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
 
 // Password reset
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');

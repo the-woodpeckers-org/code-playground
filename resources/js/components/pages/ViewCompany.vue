@@ -1,6 +1,6 @@
 <script>
 import { HTTP } from "@/http-common.js";
-import  CardJob from "@/components/listItems/CardJob.vue";
+import CardJob from "@/components/listItems/CardJob.vue";
 export default {
     name: "ViewCompany",
     components: {
@@ -11,6 +11,8 @@ export default {
             profileCompany: {},
             jobRecruitments: [],
             userCompany: {},
+            skills: [],
+            address: [],
         }
     },
     async mounted() {
@@ -25,7 +27,9 @@ export default {
                     _this.profileCompany = response.data.data.profileCompany;
                     _this.userCompany = response.data.data.userCompany;
                     _this.jobRecruitments = response.data.data.jobRecruitments;
-                    console.log(_this.jobRecruitments);
+                    _this.skills = JSON.parse(_this.profileCompany.skill.replace(/'/g, '"'));
+                    _this.address =JSON.parse(_this.profileCompany.address.replace(/'/g, '"'));
+                    console.log(_this.skills);
                 })
                 .catch(e => {
                     console.log(e);
@@ -66,7 +70,7 @@ export default {
                                                 </path>
                                             </svg></span><button type="button"
                                             class="font-semibold underline transition-all hover:text-primary">{{
-                                            this.jobRecruitments.length }} recruitment position</button></div>
+                                                this.jobRecruitments.length }} recruitment position</button></div>
                                     <div class="mt-4 flex gap-4">
                                         <div class="flex-1"><button id="" type="button"
                                                 class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-primary text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 undefined h-9 rounded px-4 font-semibold lg:h-12 lg:px-6 w-full"
@@ -114,7 +118,7 @@ export default {
             <div id="tabMnf" role="tablist" class="tabs tabs-bordered grid grid-cols-2 bg-white w-full h-min-[500px]">
                 <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Description" />
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                    {{ this.profileCompany.description }}
+                    <div v-html="profileCompany?.description"></div>
                 </div>
 
                 <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Recruitment Position"
@@ -136,46 +140,15 @@ export default {
                     </div>
                     <hr class="hidden lg:block">
                     <div class="p-4">
-                        <div>
-                            <h3 class="font-bold">Lĩnh vực</h3>
-                            <p class="mt-2">Trống</p>
-                        </div>
-                        <div class="mt-4">
-                            <h3 class="font-bold">Quy mô công ty</h3>
-                            <p class="mt-2">Trống</p>
-                        </div>
-                        <div class="mt-4">
-                            <h3 class="font-bold">Quốc tịch công ty</h3>
-                            <ul class="mt-2">
-                                <li class="mt-1 first:mt-0">
-                                    <div class="flex gap-2"><img alt="Netherlands" loading="lazy" width="26" height="18"
-                                            decoding="async" data-nimg="1"
-                                            class="h-[18px] w-[26px] max-w-full object-contain"
-                                            style="color: transparent;"
-                                            srcset="https://salt.topdev.vn/UIHVyVOzfA4jlq3MRn3a-i2VBCY4NGXAnPq63SxtjrM/fit/32/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy9mbGFncy9OZXRoZXJsYW5kcy5wbmc 1x, https://salt.topdev.vn/7ar1IBYM_UHkpPqPl4duj4TIUieXDJc10eZlI_dC7JE/fit/64/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy9mbGFncy9OZXRoZXJsYW5kcy5wbmc 2x"
-                                            src="https://salt.topdev.vn/7ar1IBYM_UHkpPqPl4duj4TIUieXDJc10eZlI_dC7JE/fit/64/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy9mbGFncy9OZXRoZXJsYW5kcy5wbmc">
-                                        <p>Netherlands</p>
-                                    </div>
-                                </li>
-                                <li class="mt-1 first:mt-0">
-                                    <div class="flex gap-2"><img alt="Vietnam" loading="lazy" width="26" height="18"
-                                            decoding="async" data-nimg="1"
-                                            class="h-[18px] w-[26px] max-w-full object-contain"
-                                            style="color: transparent;"
-                                            srcset="https://salt.topdev.vn/mdhoqyYea3PBOuIBYYOLJbEbGjzO6tz3NXBc_jAD3pk/fit/32/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy9mbGFncy9WaWV0bmFtLnBuZw 1x, https://salt.topdev.vn/6Z90d3eYffclbo3IAgL_U_QwXHg6c2zc7xMiiecN8u8/fit/64/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy9mbGFncy9WaWV0bmFtLnBuZw 2x"
-                                            src="https://salt.topdev.vn/6Z90d3eYffclbo3IAgL_U_QwXHg6c2zc7xMiiecN8u8/fit/64/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy9mbGFncy9WaWV0bmFtLnBuZw">
-                                        <p>Vietnam</p>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                        <div v-html="profileCompany?.general_information"></div>
                         <div class="mt-4">
                             <h3 class="font-bold">Skill</h3>
                             <ul class="mt-1 flex flex-wrap">
 
-                                <li class="mt-2"><a class="mr-2 inline-block"><span
-                                            class="whitespace-nowrap rounded border border-solid font-normal transition-all inline-flex items-center justify-center border-blue-light text-blue-dark bg-blue-light hover:border-blue-dark h-[1.625rem] px-2 text-xs md:h-7 md:px-2 md:text-sm">{{
-                                            this.profileCompany.skill }}</span></a>
+                                <li class="mt-2">
+                                    <a class="mr-2 inline-block" v-for="(item, index) in this.skills" :key="index"><span
+                                            class="whitespace-nowrap rounded border border-solid font-normal transition-all inline-flex items-center justify-center border-blue-light text-blue-dark bg-blue-light hover:border-blue-dark h-[1.625rem] px-2 text-xs md:h-7 md:px-2 md:text-sm">
+                                            {{item}}</span></a>
                                 </li>
 
                             </ul>
@@ -209,8 +182,7 @@ export default {
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                                     </svg></span>
-                                                <p class="flex-1">{{ this.profileCompany.address }}
-                                                </p>
+                                                    <a v-if="this.profileCompany.address">{{ this.address[3] + "," || " " }} {{ this.address[2]+ "," || " " }} {{ this.address[1]  || " "}} <span v-if="this.address[0]">{{", "+this.address[0] }}</span></a> 
                                             </div>
                                         </div>
                                     </li>
