@@ -23,13 +23,14 @@ const ContestPanel = () => import('@/components/pages/ContestPanel.vue');
 const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
 const CvBuilder =()=>import("@/components/pages/CvBuilder.vue");
 const CvShowPDF =()=>import("@/components/pages/CvShowPDF.vue");
-const JobManager =()=>import("@/components/pages/JobManager.vue");
+const JobManager =()=>import("@/components/pages/JobManagement.vue");
 const JobApplied =()=>import("@/components/pages/JobApplied.vue");
 const DetailJobs =()=>import("@/components/pages/DetailJobs.vue");
 const ViewCompany= ()=>import("@/components/pages/ViewCompany.vue");
 const RecruitmentManagement =()=>import("@/components/pages/Recruitment/RecruitmentManagement.vue");
 const JobsManagement =()=>import("@/components/pages/Recruitment/JobsManagement.vue");
-
+const AddJob = ()=>import("@/components/pages/Recruitment/AddJob.vue");
+const DetailJobM = ()=>import("@/components/pages/Recruitment/DetailJobM.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -180,6 +181,16 @@ const routes = [
         path:'/Jobs-Management',
         component: JobsManagement,
         name: 'jobs-management'
+    },
+    {
+        path :'/Add-Job',
+        component: AddJob,
+        name: 'add-job'
+    },
+    {
+        path:'/Detail-Job/:id',
+        component: DetailJobM,
+        name: 'detail-job'
     }
 ]
 
