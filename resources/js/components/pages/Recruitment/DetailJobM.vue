@@ -1,68 +1,86 @@
 <template>
-    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-10 rounded-2xl shadow-xl max-w-4xl mx-auto mt-10">
-        <button @click="goBack" class="btn-back mb-6 flex items-center space-x-2">
-            <span class="material-icons"><i class="fa-solid fa-arrow-left"></i></span>
-            <span>Back</span>
-        </button>
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Edit Job Posting</h2>
-        <form @submit.prevent="handleSubmit">
-            <div class="mb-6">
-                <label class="block text-gray-600 font-semibold mb-2">Title</label>
-                <input v-model="jobForm.title" type="text" class="input-field" placeholder="Enter job title" required />
-            </div>
-            <div class="mb-6">
-                <label class="block text-gray-600 font-semibold mb-2">Location</label>
-                <input v-model="jobForm.location" type="text" class="input-field" placeholder="Job location" required />
-            </div>
-            <div class="mb-6">
-            <label class="text-sm font-bold text-gray-700 mb-2 block">Skills <span
-                    class="font-normal text-primary">*</span></label>
-            <div class="border border-gray-200 shadow-sm rounded-lg p-6 bg-gray-50 mt-2">
-                <div class="flex flex-wrap gap-3 mb-4" id="skill-selected">
-                    <div v-for="(skill, index) in selectedSkills" :key="index"
-                        class="flex items-center bg-blue-100 text-blue-700 px-3 py-1 rounded-lg shadow-sm space-x-2">
-                        <span>{{ skill }}</span>
-                        <button @click="removeSkill(skill)"
-                            class="text-blue-500 hover:text-blue-700 focus:outline-none">
-                            <i class="fa-solid fa-x"></i>
-                        </button>
-                    </div>
-                </div>
 
-                <div class="flex justify-between items-center">
-                    <button v-if="selectedSkills.length" @click="removeAll"
-                        class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-150 ease-in-out shadow-md">
-                        Clear All
-                    </button>
-                    <select
-                        class="select w-full md:w-1/2 border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:ring-2 focus:ring-primary focus:outline-none bg-white text-gray-700"
-                        @change="addSkill($event)" required>
-                        <option disabled selected>Select a skill</option>
-                        <option v-for="(skill, index) in availableSkills" :key="index" :value="skill">
-                            {{ skill }}
-                        </option>
-                    </select>
-                </div>
+    <button @click="goBack" class="btn-back mb-6 flex items-center space-x-2">
+        <span class="material-icons"><i class="fa-solid fa-arrow-left"></i></span>
+        <span>Back</span>
+    </button>
+    
+    <div role="tablist" class="tabs tabs-boxed grid grid-cols-2 bg-white w-[80%] h-min-[500px] m-auto">
+        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="CV Applied" />
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box">
+                LIST DANH SÁCH CV ĐÃ NỘP 
+        </div>
+
+        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Edit job" checked="checked" />
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box">
+            <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-3 rounded-2xl shadow-xl m-3">
+                <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Edit Job Posting</h2>
+                <form @submit.prevent="handleSubmit">
+                    <div class="mb-6">
+                        <label class="block text-gray-600 font-semibold mb-2">Title</label>
+                        <input v-model="jobForm.title" type="text" class="input-field" placeholder="Enter job title"
+                            required />
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-600 font-semibold mb-2">Location</label>
+                        <input v-model="jobForm.location" type="text" class="input-field" placeholder="Job location"
+                            required />
+                    </div>
+                    <div class="mb-6">
+                        <label class="text-sm font-bold text-gray-700 mb-2 block">Skills <span
+                                class="font-normal text-primary">*</span></label>
+                        <div class="border border-gray-200 shadow-sm rounded-lg p-6 bg-gray-50 mt-2">
+                            <div class="flex flex-wrap gap-3 mb-4" id="skill-selected">
+                                <div v-for="(skill, index) in selectedSkills" :key="index"
+                                    class="flex items-center bg-blue-100 text-blue-700 px-3 py-1 rounded-lg shadow-sm space-x-2">
+                                    <span>{{ skill }}</span>
+                                    <button @click="removeSkill(skill)"
+                                        class="text-blue-500 hover:text-blue-700 focus:outline-none">
+                                        <i class="fa-solid fa-x"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between items-center">
+                                <button v-if="selectedSkills.length" @click="removeAll"
+                                    class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-150 ease-in-out shadow-md">
+                                    Clear All
+                                </button>
+                                <select
+                                    class="select w-full md:w-1/2 border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:ring-2 focus:ring-primary focus:outline-none bg-white text-gray-700"
+                                    @change="addSkill($event)" required>
+                                    <option disabled selected>Select a skill</option>
+                                    <option v-for="(skill, index) in availableSkills" :key="index" :value="skill">
+                                        {{ skill }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-600 font-semibold mb-2">Salary</label>
+                        <input v-model="jobForm.salary" type="number" class="input-field" placeholder="Salary range"
+                            required />
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-600 font-semibold mb-2">Deadline</label>
+                        <input v-model="jobForm.deadline" type="date" class="input-field" required />
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-600 font-semibold mb-2">Description</label>
+                        <div id="text-editor-3" class="input-editor p-4"></div>
+                    </div>
+                    <div class="flex justify-center space-x-6 mt-8">
+                        <button type="button" class="btn-secondary" @click="closeJobForm">Cancel</button>
+                        <button type="submit" class="btn-primary">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
-            <div class="mb-6">
-                <label class="block text-gray-600 font-semibold mb-2">Salary</label>
-                <input v-model="jobForm.salary" type="number" class="input-field" placeholder="Salary range" required />
-            </div>
-            <div class="mb-6">
-                <label class="block text-gray-600 font-semibold mb-2">Deadline</label>
-                <input v-model="jobForm.deadline" type="date" class="input-field" required />
-            </div>
-            <div class="mb-6">
-                <label class="block text-gray-600 font-semibold mb-2">Description</label>
-                <div id="text-editor-3" class="input-editor p-4"></div>
-            </div>
-            <div class="flex justify-center space-x-6 mt-8">
-                <button type="button" class="btn-secondary" @click="closeJobForm">Cancel</button>
-                <button type="submit" class="btn-primary">Save</button>
-            </div>
-        </form>
+
     </div>
+
+
 </template>
 
 <script>
@@ -88,12 +106,12 @@ export default {
         this.jobForm.rte_1 = new RichTextEditor('#text-editor-3');
         this.jobForm.rte_1.setHTMLCode(this.jobForm.description);
     },
-    methods: {       
-       async handleSubmit() {
+    methods: {
+        async handleSubmit() {
             await this.updateJob();
         },
         goBack() {
-            this.$router.back(); 
+            this.$router.back();
         },
         addSkill(event) {
             const skill = event.target.value;
@@ -114,18 +132,17 @@ export default {
             this.availableSkills = [...this.availableSkills, ...this.selectedSkills];
             this.selectedSkills = [];
         },
-        async fetchData()
-        {
+        async fetchData() {
             await HTTP.get(`/api/getDetailJob/${this.$route.params.id}`).then(response => {
-            //   /  console.log(response.data);
+                //   /  console.log(response.data);
                 this.jobForm = response.data.data;
-                this.selectedSkills=JSON.parse(this.jobForm.skill);
+                this.selectedSkills = JSON.parse(this.jobForm.skill);
                 this.availableSkills = this.availableSkills.filter(skill => !this.selectedSkills.includes(skill));
             }).catch(error => {
                 console.error(error);
             });
         },
-      async updateJob() {
+        async updateJob() {
             const data = {
                 job: {
                     title: this.jobForm.title,
@@ -137,8 +154,8 @@ export default {
                     id: this.$route.params.id
                 }
             };
-            
-            await HTTP.post('/api/updateJob',data).then(response => {
+
+            await HTTP.post('/api/updateJob', data).then(response => {
                 console.log(response.data);
                 alert("Job updated successfully");
                 this.goBack();
@@ -154,18 +171,23 @@ export default {
 .btn-back {
     @apply text-blue-500 font-semibold hover:text-blue-600 flex items-center transition-colors duration-200;
 }
+
 .material-icons {
     font-size: 1.2rem;
 }
+
 .input-field {
     @apply w-full p-3 bg-white border border-gray-200 rounded-lg shadow-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-200 ease-in-out;
 }
+
 .input-editor {
     @apply bg-white border border-gray-200 rounded-lg shadow-md focus:ring-2 focus:ring-blue-300 transition duration-200;
 }
+
 .btn-primary {
     @apply bg-gradient-to-r from-blue-400 to-blue-500 text-white font-semibold py-2 px-8 rounded-full hover:from-blue-500 hover:to-blue-600 shadow-lg transform hover:scale-105 transition duration-200 ease-in-out;
 }
+
 .btn-secondary {
     @apply bg-gray-200 text-gray-700 font-semibold py-2 px-8 rounded-full hover:bg-gray-300 shadow-md transform hover:scale-105 transition duration-200 ease-in-out;
 }

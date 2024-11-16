@@ -50,8 +50,7 @@ export default {
                     <h1 class="text-xl font-semibold" >{{ title }}</h1>
                     <p class="font-semibold">{{ salary }} $</p>
                     <p class="font-semibold">Available until: {{ date }}</p>
-                    </router-link>
-                   
+                    </router-link>                  
                 </div>
                 <div class="flex flex-row gap-2 ">
                     <i class="fa-solid fa-delete-left text-md md:text-xl lg:text-2xl  hover:text-red-500" onclick="confirm_delete_modal.showModal()"></i>
