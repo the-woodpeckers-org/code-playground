@@ -13,7 +13,8 @@
         </label>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-4">
-        <CardJobM v-for="(item, index) in 5" :key="index"></CardJobM>
+        <CardJobM v-for="(item, index) in jobList" :key="item.id" :title="item.title" :salary="item.salary"
+          :id="item.id" :link="`/Detail-Job/${item.id}`" @delete-item="deleteJob(item.id)" />
         <div @click="addJob"
           class="border rounded-xl h-52 w-auto my-2 p-3 bg-base-100 hover:scale-105 hover:bg-base-200 transition cursor-pointer flex justify-center items-center">
           <i class="fas fa-plus text-6xl text-gray-600"></i>
@@ -21,17 +22,16 @@
       </div>
     </div>
 
-    
-
   </div>
 </template>
 <script>
+import { HTTP } from "@/http-common.js";
 import CardJobM from "@/components/cards/JobM.vue";
 import {
-    RouterView,
-    RouterLink,
-    useRouter,
-    useRoute,
+  RouterView,
+  RouterLink,
+  useRouter,
+  useRoute,
 } from 'vue-router';
 import NavigatorRecuitment from "@/components/navbar/NavigatorRecuitment.vue";
 export default {
@@ -45,15 +45,23 @@ export default {
       formMode: "add",
     };
   },
-  mounted() {
-
+  async mounted() {
+    await this.fetchData();
   },
   created() {
   },
   methods: {
     addJob() {
       this.router.push({ name: 'add-job' });
-
+    },
+    async fetchData() {
+      await HTTP.get('/api/getJobsU').then((response) => {
+        this.jobList = response.data.data;
+        console.log(this.jobList);
+      });
+    },
+    deleteJob(id) {
+      this.jobList = this.jobList.filter(cv => cv.id !== id);
     },
   },
 };

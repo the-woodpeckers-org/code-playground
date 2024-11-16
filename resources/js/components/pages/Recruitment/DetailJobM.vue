@@ -4,7 +4,7 @@
             <span class="material-icons"><i class="fa-solid fa-arrow-left"></i></span>
             <span>Back</span>
         </button>
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Create Job Posting</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Edit Job Posting</h2>
         <form @submit.prevent="handleSubmit">
             <div class="mb-6">
                 <label class="block text-gray-600 font-semibold mb-2">Title</label>
@@ -68,7 +68,7 @@
 <script>
 import { HTTP } from "@/http-common.js";
 export default {
-    name: "AddJob",
+    name: "DetailJob",
     data() {
         return {
             availableSkills: ['Java', 'Go', 'C', 'C#', 'C++', 'Rust', 'JavaScript', 'Python'],
@@ -83,31 +83,14 @@ export default {
             },
         };
     },
-    mounted() {
+    async mounted() {
+        await this.fetchData();
         this.jobForm.rte_1 = new RichTextEditor('#text-editor-3');
-        this.jobForm.rte_1.setHTMLCode("");
+        this.jobForm.rte_1.setHTMLCode(this.jobForm.description);
     },
-    methods: {
-        
+    methods: {       
        async handleSubmit() {
-        const data = {
-                job: {
-                    title: this.jobForm.title,
-                    location: this.jobForm.location,
-                    skill: JSON.stringify(this.selectedSkills),
-                    salary: this.jobForm.salary,
-                    deadline: this.jobForm.deadline,
-                    description: this.jobForm.rte_1.getHTMLCode(),
-                    
-                }
-            };
-            await HTTP.post('/api/createJob',data).then(response => {
-                console.log(response.data);
-                alert("Job created successfully");
-                this.goBack();
-            }).catch(error => {
-                console.error(error);
-            });
+            await this.updateJob();
         },
         goBack() {
             this.$router.back(); 
@@ -130,7 +113,39 @@ export default {
         removeAll() {
             this.availableSkills = [...this.availableSkills, ...this.selectedSkills];
             this.selectedSkills = [];
-        }
+        },
+        async fetchData()
+        {
+            await HTTP.get(`/api/getDetailJob/${this.$route.params.id}`).then(response => {
+            //   /  console.log(response.data);
+                this.jobForm = response.data.data;
+                this.selectedSkills=JSON.parse(this.jobForm.skill);
+                this.availableSkills = this.availableSkills.filter(skill => !this.selectedSkills.includes(skill));
+            }).catch(error => {
+                console.error(error);
+            });
+        },
+      async updateJob() {
+            const data = {
+                job: {
+                    title: this.jobForm.title,
+                    location: this.jobForm.location,
+                    skill: JSON.stringify(this.selectedSkills),
+                    salary: this.jobForm.salary,
+                    deadline: this.jobForm.deadline,
+                    description: this.jobForm.rte_1.getHTMLCode(),
+                    id: this.$route.params.id
+                }
+            };
+            
+            await HTTP.post('/api/updateJob',data).then(response => {
+                console.log(response.data);
+                alert("Job updated successfully");
+                this.goBack();
+            }).catch(error => {
+                console.error(error);
+            });
+        },
     }
 };
 </script>

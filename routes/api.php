@@ -10,7 +10,7 @@ use App\Http\Controllers\Api\ProblemController;
 use App\Http\Controllers\Api\ProfileCompanyController;
 use App\Http\Controllers\Api\ProfileUserController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\api\JobCruitmentController;
+use App\Http\Controllers\api\JobRecruitmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,7 +52,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
     Route::post('/updateProfileCompany', [ProfileCompanyController::class, 'updateProfileCompany'])->name('updateProfileCompany');
     Route::get('/getProfileCompanyByUserId',[ProfileCompanyController::class,'getProfileCompanyByUserId'])->name('getProfileCompanyByUserId');
-    Route::post('/createJob', [JobCruitmentController::class, 'createJob'])->name('createJob');
+    Route::get('/getJobsU',[JobRecruitmentController::class,'getJobsU'])->name('getJobsU');
+    Route::post('/createJob', [JobRecruitmentController::class, 'createJob'])->name('createJob');
+    Route::get('/getDetailJob/{id}',[JobRecruitmentController::class,'getDetailJob'])->name('getDetailJob');
+    Route::get('/deleteJob/{id}',[JobRecruitmentController::class,'deleteJob'])->name('deleteJob');
+    Route::post('/updateJob',[JobRecruitmentController::class,'updateJob'])->name('updateJob');
+
 });
 
 Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
