@@ -18,4 +18,5 @@ class ApplicationController
     {
         return $this->service->getJobsApplied($request);
     }
+   
 }

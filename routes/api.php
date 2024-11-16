@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\ProblemController;
 use App\Http\Controllers\Api\ProfileCompanyController;
 use App\Http\Controllers\Api\ProfileUserController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\api\JobCruitmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
     Route::post('/updateProfileCompany', [ProfileCompanyController::class, 'updateProfileCompany'])->name('updateProfileCompany');
     Route::get('/getProfileCompanyByUserId',[ProfileCompanyController::class,'getProfileCompanyByUserId'])->name('getProfileCompanyByUserId');
+    Route::post('/createJob', [JobCruitmentController::class, 'createJob'])->name('createJob');
 });
 
 Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');

@@ -29,7 +29,7 @@ const DetailJobs =()=>import("@/components/pages/DetailJobs.vue");
 const ViewCompany= ()=>import("@/components/pages/ViewCompany.vue");
 const RecruitmentManagement =()=>import("@/components/pages/Recruitment/RecruitmentManagement.vue");
 const JobsManagement =()=>import("@/components/pages/Recruitment/JobsManagement.vue");
-
+const AddJob = ()=>import("@/components/pages/Recruitment/AddJob.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -180,6 +180,11 @@ const routes = [
         path:'/Jobs-Management',
         component: JobsManagement,
         name: 'jobs-management'
+    },
+    {
+        path :'/Add-Job',
+        component: AddJob,
+        name: 'add-job'
     }
 ]
 
