@@ -4,11 +4,26 @@
         <span class="material-icons"><i class="fa-solid fa-arrow-left"></i></span>
         <span>Back</span>
     </button>
-    
+
     <div role="tablist" class="tabs tabs-boxed grid grid-cols-2 bg-white w-[80%] h-min-[500px] m-auto">
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="CV Applied" />
         <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box">
-                LIST DANH SÁCH CV ĐÃ NỘP 
+            <div class="overflow-x-auto" v-if="this.applications.length>0">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Time applied</th>
+                            <th>Name</th>
+                            <th>Link cv</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                       <CvItemApplied v-for="(item, index) in this.applications" :key="index" :name="item.cv.user.name" :time="item.created_at"   :linkCV="`/cv/show/${item.cv.id}`" ></CvItemApplied>
+                    </tbody>
+                </table>
+            </div>
+            <div v-else>No applications yet</div>
         </div>
 
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Edit job" checked="checked" />
@@ -85,10 +100,15 @@
 
 <script>
 import { HTTP } from "@/http-common.js";
+import CvItemApplied from "@/components/listItems/CvItemApplied.vue";
 export default {
     name: "DetailJob",
+    components: {
+        CvItemApplied,
+    },
     data() {
         return {
+            applications: [],
             availableSkills: ['Java', 'Go', 'C', 'C#', 'C++', 'Rust', 'JavaScript', 'Python'],
             selectedSkills: [],
             jobForm: {
@@ -102,9 +122,10 @@ export default {
         };
     },
     async mounted() {
-        await this.fetchData();
+        await this.fetchDataAboutJob();
         this.jobForm.rte_1 = new RichTextEditor('#text-editor-3');
         this.jobForm.rte_1.setHTMLCode(this.jobForm.description);
+        await this.fetchDataListCV();
     },
     methods: {
         async handleSubmit() {
@@ -132,7 +153,7 @@ export default {
             this.availableSkills = [...this.availableSkills, ...this.selectedSkills];
             this.selectedSkills = [];
         },
-        async fetchData() {
+        async fetchDataAboutJob() {
             await HTTP.get(`/api/getDetailJob/${this.$route.params.id}`).then(response => {
                 //   /  console.log(response.data);
                 this.jobForm = response.data.data;
@@ -162,6 +183,15 @@ export default {
             }).catch(error => {
                 console.error(error);
             });
+        },
+        async fetchDataListCV() {
+            await HTTP.get(`/api/getCVsApplied/${this.$route.params.id}`).then(response => {
+                this.applications = response.data.applications;
+                console.log(this.applications);
+            }).catch(error => {
+                console.error(error);
+            });
+
         },
     }
 };

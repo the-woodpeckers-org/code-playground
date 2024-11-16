@@ -24,5 +24,9 @@ class Application extends Model
     {
         return $this->belongsTo(JobRecruitment::class);
     }
+    public function cv()
+    {
+        return $this->belongsTo(Cv::class);
+    }
     
 }

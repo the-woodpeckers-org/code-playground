@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use App\Http\Requests\FinishContestFormRequest;
-use App\Models\Participation;
+use App\Models\Cv;
+use App\Models\Application;
 use App\Models\JobRecruitment;
+use App\Models\Users;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -98,5 +100,16 @@ class JobRecruitmentService
                 'message' => $e->getMessage()
             ]);
         }
+    }
+    public function getCVsApplied($id)
+    {
+       $applications = Application::where('job_id', $id)->get();
+       $cvs = $applications->pluck('cv')->flatten();
+       $user_cv =$applications->pluck('cv')->flatten()->pluck('user')->flatten();
+       return response()->json([
+           'status' => '200',
+           'applications' => $applications,
+           'user_cvs' => $user_cv
+       ]);
     }
 }

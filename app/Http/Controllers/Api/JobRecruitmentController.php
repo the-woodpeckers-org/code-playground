@@ -35,4 +35,8 @@ class JobRecruitmentController
     {
         return $this->service->createJob($request);
     }
+    public function getCVsApplied($id)
+    {
+        return $this->service->getCVsApplied($id);
+    }
 }
