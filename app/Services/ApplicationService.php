@@ -32,6 +32,7 @@ class ApplicationService
                 'message' => 'You are not allowed to apply for a job'
             ]);
         }
+        
         $jobId = $request->input('job_id');
         $cv_id = $request->input('cv_id');
         $letter = $request->input('letter');

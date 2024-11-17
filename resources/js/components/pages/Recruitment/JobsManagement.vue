@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NavigatorRecuitment></NavigatorRecuitment>
+    <NavigatorRecruitment></NavigatorRecruitment>
     <div class="container bg-base-100 p-3">
       <div class="container">
         <label class="input input-bordered flex items-center gap-2">
@@ -33,10 +33,10 @@ import {
   useRouter,
   useRoute,
 } from 'vue-router';
-import NavigatorRecuitment from "@/components/navbar/NavigatorRecuitment.vue";
+import NavigatorRecruitment from "@/components/navbar/NavigatorRecruitment.vue";
 export default {
   name: 'JobsManagement',
-  components: { NavigatorRecuitment, CardJobM },
+  components: { NavigatorRecruitment, CardJobM },
   data() {
     return {
       router: useRouter(),
