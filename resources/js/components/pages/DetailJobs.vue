@@ -13,19 +13,12 @@
                                 src="https://salt.topdev.vn/AksTLoqA9-GrmBn6ykazEFi0SqYAaPQmQrUexq9Y6PM/fit/384/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIyLzAxLzE3L1RvcERldi1sb2dvc3dLSWNsazlhT2hMaWVlVXVKbkRzMkE4UmhuczFmWnEtMTY0MjM5ODM5NC5wbmc"></a>
                     </div>
                     <div class="w-3/4 flex flex-initial flex-col">
-                        <h1 class="text-2xl font-bold text-black">DevOps Engineer</h1>
-                        <p class="my-1 line-clamp-1 text-base font-bold text-gray-500">NEYU Ltd.,</p>
+                        <h1 class="text-2xl font-bold text-black">{{ job.title }}</h1>
+                        <p class="my-1 line-clamp-1 text-base font-bold text-gray-500">{{ job.location }}</p>
                         <div class="my-2 max-w-[540px] text-base text-gray-500">
                             <div class="mb-2 flex last:mb-0">
-                                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
-                                    aria-hidden="true" class="mr-2 h-6 w-6 text-gray-300" height="1em" width="1em"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd"
-                                        d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                                <div class="w-11/12">17-19 Tôn Thất Tùng, Tòa nhà Hà Phan, Phường Phạm Ngũ Lão, Quận 1,
-                                    Thành phố Hồ Chí Minh
+                                <i class="fa-solid fa-language text-md lg:text-xl mr-3"></i>
+                                <div class="w-11/12"> <span v-for="(item, index) in this.skills" :key="index">{{ item }}</span>
                                 </div>
                             </div>
                         </div>
@@ -38,7 +31,7 @@
                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
                                         clip-rule="evenodd"></path>
                                 </svg>
-                                <div class="flex w-11/12 items-center text-base text-gray-500">Posted 1 day ago</div>
+                                <div class="flex w-11/12 items-center text-base text-gray-500">{{ job.deadline }}</div>
                             </div>
                         </div>
                         <div class="flex max-w-[540px] items-center">
@@ -49,7 +42,7 @@
                                     d="M1 4a1 1 0 011-1h16a1 1 0 011 1v8a1 1 0 01-1 1H2a1 1 0 01-1-1V4zm12 4a3 3 0 11-6 0 3 3 0 016 0zM4 9a1 1 0 100-2 1 1 0 000 2zm13-1a1 1 0 11-2 0 1 1 0 012 0zM1.75 14.5a.75.75 0 000 1.5c4.417 0 8.693.603 12.749 1.73 1.111.309 2.251-.512 2.251-1.696v-.784a.75.75 0 00-1.5 0v.784a.272.272 0 01-.35.25A49.043 49.043 0 001.75 14.5z"
                                     clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-primary">Negotiable</p>
+                            <p class="text-primary">{{ job.salary }}</p>
                         </div>
                     </div>
                     <div class="flex-col flex gap-6">
@@ -74,13 +67,13 @@
                 <div id="tabMnf" role="tablist" class="tabs tabs-bordered grid grid-cols-2 bg-white">
                     <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Description" />
                     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                        Tab content 1
+                        <div v-html="this.job.description"></div>
                     </div>
 
                     <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="About company"
                         checked="checked" />
                     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                        Tab content 2
+                        <div v-html="this.profileCompany.description"></div>
                     </div>
                 </div>
 
@@ -164,72 +157,65 @@
                 </section>
             </div>
         </div>
-        <div class="flex w-full flex-col gap-4 md:w-full" id="tabInterview">
-            <div class="container mt-4 flex flex-col flex-wrap items-start gap-6 px-0 md:flex-nowrap md:px-4">
-                <div class="flex w-full flex-col gap-1 bg-white p-4">
-                    <h3 class="text-2xl font-semibold text-neutral-950">✨ Recommended Jobs</h3>
-                    <p>💡 Discover the Easy Apply feature and apply instantly with your latest CV on CodePlayground</p>
-                </div>
-            </div>
-            <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                <InterviewKit :title="'Top 150 Companies Interview'"
-                              :description="'See the Google, Microsoft, Apple and many more company\'s interview...'"
-                              :imgUrl="'https://waya.media/wp-content/uploads/sites/3/2022/05/banner-01.png'"></InterviewKit>
-                <InterviewKit :title="'CodePlayground Top 50'"
-                              :description="'Check CodePlayground Top 50 Problems Set. Change your mindset and improve your problem solving skill!'"
-                              :imgUrl="'https://searchengineland.com/wp-content/seloads/2020/03/code-SS_634574354-1920x1080-1.jpg'"></InterviewKit>
-                <InterviewKit :title="'Amazon Spring \'23 High Frequency'"
-                              :description="'Practice Amazon 25 Recently Asked Qs. Amazon Spr'"
-                              :imgUrl="'https://static.vecteezy.com/system/resources/previews/019/766/240/non_2x/amazon-logo-amazon-icon-transparent-free-png.png'"></InterviewKit>
-                <span class="w-full text-center col-span-full"><router-link
-                    class="btn rounded-3xl bg-primary hover:bg-cyan-700 text-white text-lg" to=""><i
-                    class="fa-solid fa-arrow-right"></i>SEE MORE</router-link></span>
-            </div>
-        </div>
+
     </div>
 </template>
 <script>
+import {HTTP} from "@/http-common.js";
 import InterviewKit from "@/components/cards/InterviewKit.vue";
 export default {
     components: {
         InterviewKit
     },
-    name: "DetailJobs",
-    mounted() {
-        let firstTop = 0;
-        let element = document.getElementById("tabMnf");
-        let element2 = document.getElementById("tabInterview");
-        let rect = element.getBoundingClientRect();
-        let rect2 = element2.getBoundingClientRect();
-        firstTop = rect.top;
-        console.log(rect2.top)
-        console.log(firstTop)
-
-        document.addEventListener("scroll", (event) => {
-            if (window.scrollY >= firstTop && window.scrollY <= rect2.top-50) {
-                element.classList.add('lg:fixed');
-                element.classList.add('lg:top-0');
-                element.classList.add('lg:w-[58%]');
-                element.classList.add('lg:scroll-mt-28');
-
-                // element2.classList.add('fixed');
-                // element2.classList.add('top-0');
-                // element2.classList.add('right-0');
-                // element2.classList.add('md:w-[30%]');
-                // element2.classList.add('scroll-mt-30');
-
-
-            } else {
-                element.classList.remove('lg:fixed');
-                element.classList.remove('lg:top-0');
-                element.classList.remove('lg:w-[58%]')
-
-                // element2.classList.remove('fixed');
-                // element2.classList.remove('top-0');
-                // element2.classList.remove('md:w-[30%]')
-            }
+    data() {
+        return {
+            job: {},
+            skills:[],
+            profileCompany:{}
         }
-        );
-    }
+    },
+    name: "DetailJobs",
+    async mounted() {
+        this.setUp();
+        await this.fetchData();
+    },
+    methods: {
+        setUp() {
+            let firstTop = 0;
+            let element = document.getElementById("tabMnf");
+            let rect = element.getBoundingClientRect();
+            firstTop = rect.top;
+            console.log(firstTop)
+
+            document.addEventListener("scroll", (event) => {
+                if (window.scrollY >= firstTop && window.scrollY <= rect.top - 50) {
+                    element.classList.add('lg:fixed');
+                    element.classList.add('lg:top-0');
+                    element.classList.add('lg:w-[58%]');
+                    element.classList.add('lg:scroll-mt-28');
+                } else {
+                    element.classList.remove('lg:fixed');
+                    element.classList.remove('lg:top-0');
+                    element.classList.remove('lg:w-[58%]');
+                }
+            }
+            );
+        },
+       async fetchData()
+        {
+            let _this = this;
+                await HTTP.get(`/api/getDetailJob/${this.$route.params.id}`).then(response => {
+                    _this.job = response.data.data;
+                    _this.profileCompany = response.data.profileCompany;
+                    _this.skills =  JSON.parse(this.job.skill.replace(/'/g, '"'))
+                    console.log(_this.profileCompany)
+                }).catch(error => {
+                    console.log(error)
+                });               
+        }
+    },
+
+
+
 }
 </script>

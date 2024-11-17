@@ -31,8 +31,8 @@
 
             <div class="flex flex-col space-y-4">
 
-                <LocationPicker v-if="profileCompany && profileCompany.address" :province="_address[0] || null"
-                    :district="_address[1] || null" :ward="_address[2] || null"
+                <LocationPicker v-if="profileCompany && profileCompany.address" :province="_address[0]"
+                    :district="_address[1] " :ward="_address[2] "
                     @address-updated="handleAddressUpdated" />
                 <LocationPicker v-else @address-updated="handleAddressUpdated" />
 
