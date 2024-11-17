@@ -10,15 +10,15 @@ class CodeExecutionService
     public function execute($language, $code, $input, $problem_id)
     {
         switch ($language) {
-            case 'cpp':
+            case 'C++':
                 return $this->executeCpp($code, $input, $problem_id);
-            case 'c':
+            case 'C':
                 return $this->executeC($code, $input, $problem_id);
-            case 'python':
+            case 'Python':
                 return $this->executePython($code, $input, $problem_id);
-            case 'php':
+            case 'PHP':
                 return $this->executePhp($code, $input, $problem_id);
-            case 'javascript':
+            case 'JavaScript':
                 return $this->executeJavascript($code, $input, $problem_id);
             default:
                 break;

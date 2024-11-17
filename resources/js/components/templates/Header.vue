@@ -1,33 +1,3 @@
-<script>
-export default {
-    data: function () {
-        return {
-            isMenuOpen: false
-        }
-    },
-    methods: {
-        logout() {
-            let _this = this
-            axios.get('/api/logout')
-                .then(function (response) {
-                    _this.$root.auth = undefined
-                    localStorage.clear();
-                })
-                .catch(function (error) {
-
-                })
-        },
-        OpenMenu() {
-            this.isMenuOpen = !this.isMenuOpen;
-        },
-
-    },
-
-
-}
-
-</script>
-
 <template>
     <dialog class="modal" id="confirm_logout_modal">
         <div class="modal-box bg-base-100">
@@ -45,7 +15,7 @@ export default {
         <div class="flex-1 gap-10">
             <router-link class="text-xl" to="/">
                 <img src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726071143/CP-Photoroom_1_vl6kzc.png"
-                    class="h-12">
+                     class="h-12">
             </router-link>
             <div class="hidden lg:flex space-x-4">
                 <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
@@ -58,7 +28,7 @@ export default {
                     Courses
                 </router-link>
                 <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl"
-                    to="/challenges">
+                             to="/challenges">
                     Challenges
                 </router-link>
                 <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
@@ -67,15 +37,15 @@ export default {
                 <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
                     Career
                 </router-link>
-                <router-link to="/Info-Recruitment"
-            class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
+                <router-link to="/Info-Recruitment" v-if="getAuth() && getAuth().role == 1"
+                             class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
             </div>
         </div>
         <div class="lg:hidden items-center">
             <button @click="OpenMenu" class="text-white focus:outline-none hover:bg-gray-600 transition rounded-3xl">
                 <!-- đổi cái hình khác -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
@@ -85,11 +55,11 @@ export default {
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
                         <img v-if="getAuth()" alt="Avatar"
-                            :src="getAuth().avatar_url"
-                            loading="lazy" />
+                             :src="getAuth().avatar_url"
+                             loading="lazy" />
                         <img v-if="!getAuth()" alt="Avatar"
-                            src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
-                            loading="lazy">
+                             src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                             loading="lazy">
                     </div>
                 </div>
                 <ul tabindex="0"
@@ -132,12 +102,43 @@ export default {
             Career
         </router-link>
         <router-link to="/Info-Recruitment"
-            class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
+                     class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
     </div>
 </template>
 <script setup>
-
 import {getAuth} from "@/utils/authLocalStorage.js";
+</script>
+<script>
+export default {
+    data: function () {
+        return {
+            isMenuOpen: false,
+            auth: getAuth()
+        }
+    },
+    methods: {
+        logout() {
+            axios.get('/api/logout')
+                .then(function (response) {
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("user");
+                    location.reload();
+                })
+                .catch(function (error) {
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("user");
+                    location.reload();
+                })
+        },
+        OpenMenu() {
+            this.isMenuOpen = !this.isMenuOpen;
+        },
+
+    },
+
+
+}
+
 </script>
 <style scoped>
 .router-link-active {
