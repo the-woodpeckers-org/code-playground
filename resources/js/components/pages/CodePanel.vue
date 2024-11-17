@@ -14,6 +14,7 @@ export default {
             description: String,
             title: String,
             testcases: Array,
+            languages: Array,
             runData: Array,
             loading: false,
             run: false,
@@ -88,11 +89,12 @@ export default {
             }
             HTTP.get(_url + _this.$route.params.id)
                 .then(function (response) {
-                    console.log(response)
-                    _this.description = response.data.description
-                    _this.title = response.data.title
-                    _this.testcases = response.data.testcases
-                    _this.loading = true
+                    console.log(response);
+                    _this.description = response.data.description;
+                    _this.title = response.data.title;
+                    _this.testcases = response.data.testcases;
+                    _this.languages = response.data.languages;
+                    _this.loading = true;
                     if (response.data.passed_at) {
                         _this.isPassed = true
                         _this.passedDate = response.data.passed_at
@@ -153,11 +155,7 @@ export default {
                 <div class="col-span-6 mx-1">
                     <label for="language">Select language: </label>
                     <select id="language" name="language" class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
-                        <option value="cpp">C++</option>
-                        <option value="c">C</option>
-                        <option value="python">Python</option>
-                        <option value="php">PHP</option>
-                        <option value="javascript">JavaScript</option>
+                        <option v-for="language in languages" :value="language.name"> {{ language.name }}</option>
                     </select>
                     <div class="h-96">
                         <div id="editor" style="width: 100%; height: 100%" class="text-base mt-3">
