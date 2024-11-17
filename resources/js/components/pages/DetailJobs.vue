@@ -18,7 +18,8 @@
                         <div class="my-2 max-w-[540px] text-base text-gray-500">
                             <div class="mb-2 flex last:mb-0">
                                 <i class="fa-solid fa-language text-md lg:text-xl mr-3"></i>
-                                <div class="w-11/12"> <span v-for="(item, index) in this.skills" :key="index">{{ item }}</span>
+                                <div class="w-11/12"> <span v-for="(item, index) in this.skills" :key="index">{{ item
+                                        }}</span>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +83,8 @@
                 <button id="applyCV"
                     class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
                     data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
-                    data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1">Apply
+                    data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1"
+                    onclick="applyShow.showModal()">Apply
                     now</button>
                 <button id="createTopdevCV" type="button"
                     class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full"
@@ -91,77 +93,74 @@
                     <h2 class="p-4 text-lg font-bold text-gray-500">General information</h2>
                     <div class="flex flex-col self-stretch border-t border-gray-200 p-4">
                         <div class="flex flex-wrap">
-                            <div class="item-card-info mb-2 w-1/2 md:mb-4 md:w-full">
-                                <h3 class="mb-1 text-sm font-bold text-black md:text-base">Minimum year of experience
-                                </h3>
-                                <div><a class="text-sm hover:text-primary-300 hover:underline md:text-base"
-                                        title="3 years"
-                                        href="/it-jobs/3-nam-kt1644?src=topdev_detailjob&amp;medium=general_info">From 3
-                                        years</a></div>
-                            </div>
-                            <div class="item-card-info mb-2 w-1/2 pl-3 md:mb-4 md:w-full md:pl-0">
-                                <h3 class="mb-1 text-sm font-bold text-black md:text-base">Level</h3>
-                                <div><a class="text-sm hover:text-primary-300 hover:underline md:text-base"
-                                        title="Middle"
-                                        href="/it-jobs/middle-kt8665?src=topdev_detailjob&amp;medium=general_info">Middle</a>,
-                                    <a class="text-sm hover:text-primary-300 hover:underline md:text-base"
-                                        title="Senior"
-                                        href="/it-jobs/senior-kt8666?src=topdev_detailjob&amp;medium=general_info">Senior</a>
-                                </div>
-                            </div>
-                            <div class="item-card-info mb-2 w-1/2 md:mb-4 md:w-full">
-                                <h3 class="mb-1 text-sm font-bold text-black md:text-base">Job Type</h3>
-                                <div><a class="text-sm hover:text-primary-300 hover:underline md:text-base"
-                                        title="In Office"
-                                        href="/it-jobs/in-office-kt8792?src=topdev_detailjob&amp;medium=general_info">In
-                                        Office</a></div>
-                            </div>
-                            <div class="item-card-info mb-2 w-1/2 pl-3 md:mb-4 md:w-full md:pl-0">
-                                <h3 class="mb-1 text-sm font-bold text-black md:text-base">Contract type</h3>
-                                <div><a class="text-sm hover:text-primary-300 hover:underline md:text-base"
-                                        title="Fulltime"
-                                        href="/it-jobs/fulltime-kt1622?src=topdev_detailjob&amp;medium=general_info">Fulltime</a>
-                                </div>
-                            </div>
+                            <div v-html="this.profileCompany.general_information"></div>
                         </div>
-                        <div class="item-card-info mb-4">
-                            <h3 class="mb-1 text-sm font-bold text-black md:text-base">Tech stack</h3>
-                            <div class="">
-                                <div class="flex flex-wrap gap-y-2">
-                                    <div><a class="mr-2 inline-block"
-                                            href="/it-jobs/linux-kt6?src=topdev_detailjob&amp;medium=skilltag"><span
-                                                class="whitespace-nowrap rounded border border-solid font-normal transition-all inline-flex items-center justify-center border-blue-light text-blue-dark bg-blue-light hover:border-blue-dark h-[1.625rem] px-2 text-xs md:h-7 md:px-2 md:text-sm">Linux</span></a>
-                                    </div>
-                                    <div><a class="mr-2 inline-block"
-                                            href="/it-jobs/java-kt21?src=topdev_detailjob&amp;medium=skilltag"><span
-                                                class="whitespace-nowrap rounded border border-solid font-normal transition-all inline-flex items-center justify-center border-blue-light text-blue-dark bg-blue-light hover:border-blue-dark h-[1.625rem] px-2 text-xs md:h-7 md:px-2 md:text-sm">Java</span></a>
-                                    </div>
-                                    <div><a class="mr-2 inline-block"
-                                            href="/it-jobs/devops-kt213?src=topdev_detailjob&amp;medium=skilltag"><span
-                                                class="whitespace-nowrap rounded border border-solid font-normal transition-all inline-flex items-center justify-center border-blue-light text-blue-dark bg-blue-light hover:border-blue-dark h-[1.625rem] px-2 text-xs md:h-7 md:px-2 md:text-sm">DevOps</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-card-info">
-                            <h3 class="mb-1 text-sm font-bold text-black md:text-base">Recruitment Progress</h3>
-                            <div>
-                                <ul class="list-disc pl-5 text-base">
-                                    <li class="mb-1 text-sm last:mb-0 md:text-base">Round 1: TA Phonescreen</li>
-                                    <li class="mb-1 text-sm last:mb-0 md:text-base">Round 2: Technical Interview</li>
-                                    <li class="mb-1 text-sm last:mb-0 md:text-base">Round 3: Final Interview</li>
-                                </ul>
-                            </div>
-                        </div>
+
                     </div>
                 </section>
             </div>
         </div>
 
     </div>
+    <dialog class="modal" id="applyShow">
+        <div class="w-[75%] md:max-w-screen-md lg:max-w-screen-lg bg-base-100 p-3 rounded">
+            <h3 class="text-lg font-semibold">Notifications</h3>
+            <p class="py-4 text-base">You are applying at the position: {{ this.job.location }}</p>
+
+            <div class="lg:flex lg:flex-col">
+                <div class="grid sm:grid-cols-1 md:grid lg:grid-cols-6 gap-4">
+
+                    <div class="col-span-1">
+                        <h2 class="font-semibold">Information</h2>
+                    </div>
+                    <div class="col-span-5 sm:grid sm:grid-cols-1 lg:flex lg:flex-col">
+                        <div class="lg:flex lg:flex-row lg:gap-5">
+                            <div class="flex flex-col">
+                                <label for="applicantName">Name</label>
+                                <input type="text"  class="border border-gray-300 rounded p-2 w-full" :value="auth.name" readonly>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="phone">Phone Number </label>
+                                <input type="text" class="border border-gray-300 rounded p-2 w-full" :value="auth.phone_number" readonly>
+                            </div>
+                            <div class="flex flex-col">
+                                <label for="email">Email</label>
+                                <input type="text" class="border border-gray-300 rounded p-2 w-full" :value="auth.email" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-span-1">
+                        <h2 class="font-semibold">Choose CV</h2>
+                    </div>
+                    <div class="col-span-5">
+
+                    </div>
+
+                    <div class="col-span-1">
+                        <h2 class="font-semibold">Letter</h2>
+                    </div>
+                    <div class="col-span-5">
+                        <textarea name="coverLetter" rows="5"
+                            class="border border-gray-300 rounded p-2 w-full"></textarea>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="flex justify-end mt-4 space-x-2">
+                <button type="button" class="px-4 py-2 bg-red-500 text-white rounded"
+                    onclick="document.getElementById('applyShow').close()">Close</button>
+                <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
+            </div>
+        </div>
+    </dialog>
+
+
 </template>
 <script>
-import {HTTP} from "@/http-common.js";
+import { HTTP } from "@/http-common.js";
+import {getAuth} from "@/utils/authLocalStorage.js";
 import InterviewKit from "@/components/cards/InterviewKit.vue";
 export default {
     components: {
@@ -170,8 +169,9 @@ export default {
     data() {
         return {
             job: {},
-            skills:[],
-            profileCompany:{}
+            skills: [],
+            profileCompany: {},
+            auth: getAuth()
         }
     },
     name: "DetailJobs",
@@ -201,17 +201,19 @@ export default {
             }
             );
         },
-       async fetchData()
-        {
+        async fetchData() {
             let _this = this;
-                await HTTP.get(`/api/getDetailJob/${this.$route.params.id}`).then(response => {
-                    _this.job = response.data.data;
-                    _this.profileCompany = response.data.profileCompany;
-                    _this.skills =  JSON.parse(this.job.skill.replace(/'/g, '"'))
-                    console.log(_this.profileCompany)
-                }).catch(error => {
-                    console.log(error)
-                });               
+            await HTTP.get(`/api/getDetailJob/${this.$route.params.id}`).then(response => {
+                _this.job = response.data.data;
+                _this.profileCompany = response.data.profileCompany;
+                _this.skills = JSON.parse(this.job.skill.replace(/'/g, '"'))
+                console.log(_this.profileCompany)
+            }).catch(error => {
+                console.log(error)
+            });
+        },
+        ApplyCV() {
+            alert('Apply CV');
         }
     },
 
