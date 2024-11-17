@@ -1,6 +1,6 @@
 <script>
 import {HTTP} from "@/http-common.js";
-import {setAuth} from "@/utils/authLocalStorage.js";
+import {getAuth, setAccessToken, setAuth} from "@/utils/authLocalStorage.js";
 
 export default {
     name: "Login",
@@ -10,7 +10,8 @@ export default {
             input_password: String,
             error_email: String,
             error_password: String,
-            login_failed: Boolean
+            login_failed: Boolean,
+            auth: getAuth()
         }
     },
     methods: {
@@ -20,9 +21,9 @@ export default {
                 email: _this.input_email,
                 password: _this.input_password
             }).then(function (response) {
-                _this.$root.auth = response.data.user
-                localStorage.setItem('accessToken', response.data.token);
+                setAccessToken(response.data.token);
                 setAuth(response.data.user);
+                window.location.href = '/';
             }).catch(function (error) {
                 console.log(error)
                 if (error.response.data.errors) {
@@ -46,7 +47,7 @@ export default {
 </script>
 
 <template>
-    <form v-if="!$root.auth">
+    <form v-if="!auth">
         <div class="w-full pt-16">
             <div class="border w-4/12 rounded-xl p-6 bg-gradient-to-tl from-cyan-100 to-purple-100 mx-auto">
                 <label class="font-bold">Email</label>
