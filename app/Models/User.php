@@ -68,4 +68,13 @@ class User extends Authenticatable
     public function getJobPosted() {
         return $this->hasMany(JobRecruitment::class, 'user_id', 'id');
     }
+    public function getCVPrimary()
+    {
+        return $this->hasOne(Cv::class, 'user_id', 'id')->where('isPrimary', '=', 1);
+    }
+
+    public function getCompany()
+    {
+        return $this->hasOne(ProfileCompany::class, 'user_id', 'id');
+    }
 }

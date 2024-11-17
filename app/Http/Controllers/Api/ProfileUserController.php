@@ -23,4 +23,9 @@ class ProfileUserController
     public function setActiveProfile(Request $request) {
         return $this->service->setActiveProfile($request);
     }
+
+    public function getUserCVToView($id)
+    {
+        return $this->service->getUserCVToView($id);
+    }
 }

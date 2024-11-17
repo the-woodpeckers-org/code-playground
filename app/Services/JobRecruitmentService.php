@@ -71,9 +71,12 @@ class JobRecruitmentService
     }
     public function getDetailJob($id)
     {
+        $job = JobRecruitment::find($id);
+        $profileCompany = $job->user->getCompany()->first();
         return response()->json([
             'status' => '200',
-            'data' => JobRecruitment::find($id)
+            'data' => JobRecruitment::find($id),
+            'profileCompany' => $profileCompany
         ]);
     }
     public function createJob(Request $request)

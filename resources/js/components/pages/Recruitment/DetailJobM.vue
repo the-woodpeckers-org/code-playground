@@ -19,7 +19,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                       <CvItemApplied v-for="(item, index) in this.applications" :key="index" :name="item.cv.user.name" :time="item.created_at"   :linkCV="`/cv/show/${item.cv.id}`" ></CvItemApplied>
+                       <CvItemApplied v-for="(item, index) in this.applications" :key="index" :id_user="item.cv.user.id" :name="item.cv.user.name" :time="item.created_at"   :linkCV="`/cv/show/${item.cv.id}`" ></CvItemApplied>
                     </tbody>
                 </table>
             </div>
