@@ -126,7 +126,7 @@ export default {
 
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
                     <div class="grid grid-cols-1 gap-4 overflow-x-auto" style="height: 500px;">
-                        <Job v-for="job in jobRecruitments" :key="job.id" :title="job.title" :skill="job.skill" />
+                        <Job v-for="job in jobRecruitments" :key="job.id" :title="job.title" :skill="job.skill" :url="job.id"/>
                     </div>
                 </div>
             </div>

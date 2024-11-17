@@ -20,7 +20,7 @@
         console.log(error); c
     }
     const idCV = window.location.href.split('/').pop();
-    const pdfShow = window.location.href.includes('cv/show');
+    const pdfShow = window.location.href.includes('cv/show') ;
     const token = localStorage.getItem('accessToken');
 
     //Display CV on page

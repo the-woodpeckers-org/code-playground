@@ -25,8 +25,8 @@ return new class extends Migration
     {
         //
         Schema::table('profile_companies', function (Blueprint $table) {
-            $table->string('description', 255)->change();
-            $table->string('general_information', 255)->change();
+            $table->text('description')->change();
+            $table->text('general_information')->change();
         });
     }
 };

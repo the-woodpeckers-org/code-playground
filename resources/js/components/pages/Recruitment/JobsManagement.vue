@@ -48,8 +48,6 @@ export default {
   async mounted() {
     await this.fetchData();
   },
-  created() {
-  },
   methods: {
     addJob() {
       this.router.push({ name: 'add-job' });

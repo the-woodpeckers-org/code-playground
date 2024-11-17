@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ProfileCompanyController;
 use App\Http\Controllers\Api\ProfileUserController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\api\JobRecruitmentController;
+use App\Models\ProfileUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -61,7 +62,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
-
+Route::get('/getUserCVToView/{id}',[ProfileUserController::class,'getUserCVToView'])->name('getUserCVToView');
 // Password reset
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('auth.resetPassword');
