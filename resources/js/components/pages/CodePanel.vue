@@ -33,7 +33,6 @@ export default {
             _this.isCompiling = true
             _this.isCompileError = false
             axios.post('/api/compile', {
-                _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
                 language: document.getElementById('language').value,
                 problem_id: _this.$route.params.id
@@ -83,7 +82,7 @@ export default {
             editor.session.setMode('ace/mode/c_cpp')
             _this.passedTestcases = 0
 
-            let _url = '/api/problem/get?id=' + _this.$route.params.id;
+            let _url = '/api/problem/get?id=';
             if (getAuth()) {
                 _url = '/api/problem/get/u?id=';
             }
