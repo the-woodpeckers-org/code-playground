@@ -34,6 +34,7 @@ export default {
             HTTP.get(_url)
                 .then(function (response) {
                     _this.problems = response.data.data
+                    console.log(response.data.data);
                 })
                 .catch(function (error) {
                     console.log(error)

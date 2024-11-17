@@ -25,7 +25,12 @@ class Problem extends Model
 
     protected $appends = [
         'testcases',
+        'languages'
     ];
+
+    public function getLanguagesAttribute() {
+        return ProblemLanguage::select('languages.*')->where('problem_id', $this->id)->join('languages', 'languages.id', '=', 'problem_languages.language_id')->get();
+    }
 
     public function getTestcasesAttribute() {
         return Testcase::where('problem_id', $this->id)->get();

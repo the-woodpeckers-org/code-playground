@@ -7,14 +7,16 @@ export default {
     },
     methods: {
         logout() {
-            let _this = this
             axios.get('/api/logout')
                 .then(function (response) {
-                    _this.$root.auth = undefined
-                    localStorage.clear();
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("user");
+                    location.reload();
                 })
                 .catch(function (error) {
-
+                    localStorage.removeItem("accessToken");
+                    localStorage.removeItem("user");
+                    location.reload();
                 })
         },
         OpenMenu() {
