@@ -3,16 +3,19 @@
 namespace Database\Seeders;
 
 use App\Models\Application;
+use App\Models\Category;
 use App\Models\Contest;
 use App\Models\Cv;
 use App\Models\JobRecruitment;
 use App\Models\Language;
 use App\Models\Problem;
 use App\Models\ProblemLanguage;
+use App\Models\ProblemTags;
 use App\Models\ProfileCompany;
 use App\Models\ProfileUser;
 use App\Models\Testcase;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -54,7 +57,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'tuyendung@gmail.com',
             'password' => Hash::make('123'),
             'address' => null,
-            'role'=> 1,
+            'role' => 1,
             'phone_number' => '0123456789',
             'gender' => 'None',
             'birthday' => '2003-01-01'
@@ -382,7 +385,7 @@ class DatabaseSeeder extends Seeder
         $cv = new Cv();
         $cv->user_id = 1;
         $cv->content = '[{"type":"info","name":"John Doe","table1":{"class":"info-table1","label":["Address:","Phone:","Email:"],"content":["123 State St.<br>Oslo, Norway","555-123-4567","john@polygonal.eu"]},"table2":{"class":"info-table2","label":["Website:","Linkedin","Twitter:"],"content":["https://polygonal.eu","https://www.linkedin.com/","@johndoe"]}},{"type":"single-block","title":"About Me","list":["I am a brewer with 12 years of experience, specialized in wild yeast fermentation and barrel-aging."]},{"type":"listing","title":"Professional Experience","list":[{"date":"2017-2020","location":"Polygonal Brewing Co.","position":"\n        \n        \n        \n        Head Brewer\n        \n        \n        \n        ","description":"\n        \n        \n        \n        As head brewer, I partner with the marketing team to plan recipes and the production schedule. I manage a team of 4 people and ensure inventory is up to date.\n        \n        \n        \n        "},{"date":"2015-2017","location":"Polygonal Brewing Co.","position":"\n        \n        \n        \n        Assistant Brewer\n        \n        \n        \n        ","description":"\n        \n        \n        \n        As assistant brewer I was in charge of production, facility sanitation, product packaging, while ensuring proper brewing and hygiene routines.\n        \n        \n        \n        "},{"date":"2013-2015","location":"Polygonal Taproom","position":"\n        \n        \n        \n        Bartender\n        \n        \n        \n        ","description":"\n        \n        \n        \n        On top of customer relations, I maintained cleanliness of taps and beer lines to ensure optimal product quality. I also organized various events and special releases.\n        \n        \n        \n        "}]},{"type":"listing","title":"Education","list":[{"date":"2015","location":"Institute of Brewing","position":"\n        \n        \n        \n        Certificate in Brewing\n        \n        \n        \n        ","description":"\n        \n        \n        \n        This certificate covers all aspects of beer production from recipe inception, to process and packaging.\n        \n        \n        \n        "},{"date":"2012-2014","location":"University of Grenoble","position":"\n        \n        \n        \n        Bachelor in Communications\n        \n        \n        \n        ","description":"\n        \n        \n        \n        This degree trained me in public relations and online communications with a special focus on social media.\n        \n        \n        \n        "}]},{"type":"three-column","title":"Skills","list":["Brewing","Recipe Inception","Barrel Aging","Beersmith","Fluent in French and English","Office Suite","Various Social Media Platforms"]},{"type":"three-column","title":"Interests","list":["Reading","Music","Cooking","Writing","Rock Climbing"]}]';
-        $cv->title='test';
+        $cv->title = 'test';
         $cv->save();
 
         $pv = new ProfileUser();
@@ -405,7 +408,6 @@ class DatabaseSeeder extends Seeder
         $job_rece->save();
 
 
-
         $application = new Application();
         $application->user_id = 1;
         $application->job_id = $job_rece->id;
@@ -424,11 +426,11 @@ class DatabaseSeeder extends Seeder
         $profile = new ProfileCompany();
         $profile->user_id = 3;
         $profile->description = 'hehe';
-        $profile->general_information="We are a software company";
-        $profile->email="tuyendung@gmail.com";
-        $profile->phone="0123456789";
-        $profile->address="Ho Chi Minh City";
-        $profile->skill="PHP, Laravel, ReactJS";
+        $profile->general_information = "We are a software company";
+        $profile->email = "tuyendung@gmail.com";
+        $profile->phone = "0123456789";
+        $profile->address = "Ho Chi Minh City";
+        $profile->skill = "PHP, Laravel, ReactJS";
         $profile->save();
 
         $languages = [
@@ -553,9 +555,155 @@ class DatabaseSeeder extends Seeder
                 'language_id' => '2',
             ],
         ];
+
         foreach ($problem_languages as $p_language) {
             ProblemLanguage::create($p_language);
         }
 
+        // Category
+        $categories = [
+            [
+                'name' => 'Math'
+            ],
+            [
+                'name' => 'Bit Manipulation'
+            ],
+            [
+                'name' => 'Sliding Window'
+            ],
+            [
+                'name' => 'Dynamic Programming'
+            ],
+            [
+                'name' => 'Sorting'
+            ],
+            [
+                'name' => 'Greedy'
+            ],
+            [
+                'name' => 'Hash Table'
+            ],
+            [
+                'name' => 'String'
+            ],
+            [
+                'name' => 'Array'
+            ],
+            [
+                'name' => 'Counting'
+            ],
+            [
+                'name' => 'Two Pointers'
+            ],
+        ];
+        foreach ($categories as $category) {
+            Category::create($category);
+        }
+        // end Category
+
+        // Problem Tags
+        $problem_tags = [
+            [
+                'problem_id' => '1',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '1',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '2',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '2',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '3',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '3',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '4',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '4',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '5',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '5',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '6',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '6',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '7',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '7',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '8',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '8',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '9',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '9',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '10',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '10',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '11',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '11',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ],
+            [
+                'problem_id' => '12',
+                'category_id' => Category::where('name', 'Math')->first()->id,
+            ],
+            [
+                'problem_id' => '12',
+                'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+            ]
+        ];
+
+        foreach ($problem_tags as $tag) {
+            ProblemTags::create($tag);
+        }
+        // end Problem Tags
     }
 }
