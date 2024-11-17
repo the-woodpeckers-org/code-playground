@@ -18,5 +18,10 @@ class ApplicationController
     {
         return $this->service->getJobsApplied($request);
     }
+
+    public function applyCV(Request $request)
+    {
+        return $this->service->applyCV($request);
+    }
    
 }

@@ -61,6 +61,7 @@ class User extends Authenticatable
         return Password_Reset_Tokens::where('email', $this->getEmailForPasswordReset())->first();
     }
 
+
     public function getJobApplied() {
         return $this->hasMany(Application::class, 'user_id', 'id');
     }

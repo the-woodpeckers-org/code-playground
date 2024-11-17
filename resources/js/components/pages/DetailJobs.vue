@@ -106,10 +106,10 @@
         <div class="w-[75%] md:max-w-screen-md lg:max-w-screen-lg bg-base-100 p-3 rounded">
             <h3 class="text-lg font-semibold">Notifications</h3>
             <p class="py-4 text-base">You are applying at the position: {{ this.job.location }}</p>
-
+         <form @submit.prevent="ApplyCV">
             <div class="lg:flex lg:flex-col">
-                <div class="grid sm:grid-cols-1 md:grid lg:grid-cols-6 gap-4">
 
+                <div class="grid sm:grid-cols-1 md:grid lg:grid-cols-6 gap-4">
                     <div class="col-span-1">
                         <h2 class="font-semibold">Information</h2>
                     </div>
@@ -117,42 +117,46 @@
                         <div class="lg:flex lg:flex-row lg:gap-5">
                             <div class="flex flex-col">
                                 <label for="applicantName">Name</label>
-                                <input type="text"  class="border border-gray-300 rounded p-2 w-full" :value="auth.name" readonly>
+                                <input type="text" class="border border-gray-300 rounded p-2 w-full" :value="auth.name"
+                                    readonly>
                             </div>
                             <div class="flex flex-col">
                                 <label for="phone">Phone Number </label>
-                                <input type="text" class="border border-gray-300 rounded p-2 w-full" :value="auth.phone_number" readonly>
+                                <input type="text" class="border border-gray-300 rounded p-2 w-full"
+                                    :value="auth.phone_number" readonly>
                             </div>
                             <div class="flex flex-col">
                                 <label for="email">Email</label>
-                                <input type="text" class="border border-gray-300 rounded p-2 w-full" :value="auth.email" readonly>
+                                <input type="text" class="border border-gray-300 rounded p-2 w-full" :value="auth.email"
+                                    readonly>
                             </div>
                         </div>
                     </div>
-
                     <div class="col-span-1">
                         <h2 class="font-semibold">Choose CV</h2>
                     </div>
                     <div class="col-span-5">
-
+                        <select name="cv" class="border border-gray-300 rounded p-2 w-full">
+                            <option value="">Choose CV</option>
+                            <option v-for="(item, index) in listCvs" :key="index" :value="item.id">{{ item.title }}
+                            </option>
+                        </select>
                     </div>
-
                     <div class="col-span-1">
                         <h2 class="font-semibold">Letter</h2>
                     </div>
                     <div class="col-span-5">
-                        <textarea name="coverLetter" rows="5"
-                            class="border border-gray-300 rounded p-2 w-full"></textarea>
+                        <textarea name="coverLetter" rows="5" class="border border-gray-300 rounded p-2 w-full" required
+                            v-model="letter"></textarea>
                     </div>
-
                 </div>
             </div>
-
             <div class="flex justify-end mt-4 space-x-2">
                 <button type="button" class="px-4 py-2 bg-red-500 text-white rounded"
                     onclick="document.getElementById('applyShow').close()">Close</button>
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
             </div>
+        </form>
         </div>
     </dialog>
 
@@ -160,7 +164,7 @@
 </template>
 <script>
 import { HTTP } from "@/http-common.js";
-import {getAuth} from "@/utils/authLocalStorage.js";
+import { getAuth } from "@/utils/authLocalStorage.js";
 import InterviewKit from "@/components/cards/InterviewKit.vue";
 export default {
     components: {
@@ -171,7 +175,10 @@ export default {
             job: {},
             skills: [],
             profileCompany: {},
-            auth: getAuth()
+            auth: getAuth(),
+            listCvs: {},
+            letter: '',
+            id_CV : '',
         }
     },
     name: "DetailJobs",
@@ -211,8 +218,27 @@ export default {
             }).catch(error => {
                 console.log(error)
             });
+
+            await HTTP.get('/api/cvsU').then(response => {
+                _this.listCvs = response.data.data;
+                console.log('123');
+                console.log(response.data)
+            }).catch(error => {
+                console.log(error)
+            });
         },
-        ApplyCV() {
+        async  ApplyCV() {
+            this.id_CV = document.querySelector('select[name="cv"]').value;
+            const job = {
+                job_id: this.$route.params.id,
+                cv_id: this.id_CV,
+                letter: this.letter
+            }
+            await HTTP.post('/api/applyCV', job).then(response => {
+                console.log(response.data)
+            }).catch(error => {
+                console.log(error)
+            });
             alert('Apply CV');
         }
     },
