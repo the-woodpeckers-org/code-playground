@@ -14,7 +14,7 @@ class Application extends Model
         'applied_at',
         'cv_id',
         'status',
-
+        'letter'
     ];
     public function user()
     {
