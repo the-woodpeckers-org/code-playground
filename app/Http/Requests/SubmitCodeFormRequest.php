@@ -23,6 +23,7 @@ class SubmitCodeFormRequest extends FormRequest
     {
         return [
             'problem_id' => 'required',
+            'language_id' => 'required',
             'code' => 'required|string',
         ];
     }

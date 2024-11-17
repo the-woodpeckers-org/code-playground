@@ -54,6 +54,7 @@ export default {
                         document.getElementById('submit-btn').disabled = true
                     }
                 }
+                console.log(response)
             }).catch(function (error) {
                 console.log(error)
                 _this.isCompiling = false
@@ -67,7 +68,8 @@ export default {
             HTTP.post('/api/submit', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
-                problem_id: _this.$route.params.id
+                problem_id: _this.$route.params.id,
+                language_id: document.getElementById('language').value
             }).then(function (response) {
                 _this.isSubmitted = true
                 _this.isSubmitting = false
@@ -162,7 +164,7 @@ export default {
                 <div class="col-span-6 mx-1">
                     <label for="language">Select language: </label>
                     <select id="language" name="language" class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
-                        <option v-for="language in languages" :value="language.name"> {{ language.name }}</option>
+                        <option v-for="language in languages" :value="language.id"> {{ language.name }}</option>
                     </select>
                     <div class="h-96">
                         <div id="editor" style="width: 100%; height: 100%" class="text-base mt-3">
