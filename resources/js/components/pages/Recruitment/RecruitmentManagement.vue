@@ -1,5 +1,5 @@
 <template>
-    <NavigatorRecuitment></NavigatorRecuitment>
+    <NavigatorRecruitment></NavigatorRecruitment>
     <div class="mt-6 bg-white shadow-lg rounded-lg container mx-auto p-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -108,12 +108,12 @@
 </template>
 
 <script>
-import NavigatorRecuitment from "@/components/navbar/NavigatorRecuitment.vue";
+import NavigatorRecruitment from "@/components/navbar/NavigatorRecruitment.vue";
 import LocationPicker from "@/components/locationPicker/LocationPicker.vue";
 import { HTTP } from "@/http-common.js";
 export default {
     name: 'RecuitmentManagement',
-    components: { NavigatorRecuitment, LocationPicker },
+    components: { NavigatorRecruitment, LocationPicker },
     data() {
         return {
             availableSkills: ['Java', 'Go', 'C', 'C#', 'C++', 'Rust', 'JavaScript', 'Python'],

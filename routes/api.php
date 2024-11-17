@@ -59,6 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/deleteJob/{id}',[JobRecruitmentController::class,'deleteJob'])->name('deleteJob');
     Route::post('/updateJob',[JobRecruitmentController::class,'updateJob'])->name('updateJob');
     Route::get('/getCVsApplied/{id}',[JobRecruitmentController::class,'getCVsApplied'])->name('getCVsApplied');
+    Route::post('/applyCV',[ApplicationController::class,'applyCV'])->name('applyCV');
 });
 
 Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');

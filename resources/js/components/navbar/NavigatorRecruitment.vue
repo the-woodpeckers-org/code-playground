@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: 'NavigatorManagement',
+    name: 'NavigatorRecruitment',
 }
 </script>
 
