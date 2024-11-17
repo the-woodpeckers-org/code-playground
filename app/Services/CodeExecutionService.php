@@ -2,23 +2,23 @@
 
 namespace App\Services;
 
+use App\Models\Language;
 use App\Models\Testcase;
-use Illuminate\Http\JsonResponse;
 
 class CodeExecutionService
 {
     public function execute($language, $code, $input, $problem_id)
     {
         switch ($language) {
-            case 'C++':
+            case Language::where('name', 'C++')->first()->id:
                 return $this->executeCpp($code, $input, $problem_id);
-            case 'C':
+            case Language::where('name', 'C')->first()->id:
                 return $this->executeC($code, $input, $problem_id);
-            case 'Python':
+            case Language::where('name', 'Python')->first()->id:
                 return $this->executePython($code, $input, $problem_id);
-            case 'PHP':
+            case Language::where('name', 'PHP')->first()->id:
                 return $this->executePhp($code, $input, $problem_id);
-            case 'JavaScript':
+            case Language::where('name', 'JavaScript')->first()->id:
                 return $this->executeJavascript($code, $input, $problem_id);
             default:
                 break;

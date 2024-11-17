@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Http\Requests\SubmitCodeFormRequest;
 use App\Http\Requests\SubmitCodeParticipationFormRequest;
 use App\Models\Attempt;
+use App\Models\CategoryStat;
+use App\Models\LanguageStat;
 use App\Models\Participation_Attempts;
 use App\Models\Problem;
 use Carbon\Carbon;
@@ -89,11 +91,40 @@ class ProblemService
                 $attempt->user_id = $userId;
                 $attempt->problem_id = $request->input('problem_id');
             }
+            // if only the first time pass the problem
             if ($attempt->passed_at === null) {
                 $attempt->passed_at = Carbon::now();
+                $problem = Problem::where('id', $request->input('problem_id'))->first();
+                // insert or update user category stats
+                foreach ($problem->getCategoriesAttribute() as $category) {
+                    $categoryStat = CategoryStat::where('category_id', $category->id)->where('user_id', $userId)->first();
+                    if ($categoryStat == null) {
+                        $categoryStat = new CategoryStat();
+                        $categoryStat->user_id = $userId;
+                        $categoryStat->category_id = $category->id;
+                        $categoryStat->save();
+                    }
+                    $categoryStat->update([
+                        'attempt_count' => $categoryStat->attempt_count + 1
+                    ]);
+                }
+                // insert or update user language stats
+                $languageStat = LanguageStat::where('language_id', $request->input('language_id'))->where('user_id', $userId)->first();
+                if ($languageStat == null) {
+                    $languageStat = new LanguageStat();
+                    $languageStat->user_id = $userId;
+                    $languageStat->language_id = $request->input('language_id');
+                    $languageStat->save();
+                }
+                $languageStat->update([
+                    'attempt_count' => $languageStat->attempt_count + 1
+                ]);
             }
             $attempt->code = $request->input('code');
             $attempt->save();
+
+
+
             return response()->json(['message' => 'Problem submitted!']);
         }
         return new BadRequestHttpException('Unauthenticated');

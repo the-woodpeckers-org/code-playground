@@ -13,6 +13,7 @@ export default {
             passedTestcases: String,
             description: String,
             title: String,
+            categories: Array,
             testcases: Array,
             languages: Array,
             runData: Array,
@@ -53,6 +54,7 @@ export default {
                         document.getElementById('submit-btn').disabled = true
                     }
                 }
+                console.log(response)
             }).catch(function (error) {
                 console.log(error)
                 _this.isCompiling = false
@@ -66,7 +68,8 @@ export default {
             HTTP.post('/api/submit', {
                 _token: document.querySelector('meta[name="csrf-token"]').content,
                 code: editor.getSession().getValue(),
-                problem_id: _this.$route.params.id
+                problem_id: _this.$route.params.id,
+                language_id: document.getElementById('language').value
             }).then(function (response) {
                 _this.isSubmitted = true
                 _this.isSubmitting = false
@@ -94,6 +97,7 @@ export default {
                     _this.title = response.data.title;
                     _this.testcases = response.data.testcases;
                     _this.languages = response.data.languages;
+                    _this.categories = response.data.categories;
                     _this.loading = true;
                     if (response.data.passed_at) {
                         _this.isPassed = true
@@ -142,8 +146,13 @@ export default {
         <form id="formCode" method="post" action="/compile">
             <div class="grid grid-cols-12">
                 <div class="col-span-6 me-1 border-e-2">
-                    <p class="text-2xl font-bold border-b-2 mx-1" v-if="loading"> {{ title }}</p>
-
+                    <p class="text-2xl font-bold mx-1" v-if="loading"> {{ title }}</p>
+                    <div class="w-full flex flex-row flex-wrap my-1">
+                        <div class="border bg-base-200 border-gray-400 px-1 mx-1 mt-1" v-for="category in categories">
+                            {{ category.name }}
+                        </div>
+                    </div>
+                    <div class="w-full border-b-2"></div>
                     <p class="text-base mx-1" v-if="loading"> {{ description }}</p>
                     <div class="text-2xl font-bold border-b-2 mx-1" v-if="!loading">
                         <div class="skeleton h-8 my-1 w-full"></div>
@@ -155,7 +164,7 @@ export default {
                 <div class="col-span-6 mx-1">
                     <label for="language">Select language: </label>
                     <select id="language" name="language" class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
-                        <option v-for="language in languages" :value="language.name"> {{ language.name }}</option>
+                        <option v-for="language in languages" :value="language.id"> {{ language.name }}</option>
                     </select>
                     <div class="h-96">
                         <div id="editor" style="width: 100%; height: 100%" class="text-base mt-3">
