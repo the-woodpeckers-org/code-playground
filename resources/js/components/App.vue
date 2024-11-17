@@ -12,7 +12,6 @@ export default {
     components: {Footer, Header},
     data() {
         return {
-            auth: undefined
         }
     },
     methods: {},

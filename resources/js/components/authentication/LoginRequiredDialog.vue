@@ -5,7 +5,7 @@ export default {
     name: "LoginRequiredDialog",
     methods: {
         getAuth() {
-            return getAuth
+            return getAuth();
         }
     },
     props: {
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <template>
-    <dialog v-if="!getAuth()" id="require_logged_in_modal" class="modal modal-open">
+    <dialog v-if="!this.getAuth()" id="require_logged_in_modal" class="modal modal-open">
         <div class="modal-box">
             <h3 class="text-lg font-bold">{{ title }}</h3>
             <p class="py-4">{{ message }}</p>
