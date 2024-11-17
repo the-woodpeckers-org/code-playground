@@ -13,6 +13,7 @@ export default {
             passedTestcases: String,
             description: String,
             title: String,
+            categories: Array,
             testcases: Array,
             languages: Array,
             runData: Array,
@@ -94,6 +95,7 @@ export default {
                     _this.title = response.data.title;
                     _this.testcases = response.data.testcases;
                     _this.languages = response.data.languages;
+                    _this.categories = response.data.categories;
                     _this.loading = true;
                     if (response.data.passed_at) {
                         _this.isPassed = true
@@ -142,8 +144,13 @@ export default {
         <form id="formCode" method="post" action="/compile">
             <div class="grid grid-cols-12">
                 <div class="col-span-6 me-1 border-e-2">
-                    <p class="text-2xl font-bold border-b-2 mx-1" v-if="loading"> {{ title }}</p>
-
+                    <p class="text-2xl font-bold mx-1" v-if="loading"> {{ title }}</p>
+                    <div class="w-full flex flex-row flex-wrap my-1">
+                        <div class="border bg-base-200 border-gray-400 px-1 mx-1 mt-1" v-for="category in categories">
+                            {{ category.name }}
+                        </div>
+                    </div>
+                    <div class="w-full border-b-2"></div>
                     <p class="text-base mx-1" v-if="loading"> {{ description }}</p>
                     <div class="text-2xl font-bold border-b-2 mx-1" v-if="!loading">
                         <div class="skeleton h-8 my-1 w-full"></div>
