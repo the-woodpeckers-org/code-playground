@@ -1,6 +1,7 @@
 <script>
 import {HTTP} from "@/http-common.js";
 import {getAuth, setAuth} from "@/utils/authLocalStorage.js";
+import {Chart, registerables} from "chart.js";
 export default {
     data() {
         return {
@@ -9,7 +10,62 @@ export default {
             auth: getAuth(),
         };
     },
+    mounted() {
+        this.chartConfig()
+    },
     methods: {
+        chartConfig() {
+            const ctx1 = document.getElementById('myChart1');
+            const ctx2 = document.getElementById('myChart2');
+            Chart.register(...registerables);
+
+            new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Sliding Window', 'Two Pointers', 'Math', 'Greedy', 'Hehe boi', 'du ma may'],
+                    datasets: [{
+                        label: 'Topics',
+                        borderWidth: 2,
+                        borderRadius: Number.MAX_VALUE,
+                        borderSkipped: false,
+                        backgroundColor: 'rgb(255,100,100)',
+                        borderColor: 'rgb(255,49,49)',
+                        data: [12, 19, 3, 5, 2, 3],
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    indexAxis: 'y'
+                }
+            });
+            new Chart(ctx2, {
+                type: 'radar',
+                data: {
+                    labels: ['C++', 'C', 'Python', 'PHP', 'JavaScript'],
+                    datasets: [{
+                        label: 'Programming Languages',
+                        borderWidth: 2,
+                        borderRadius: Number.MAX_VALUE,
+                        borderSkipped: false,
+                        backgroundColor: 'rgb(119,198,255)',
+                        borderColor: 'rgb(72,175,255)',
+                        data: [412, 315, 15, 116, 222],
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                }
+            });
+
+        },
         handleFileChange(event) {
 
             const maxAllowedSize = 5 * 1024 * 1024;
@@ -78,9 +134,16 @@ export default {
 
         </div>
     </form>
-    <div class="justify-center">
-        <p>link anh: </p>
-        <a class="text-sm" :href="this.fileUpload">{{ this.fileUpload }} </a>
-    </div>
+    <div class="w-full grid grid-cols-2 gap-x-3">
+        <div class="border-y h-96 flex">
+            <canvas id="myChart1" class="mx-auto">
 
+            </canvas>
+        </div>
+        <div class="border-y h-96 flex">
+            <canvas id="myChart2" class="mx-auto">
+
+            </canvas>
+        </div>
+    </div>
 </template>
