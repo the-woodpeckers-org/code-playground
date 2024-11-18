@@ -60,7 +60,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/updateJob',[JobRecruitmentController::class,'updateJob'])->name('updateJob');
     Route::get('/getCVsApplied/{id}',[JobRecruitmentController::class,'getCVsApplied'])->name('getCVsApplied');
     Route::post('/applyCV',[ApplicationController::class,'applyCV'])->name('applyCV');
+    Route::get('/get-stats', [UserController::class, 'getStats'])->name('getStats');
+    Route::get('/get-stats-by-id/{id}', [UserController::class, 'getStatsById'])->name('getStatsById');
 });
+
 
 Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
 Route::get('/getUserCVToView/{id}',[ProfileUserController::class,'getUserCVToView'])->name('getUserCVToView');
