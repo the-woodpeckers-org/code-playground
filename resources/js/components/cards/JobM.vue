@@ -15,6 +15,10 @@ export default {
             type: Object,
             default: new Date().toDateString()
         },
+        negotiable: {
+            type: Boolean,
+            default: true
+        },
         salary: {
             type: String,
             default: 'N/A'
@@ -48,7 +52,7 @@ export default {
                 <router-link :to="this.link" >
                  <img class="w-20 h-20 object-center object-contain" :src="imgUrl" loading="lazy">
                     <h1 class="text-xl font-semibold" >{{ title }}</h1>
-                    <p class="font-semibold">{{ salary }} $</p>
+                    <p v-if="negotiable" class="font-semibold">Negotiable  $</p> <p v-else class="font-semibold">{{ salary }} $</p>
                     <p class="font-semibold">Available until: {{ date }}</p>
                     </router-link>                  
                 </div>

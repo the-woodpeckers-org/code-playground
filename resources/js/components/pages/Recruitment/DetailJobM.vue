@@ -8,7 +8,7 @@
     <div role="tablist" class="tabs tabs-boxed grid grid-cols-2 bg-white w-[80%] h-min-[500px] m-auto">
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="CV Applied" />
         <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box">
-            <div class="overflow-x-auto" v-if="this.applications.length>0">
+            <div class="overflow-x-auto" v-if="this.applications.length > 0">
                 <table class="table">
                     <thead>
                         <tr>
@@ -19,7 +19,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                       <CvItemApplied v-for="(item, index) in this.applications" :key="index" :id_user="item.cv.user.id" :name="item.cv.user.name" :time="item.created_at"   :linkCV="`/cv/show/${item.cv.id}`" ></CvItemApplied>
+                        <CvItemApplied v-for="(item, index) in this.applications" :key="index"
+                            :id_user="item.cv.user.id" :name="item.cv.user.name" :time="item.created_at"
+                            :linkCV="`/cv/show/${item.cv.id}`"></CvItemApplied>
                     </tbody>
                 </table>
             </div>
@@ -73,9 +75,14 @@
                         </div>
                     </div>
                     <div class="mb-6">
+                        <label class="block text-gray-600 font-semibold mb-2">Negotiable</label>
+                        <input type="checkbox" class="checkbox checkbox-accent" :checked="jobForm.negotiable"  v-on:click="setNegotiable"/>
+                    </div>
+                    <div class="mb-6">
                         <label class="block text-gray-600 font-semibold mb-2">Salary</label>
                         <input v-model="jobForm.salary" type="number" class="input-field" placeholder="Salary range"
-                            required />
+                            :disabled="jobForm.negotiable" :required="!jobForm.negotiable"
+                            onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" />
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-600 font-semibold mb-2">Deadline</label>
@@ -116,6 +123,7 @@ export default {
                 location: "",
                 skill: "",
                 salary: "",
+                negotiable: Boolean,
                 deadline: "",
                 rte_1: null,
             },
@@ -126,6 +134,7 @@ export default {
         this.jobForm.rte_1 = new RichTextEditor('#text-editor-3');
         this.jobForm.rte_1.setHTMLCode(this.jobForm.description);
         await this.fetchDataListCV();
+        console.log(this.jobForm);
     },
     methods: {
         async handleSubmit() {
@@ -133,6 +142,10 @@ export default {
         },
         goBack() {
             this.$router.back();
+        },
+        setNegotiable() {
+            this.jobForm.negotiable = !this.jobForm.negotiable;
+            this.jobForm.salary = this.jobForm.negotiable ? 0 : "";
         },
         addSkill(event) {
             const skill = event.target.value;
@@ -169,10 +182,12 @@ export default {
                     title: this.jobForm.title,
                     location: this.jobForm.location,
                     skill: JSON.stringify(this.selectedSkills),
+                    negotiable: this.jobForm.negotiable,
                     salary: this.jobForm.salary,
                     deadline: this.jobForm.deadline,
                     description: this.jobForm.rte_1.getHTMLCode(),
                     id: this.$route.params.id
+
                 }
             };
 

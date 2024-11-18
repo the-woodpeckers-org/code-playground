@@ -75,7 +75,7 @@ class CvService
             'message' => 'Success',
             'data' => $cvs,
             'applications' => $applications,
-            'job_recruitments' => $job_recruitments
+          //  'job_recruitments' => $job_recruitments
         ]);
     }
 

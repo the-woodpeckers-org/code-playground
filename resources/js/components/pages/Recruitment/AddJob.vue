@@ -15,40 +15,46 @@
                 <input v-model="jobForm.location" type="text" class="input-field" placeholder="Job location" required />
             </div>
             <div class="mb-6">
-            <label class="text-sm font-bold text-gray-700 mb-2 block">Skills <span
-                    class="font-normal text-primary">*</span></label>
-            <div class="border border-gray-200 shadow-sm rounded-lg p-6 bg-gray-50 mt-2">
-                <div class="flex flex-wrap gap-3 mb-4" id="skill-selected">
-                    <div v-for="(skill, index) in selectedSkills" :key="index"
-                        class="flex items-center bg-blue-100 text-blue-700 px-3 py-1 rounded-lg shadow-sm space-x-2">
-                        <span>{{ skill }}</span>
-                        <button @click="removeSkill(skill)"
-                            class="text-blue-500 hover:text-blue-700 focus:outline-none">
-                            <i class="fa-solid fa-x"></i>
+                <label class="text-sm font-bold text-gray-700 mb-2 block">Skills <span
+                        class="font-normal text-primary">*</span></label>
+                <div class="border border-gray-200 shadow-sm rounded-lg p-6 bg-gray-50 mt-2">
+                    <div class="flex flex-wrap gap-3 mb-4" id="skill-selected">
+                        <div v-for="(skill, index) in selectedSkills" :key="index"
+                            class="flex items-center bg-blue-100 text-blue-700 px-3 py-1 rounded-lg shadow-sm space-x-2">
+                            <span>{{ skill }}</span>
+                            <button @click="removeSkill(skill)"
+                                class="text-blue-500 hover:text-blue-700 focus:outline-none">
+                                <i class="fa-solid fa-x"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <button v-if="selectedSkills.length" @click="removeAll"
+                            class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-150 ease-in-out shadow-md">
+                            Clear All
                         </button>
+                        <select
+                            class="select w-full md:w-1/2 border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:ring-2 focus:ring-primary focus:outline-none bg-white text-gray-700"
+                            @change="addSkill($event)" required>
+                            <option disabled selected>Select a skill</option>
+                            <option v-for="(skill, index) in availableSkills" :key="index" :value="skill">
+                                {{ skill }}
+                            </option>
+                        </select>
                     </div>
                 </div>
-
-                <div class="flex justify-between items-center">
-                    <button v-if="selectedSkills.length" @click="removeAll"
-                        class="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-150 ease-in-out shadow-md">
-                        Clear All
-                    </button>
-                    <select
-                        class="select w-full md:w-1/2 border border-gray-300 rounded-lg px-3 py-2 shadow-sm focus:ring-2 focus:ring-primary focus:outline-none bg-white text-gray-700"
-                        @change="addSkill($event)" required>
-                        <option disabled selected>Select a skill</option>
-                        <option v-for="(skill, index) in availableSkills" :key="index" :value="skill">
-                            {{ skill }}
-                        </option>
-                    </select>
-                </div>
             </div>
-        </div>
+            <div class="mb-6">
+                <label class="block text-gray-600 font-semibold mb-2">Negotiable</label>
+                <input type="checkbox" class="checkbox checkbox-accent" v-model="jobForm.negotiable" />
+            </div>
             <div class="mb-6">
                 <label class="block text-gray-600 font-semibold mb-2">Salary</label>
-                <input v-model="jobForm.salary" type="number" class="input-field" placeholder="Salary range" required />
+                <input v-model="jobForm.salary" type="number" class="input-field" placeholder="Salary range"
+                :disabled="jobForm.negotiable" :required="!jobForm.negotiable" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"  />
             </div>
+
             <div class="mb-6">
                 <label class="block text-gray-600 font-semibold mb-2">Deadline</label>
                 <input v-model="jobForm.deadline" type="date" class="input-field" required />
@@ -77,8 +83,9 @@ export default {
                 title: "",
                 location: "",
                 skill: "",
-                salary: "",
+                salary: 0,
                 deadline: "",
+                negotiable: true,
                 rte_1: null,
             },
         };
@@ -88,9 +95,9 @@ export default {
         this.jobForm.rte_1.setHTMLCode("");
     },
     methods: {
-        
-       async handleSubmit() {
-        const data = {
+
+        async handleSubmit() {
+            const data = {
                 job: {
                     title: this.jobForm.title,
                     location: this.jobForm.location,
@@ -98,10 +105,10 @@ export default {
                     salary: this.jobForm.salary,
                     deadline: this.jobForm.deadline,
                     description: this.jobForm.rte_1.getHTMLCode(),
-                    
+                    negotiable: this.jobForm.negotiable
                 }
             };
-            await HTTP.post('/api/createJob',data).then(response => {
+            await HTTP.post('/api/createJob', data).then(response => {
                 console.log(response.data);
                 alert("Job created successfully");
                 this.goBack();
@@ -110,7 +117,7 @@ export default {
             });
         },
         goBack() {
-            this.$router.back(); 
+            this.$router.back();
         },
         addSkill(event) {
             const skill = event.target.value;
@@ -139,18 +146,23 @@ export default {
 .btn-back {
     @apply text-blue-500 font-semibold hover:text-blue-600 flex items-center transition-colors duration-200;
 }
+
 .material-icons {
     font-size: 1.2rem;
 }
+
 .input-field {
     @apply w-full p-3 bg-white border border-gray-200 rounded-lg shadow-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-transparent transition duration-200 ease-in-out;
 }
+
 .input-editor {
     @apply bg-white border border-gray-200 rounded-lg shadow-md focus:ring-2 focus:ring-blue-300 transition duration-200;
 }
+
 .btn-primary {
     @apply bg-gradient-to-r from-blue-400 to-blue-500 text-white font-semibold py-2 px-8 rounded-full hover:from-blue-500 hover:to-blue-600 shadow-lg transform hover:scale-105 transition duration-200 ease-in-out;
 }
+
 .btn-secondary {
     @apply bg-gray-200 text-gray-700 font-semibold py-2 px-8 rounded-full hover:bg-gray-300 shadow-md transform hover:scale-105 transition duration-200 ease-in-out;
 }

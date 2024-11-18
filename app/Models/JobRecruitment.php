@@ -15,6 +15,7 @@ class JobRecruitment extends Model
         'location',     
         'skill', 
         'salary',  
+        'negotiable',
         'deadline', 
         'created_at',     
         'updated_at',    

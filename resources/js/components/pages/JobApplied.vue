@@ -15,10 +15,11 @@ export default {
     },
     methods: {
        async getJobsApplied() {
-          await  HTTP.get('/api/getJobsApplied')
+          await  HTTP.get('/api/getCV_Applied')
                 .then(response => {
                     console.log(response.data.applications);    
-                    this.jobs = response.data.data;
+                    this.jobs = response.data.applications;
+                    console.log(this.jobs);
                 })
                 .catch(e => {
                     console.log(e)
