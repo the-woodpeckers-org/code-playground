@@ -104,7 +104,6 @@ export default {
 
         },
         handleFileChange(event) {
-
             const maxAllowedSize = 5 * 1024 * 1024;
             if (event.target.files[0].size > maxAllowedSize) {
                 return;
@@ -148,38 +147,62 @@ export default {
 
 
 <template>
-    <form class="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md space-y-4" @submit.prevent="save">
-        <div class="flex justify-center">
-            <img :src="auth.avatar_url"
-                 alt="Profile Picture" class="w-32 h-32 rounded-full border-2 border-gray-300">
+    <div class="grid grid-cols-3">
+        <div class="grid grid-cols-1 border-r p-2">
+            <p class="col-span-full font-semibold text-lg border-b my-2">Statistics</p>
+            <p class="my-2">Problems solved by topics</p>
+            <div class="flex">
+                <canvas id="languageStatsChart"></canvas>
+            </div>
+            <div class="w-full border-b"></div>
+            <p class="my-2">Problems solved by topics</p>
+            <div class="flex">
+                <canvas id="categoryStatsChart"></canvas>
+            </div>
+            <p>Streak</p>
         </div>
-        <div class="text-center">
-            <input accept="image/png, image/gif, image/jpeg" type="file" id="fileInput" @change="handleFileChange"
-                   class="
+        <div class="border-r">
+            <div>
+
+            </div>
+        </div>
+        <div class="p-2">
+            <p class="col-span-full font-semibold text-lg border-b my-2">Information</p>
+            <p class="my-2">Update your avatar</p>
+            <form class="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md space-y-4" @submit.prevent="save">
+                <div class="flex justify-center">
+                    <img :src="auth.avatar_url"
+                         alt="Profile Picture" class="w-24 h-24 rounded-full border-2 border-gray-300">
+                </div>
+                <div class="text-center">
+                    <input accept="image/png, image/gif, image/jpeg" type="file" id="fileInput"
+                           @change="handleFileChange"
+                           class="
           file:mr-4 file:py-2 file:px-4
           file:rounded-full file:border-0
           file:text-sm file:font-semibold
           file:bg-violet-50 file:text-violet-700
           hover:file:bg-violet-100">
-        </div>
-        <div class="text-center">
-            <button type="submit"
-                    class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
-                Save
-            </button>
-
-        </div>
-    </form>
-    <div class="w-full grid grid-cols-2 gap-x-3">
-        <div class="border-y h-96 flex">
-            <canvas id="languageStatsChart" class="mx-auto">
-
-            </canvas>
-        </div>
-        <div class="border-y h-96 flex">
-            <canvas id="categoryStatsChart" class="mx-auto">
-
-            </canvas>
+                </div>
+                <div class="text-center">
+                    <button type="submit"
+                            class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                        Save
+                    </button>
+                </div>
+            </form>
+            <p class="my-2">Info</p>
+            <form class="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md space-y-4">
+                <div class="flex justify-center">
+                </div>
+                <div class="text-center">
+                    <button type="submit"
+                            class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                        Save
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
+
 </template>
