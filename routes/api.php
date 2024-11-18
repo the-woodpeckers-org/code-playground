@@ -62,6 +62,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/applyCV',[ApplicationController::class,'applyCV'])->name('applyCV');
     Route::get('/get-stats', [UserController::class, 'getStats'])->name('getStats');
     Route::get('/get-stats-by-id/{id}', [UserController::class, 'getStatsById'])->name('getStatsById');
+    Route::patch('/user', [UserController::class, 'updateUser'])->name('updateUser');
 });
 
 

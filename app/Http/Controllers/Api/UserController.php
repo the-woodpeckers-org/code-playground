@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\UpdateUserFormRequest;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 
@@ -32,5 +33,10 @@ class UserController
     public function uploadAvatar(Request $request)
     {
         return response()->json($this->service->uploadAvatar($request));
+    }
+
+    public function updateUser(UpdateUserFormRequest $request)
+    {
+        return response()->json($this->service->updateUser($request));
     }
 }

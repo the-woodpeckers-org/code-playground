@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\UpdateUserFormRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
@@ -20,6 +21,18 @@ class UserService
             return ['message' => 'Success', 'url' => $response];
         } catch (\Exception $e) {
             return throw new ServiceUnavailableHttpException($e->getMessage());
+        }
+    }
+
+    public function updateUser(UpdateUserFormRequest $request)
+    {
+        try {
+            $user = User::find($request->user()->id);
+            $user->update($request->validated());
+            return ['message' => 'Success'];
+        }
+        catch (\Exception $e) {
+            throw new ServiceUnavailableHttpException($e->getMessage());
         }
     }
 
