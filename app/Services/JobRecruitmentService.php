@@ -34,12 +34,20 @@ class JobRecruitmentService
         try{
             $id = $request->input('job.id');
            $job = JobRecruitment::find($request->input('job.id'));
+           
             $job->title = $request->input('job.title');
             $job->description = $request->input('job.description');
             $job->skill = $request->input('job.skill');
             $job->description = $request->input('job.description');
             $job->location =$request->input('job.location');
-            $job->salary = $request->input('job.salary');
+            $job->negotiable = $request->input('job.negotiable');
+            if($request->input('job.negotiable') == 'true'){
+                $job->negotiable = true;
+                $job->salary = 0 ;
+            }else{
+                $job->negotiable = false;
+                $job->salary = $request->input('job.salary');
+            }
             $job->deadline = $request->input('job.deadline');
             $job->save();
             return response()->json([
@@ -89,10 +97,19 @@ class JobRecruitmentService
                 'location' =>  $request->input('job.location'),
                 'description' =>  $request->input('job.description'),
                 'skill' =>  $request->input('job.skill'),
-                'salary' =>  $request->input('job.salary'),
+                'negotiable' =>  $request->input('job.negotiable'),
+                'salary' =>  0,
                 'deadline' =>  $request->input('job.deadline'),
             ]);
-           
+            if($request->input('job.negotiable') == 'true'){
+                $company->negotiable = true;
+                $company->salary = 0 ;
+            }
+            else{
+                $company->negotiable = false;
+                $company->salary = $request->input('job.salary');
+            }
+            $company->save();
             return response()->json([
                 'status' => '200',
                 'data' => $company
