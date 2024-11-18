@@ -60,14 +60,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/updateJob',[JobRecruitmentController::class,'updateJob'])->name('updateJob');
     Route::get('/getCVsApplied/{id}',[JobRecruitmentController::class,'getCVsApplied'])->name('getCVsApplied');
     Route::post('/applyCV',[ApplicationController::class,'applyCV'])->name('applyCV');
-<<<<<<< HEAD
     Route::get('/getCV_Applied',[ApplicationController::class,'getCV_Applied'])->name('getCV_Applied');
     Route::get('/isApplied/{id}',[ApplicationController::class,'isApplied'])->name('isApplied');
     Route::get('/cancelApply/{id}',[ApplicationController::class,'cancelApply'])->name('cancelApply');
-=======
     Route::get('/get-stats', [UserController::class, 'getStats'])->name('getStats');
     Route::get('/get-stats-by-id/{id}', [UserController::class, 'getStatsById'])->name('getStatsById');
->>>>>>> 3d62031f81464b1c5e94769e69c531199275b671
+    Route::patch('/user', [UserController::class, 'updateUser'])->name('updateUser');
 });
 
 
