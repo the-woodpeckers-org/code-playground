@@ -25,4 +25,9 @@ class Cv extends Model
     {
         return $this->hasMany(Application::class, 'cv_id');
     }
+    public function getCV_Applied()
+    {
+        return $this->application()->with('job.user')->get()->pluck('job');
+    }
+
 }

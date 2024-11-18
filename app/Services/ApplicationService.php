@@ -48,5 +48,49 @@ class ApplicationService
             'data' => $application
         ]);
     }
-    
+    public function getCV_Applied(Request $request)
+    {
+        $user = $request->user();
+        $cvs = $user->getYourCV()->get();
+        $applications = Application::whereIn('cv_id', $cvs->pluck('id'))->with('job.user')->get()->pluck('job');
+        return response()->json([
+            'status' => '200',
+            'applications' => $applications
+        ]);
+    }
+
+    public function isApplied($id, Request $request)
+    {
+        $user = $request->user();
+        $cv = $user->getYourCV()->get();
+        $application = Application::where('job_id', $id)->whereIn('cv_id', $cv->pluck('id'))->first();
+        if($application){
+            return response()->json([
+                'status' => '200',
+                'isApplied' => true
+            ]);
+        }
+        return response()->json([
+            'status' => '200',
+            'message' => 'You have not applied for this job',
+            'isApplied' => false
+        ]);
+    }
+    public function cancelApply($id,Request $request)
+    {
+        $user = $request->user();
+        $cv = $user->getYourCV()->get();
+        $application = Application::where('job_id', $id)->whereIn('cv_id', $cv->pluck('id'))->first();
+        if($application){
+            $application->delete();
+            return response()->json([
+                'status' => '200',
+                'message' => 'Cancel application successfully'
+            ]);
+        }
+        return response()->json([
+            'status' => '400',
+            'message' => 'You have not applied for this job'
+        ]);
+    }
 }

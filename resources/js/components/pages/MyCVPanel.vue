@@ -33,6 +33,7 @@ export default {
         .then(response => {
           _this.listItemcvs = response.data.data;
           _this.listCompanys = response.data.applications;
+          console.log(_this.listCompanys);
         })
         .catch(error => {
           console.error(error);
@@ -66,7 +67,7 @@ export default {
       this.file = event.target.files[0];
     },
     getCompaniesByCvId(cvId) {
-     const temp = this.listCompanys.filter(company => company.cv_id === cvId);
+      const temp = this.listCompanys.filter(company => company.cv_id === cvId);
       return temp;
     }
   }
@@ -148,7 +149,7 @@ export default {
           <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!isLoading">
             <span class="loading loading-dots loading-lg"></span>
           </div> 
-          <CvItem v-for="index in listItemcvs " :title="index.title" :id="index.id" :companys="getCompaniesByCvId(index.id)" :updated="index.updated_at" 
+          <CvItem v-for="index in listItemcvs " :title="index.title" :id="index.id" :companies ="getCompaniesByCvId(index.id)" :updated="index.updated_at" 
             @delete="removeCv" ></CvItem>
         </tbody>
       </table>

@@ -14,7 +14,7 @@
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-4">
         <CardJobM v-for="(item, index) in jobList" :key="item.id" :title="item.title" :salary="item.salary"
-          :id="item.id" :link="`/Detail-Job/${item.id}`" @delete-item="deleteJob(item.id)" />
+          :id="item.id" :link="`/Detail-Job/${item.id}`" @delete-item="deleteJob(item.id)" :negotiable="item.negotiable" />
         <div @click="addJob"
           class="border rounded-xl h-52 w-auto my-2 p-3 bg-base-100 hover:scale-105 hover:bg-base-200 transition cursor-pointer flex justify-center items-center">
           <i class="fas fa-plus text-6xl text-gray-600"></i>

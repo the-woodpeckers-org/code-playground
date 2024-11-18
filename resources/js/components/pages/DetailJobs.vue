@@ -43,7 +43,8 @@
                                     d="M1 4a1 1 0 011-1h16a1 1 0 011 1v8a1 1 0 01-1 1H2a1 1 0 01-1-1V4zm12 4a3 3 0 11-6 0 3 3 0 016 0zM4 9a1 1 0 100-2 1 1 0 000 2zm13-1a1 1 0 11-2 0 1 1 0 012 0zM1.75 14.5a.75.75 0 000 1.5c4.417 0 8.693.603 12.749 1.73 1.111.309 2.251-.512 2.251-1.696v-.784a.75.75 0 00-1.5 0v.784a.272.272 0 01-.35.25A49.043 49.043 0 001.75 14.5z"
                                     clip-rule="evenodd"></path>
                             </svg>
-                            <p class="text-primary">{{ job.salary }}</p>
+                         <p class="text-primary" v-if="job.negotiable">Negotiable</p>
+                         <p class="text-primary" v-else>{{ job.salary }}</p>
                         </div>
                     </div>
                     <div class="flex-col flex gap-6">
@@ -79,7 +80,7 @@
                 </div>
 
             </div>
-            <div class="flex w-full flex-wrap gap-4 md:w-[32.38%]" id="tabMnf2">
+            <div class="flex w-full flex-wrap gap-4 md:w-[32.38%]" id="tabMnf2" v-if="!isApplied">
                 <button id="applyCV"
                     class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
                     data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
@@ -96,6 +97,24 @@
                             <div v-html="this.profileCompany.general_information"></div>
                         </div>
 
+                    </div>
+                </section>
+            </div>
+            <div class="flex w-full flex-wrap gap-4 md:w-[32.38%]" id="tabMnf2" v-else>
+                <button id="applyCV"
+                    class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
+                    data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
+                    data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1"
+                 >You was applied </button>
+                <button id="createTopdevCV" type="button"
+                    class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full hover:bg-red-500 hover:text-white"
+                    form=""    onclick="ConfirmCancelApply.showModal()"><span class="">Cancel applied</span></button>
+                <section class="w-full bg-white">
+                    <h2 class="p-4 text-lg font-bold text-gray-500">General information</h2>
+                    <div class="flex flex-col self-stretch border-t border-gray-200 p-4">
+                        <div class="flex flex-wrap">
+                            <div v-html="this.profileCompany.general_information"></div>
+                        </div>
                     </div>
                 </section>
             </div>
@@ -159,7 +178,18 @@
         </form>
         </div>
     </dialog>
-
+    <dialog class="modal" id="ConfirmCancelApply">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">Are you sure to cancel your application?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="cancelApply">Yes</button>
+                    <button class="btn btn-sm m-1 border">No</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 
 </template>
 <script>
@@ -179,12 +209,16 @@ export default {
             listCvs: {},
             letter: '',
             id_CV : '',
+            isApplied   : false
         }
     },
     name: "DetailJobs",
     async mounted() {
         this.setUp();
         await this.fetchData();
+    },
+    update() {
+        this.setUp();
     },
     methods: {
         setUp() {
@@ -226,6 +260,15 @@ export default {
             }).catch(error => {
                 console.log(error)
             });
+
+
+            await HTTP.get(`/api/isApplied/${this.$route.params.id}`).then(response => {
+                console.log(response.data)
+                _this.isApplied = response.data.isApplied;
+                console.log(this.isApplied)
+            }).catch(error => {
+                console.log(error)
+            });
         },
         async  ApplyCV() {
             this.id_CV = document.querySelector('select[name="cv"]').value;
@@ -240,6 +283,16 @@ export default {
                 console.log(error)
             });
             alert('Apply CV');
+        },
+
+        async cancelApply() {
+            await HTTP.get(`/api/cancelApply/${this.$route.params.id}`).then(response => {
+                console.log(response.data)
+                alert('Cancel Apply Successfull');
+            }).catch(error => {
+                console.log(error)
+            });
+            alert('Cancel Apply');
         }
     },
 

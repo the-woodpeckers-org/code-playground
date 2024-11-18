@@ -24,4 +24,16 @@ class ApplicationController
         return $this->service->applyCV($request);
     }
    
+    public function getCV_Applied(Request $request)
+    {
+        return $this->service->getCV_Applied($request);
+    }
+    public function isApplied($id,Request $request)
+    {
+        return $this->service->isApplied($id,$request);
+    }
+    public function cancelApply($id,Request $request)
+    {
+        return $this->service->cancelApply($id,$request);
+    }
 }

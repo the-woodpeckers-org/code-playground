@@ -91,9 +91,13 @@ class User extends Authenticatable
     {
         return $this->hasOne(Cv::class, 'user_id', 'id')->where('isPrimary', '=', 1);
     }
-
+    public function getYourCV()
+    {
+        return $this->hasMany(Cv::class, 'user_id', 'id');
+    }
     public function getCompany()
     {
         return $this->hasOne(ProfileCompany::class, 'user_id', 'id');
     }
+    // public function 
 }
