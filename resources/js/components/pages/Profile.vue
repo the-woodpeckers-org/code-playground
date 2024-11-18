@@ -147,17 +147,17 @@ export default {
 
 
 <template>
-    <div class="grid grid-cols-3">
-        <div class="grid grid-cols-1 border-r p-2">
+    <div class="grid grid-cols-1 xl:grid-cols-3">
+        <div class="border-r p-2">
             <p class="col-span-full font-semibold text-lg border-b my-2">Statistics</p>
             <p class="my-2">Problems solved by topics</p>
             <div class="flex">
-                <canvas id="languageStatsChart"></canvas>
+                <canvas class="mx-auto" id="languageStatsChart"></canvas>
             </div>
             <div class="w-full border-b"></div>
             <p class="my-2">Problems solved by topics</p>
             <div class="flex">
-                <canvas id="categoryStatsChart"></canvas>
+                <canvas class="mx-auto" id="categoryStatsChart"></canvas>
             </div>
             <p>Streak</p>
         </div>
