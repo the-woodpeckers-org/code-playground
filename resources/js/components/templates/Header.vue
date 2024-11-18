@@ -142,6 +142,7 @@ export default {
 </script>
 <style scoped>
 .router-link-active {
-    color: red;
+    font-weight: 600;
+    color: rgb(51, 165, 227);
 }
 </style>
