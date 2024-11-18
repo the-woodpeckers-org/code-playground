@@ -22,4 +22,14 @@ class UserService
             return throw new ServiceUnavailableHttpException($e->getMessage());
         }
     }
+
+    public function getStats(Request $request): array
+    {
+        return $request->user()->getStatsAttribute();
+    }
+
+    public function getStatsById(Request $request): array
+    {
+        return User::find($request->input('id'))->getStatsAttribute();
+    }
 }

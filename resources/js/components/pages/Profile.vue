@@ -2,67 +2,104 @@
 import {HTTP} from "@/http-common.js";
 import {getAuth, setAuth} from "@/utils/authLocalStorage.js";
 import {Chart, registerables} from "chart.js";
+
 export default {
     data() {
         return {
             selectedFile: null,
             fileUpload: null,
             auth: getAuth(),
+            languageStatLabels: Array,
+            languageStatAttempts: Array,
+            categoryStatLabels: Array,
+            categoryStatAttempts: Array,
         };
     },
     mounted() {
-        this.chartConfig()
+        this.getUserStatsData();
     },
     methods: {
-        chartConfig() {
-            const ctx1 = document.getElementById('myChart1');
-            const ctx2 = document.getElementById('myChart2');
+        async getUserStatsData() {
+            let _this = this;
+            let languageStatLabels = [];
+            let languageStatAttempts = [];
+            let categoryStatLabels = [];
+            let categoryStatAttempts = [];
+
+            await HTTP.get('api/get-stats')
+                .then((response) => {
+                    languageStatLabels = response.data.language_stats.map((item) => {
+                        return item.name;
+                    });
+                    languageStatAttempts = response.data.language_stats.map((item) => {
+                        return item.attempt_count;
+                    });
+                    categoryStatLabels = response.data.category_stats.map((item) => {
+                        return item.name;
+                    });
+                    categoryStatAttempts = response.data.category_stats.map((item) => {
+                        return item.attempt_count;
+                    });
+                    _this.chartConfig(languageStatLabels, languageStatAttempts, categoryStatLabels, categoryStatAttempts);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        chartConfig(langLabels, langAttempts, categoryLabels, categoryAttempts) {
+            const ctx1 = document.getElementById('languageStatsChart');
+            const ctx2 = document.getElementById('categoryStatsChart');
             Chart.register(...registerables);
 
             new Chart(ctx1, {
                 type: 'bar',
                 data: {
-                    labels: ['Sliding Window', 'Two Pointers', 'Math', 'Greedy', 'Hehe boi', 'du ma may'],
+                    labels: categoryLabels,
                     datasets: [{
-                        label: 'Topics',
+                        label: 'Problem Solved',
                         borderWidth: 2,
                         borderRadius: Number.MAX_VALUE,
                         borderSkipped: false,
                         backgroundColor: 'rgb(255,100,100)',
                         borderColor: 'rgb(255,49,49)',
-                        data: [12, 19, 3, 5, 2, 3],
+                        data: categoryAttempts,
                     }]
                 },
                 options: {
                     scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        },
+
                     },
                     indexAxis: 'y'
-                }
+                },
+                scaleStepWidth: 1
             });
             new Chart(ctx2, {
                 type: 'radar',
                 data: {
-                    labels: ['C++', 'C', 'Python', 'PHP', 'JavaScript'],
+                    labels: langLabels,
                     datasets: [{
-                        label: 'Programming Languages',
+                        label: 'Problem Solved',
                         borderWidth: 2,
                         borderRadius: Number.MAX_VALUE,
                         borderSkipped: false,
                         backgroundColor: 'rgb(119,198,255)',
                         borderColor: 'rgb(72,175,255)',
-                        data: [412, 315, 15, 116, 222],
+                        data: langAttempts,
                     }]
                 },
                 options: {
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
                         }
                     },
-                }
+                },
             });
 
         },
@@ -75,7 +112,6 @@ export default {
                 this.selectedFile = event.target.files[0];
             }
         },
-
         async uploadImage() {
             const formData = new FormData();
             formData.append('file', this.selectedFile);
@@ -136,12 +172,12 @@ export default {
     </form>
     <div class="w-full grid grid-cols-2 gap-x-3">
         <div class="border-y h-96 flex">
-            <canvas id="myChart1" class="mx-auto">
+            <canvas id="languageStatsChart" class="mx-auto">
 
             </canvas>
         </div>
         <div class="border-y h-96 flex">
-            <canvas id="myChart2" class="mx-auto">
+            <canvas id="categoryStatsChart" class="mx-auto">
 
             </canvas>
         </div>
