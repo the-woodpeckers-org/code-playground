@@ -66,6 +66,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/get-stats', [UserController::class, 'getStats'])->name('getStats');
     Route::get('/get-stats-by-id/{id}', [UserController::class, 'getStatsById'])->name('getStatsById');
     Route::patch('/user', [UserController::class, 'updateUser'])->name('updateUser');
+    Route::patch('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
+    Route::post('/auth/send-verification-email', [AuthController::class, 'sendVerificationEmail'])->name('sendVerificationEmail');
 });
 
 

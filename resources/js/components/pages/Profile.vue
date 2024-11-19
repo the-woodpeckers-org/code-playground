@@ -244,9 +244,9 @@ export default {
                     <input v-model="emailInput" class="w-full h-8 border border-gray-500 rounded-lg bg-base-300"
                            disabled>
                     <div v-if="!isEmailVerified" role="alert" class="rounded-lg bg-yellow-300 px-3 my-1">
-                        <p><i class="fa-solid fa-triangle-exclamation"></i> Your email is not verified! <a href="#"
+                        <p><i class="fa-solid fa-triangle-exclamation"></i> Your email is not verified! <router-link to="verify-email"
                                                                                                            class="link font-semibold">Verify
-                            your email here</a></p>
+                            your email here</router-link></p>
                     </div>
                     <label>Address</label>
                     <input v-model="addressInput" class="w-full h-8 border border-gray-500 rounded-lg bg-base-100">

@@ -2,21 +2,22 @@
 
 namespace App\Mail;
 
-use App\Models\Password_Reset_Tokens;
+use App\Models\EmailVerifyToken;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailNotify extends Mailable
+class MailVerifyEmailNotify extends Mailable
 {
     use Queueable, SerializesModels;
-    protected Password_Reset_Tokens $token;
+    protected EmailVerifyToken $token;
     /**
      * Create a new message instance.
      */
-    public function __construct(Password_Reset_Tokens $token)
+    public function __construct(EmailVerifyToken $token)
     {
         $this->token = $token;
     }
@@ -28,7 +29,7 @@ class MailNotify extends Mailable
     {
         return new Envelope(
             from: 'support@code-playground.test',
-            subject: '[CodePlayground] Reset your password',
+            subject: '[CodePlayground] Verify your email',
         );
     }
 
@@ -38,7 +39,7 @@ class MailNotify extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.reset-password',
+            view: 'mails.verify-email',
             with: ['token' => $this->token]
         );
     }

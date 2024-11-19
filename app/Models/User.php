@@ -28,7 +28,8 @@ class User extends Authenticatable
         'gender',
         'birthday',
         'role',
-        'avatar_url'
+        'avatar_url',
+        'email_verified_at'
     ];
 
     /**
@@ -99,5 +100,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(ProfileCompany::class, 'user_id', 'id');
     }
-    // public function 
+    // public function
 }

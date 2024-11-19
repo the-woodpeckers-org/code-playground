@@ -1,5 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
-
+const UserEmailVerification = () => import("@/components/pages/Email/UserEmailVerification.vue");
 const ForgotPassword = () => import("@/components/pages/ForgotPassword.vue");
 const ResetPassword = () => import("@/components/pages/ResetPassword.vue");
 const ProfileCV = () => import("@/components/pages/ProfileCV.vue");
@@ -197,6 +197,11 @@ const routes = [
         path:'/View-User/:id',
         component: ViewUser,
         name: 'view-user'
+    },
+    {
+        path: '/verify-email',
+        component: UserEmailVerification,
+        name: 'verify-email'
     }
 ]
 
