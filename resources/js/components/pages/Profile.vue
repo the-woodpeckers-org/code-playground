@@ -72,8 +72,8 @@ export default {
                         borderWidth: 2,
                         borderRadius: Number.MAX_VALUE,
                         borderSkipped: false,
-                        backgroundColor: 'rgb(255,100,100)',
-                        borderColor: 'rgb(255,49,49)',
+                        backgroundColor: 'rgb(100,255,126)',
+                        borderColor: 'rgb(56,255,49)',
                         data: categoryAttempts,
                     }]
                 },
