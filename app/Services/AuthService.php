@@ -7,6 +7,8 @@ use App\Http\Requests\LoginFormRequest;
 use App\Http\Requests\RegisterFormRequest;
 use App\Http\Requests\ResetPasswordFormRequest;
 use App\Mail\MailNotify;
+use App\Mail\MailVerifyEmailNotify;
+use App\Models\EmailVerifyToken;
 use App\Models\Password_Reset_Tokens;
 use App\Models\User;
 use App\Utils\Token;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthService
 {
@@ -95,6 +98,41 @@ class AuthService
             }
         }
         return throw new BadRequestHttpException("Can't verify token!");
+    }
+
+    public function sendVerificationEmail(Request $request)
+    {
+        $currentUser = User::find($request->user()->id);
+        $token = substr(str_shuffle("0123456789"), 0, 5);
+        $emailVerifyToken = EmailVerifyToken::where('email', $currentUser->email)->first();
+        if ($emailVerifyToken) {
+            $emailVerifyToken->delete();
+        }
+        $emailVerifyToken = new EmailVerifyToken();
+        $emailVerifyToken->fill([
+            'email' => $currentUser->email,
+            'token' => $token,
+            'expires_at' => Carbon::now()->addDays(1)
+        ]);
+        $emailVerifyToken->save();
+        Mail::to($currentUser->email)->send(new MailVerifyEmailNotify($emailVerifyToken));
+        return ['message' => 'Success'];
+    }
+
+    public function verifyEmail(Request $request)
+    {
+        $currentUser = User::find($request->user()->id);
+        if ($currentUser) {
+            $emailVerifyToken = EmailVerifyToken::where('email', $currentUser->email)->first();
+            if ($emailVerifyToken && $emailVerifyToken->expires_at > Carbon::now() && $emailVerifyToken->token === $request->input('token')) {
+                $currentUser->update([
+                    'email_verified_at' => Carbon::now()
+                ]);
+                $emailVerifyToken->delete();
+                return ['message' => 'Success'];
+            }
+        }
+        return ['message' => $request->input('token')];
     }
 
     public function getAuthenticatedUser(Request $request)
