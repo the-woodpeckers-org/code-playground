@@ -2,8 +2,10 @@
 import {HTTP} from "@/http-common.js";
 import {getAuth, setAuth} from "@/utils/authLocalStorage.js";
 import {Chart, registerables} from "chart.js";
+import Toast from "@/components/messages/Toast.vue";
 
 export default {
+    components: {Toast},
     data() {
         return {
             selectedFile: null,
@@ -21,7 +23,8 @@ export default {
             phoneInput: "",
             genderInput: "",
             birthdayInput: "",
-            isEmailVerified: false
+            isEmailVerified: false,
+            isUpdated: false
         };
     },
     mounted() {
@@ -52,7 +55,7 @@ export default {
                     _this.chartConfig(languageStatLabels, languageStatAttempts, categoryStatLabels, categoryStatAttempts);
                 })
                 .catch((err) => {
-                    console.log(err);
+
                 });
         },
         chartConfig(langLabels, langAttempts, categoryLabels, categoryAttempts) {
@@ -151,7 +154,6 @@ export default {
             }
         },
         async getUserInformation() {
-            let _this = this;
             await HTTP.get('api/auth/get')
                 .then((response) => {
                     this.nameInput = response.data.name;
@@ -170,6 +172,7 @@ export default {
         },
         async updateInformation() {
             let _this = this;
+            this.isUpdated = false;
             await HTTP.patch('api/user', {
                 name: _this.nameInput,
                 address: _this.addressInput,
@@ -178,10 +181,10 @@ export default {
                 birthday: _this.birthdayInput
             })
                 .then((response) => {
-
+                    this.isUpdated = true;
                 })
                 .catch((err) => {
-                    console.log(err)
+
                 });
         }
     },
@@ -272,5 +275,5 @@ export default {
             </div>
         </div>
     </div>
-
+    <Toast v-if="isUpdated" :toastData="{type: 'success', message: 'Update information successfully!'}"></Toast>
 </template>
