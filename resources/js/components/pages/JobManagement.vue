@@ -37,8 +37,10 @@ export default {
             await
                 HTTP.get('/api/getProfileCV')
                     .then(response => {
-                        console.log(response.data);
                         _this.User = response.data.user;
+                        _this.Profile = response.data.profile;
+                        _this.list_company_hidden = response.data.hiddenCompanies; 
+                        console.log(response.data);
                     })
                     .catch(error => {
                         console.error(error);
@@ -49,7 +51,6 @@ export default {
             await
                 HTTP.get('/api/cvsU')
                     .then(response => {
-                        console.log(response.data);
                         _this.listItemcvs = response.data.data;
                     })
                     .catch(error => {
@@ -63,8 +64,6 @@ export default {
             await
                 HTTP.post(`/api/setPrimaryCv`, { cv_id: id })
                     .then(response => {
-                        console.log(response.data);
-                        console.log(id);
                     })
                     .catch(error => {
                         console.error(error);
@@ -74,7 +73,6 @@ export default {
             let _this = this;
             await HTTP.post('/api/setActiveProfile')
                 .then(response => {
-                    console.log(response.data);
                 })
                 .catch(error => {
                     console.error(error);
@@ -84,14 +82,13 @@ export default {
 
      handleSearchSelected(suggestion) {
       this.CompanyHidden = suggestion;
-      console.log(`Selected company: `, suggestion);
       this.$refs.confirmHiddenCompany.showModal();
     },
    async confirmHideCompany() {
 
-    await HTTP.post('/api/addHiddenCompany', {profile_company_id: this.CompanyHidden.get_company.id })
+    await HTTP.post('/api/addHiddenCompany', {profile_user_id:this.Profile.id ,profile_company_id: this.CompanyHidden.get_company.id })
         .then(response => {
-            console.log(response.data);
+            alert('Hidden company successfully');
         })
         .catch(error => {
             console.error(error);
@@ -190,8 +187,8 @@ export default {
                                     name</label>
                                 <SearchDynamic ref="searchDynamic" @selected="handleSearchSelected"> </SearchDynamic>
                                 <ul v-if="this.list_company_hidden.length" class="flex flex-wrap gap-2 mt-2">
-                                    <li class="flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-200 rounded">
-                                        MMO t-shirts<svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                    <li class="flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-200 rounded" v-for="(item, index) in list_company_hidden" :key="index">
+                                      {{item.user.name}}<svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                             viewBox="0 0 24 24" aria-hidden="true"
                                             class="w-5 h-5 ml-1 cursor-pointer hover:text-primary" height="1em"
                                             width="1em" xmlns="http://www.w3.org/2000/svg">

@@ -16,9 +16,7 @@ class HiddenCompanyService
         public function addHiddenCompany(Request $request)
         {
             try{
-                $user = $request->user();
-                $profile_user = ProfileUser::where('user_id', '=', $user->id)->first();
-                $profile_user_id = $profile_user->id; 
+                $profile_user_id =  $request->input('profile_user_id');
                 $profile_company_id = $request->input('profile_company_id');
 
                 $hiddenCompany = new HiddenCompany();
