@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 use App\Responses\APIResponse;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\TryCatch;
-
+use App\Models\HiddenCompany;
+use App\Models\ProfileCompany;
 class ProfileUserService
 {
     public function getProfileCV(Request $request)
@@ -20,7 +21,9 @@ class ProfileUserService
 
             if ($user != null) {
                 $profile_user = ProfileUser::where('user_id', '=', $userId)->first();
-
+                $listCompanyHidden = HiddenCompany::where('profile_user_id', '=', $profile_user->id)->get();
+                $companyIds = $listCompanyHidden->pluck('profile_company_id');
+                $companies = ProfileCompany::whereIn('id', $companyIds)->with('user')->get();         
                 if ($profile_user === null) {
                     return response()->json([
                         'status' => '200',
@@ -31,7 +34,8 @@ class ProfileUserService
                     return response()->json([
                         'status' => '200',
                         'user' => $user,
-                        'profile' => $profile_user
+                        'profile' => $profile_user,
+                        'hiddenCompanies' => $companies
                     ]);
                 }
             } else {

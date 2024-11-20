@@ -13,5 +13,12 @@ class HiddenCompany extends Model
         
     ];
     
-    
+    public function profile_user()
+    {
+        return $this->belongsTo(ProfileUser::class);
+    }
+    public function profile_company()
+    {
+        return $this->belongsTo(ProfileCompany::class);
+    }
 }

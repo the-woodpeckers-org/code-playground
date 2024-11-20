@@ -66,7 +66,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/cancelApply/{id}',[ApplicationController::class,'cancelApply'])->name('cancelApply');
     Route::get('/get-stats', [UserController::class, 'getStats'])->name('getStats');
     Route::get('/get-stats-by-id/{id}', [UserController::class, 'getStatsById'])->name('getStatsById');
-    Route::get('/getCompanies',[ProfileCompanyController::class,'getCompanies'])->name('getCompanies');
+    Route::get('/getCompaniesU',[ProfileCompanyController::class,'getCompaniesU'])->name('getCompaniesU');
     Route::post('/addHiddenCompany',[HiddenCompanyController::class,'addHiddenCompany'])->name('addHiddenCompany');
     Route::patch('/user', [UserController::class, 'updateUser'])->name('updateUser');
     Route::patch('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verifyEmail');

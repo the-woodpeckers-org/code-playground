@@ -63,10 +63,10 @@
         this.$emit('selected', suggestion);
       },
      async loadItems() {
-            await HTTP.get('/api/getCompanies')
+            await HTTP.get('/api/getCompaniesU')
                 .then(response => {
+                  console.log(response.data);
                     this.allItems = response.data.data;
-                    console.log("dmm", response.data);
                 })
                 .catch(error => {
                     console.log(error);

@@ -20,9 +20,9 @@ class ProfileCompanyController
     {
         return $this->_service->getProfileCompany($id);
     }
-    public function getCompanies()
+    public function getCompaniesU()
     {
-        return $this->_service->getCompanies();
+        return $this->_service->getCompaniesU();
     }
     public function getProfileCompanyByUserId(Request $request)
     {
