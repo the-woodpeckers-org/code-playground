@@ -24,8 +24,8 @@ export default {
                 ward: null,
                 name: null
             },
-            rate: 0
-
+            rate: 0,
+            
         };
     },
     components: { NavigatorCV, LocationPicker },
@@ -509,7 +509,7 @@ export default {
             </div>
         </div>
 
-        
+
     </div>
 </template>
 <style scoped>

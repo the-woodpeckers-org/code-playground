@@ -11,6 +11,17 @@ use App\Models\ProfileCompany;
 use App\Models\JobRecruitment;
 class ProfileCompanyService
 {
+    public function getCompanies()
+    {
+        $companies = ProfileCompany::all();
+        $companiess = $companies->map(function ($company) {
+            return $company->user()->first();
+        });
+        return response()->json([
+            'status' => 200,
+            'data' => $companiess
+        ]);
+    }
     public function getProfileCompany($id)
     {
         $profile = ProfileCompany::find($id);

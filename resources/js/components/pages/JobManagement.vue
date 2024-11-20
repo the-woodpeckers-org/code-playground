@@ -9,10 +9,11 @@ import {
     useRoute
 }
     from 'vue-router';
+import SearchDynamic from '@/components/search/SearchDynamic.vue';
 import { set } from 'date-fns';
 export default {
     components: {
-        NavigatorCV, CvItem2
+        NavigatorCV, CvItem2, SearchDynamic
     },
     data() {
         return {
@@ -161,9 +162,7 @@ export default {
                             <div class="p-4 bg-gray-100">
                                 <label for="compnay_name" class="block mb-1 font-bold text-gray-500">Enter the company
                                     name</label>
-                                <div class="relative"><input type="text" id="compnay_name"
-                                        class="bg-white block w-full rounded-[4px] border border-gray-300 px-5 py-[15px] text-sm placeholder:text-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                                        placeholder="Applancer JSC." value=""></div>
+                                    <SearchDynamic> </SearchDynamic>
                                 <ul v-if="this.list_company_hidden.length" class="flex flex-wrap gap-2 mt-2">
                                     <li class="flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-200 rounded">
                                         MMO t-shirts<svg stroke="currentColor" fill="currentColor" stroke-width="0"
