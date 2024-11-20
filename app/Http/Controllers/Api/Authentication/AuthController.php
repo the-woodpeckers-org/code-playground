@@ -14,9 +14,11 @@ class AuthController
 {
     private AuthService $service;
 
-    public function __construct(AuthService $service) {
+    public function __construct(AuthService $service)
+    {
         $this->service = $service;
     }
+
     public function login(LoginFormRequest $request)
     {
         return response()->json($this->service->login($request));
@@ -32,19 +34,33 @@ class AuthController
         return response()->json($this->service->logout());
     }
 
-    public function forgotPassword(ForgotPasswordFormRequest $request) {
+    public function forgotPassword(ForgotPasswordFormRequest $request)
+    {
         return response()->json($this->service->forgotPassword($request));
     }
 
-    public function verifyPasswordResetToken(Request $request) {
+    public function verifyPasswordResetToken(Request $request)
+    {
         return response()->json($this->service->verifyPasswordResetPassword($request));
     }
 
-    public function resetPassword(ResetPasswordFormRequest $request) {
+    public function resetPassword(ResetPasswordFormRequest $request)
+    {
         return response()->json($this->service->resetPassword($request));
     }
 
-    public function getAuthenticatedUser(Request $request) {
+    public function sendVerificationEmail(Request $request)
+    {
+        return response()->json($this->service->sendVerificationEmail($request));
+    }
+
+    public function verifyEmail(Request $request)
+    {
+        return response()->json($this->service->verifyEmail($request));
+    }
+
+    public function getAuthenticatedUser(Request $request)
+    {
         return response()->json($this->service->getAuthenticatedUser($request));
     }
 }

@@ -68,6 +68,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/get-stats-by-id/{id}', [UserController::class, 'getStatsById'])->name('getStatsById');
     Route::get('/getCompanies',[ProfileCompanyController::class,'getCompanies'])->name('getCompanies');
     Route::post('/addHiddenCompany',[HiddenCompanyController::class,'addHiddenCompany'])->name('addHiddenCompany');
+    Route::patch('/user', [UserController::class, 'updateUser'])->name('updateUser');
+    Route::patch('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
+    Route::post('/auth/send-verification-email', [AuthController::class, 'sendVerificationEmail'])->name('sendVerificationEmail');
 });
 
 
