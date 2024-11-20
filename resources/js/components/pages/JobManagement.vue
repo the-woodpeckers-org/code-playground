@@ -9,10 +9,11 @@ import {
     useRoute
 }
     from 'vue-router';
+import SearchDynamic from '@/components/search/SearchDynamic.vue';
 import { set } from 'date-fns';
 export default {
     components: {
-        NavigatorCV, CvItem2
+        NavigatorCV, CvItem2, SearchDynamic
     },
     data() {
         return {
@@ -23,6 +24,7 @@ export default {
             settingSelectedCv: null,
             settingActivce: null,
             list_company_hidden: [],
+            CompanyHidden: {},
         };
     },
     async mounted() {
@@ -70,7 +72,7 @@ export default {
         },
         async setActive() {
             let _this = this;
-            await HTTP.post('api/setActiveProfile')
+            await HTTP.post('/api/setActiveProfile')
                 .then(response => {
                     console.log(response.data);
                 })
@@ -78,7 +80,32 @@ export default {
                     console.error(error);
                 });
 
-        }
+        },
+
+     handleSearchSelected(suggestion) {
+      this.CompanyHidden = suggestion;
+      console.log(`Selected company: `, suggestion);
+      this.$refs.confirmHiddenCompany.showModal();
+    },
+   async confirmHideCompany() {
+
+    await HTTP.post('/api/addHiddenCompany', {profile_company_id: this.CompanyHidden.get_company.id })
+        .then(response => {
+            console.log(response.data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+      this.closeModal(); 
+
+    },
+        closeModal() {
+            this.$refs.confirmHiddenCompany.close();
+            this.clearSearchInput();
+        },
+        clearSearchInput() {
+            this.$refs.searchDynamic.clearSearch();
+        },
     }
 }
 </script>
@@ -161,9 +188,7 @@ export default {
                             <div class="p-4 bg-gray-100">
                                 <label for="compnay_name" class="block mb-1 font-bold text-gray-500">Enter the company
                                     name</label>
-                                <div class="relative"><input type="text" id="compnay_name"
-                                        class="bg-white block w-full rounded-[4px] border border-gray-300 px-5 py-[15px] text-sm placeholder:text-gray-300 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                                        placeholder="Applancer JSC." value=""></div>
+                                <SearchDynamic ref="searchDynamic" @selected="handleSearchSelected"> </SearchDynamic>
                                 <ul v-if="this.list_company_hidden.length" class="flex flex-wrap gap-2 mt-2">
                                     <li class="flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-200 rounded">
                                         MMO t-shirts<svg stroke="currentColor" fill="currentColor" stroke-width="0"
@@ -203,6 +228,23 @@ export default {
                 </div>
             </div>
         </div>
+
+        <dialog class="modal" ref="confirmHiddenCompany">
+            <div class="modal-box bg-base-100">
+                <h3 class="text-lg font-semibold">Warning</h3>
+                <p class="py-4 text-base">
+                    Are you sure you want to hide the company <strong>{{ this.CompanyHidden.name }}</strong>?
+                </p>
+                <div class="modal-action">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="confirmHideCompany">
+                        Yes
+                    </button>
+                    <button class="btn btn-sm m-1 border" @click="closeModal">
+                        No
+                    </button>
+                </div>
+            </div>
+        </dialog>
 
     </div>
 </template>

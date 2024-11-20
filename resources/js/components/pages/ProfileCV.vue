@@ -23,7 +23,9 @@ export default {
                 district: null,
                 ward: null,
                 name: null
-            }
+            },
+            rate: 0,
+            
         };
     },
     components: { NavigatorCV, LocationPicker },
@@ -95,7 +97,7 @@ export default {
                     id: this.User.id,
                     birthday: this.User.birthday,
                     gender: this.User.gender,
-                    address: [this.address.province, this.address.district, this.address.ward, this.address.name] 
+                    address: [this.address.province, this.address.district, this.address.ward, this.address.name]
                 },
                 profile: {
                     job_position: this.Profile.job_position,
@@ -108,7 +110,7 @@ export default {
                 .then(response => {
                     console.log(response.data);
                     alert("Save successfully");
-
+                    this.rateCalculate();
                 })
                 .catch(error => {
                     console.error("Failed to save profile:", error);
@@ -118,11 +120,39 @@ export default {
         handleAddressUpdated(address) {
             this.address.district = address.district;
             this.address.province = address.province;
-            this.address.ward = address.ward;          
-        }
+            this.address.ward = address.ward;
+        },
+        rateCalculate() {
+            const fields = [
+                { key: "name", weight: 10, label: "Name", source: this.User },
+                { key: "birthday", weight: 10, label: "Birthday", source: this.User },
+                { key: "address", weight: 10, label: "Address", source: this.User },
+                { key: "phone_number", weight: 10, label: "Phone number", source: this.User },
+                { key: "email", weight: 5, label: "Email", source: this.User },
+                { key: "email_verified_at", weight: 5, label: "Email verified", source: this.User },
+                { key: "imagePreview", weight: 10, label: "Avatar", source: this },
+                { key: "selectedSkills", weight: 10, label: "Skills", source: this },
+                { key: "socials", weight: 10, label: "Socials", source: this },
+                { key: "job_position", weight: 10, label: "Job position", source: this.Profile },
+                { key: "experience", weight: 10, label: "Number of experience", source: this.Profile },
+            ];
+
+            let rate = 0;
+            this.isMissingInfo = [];
+
+            fields.forEach(({ key, weight, label, source }) => {
+                if (Array.isArray(source[key]) ? source[key].length : source[key]) {
+                    rate += weight;
+                } else {
+                    this.isMissingInfo.push({label,weight});
+                }
+            });
+            this.rate = rate;
+        }                                                       
     },
     async mounted() {
         await this.onLoad();
+        this.rateCalculate();
     },
     updated() {
         console.log(this.User);
@@ -143,6 +173,7 @@ export default {
                             to the recruiter
                             use it with ease </p>
                     </h3>
+
                 </div>
                 <div class="flex justify-end p-0">
                     <button class="btn rounded-full bg-blue-200 text-white hover:bg-red-100 hover:text-black"
@@ -193,8 +224,8 @@ export default {
                                     <div class="relative w-full text-gray-700"><input
                                             class="relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed focus:border-blue-500 focus:ring-blue-500/20"
                                             placeholder="DD/MM/YYYY" id="birthday" autocomplete="off"
-                                            role="presentation" type="date"v-model="this.User.birthday"
-                                        ><button type="button"
+                                            role="presentation" type="date" v-model="this.User.birthday"><button
+                                            type="button"
                                             class="absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"><svg
                                                 class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -242,7 +273,8 @@ export default {
                                     <div class="flex">
                                         <div class="relative w-full"><input
                                                 class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                                min="0" placeholder="Ví dụ: 2" type="number" value="1"
+                                                min="0" placeholder="Ví dụ: 2" type="number"
+                                                v-model="this.Profile.experience"
                                                 onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                                         </div>
                                     </div>
@@ -253,7 +285,8 @@ export default {
                                 <div class="flex">
                                     <div class="relative w-full"><input
                                             class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            disabled="" v-model="this.User.email" readonly placeholder="Please setting email in the profile"></div>
+                                            disabled="" v-model="this.User.email" readonly
+                                            placeholder="Please setting email in the profile"></div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
@@ -263,7 +296,8 @@ export default {
                                     <div class="flex">
                                         <div class="relative w-full"><input
                                                 class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                                placeholder="Please setting phone number in the profile" v-model="User.phone_number" readonly></div>
+                                                placeholder="Please setting phone number in the profile"
+                                                v-model="User.phone_number" readonly></div>
                                     </div>
                                 </div>
                             </div>
@@ -271,10 +305,9 @@ export default {
                                     class="text-sm font-bold text-gray-500">Address </label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                        class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                        placeholder="Please fill the name street!"
-                                        v-model="address.name" >
-                                        </div>
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            placeholder="Please fill the name street!" v-model="address.name">
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
@@ -364,24 +397,20 @@ export default {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="stat-value sm:text-sm md:text-lg lg:text-2xl">10%</div>
+                                <div class="stat-value sm:text-sm md:text-lg lg:text-2xl">{{ this.rate }}%</div>
                                 <div class="stat-title sm:text-base md:text-md lg:text-md">{{ this.User.name }}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-3 p-3  bg-base-100">
+                    <div class="mt-3 p-3  bg-base-100" v-if="this.isMissingInfo.length">
                         <label class="text-balance text-sm lg:text-md">You are missing the following
                             information:</label>
                         <ul class="grid grid-1 ml-2">
-                            <span class="bg-primary rounded-full w-max mt-2 text-white"><a class="p-2">SomeThing!</a>
-                            </span>
-                            <span class="bg-primary rounded-full w-max mt-2 text-white"><a class="p-2">SomeThing!</a>
-                            </span>
-                            <span class="bg-primary rounded-full w-max mt-2 text-white"><a class="p-2">SomeThing!</a>
-                            </span>
-                            <span class="bg-primary rounded-full w-max mt-2 text-white"><a class="p-2">SomeThing!</a>
-                            </span>
+                            <span class="bg-primary rounded-full w-max mt-2 text-white" v-for="(item, index) in this.isMissingInfo" :key="index"><a class="p-2">{{ item.label }} +{{ item.weight }}</a></span>
                         </ul>
+                    </div>
+                    <div class="mt-3 p-3 bg-base-100" v-else>
+                        <label for="">You have completed enough personal information, which will help employers find you</label>
                     </div>
                     <div class="mt-3 p-3 bg-gradient-to-tr from-cyan-300 to-purple-300">
                         <span class="text-sm md:text-md lg:text-md">🧑🏻‍💻 Activate the working state</span>
@@ -401,9 +430,7 @@ export default {
                     <div>
                         <div class="m-3 flex flex-1 justify-between w-full">
                             <label for="" class="text-sm md:text-md lg:text-2xl  font-bold">Information</label>
-                            <p></p>
-                            <label for=""
-                                class="items-center py-1 pl-3 pr-2 mb-3 text-xs font-normal border border-blue-500 rounded-full bg-blue-50">50%</label>
+                        
                         </div>
                         <div class="relative hidden gap-8 rounded bg-white py-6 pl-6 pr-4 md:flex">
                             <div class="flex-none">
@@ -421,7 +448,8 @@ export default {
                                             this.User.name }}
                                         </h4>
                                         <span
-                                            class="ml-2 rounded-full bg-blue-50 px-3 py-[2px] text-sm font-bold text-blue-500">50%</span>
+                                            class="ml-2 rounded-full bg-blue-50 px-3 py-[2px] text-sm font-bold text-blue-500">{{
+                                            this.rate }}%</span>
                                     </div>
                                     <div class="flex">
                                         <div class="flex items-center"><span
@@ -434,9 +462,11 @@ export default {
                                     </div>
                                     <div class="mt-4 text-lg text-gray-600">
                                         <div class="flex w-100 truncate">
-                                            <span v-if="this.User.address">{{ this.address.province + "," || " " }} {{ this.address.district + "," || " " }} {{ this.address.ward  || " "}} <span v-if="this.address.name">{{", "+this.address.name }}</span></span> 
-                                            <span v-else> Add address</span> 
-                                            
+                                            <span v-if="this.User.address">{{ this.address.province + "," || " " }} {{
+                                                this.address.district + "," || " " }} {{ this.address.ward || " " }}
+                                                <span v-if="this.address.name">{{ ", " + this.address.name }}</span></span>
+                                            <span v-else> Add address</span>
+
                                         </div>
                                         <div class="mt-1 flex">
                                             <div class="flex">
@@ -478,6 +508,8 @@ export default {
                 </div>
             </div>
         </div>
+
+
     </div>
 </template>
 <style scoped>

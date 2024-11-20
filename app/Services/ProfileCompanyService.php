@@ -9,8 +9,22 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Models\ProfileCompany;
 use App\Models\JobRecruitment;
+use App\Models\User;
+
 class ProfileCompanyService
 {
+    public function getCompanies()
+    {
+        $companies = User::where('role','=', 1)
+        ->with('getCompany')
+        ->get();
+
+    return response()->json([
+        'status' => 200,
+        'data' => $companies
+    ]);
+
+    }
     public function getProfileCompany($id)
     {
         $profile = ProfileCompany::find($id);

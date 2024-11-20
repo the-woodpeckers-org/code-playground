@@ -71,19 +71,7 @@ export default {
                                             </svg></span><button type="button"
                                             class="font-semibold underline transition-all hover:text-primary">{{
                                                 this.jobRecruitments.length }} recruitment position</button></div>
-                                    <div class="mt-4 flex gap-4">
-                                        <div class="flex-1"><button id="" type="button"
-                                                class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-primary text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 undefined h-9 rounded px-4 font-semibold lg:h-12 lg:px-6 w-full"
-                                                form=""><span
-                                                    class="flex items-center justify-center text-lg lg:text-2xl h-5 w-5"><svg
-                                                        stroke="currentColor" fill="none" stroke-width="1.5"
-                                                        viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z">
-                                                        </path>
-                                                    </svg></span><span class="">Follow</span></button></div>
-                                    </div>
+                                  
                                 </div>
                             </div>
                         </div>
