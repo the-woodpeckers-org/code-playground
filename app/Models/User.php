@@ -93,7 +93,6 @@ class User extends Authenticatable
     }
     public function getCompany()
     {
-        return $this->hasOne(ProfileCompany::class, 'user_id', 'id');
+        return $this->hasOne(ProfileCompany::class);
     }
-    // public function 
 }

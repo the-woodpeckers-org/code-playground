@@ -22,7 +22,7 @@
           v-for="(suggestion, index) in filteredSuggestions"
           :key="index"
           role="option"
-          @click="selectSuggestion(suggestion.name)"
+          @click="selectSuggestion(suggestion)"
         >
           {{ suggestion.name }}
         </li>
@@ -40,6 +40,7 @@
         filteredSuggestions: [],
       };
     },
+    emits: ['selected'],
     name : 'SearchDynamic',
     methods: {
       updateSuggestions() {
@@ -52,10 +53,14 @@
           item.name.toLowerCase().includes(query)
         );
       },
+      clearSearch() {
+      this.searchQuery = "";
+      this.filteredSuggestions = [];
+    },
       selectSuggestion(suggestion) {
-        this.searchQuery = suggestion;
+        this.searchQuery = suggestion.name;
         this.filteredSuggestions = [];
-        
+        this.$emit('selected', suggestion);
       },
      async loadItems() {
             await HTTP.get('/api/getCompanies')

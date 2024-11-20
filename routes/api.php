@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Authentication\AuthController;
 use App\Http\Controllers\Api\CodeExecutionController;
 use App\Http\Controllers\Api\ContestController;
 use App\Http\Controllers\Api\CvController;
+use App\Http\Controllers\api\HiddenCompanyController;
 use App\Http\Controllers\Api\ParticipationController;
 use App\Http\Controllers\Api\ProblemController;
 use App\Http\Controllers\Api\ProfileCompanyController;
@@ -66,7 +67,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/get-stats', [UserController::class, 'getStats'])->name('getStats');
     Route::get('/get-stats-by-id/{id}', [UserController::class, 'getStatsById'])->name('getStatsById');
     Route::get('/getCompanies',[ProfileCompanyController::class,'getCompanies'])->name('getCompanies');
-
+    Route::post('/addHiddenCompany',[HiddenCompanyController::class,'addHiddenCompany'])->name('addHiddenCompany');
 });
 
 
