@@ -1,4 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
+
+const Dashboard = () => import("@/components/pages/Contributor/Dashboard.vue");
 const UserEmailVerification = () => import("@/components/pages/Email/UserEmailVerification.vue");
 const ForgotPassword = () => import("@/components/pages/ForgotPassword.vue");
 const ResetPassword = () => import("@/components/pages/ResetPassword.vue");
@@ -21,17 +23,18 @@ const Profile = () => import("@/components/pages/Profile.vue");
 const ContestDetail = () => import('@/components/pages/ContestDetail.vue');
 const ContestPanel = () => import('@/components/pages/ContestPanel.vue');
 const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
-const CvBuilder =()=>import("@/components/pages/CvBuilder.vue");
-const CvShowPDF =()=>import("@/components/pages/CvShowPDF.vue");
-const JobManager =()=>import("@/components/pages/JobManagement.vue");
-const JobApplied =()=>import("@/components/pages/JobApplied.vue");
-const DetailJobs =()=>import("@/components/pages/DetailJobs.vue");
-const ViewCompany= ()=>import("@/components/pages/ViewCompany.vue");
-const RecruitmentManagement =()=>import("@/components/pages/Recruitment/RecruitmentManagement.vue");
-const JobsManagement =()=>import("@/components/pages/Recruitment/JobsManagement.vue");
-const AddJob = ()=>import("@/components/pages/Recruitment/AddJob.vue");
-const DetailJobM = ()=>import("@/components/pages/Recruitment/DetailJobM.vue");
-const ViewUser =()=>import("@/components/pages/Recruitment/ViewUser.vue");
+const CvBuilder = () => import("@/components/pages/CvBuilder.vue");
+const CvShowPDF = () => import("@/components/pages/CvShowPDF.vue");
+const JobManager = () => import("@/components/pages/JobManagement.vue");
+const JobApplied = () => import("@/components/pages/JobApplied.vue");
+const DetailJobs = () => import("@/components/pages/DetailJobs.vue");
+const ViewCompany = () => import("@/components/pages/ViewCompany.vue");
+const RecruitmentManagement = () => import("@/components/pages/Recruitment/RecruitmentManagement.vue");
+const JobsManagement = () => import("@/components/pages/Recruitment/JobsManagement.vue");
+const AddJob = () => import("@/components/pages/Recruitment/AddJob.vue");
+const DetailJobM = () => import("@/components/pages/Recruitment/DetailJobM.vue");
+const ViewUser = () => import("@/components/pages/Recruitment/ViewUser.vue");
+
 const routes = [
     {
         path: '/problem/:id',
@@ -164,37 +167,37 @@ const routes = [
         name: 'notfound'
     },
     {
-        path:'/Job-detail/:id',
+        path: '/Job-detail/:id',
         component: DetailJobs,
         name: 'job-detail'
     },
     {
-        path:'/View-Company/:id',
+        path: '/View-Company/:id',
         component: ViewCompany,
         name: 'view-company'
     },
     {
-        path:'/Info-Recruitment',
+        path: '/Info-Recruitment',
         component: RecruitmentManagement,
         name: 'info-recruitment'
     },
     {
-        path:'/Jobs-Management',
+        path: '/Jobs-Management',
         component: JobsManagement,
         name: 'jobs-management'
     },
     {
-        path :'/Add-Job',
+        path: '/Add-Job',
         component: AddJob,
         name: 'add-job'
     },
     {
-        path:'/Detail-Job/:id',
+        path: '/Detail-Job/:id',
         component: DetailJobM,
         name: 'detail-job'
     },
     {
-        path:'/View-User/:id',
+        path: '/View-User/:id',
         component: ViewUser,
         name: 'view-user'
     },
@@ -202,6 +205,11 @@ const routes = [
         path: '/verify-email',
         component: UserEmailVerification,
         name: 'verify-email'
+    },
+    {
+        path: '/contributor/dashboard',
+        component: Dashboard,
+        name: 'contributor-dashboard'
     }
 ]
 

@@ -20,7 +20,8 @@ class Problem extends Model
         'is_passed',
         'passed_at',
         'deleted_at',
-        'contest_id'
+        'contest_id',
+        'created_by'
     ];
 
     protected $appends = [

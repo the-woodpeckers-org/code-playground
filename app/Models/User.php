@@ -100,4 +100,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(ProfileCompany::class);
     }
+
+    public function getCreatedProblems()
+    {
+        return $this->hasMany(Problem::class, 'created_by', 'id');
+    }
 }
