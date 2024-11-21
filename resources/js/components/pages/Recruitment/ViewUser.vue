@@ -92,12 +92,13 @@ export default {
             cv: {},
         }
     },
-    mounted() {
-        this.getUser();
+    async  mounted() {
+       await this.getUser();
+       await this.addViewHistory();
     },
     methods: {
-        getUser() {
-            HTTP.get(`/api/getUserCVToView/${this.$route.params.id}`)
+        async  getUser() {
+         await  HTTP.get(`/api/getUserCVToView/${this.$route.params.id}`)
                 .then(response => {
                     console.log(response.data);
                     this.User = response.data.user;
@@ -113,6 +114,16 @@ export default {
                     this.selectedSkills = arrayOfSkills;
  
                     this.cv = response.data.cv;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+       async addViewHistory()
+        {
+            await  HTTP.post(`/api/addViewHistory`, {profile_user_id : this.Profile.id})
+                .then(response => {
+                    console.log(response.data);
                 })
                 .catch(error => {
                     console.log(error);

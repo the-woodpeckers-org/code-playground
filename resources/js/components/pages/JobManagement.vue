@@ -2,15 +2,7 @@
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
 import CvItem2 from '@/components/listItems/CvItem2.vue';
 import { HTTP } from "@/http-common.js";
-import {
-    RouterView,
-    RouterLink,
-    useRouter,
-    useRoute
-}
-    from 'vue-router';
 import SearchDynamic from '@/components/search/SearchDynamic.vue';
-import { set } from 'date-fns';
 export default {
     components: {
         NavigatorCV, CvItem2, SearchDynamic
@@ -25,9 +17,12 @@ export default {
             settingActivce: null,
             list_company_hidden: [],
             CompanyHidden: {},
+            remove_id: null,
+            list_company_view_history:[],
         };
     },
     async mounted() {
+        await this.getListCompanyView();
         await this.getUser();
         await this.getCvU();
     },
@@ -39,7 +34,7 @@ export default {
                     .then(response => {
                         _this.User = response.data.user;
                         _this.Profile = response.data.profile;
-                        _this.list_company_hidden = response.data.hiddenCompanies; 
+                        _this.list_company_hidden = response.data.hiddenCompanies;
                         console.log(response.data);
                     })
                     .catch(error => {
@@ -79,23 +74,36 @@ export default {
                 });
 
         },
+        async getListCompanyView()
+        {
+            let _this = this
+            await
+                HTTP.get('/api/getListCompanyView')
+                    .then(response => {
+                        _this.list_company_view_history = response.data.data;
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+        },
+        handleSearchSelected(suggestion) {
+            this.CompanyHidden = suggestion;
+            this.$refs.confirmHiddenCompany.showModal();
+        },
+        async confirmHideCompany() {
 
-     handleSearchSelected(suggestion) {
-      this.CompanyHidden = suggestion;
-      this.$refs.confirmHiddenCompany.showModal();
-    },
-   async confirmHideCompany() {
+            await HTTP.post('/api/addHiddenCompany', { profile_user_id: this.Profile.id, profile_company_id: this.CompanyHidden.get_company.id })
+                .then(response => {
+                    alert('Hidden company successfully');
+                    this.getUser();
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            this.closeModal();
 
-    await HTTP.post('/api/addHiddenCompany', {profile_user_id:this.Profile.id ,profile_company_id: this.CompanyHidden.get_company.id })
-        .then(response => {
-            alert('Hidden company successfully');
-        })
-        .catch(error => {
-            console.error(error);
-        });
-      this.closeModal(); 
-
-    },
+        },
         closeModal() {
             this.$refs.confirmHiddenCompany.close();
             this.clearSearchInput();
@@ -103,7 +111,23 @@ export default {
         clearSearchInput() {
             this.$refs.searchDynamic.clearSearch();
         },
+        showModalRemoveHidden(id) {
+        this.remove_id =id;
+        this.$refs.show_confirm_delete_hidden.showModal();
+    },
+    async confirmRemoveHidden() {
+        await HTTP.post('/api/removeHiddenCompany', { profile_user_id: this.Profile.id, profile_company_id: this.remove_id })
+            .then(response => {
+                alert('Remove hidden company successfully');
+                this.getUser();
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
+    },
+   
+    
 }
 </script>
 <template>
@@ -187,9 +211,11 @@ export default {
                                     name</label>
                                 <SearchDynamic ref="searchDynamic" @selected="handleSearchSelected"> </SearchDynamic>
                                 <ul v-if="this.list_company_hidden.length" class="flex flex-wrap gap-2 mt-2">
-                                    <li class="flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-200 rounded" v-for="(item, index) in list_company_hidden" :key="index">
-                                      {{item.user.name}}<svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                            viewBox="0 0 24 24" aria-hidden="true"
+                                    <li class="flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-200 rounded"
+                                        v-for="(item, index) in list_company_hidden" :key="index"
+                                        @click="showModalRemoveHidden(item.id)">
+                                        {{ item.user.name }}<svg stroke="currentColor" fill="currentColor"
+                                            stroke-width="0" viewBox="0 0 24 24" aria-hidden="true"
                                             class="w-5 h-5 ml-1 cursor-pointer hover:text-primary" height="1em"
                                             width="1em" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -204,14 +230,32 @@ export default {
                         <div class="border-b border-solid border-gray-200 p-4">
                             <h4 class="text-2xl font-semibold">The employer has viewed the profile</h4>
                         </div>
-                        <div class="p-4 text-center"><img alt="Not found employers" loading="lazy" width="453"
+                        <div v-if="list_company_view_history.length">
+                            <div class="p-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div v-for="(item, index) in list_company_view_history" :key="index"
+                                        class="bg-gray-100 p-4 rounded">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-12 h-12 rounded-full overflow-hidden">
+                                                <img :src="item.profile_company.user.avatar_url" alt="avatar" class="w-full h-full object-cover">
+                                            </div>
+                                            <div>
+                                                <h5 class="text-lg font-semibold">{{ item.profile_company.user.name}}</h5>
+                                                <p class="text-sm text-gray-500">Number view: {{ item.view_count }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                        <div v-else class="p-4 text-center"><img alt="Not found employers" loading="lazy" width="453"
                                 height="450" decoding="async" data-nimg="1"
                                 class="mx-auto h-auto max-w-[9rem] object-contain" style="color: transparent;"
                                 srcset="https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp 1x, https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp 2x"
                                 src="https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp">
                             <div class="p-4 text-gray-500">
-                                <h5 class="mt-4 text-xl font-bold">Chưa có nhà tuyển dụng nào xem hồ sơ của bạn</h5>
-                                <p class="mt-2">Để thu hút nhiều nhà tuyển dụng, hãy <a title="Hoàn thành TopDev CV"
+                                <h5 class="mt-4 text-xl font-bold">No recruiters have viewed your profile yet.</h5>
+                                <p class="mt-2">To attract more employers, <a title="Hoàn thành TopDev CV"
                                         href="/users/profile"
                                         class="font-weight cursor-pointer font-bold text-primary underline">Hoàn thành
                                         TopDev CV</a> hoặc <a title="Tạo CV" href="/tao-cv-online"
@@ -221,6 +265,8 @@ export default {
                                         việc</span>.</p>
                             </div>
                         </div>
+                      
+
                     </div>
                 </div>
             </div>
@@ -243,6 +289,21 @@ export default {
             </div>
         </dialog>
 
+        <dialog class="modal" ref="show_confirm_delete_hidden">
+            <div class="modal-box bg-base-100">
+                <h3 class="text-lg font-semibold">Warning</h3>
+                <p class="py-4 text-base">
+                    Are you sure you want to remove hide the company <strong>{{ this.CompanyHidden.name }}</strong>?
+                </p>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
+                            @click="confirmRemoveHidden">Yes</button>
+                        <button class="btn btn-sm m-1 border">No</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
     </div>
 </template>
 <style scoped>

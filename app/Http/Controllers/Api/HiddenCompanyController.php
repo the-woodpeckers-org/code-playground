@@ -18,4 +18,9 @@ class HiddenCompanyController
     {
         return $this->service->addHiddenCompany($request);
     }
+
+    public function removeHiddenCompany(Request $request)
+    {
+        return $this->service->removeHiddenCompany($request);
+    }
 }

@@ -202,7 +202,7 @@ export default {
         async fetchDataListCV() {
             await HTTP.get(`/api/getCVsApplied/${this.$route.params.id}`).then(response => {
                 this.applications = response.data.applications;
-                console.log(this.applications);
+                console.log(response.data);
             }).catch(error => {
                 console.error(error);
             });

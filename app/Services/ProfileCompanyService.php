@@ -92,9 +92,9 @@ class ProfileCompanyService
     {
         $profile = ProfileCompany::where('user_id', Auth::user()->id)->first();
         if (!$profile) {
-            return response()->json(['status' => 404, 'data' => null]);
+            $profile = new ProfileCompany();
+            $profile->user_id = Auth::user()->id;
         }
-
         $profile->description = $request->input('profileCompany.description');
         $profile->general_information = $request->input('profileCompany.general_information');
         $profile->address = $request->input('profileCompany.address');

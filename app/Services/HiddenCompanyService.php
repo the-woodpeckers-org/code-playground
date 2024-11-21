@@ -36,4 +36,26 @@ class HiddenCompanyService
                 ]);
             }
         }
+        public function removeHiddenCompany(Request $request)
+        {
+            try{
+                    $profile_user_id =  $request->input('profile_user_id');
+                    $profile_company_id = $request->input('profile_company_id');
+                    $hiddenCompany = HiddenCompany::where('profile_user_id', '=', $profile_user_id)
+                    ->where('profile_company_id', '=', $profile_company_id)
+                    ->first();
+                    $hiddenCompany->delete();
+                    return response()->json([
+                        'status' => '200',
+                        'message' => 'Success',
+                    ]);
+            }catch(\Exception $e)
+            {
+                return response()->json([
+                    'status' => '500',
+                    'message' => 'Something error.',
+                    'error' => $e->getMessage()
+                ]);
+            }
+        }
 }
