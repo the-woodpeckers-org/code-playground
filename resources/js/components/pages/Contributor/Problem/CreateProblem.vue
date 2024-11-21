@@ -137,7 +137,7 @@ export default {
                     <div class="col-span-full">
                         <label>Testcases</label>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                            <div v-for="testcase in testcases" class="bg-base-200 p-3 rounded-lg h-52">
+                            <div v-for="testcase in testcases" class="bg-base-200 p-3 rounded-lg h-52 lobster">
                                 <div class="h-5 text-end">
                                     <button v-if="testcases.length > 1" type="button"
                                             class="text-white bg-red-500 rounded-full px-1.5"
@@ -179,5 +179,18 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1
+    }
+}
 
+.lobster {
+    animation-name: fade;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
 </style>
