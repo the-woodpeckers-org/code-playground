@@ -10,7 +10,7 @@ import { add, isFirstDayOfMonth } from 'date-fns';
 export default {
     data() {
         return {
-            User: {},
+            User: getAuth(),
             Profile: {},
             selectedSkills: [],
             socials: [],
@@ -57,7 +57,11 @@ export default {
         async onLoad() {
             try {
                 const response = await HTTP.get('/api/getProfileCV');
+                if(response.data.user == null){
+                    this.User = this.getAuth();
+                }
                 this.User = response.data.user;
+                console.log(response.data.user);
                 if (this.User.address != null) {
                     this.User.address = JSON.parse(this.User.address.replace(/'/g, '"'));
                     this.address.province = this.User.address[0];
@@ -91,7 +95,6 @@ export default {
             }
         },
         SaveProfile() {
-            console.log(this.address);
             const data = {
                 user: {
                     id: this.User.id,
@@ -527,3 +530,6 @@ export default {
     animation: rotate 0.5s ease-in-out;
 }
 </style>
+<script setup>
+import {getAuth} from "@/utils/authLocalStorage.js";
+</script>

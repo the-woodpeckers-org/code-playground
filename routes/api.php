@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ProfileCompanyController;
 use App\Http\Controllers\Api\ProfileUserController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\api\JobRecruitmentController;
+use App\Http\Controllers\Api\ProfileViewHistoryController;
 use App\Models\ProfileUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
     Route::post('/auth/send-verification-email', [AuthController::class, 'sendVerificationEmail'])->name('sendVerificationEmail');
     Route::post('/removeHiddenCompany',[HiddenCompanyController::class,'removeHiddenCompany'])->name('removeHiddenCompany');
+    Route::post('/addViewHistory',[ProfileViewHistoryController::class,'addViewHistory'])->name('addViewHistory');
+    Route::get('/getListCompanyView',[ProfileViewHistoryController::class,'getListCompanyView'])->name('getListCompanyView');
 });
 
 

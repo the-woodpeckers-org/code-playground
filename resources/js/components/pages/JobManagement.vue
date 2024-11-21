@@ -18,9 +18,11 @@ export default {
             list_company_hidden: [],
             CompanyHidden: {},
             remove_id: null,
+            list_company_view_history:[],
         };
     },
     async mounted() {
+        await this.getListCompanyView();
         await this.getUser();
         await this.getCvU();
     },
@@ -72,7 +74,19 @@ export default {
                 });
 
         },
-
+        async getListCompanyView()
+        {
+            let _this = this
+            await
+                HTTP.get('/api/getListCompanyView')
+                    .then(response => {
+                        _this.list_company_view_history = response.data.data;
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+        },
         handleSearchSelected(suggestion) {
             this.CompanyHidden = suggestion;
             this.$refs.confirmHiddenCompany.showModal();
@@ -216,14 +230,32 @@ export default {
                         <div class="border-b border-solid border-gray-200 p-4">
                             <h4 class="text-2xl font-semibold">The employer has viewed the profile</h4>
                         </div>
-                        <div class="p-4 text-center"><img alt="Not found employers" loading="lazy" width="453"
+                        <div v-if="list_company_view_history.length">
+                            <div class="p-4">
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    <div v-for="(item, index) in list_company_view_history" :key="index"
+                                        class="bg-gray-100 p-4 rounded">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-12 h-12 rounded-full overflow-hidden">
+                                                <img :src="item.profile_company.user.avatar_url" alt="avatar" class="w-full h-full object-cover">
+                                            </div>
+                                            <div>
+                                                <h5 class="text-lg font-semibold">{{ item.profile_company.user.name}}</h5>
+                                                <p class="text-sm text-gray-500">Number view: {{ item.view_count }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                        <div v-else class="p-4 text-center"><img alt="Not found employers" loading="lazy" width="453"
                                 height="450" decoding="async" data-nimg="1"
                                 class="mx-auto h-auto max-w-[9rem] object-contain" style="color: transparent;"
                                 srcset="https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp 1x, https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp 2x"
                                 src="https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp">
                             <div class="p-4 text-gray-500">
-                                <h5 class="mt-4 text-xl font-bold">Chưa có nhà tuyển dụng nào xem hồ sơ của bạn</h5>
-                                <p class="mt-2">Để thu hút nhiều nhà tuyển dụng, hãy <a title="Hoàn thành TopDev CV"
+                                <h5 class="mt-4 text-xl font-bold">No recruiters have viewed your profile yet.</h5>
+                                <p class="mt-2">To attract more employers, <a title="Hoàn thành TopDev CV"
                                         href="/users/profile"
                                         class="font-weight cursor-pointer font-bold text-primary underline">Hoàn thành
                                         TopDev CV</a> hoặc <a title="Tạo CV" href="/tao-cv-online"
@@ -233,6 +265,8 @@ export default {
                                         việc</span>.</p>
                             </div>
                         </div>
+                      
+
                     </div>
                 </div>
             </div>
@@ -270,8 +304,6 @@ export default {
                 </div>
             </div>
         </dialog>
-
-
     </div>
 </template>
 <style scoped>
