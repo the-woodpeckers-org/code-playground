@@ -36,4 +36,5 @@ class ApplicationController
     {
         return $this->service->cancelApply($id,$request);
     }
+  
 }

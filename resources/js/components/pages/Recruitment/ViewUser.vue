@@ -1,11 +1,21 @@
 <template>
-    <div class="mt-9 grid grid-cols-1 md:grid md:grid-cols-1 lg:flex">
+    <div v-if="this.isBlock">
+      
+        <div class="text-center">
+        <div class="h-10">
+         
+        </div>
+        <i class="fa-regular fa-face-sad-cry text-9xl my-6"></i>
+        <h1 class="text-4xl font-semibold my-6">The current user is hiding information!</h1>
+        <h1 class="text-3xl my-6">You can view CV</h1>
+    </div>
+    </div>
+    <div v-else class="mt-9 grid grid-cols-1 md:grid md:grid-cols-1 lg:flex">
         <div class="mt-3 md:mt-3 lg:m-0 w-full">
             <div class="flex flex-col w-full justify-between">
-
                 <div>
                     <div class="m-3 flex flex-1 justify-between w-full">
-                        <label for="" class="text-sm md:text-md lg:text-2xl  font-bold">Information</label>
+                        <label for="" class="text-sm md:text-md lg:text-2xl font-bold">Information</label>
                         <p></p>
                         <label for=""
                             class="items-center py-1 pl-3 pr-2 mb-3 text-xs font-normal border border-blue-500 rounded-full bg-blue-50">50%</label>
@@ -16,7 +26,6 @@
                                 <img alt="Avatar" loading="lazy" width="160" height="160" decoding="async" data-nimg="1"
                                     class="h-40 w-40 rounded-full" style="color: transparent"
                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s" />
-
                             </div>
                         </div>
                         <div class="flex-auto overflow-hidden">
@@ -73,7 +82,7 @@
                 </div>
             </div>
 
-            
+
         </div>
     </div>
 </template>
@@ -90,15 +99,18 @@ export default {
             skills: [],
             address: [],
             cv: {},
+            isBlock: false,
         }
     },
-    async  mounted() {
-       await this.getUser();
-       await this.addViewHistory();
+    async mounted() {
+        await this.getUser();
+        if (this.isBlock === false) {
+            await this.addViewHistory();
+        }
     },
     methods: {
-        async  getUser() {
-         await  HTTP.get(`/api/getUserCVToView/${this.$route.params.id}`)
+        async getUser() {
+            await HTTP.get(`/api/getUserCVToView/${this.$route.params.id}`)
                 .then(response => {
                     console.log(response.data);
                     this.User = response.data.user;
@@ -112,16 +124,17 @@ export default {
                     }
                     const arrayOfSkills = JSON.parse(this.Profile.skill.replace(/'/g, '"'));
                     this.selectedSkills = arrayOfSkills;
- 
+                    if (response.data.hidden != null) {
+                        this.isBlock = true;
+                    }
                     this.cv = response.data.cv;
                 })
                 .catch(error => {
                     console.log(error);
                 });
         },
-       async addViewHistory()
-        {
-            await  HTTP.post(`/api/addViewHistory`, {profile_user_id : this.Profile.id})
+        async addViewHistory() {
+            await HTTP.post(`/api/addViewHistory`, { profile_user_id: this.Profile.id })
                 .then(response => {
                     console.log(response.data);
                 })

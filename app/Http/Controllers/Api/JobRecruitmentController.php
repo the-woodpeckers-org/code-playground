@@ -39,4 +39,12 @@ class JobRecruitmentController
     {
         return $this->service->getCVsApplied($id);
     }
+    public function refuseCV(Request $request)
+    {
+        return $this->service->refuseCV($request);
+    }
+    public function approvedCV(Request $request)
+    {
+        return $this->service->approvedCV($request);
+    }   
 }

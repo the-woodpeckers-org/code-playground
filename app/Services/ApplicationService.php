@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\TryCatch;
 use App\Models\Application;
 use App\Models\JobRecruitment;
+use App\Utils\Constants\ApplicationStatus;
 
 class ApplicationService
 {
@@ -42,6 +43,7 @@ class ApplicationService
         $application->job_id = $jobId;
         $application->cv_id = $cv_id;
         $application->letter = $request->input('job.letter');
+        $application ->status = ApplicationStatus::PENDING;
         $application->save();
         return response()->json([
             'status' => '200',
@@ -93,4 +95,5 @@ class ApplicationService
             'message' => 'You have not applied for this job'
         ]);
     }
+    
 }

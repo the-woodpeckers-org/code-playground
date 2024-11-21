@@ -97,15 +97,28 @@ class ProfileUserService
     public function getUserCVToView($id)
     {
         try {
-            $user = User::find($id);
-            if ($user != null) {
-                $cv = $user->getCVPrimary()->get();
+            $user_view = User::find($id);
+            $user = Auth::user();
+            $company = ProfileCompany::where('user_id', '=', $user->id)->first();
+            if ($user_view != null) {
+                $cv = $user_view->getCVPrimary()->get();
                 $userProfile = ProfileUser::where('user_id', '=', $id)->first();
+                $hidden = HiddenCompany::where('profile_user_id', '=', $userProfile->id)->where('profile_company_id', '=', $company->id)->first();
+                if ($hidden != null) {
+                    return response()->json([
+                        'status' => '200',
+                        'user' => $user_view,
+                        'cv' => $cv,
+                        'profile' => $userProfile,
+                        'hidden' => true
+                    ]);
+                }
                 return response()->json([
                     'status' => '200',
-                    'user' => $user,
+                    'user' => $user_view,
                     'cv' => $cv,
-                    'profile' => $userProfile
+                    'profile' => $userProfile,
+                    'company'=> $user
                 ]);
             } else {
                 return response()->json([
