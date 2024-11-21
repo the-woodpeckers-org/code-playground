@@ -13,7 +13,7 @@ use App\Http\Controllers\Api\ProfileUserController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\api\JobRecruitmentController;
 use App\Http\Controllers\Api\ProfileViewHistoryController;
-use App\Models\ProfileUser;
+use App\Http\Controllers\Api\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
