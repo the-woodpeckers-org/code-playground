@@ -1,16 +1,34 @@
 <template>
-    <tr>
+    <tr class="h-auto">
         <td>{{ formattedTime }}</td>
         <td> <a :href="`/View-User/${id_user}`" target="_blank">{{ name }}</a></td>
         <td><a :href="linkCV" target="_blank">{{ linkCV }}</a></td>
-        <td><i class="fa-solid fa-trash hover:text-red-500"></i></td>
-        <td></td>
+        <td>{{ status }}</td>
+        
+        <!-- Clickable icon to toggle options -->
+        <td @click="toggleOptions">
+            <i class="fa-solid fa-ellipsis-vertical hover:text-red-500"></i>
+          
+        </td>
+      
     </tr>
+    <div v-if="showOptions" class="absolute bg-white border rounded shadow-lg right-0 top-0">
+                <ul class="text-sm">
+                    <li @click="refuseCV" class="px-4 py-2 hover:bg-red-100 cursor-pointer">Từ chối</li>
+                    <li @click="capproveCV" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Duyệt</li>
+                </ul>
+        </div>
 </template>
 <script>
 export default {
     name: "CvItemApplied",
-    emits: ['delete'],
+    emits: ['refuseCV'],
+    emits: ['approveCV'],
+    data() {
+        return {
+            showOptions: false
+        }
+    },
     props: {
         name: {
             type: String,
@@ -32,6 +50,10 @@ export default {
             type: String,
             default: 'N/A'
         },
+        status: {
+            type: String,
+            default: 'N/A'
+        }
     },
     computed: {
         formattedTime() {
@@ -47,9 +69,18 @@ export default {
         }
     },
     methods: {
-        deleteCv() {
-            this.$emit('delete', this.id_cv);
-        }
+        refuseCV() {
+            this.$emit('refuseCV', this.id_cv);
+            this.showOptions = false;
+        },
+        toggleOptions() {
+            this.showOptions = !this.showOptions;
+        },
+       capproveCV() {
+            // Handle approve logic here
+            this.showOptions = false;
+            emit('approveCV', this.id_cv);
+        },
     }
 }
 </script>

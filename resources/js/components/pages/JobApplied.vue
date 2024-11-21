@@ -47,7 +47,7 @@ export default {
                     <th>Company</th>
                     <th>Location</th>
                     <th>Applied at</th>
-                    <th>Actions</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
