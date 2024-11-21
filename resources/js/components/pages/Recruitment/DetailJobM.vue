@@ -9,19 +9,20 @@
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="CV Applied" />
         <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box">
             <div class="overflow-x-auto" v-if="this.applications.length > 0">
-                <table class="table">
+                <table class="table h-auto">
                     <thead>
                         <tr>
                             <th>Time applied</th>
                             <th>Name</th>
                             <th>Link cv</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <CvItemApplied v-for="(item, index) in this.applications" :key="index"
                             :id_user="item.cv.user.id" :name="item.cv.user.name" :time="item.created_at"
-                            :linkCV="`/cv/show/${item.cv.id}`"></CvItemApplied>
+                            :linkCV="`/cv/show/${item.cv.id}`" @refuseCV="refuseCV" :status="item.status" :id_cv="item.cv.id" @approveCV="approveCV"></CvItemApplied>
                     </tbody>
                 </table>
             </div>
@@ -202,11 +203,31 @@ export default {
         async fetchDataListCV() {
             await HTTP.get(`/api/getCVsApplied/${this.$route.params.id}`).then(response => {
                 this.applications = response.data.applications;
-                console.log(response.data);
+                console.log("cv",response.data);
             }).catch(error => {
                 console.error(error);
             });
-
+        },
+       async refuseCV(id) {
+            await HTTP.post('/api/refuseCV',{job_id: this.jobForm.id , cv_id: id})
+            .then(response => {
+                console.log(response.data);
+                alert("CV refused successfully");
+                this.fetchDataListCV();
+            }).catch(error => {
+                console.error(error);
+            });
+            // alert("Refuse CV "+ id);
+        },
+        async approveCV(id) {
+            await HTTP.post('/api/approvedCV',{job_id: this.jobForm.id , cv_id: id})
+            .then(response => {
+                console.log(response.data);
+                alert("CV approved successfully");
+                this.fetchDataListCV();
+            }).catch(error => {
+                console.error(error);
+            });
         },
     }
 };
