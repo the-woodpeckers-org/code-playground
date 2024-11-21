@@ -63,10 +63,8 @@ class ProblemController
         return $this->service->submitParticipationProblem($request);
     }
 
-    /*
-    #include <iostream>
-    int main() {
-        std::cout << "HH";
+    public function getAllProblemsByContributor(Request $request)
+    {
+        return $this->service->getAllProblemsByContributor($request);
     }
-    */
 }

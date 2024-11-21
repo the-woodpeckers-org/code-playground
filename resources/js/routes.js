@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
 
+const Dashboard = () => import("@/components/pages/Contributor/Dashboard.vue");
 const UserEmailVerification = () => import("@/components/pages/Email/UserEmailVerification.vue");
 const ForgotPassword = () => import("@/components/pages/ForgotPassword.vue");
 const ResetPassword = () => import("@/components/pages/ResetPassword.vue");
@@ -33,7 +34,7 @@ const JobsManagement = () => import("@/components/pages/Recruitment/JobsManageme
 const AddJob = () => import("@/components/pages/Recruitment/AddJob.vue");
 const DetailJobM = () => import("@/components/pages/Recruitment/DetailJobM.vue");
 const ViewUser = () => import("@/components/pages/Recruitment/ViewUser.vue");
-const Dashboard = () => import("@compoents/pages/Contributor/Dashboard.vue");
+
 const routes = [
     {
         path: '/problem/:id',

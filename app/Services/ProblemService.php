@@ -9,6 +9,7 @@ use App\Models\CategoryStat;
 use App\Models\LanguageStat;
 use App\Models\Participation_Attempts;
 use App\Models\Problem;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ProblemService
 {
-    public static function getAll(Request $request)
+    public function getAll(Request $request)
     {
         $result = Problem::query();
         $result->select();
@@ -25,7 +26,7 @@ class ProblemService
         return $result->paginate(16);
     }
 
-    public static function get(Request $request)
+    public function get(Request $request)
     {
         $result = Problem::query();
         $result->where('id', $request['id']);
@@ -33,7 +34,13 @@ class ProblemService
         return $result->first();
     }
 
-    public static function getAllU(Request $request)
+    public function getAllProblemsByContributor(Request $request)
+    {
+        $contributor = User::find($request->user()->id);
+        return Problem::where('created_by', $contributor->id)->paginate(8);
+    }
+
+    public function getAllU(Request $request)
     {
         $result = Problem::query();
         $result->select();
@@ -50,7 +57,7 @@ class ProblemService
         return $result->paginate(16);
     }
 
-    public static function getU(Request $request)
+    public function getU(Request $request)
     {
         $result = Problem::query();
         $result->where('problems.id', $request['id']);
@@ -81,7 +88,7 @@ class ProblemService
         return $result->first();
     }
 
-    public static function submitProblem(SubmitCodeFormRequest $request)
+    public function submitProblem(SubmitCodeFormRequest $request)
     {
         if ($request->user()) {
             $userId = $request->user()->id;
