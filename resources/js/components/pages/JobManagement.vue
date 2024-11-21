@@ -2,15 +2,7 @@
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
 import CvItem2 from '@/components/listItems/CvItem2.vue';
 import { HTTP } from "@/http-common.js";
-import {
-    RouterView,
-    RouterLink,
-    useRouter,
-    useRoute
-}
-    from 'vue-router';
 import SearchDynamic from '@/components/search/SearchDynamic.vue';
-import { set } from 'date-fns';
 export default {
     components: {
         NavigatorCV, CvItem2, SearchDynamic
@@ -25,6 +17,7 @@ export default {
             settingActivce: null,
             list_company_hidden: [],
             CompanyHidden: {},
+            remove_id: null,
         };
     },
     async mounted() {
@@ -39,7 +32,7 @@ export default {
                     .then(response => {
                         _this.User = response.data.user;
                         _this.Profile = response.data.profile;
-                        _this.list_company_hidden = response.data.hiddenCompanies; 
+                        _this.list_company_hidden = response.data.hiddenCompanies;
                         console.log(response.data);
                     })
                     .catch(error => {
@@ -80,22 +73,23 @@ export default {
 
         },
 
-     handleSearchSelected(suggestion) {
-      this.CompanyHidden = suggestion;
-      this.$refs.confirmHiddenCompany.showModal();
-    },
-   async confirmHideCompany() {
+        handleSearchSelected(suggestion) {
+            this.CompanyHidden = suggestion;
+            this.$refs.confirmHiddenCompany.showModal();
+        },
+        async confirmHideCompany() {
 
-    await HTTP.post('/api/addHiddenCompany', {profile_user_id:this.Profile.id ,profile_company_id: this.CompanyHidden.get_company.id })
-        .then(response => {
-            alert('Hidden company successfully');
-        })
-        .catch(error => {
-            console.error(error);
-        });
-      this.closeModal(); 
+            await HTTP.post('/api/addHiddenCompany', { profile_user_id: this.Profile.id, profile_company_id: this.CompanyHidden.get_company.id })
+                .then(response => {
+                    alert('Hidden company successfully');
+                    this.getUser();
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+            this.closeModal();
 
-    },
+        },
         closeModal() {
             this.$refs.confirmHiddenCompany.close();
             this.clearSearchInput();
@@ -103,7 +97,23 @@ export default {
         clearSearchInput() {
             this.$refs.searchDynamic.clearSearch();
         },
+        showModalRemoveHidden(id) {
+        this.remove_id =id;
+        this.$refs.show_confirm_delete_hidden.showModal();
+    },
+    async confirmRemoveHidden() {
+        await HTTP.post('/api/removeHiddenCompany', { profile_user_id: this.Profile.id, profile_company_id: this.remove_id })
+            .then(response => {
+                alert('Remove hidden company successfully');
+                this.getUser();
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
+    },
+   
+    
 }
 </script>
 <template>
@@ -187,9 +197,11 @@ export default {
                                     name</label>
                                 <SearchDynamic ref="searchDynamic" @selected="handleSearchSelected"> </SearchDynamic>
                                 <ul v-if="this.list_company_hidden.length" class="flex flex-wrap gap-2 mt-2">
-                                    <li class="flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-200 rounded" v-for="(item, index) in list_company_hidden" :key="index">
-                                      {{item.user.name}}<svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                            viewBox="0 0 24 24" aria-hidden="true"
+                                    <li class="flex items-center px-2 py-1 text-sm text-gray-600 bg-gray-200 rounded"
+                                        v-for="(item, index) in list_company_hidden" :key="index"
+                                        @click="showModalRemoveHidden(item.id)">
+                                        {{ item.user.name }}<svg stroke="currentColor" fill="currentColor"
+                                            stroke-width="0" viewBox="0 0 24 24" aria-hidden="true"
                                             class="w-5 h-5 ml-1 cursor-pointer hover:text-primary" height="1em"
                                             width="1em" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -242,6 +254,23 @@ export default {
                 </div>
             </div>
         </dialog>
+
+        <dialog class="modal" ref="show_confirm_delete_hidden">
+            <div class="modal-box bg-base-100">
+                <h3 class="text-lg font-semibold">Warning</h3>
+                <p class="py-4 text-base">
+                    Are you sure you want to remove hide the company <strong>{{ this.CompanyHidden.name }}</strong>?
+                </p>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
+                            @click="confirmRemoveHidden">Yes</button>
+                        <button class="btn btn-sm m-1 border">No</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+
 
     </div>
 </template>

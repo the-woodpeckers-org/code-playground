@@ -71,6 +71,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/user', [UserController::class, 'updateUser'])->name('updateUser');
     Route::patch('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
     Route::post('/auth/send-verification-email', [AuthController::class, 'sendVerificationEmail'])->name('sendVerificationEmail');
+    Route::post('/removeHiddenCompany',[HiddenCompanyController::class,'removeHiddenCompany'])->name('removeHiddenCompany');
 });
 
 
