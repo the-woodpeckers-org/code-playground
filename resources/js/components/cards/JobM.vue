@@ -34,11 +34,13 @@ export default {
     },
     methods:{
       async deleteItem(){
-            
           await HTTP.get(`/api/deleteJob/${this.id}`).then((response) => {
               console.log(response);
             });
             this.$emit('delete-item');
+        },
+        confirm_delete_modal() {
+            this.$refs.confirm_delete_modal.showModal();
         }
     }
 }
@@ -57,11 +59,11 @@ export default {
                     </router-link>                  
                 </div>
                 <div class="flex flex-row gap-2 ">
-                    <i class="fa-solid fa-delete-left text-md md:text-xl lg:text-2xl  hover:text-red-500" onclick="confirm_delete_modal.showModal()"></i>
+                    <i class="fa-solid fa-delete-left text-md md:text-xl lg:text-2xl  hover:text-red-500" @click="confirm_delete_modal"></i>
                 </div>
             </div>
         </div>
-     <dialog class="modal" id="confirm_delete_modal">
+     <dialog class="modal" ref="confirm_delete_modal">
         <div class="modal-box bg-base-100">
             <h3 class="text-lg font-semibold">Warning</h3>
             <p class="py-4 text-base">Are you sure you want to delete it?</p>

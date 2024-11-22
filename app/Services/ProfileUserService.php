@@ -21,6 +21,7 @@ class ProfileUserService
 
             if ($user != null) {
                 $profile_user = ProfileUser::where('user_id', '=', $userId)->first();
+                $cvPrimary = $user->getCVPrimary()->first();
                 $listCompanyHidden = HiddenCompany::where('profile_user_id', '=', $profile_user->id)->get();
                 $companyIds = $listCompanyHidden->pluck('profile_company_id');
                 $companies = ProfileCompany::whereIn('id', $companyIds)->with('user')->get();         
@@ -28,6 +29,7 @@ class ProfileUserService
                     return response()->json([
                         'status' => '200',
                         'user' => $user,
+                        'cv' => $cvPrimary,
                         'profile' => 'null'
                     ]);
                 } else {
@@ -35,7 +37,9 @@ class ProfileUserService
                         'status' => '200',
                         'user' => $user,
                         'profile' => $profile_user,
+                        'cv' => $cvPrimary,
                         'hiddenCompanies' => $companies
+                        
                     ]);
                 }
             } else {

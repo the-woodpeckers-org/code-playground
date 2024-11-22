@@ -8,19 +8,16 @@
     ];
     let numOfSections = 0;
     let defaultCv;
-    let loadedCV = false;
 
+    //Retrieve CV and theme saved to local storage
     let savedCv;
     let usedTheme;
     try {
         savedCv = JSON.parse(localStorage.getItem("CV"));
         usedTheme = JSON.parse(localStorage.getItem("theme"));
     } catch (error) {
-        console.log(error); c
+        console.log(error);
     }
-    const idCV = window.location.href.split('/').pop();
-    const pdfShow = window.location.href.includes('cv/show') ;
-    const token = localStorage.getItem('accessToken');
 
     //Display CV on page
     function setContent(cvContent) {
@@ -30,7 +27,6 @@
         createNewElementButton();
         makeSortable();
         console.log("content updated");
-        loadedCV = true;
     }
 
     //Traversing JSON data, returns CV data as string of formatted HTML in an array
@@ -93,6 +89,7 @@
             $(this).toggle();
         });
     }
+
     //GENERATE HTML FOR ENTIRE SECTIONS
 
     //Arguments are objects from JSON data, whether default CV or CV saved in local storage
@@ -118,8 +115,9 @@
         let dataTable2 = convertTableToHtml(section.table2);
         numOfSections++;
         return `<section class="section info deletable sortable break-after" id="section${numOfSections}">
-            <h2 contenteditable="true" class="text-center info-name">${section.name
-            }</h2><div class="row flex flex-grow ">${dataTable1 + dataTable2}</div></section>`;
+            <h2 class="text-center info-name">${
+                section.name
+            }</h2><div class="row">${dataTable1 + dataTable2}</div></section>`;
     }
 
     //Generate HTML for tables in info sections, returns a string of HTML
@@ -129,11 +127,11 @@
             let newRow = createInfoItem(table.label[j], table.content[j]);
             //Table has only 1 row, open and close div tag
             if (table.label.length === 1) {
-                dataTable += `<div class="flex-1 extendable info-table ${table.class} sortable-list w-1/2">${newRow}</div>`;
+                dataTable += `<div class="col-12 col-sm-6 extendable info-table ${table.class} sortable-list">${newRow}</div>`;
             }
             //First row of the table, open div tag, no closing div tag
             else if (j === 0) {
-                dataTable += `<div class="flex-1 extendable info-table ${table.class} sortable-list w-1/2">${newRow}`;
+                dataTable += `<div class="col-12 col-sm-6 extendable info-table ${table.class} sortable-list">${newRow}`;
             }
             //Last row of the table, no open div tag, close div tag
             else if (j === table.label.length - 1) {
@@ -157,7 +155,7 @@
         }
         numOfSections++;
         return `<section class="break-after section single-block deletable extendable sortable-list sortable" id="section${numOfSections}">
-    <h3 contenteditable="true" class="section-heading single-block-title">${section.title}</h3>${htmlList}</section>`;
+<h3 class="section-heading single-block-title">${section.title}</h3>${htmlList}</section>`;
     }
 
     //Generate HTML for listing sections
@@ -180,8 +178,9 @@
         }
         numOfSections++;
         return `<section class="section break-after listing deletable extendable sortable-list sortable" id="section${numOfSections}">
-    <h3 contenteditable="true" class="listing-title section-heading">${section.title}</h3>${htmlList}</section>`;
+    <h3 class="listing-title section-heading">${section.title}</h3>${htmlList}</section>`;
     }
+
     //Generate HTML for three column sections
     function threeColToHtml(
         section = {
@@ -196,17 +195,18 @@
         }
         numOfSections++;
         return `<section break-after class="section three-column deletable sortable" id="section${numOfSections}">
-            <h3 contenteditable="true" class=" section-heading three-col-title">${section.title}</h3>
-            <div class=" three-column-list flex content-start flex-wrap extendable sortable-list">${htmlList}</div></section>`;
+        <h3 class="section-heading three-col-title">${section.title}</h3>
+        <div class="row three-column-list d-flex align-content-start flex-wrap extendable pl-2 pr-2 sortable-list">${htmlList}</div></section>`;
     }
+
     /* Generate HTML for elements within sections
-    Default parameters are used when a new element is created*/
+Default parameters are used when a new element is created*/
 
     //Create HTML for item in Info section
     function createInfoItem(label = "Label", content = "Information") {
-        return `<div class=" deletable sortable">
-        <div class= " info-label text-left " contenteditable="true">${label}</div>
-        <div contenteditable="true" class="info-content">${content}</div>
+        return `<div class="row deletable sortable">
+        <div class="col-12 col-md-4 text-left info-label">${label}</div>
+        <div class="col-12 col-md-8 info-content">${content}</div>
     </div>`;
     }
 
@@ -215,22 +215,22 @@
         listing = {
             date: "Date",
             location: "Location",
-            pition: "Position",
+            position: "Position",
             description: "Description",
         }
     ) {
-        return `<div class="flex listing-row deletable sortable">
-    <div class="flex-none w-32 h-16 m-2">
-        <h5 contenteditable="true" class="listing-date">${listing.date}</h5>
+        return `<div class="row listing-row deletable sortable">
+    <div class="col-md-2 listing-date-col">
+        <h5 class="listing-date">${listing.date}</h5>
     </div>
-    <div class="flex-none w-32 h-16 m-2">
-        <h5 contenteditable="true" class="listing-location">${listing.location}</h5>
+    <div class="col-md-2 listing-location-col">
+        <h5 class="listing-location">${listing.location}</h5>
     </div>
-    <div class="flex-grow h-16">
-        <h5 contenteditable="true" class="listing-position">
+    <div class="col-md-8 listing-content-col">
+        <h5 class="listing-position">
         ${listing.position}
         </h5>
-        <div contenteditable="true" class="listing-description">
+        <div class="listing-description">
         ${listing.description}
         </div>
     </div>
@@ -239,22 +239,21 @@
 
     //Create HTML for item in Single Block section
     function createSingleBlockItem(textContent = "Description") {
-        return `<div class="flex flex-wrap deletable sortable"><div class="flex-1"><div contenteditable="true" class="single-block-content">${textContent}</div></div></div>
-    </div>`;
+        return `<div class="row deletable sortable"><div class="col"><div class="single-block-content">${textContent}</div></div></div>
+</div>`;
     }
 
     //Create HTML for item in Three Column section
     function createThreeColumnItem(item = "New Item") {
-        return `<div class="w-full md:w-1/3 sortable deletable"><ul><li contenteditable="true" class="three-col-item">${item}</li></ul></div>`;
+        return `<div class="col-12 col-md-4  deletable"><ul><li class="three-col-item">${item}</li></ul></div>`;
     }
-
 
     /* Adding a new section to CV */
 
     //Toggle buttons to add new section
     function toggleSectionBtns() {
         $("#close-section").toggle();
-        $("#add-section-btn").toggle();
+        $("#add-section-btn").toggle();  
         $("#new-section-buttons").toggle("blind", "swing", 300);
     }
 
@@ -404,19 +403,10 @@
     /* Make sections and elements sortable with JQuery UI */
 
     //Add button to sort elements on mouse event
-    $(document).on("mouseenter", ".sortable", function () {
-        //Add sortable handle only if is not already appended to the element
-        if (!$(this).find("sortable-btn").length) {
-            $(this).append(
-                `<button class="sortable-btn"><i class="fas fa-bars"></i></button>`
-            );
-        }
-    });
+ 
 
     //Remove sortable handle on mouse leave
-    $(document).on("mouseleave", ".sortable", function () {
-        $(this).find(".sortable-btn").remove();
-    });
+
 
     //JQuery UI sortable function with options
     function makeSortable() {
@@ -550,10 +540,8 @@
             );
         });
 
-        //Save to local storage when save button is clicked
         $("#save-btn").click(function () {
             let currentCv = saveCvToArray();
-
             localStorage.setItem("CV", JSON.stringify(currentCv));
             localStorage.setItem("theme", JSON.stringify(usedTheme));
             //Display confirmation alert when saved
@@ -561,22 +549,6 @@
             setTimeout(function () {
                 $("#save-alert").hide("blind", 100);
             }, 8000);
-
-            const saveCV = localStorage.getItem('CV');
-            if (saveCV) {
-                const content = JSON.stringify(currentCv);
-                try {
-                    const response = axios.post('/api/saveCV', { content, idCV: idCV }, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-                    console.log(response);
-                } catch (error) {
-                    console.error("Error saving CV:", error);
-                    $("#error-alert").text("Failed to save CV. Please try again.").show();
-                };
-            }
         });
 
         $("#save-alert .close").click(function () {
@@ -589,9 +561,9 @@
             changeTheme("theme-default");
             localStorage.clear();
         });
-        if (pdfShow) {
-            if (idCV) {
-                fetch(`/api/getCV/${idCV}`, { headers: { 'Authorization': `Bearer ${token}` } })
+        const token = localStorage.getItem('accessToken');
+        //Fetch default CV data and display as formatted HTML
+        fetch(`/api/getProfileCV`, { headers: { 'Authorization': `Bearer ${token}` } })
                     .then(response => {
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -599,7 +571,7 @@
                         return response.json();
                     })
                     .then(data => {
-                        const cleanedJsonString = data.content.replace(/\\n/g, '').replace(/\s+/g, ' ');
+                        const cleanedJsonString = data.cv.content.replace(/\\n/g, '').replace(/\s+/g, ' ');
                         const jsonObject = JSON.parse(cleanedJsonString);
                         setContent(jsonObject);
                         toggleUnprinted();
@@ -610,31 +582,5 @@
                     .catch(error => {
                         console.error('Fetch error:', error);
                     });
-            } else {
-                console.error('No CV ID found in URL.');
-            }
-        }
-        else {
-            if (idCV) {
-                fetch(`/api/getCV/${idCV}`, { headers: { 'Authorization': `Bearer ${token}` } })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        const cleanedJsonString = data.content.replace(/\\n/g, '').replace(/\s+/g, ' ');
-                        const jsonObject = JSON.parse(cleanedJsonString);
-                        setContent(jsonObject);
-
-                    })
-                    .catch(error => {
-                        console.error('Fetch error:', error);
-                    });
-            } else {
-                console.error('No CV ID found in URL.');
-            }
-        }
     });
 })();
