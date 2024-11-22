@@ -4,11 +4,9 @@
         <td> <a :href="`/View-User/${id_user}`" target="_blank">{{ name }}</a></td>
         <td><a :href="linkCV" target="_blank">{{ linkCV }}</a></td>
         <td>{{ status }}</td>
-        
         <!-- Clickable icon to toggle options -->
         <td @click="toggleOptions">
             <i class="fa-solid fa-ellipsis-vertical hover:text-red-500"></i>
-          
         </td>
       
     </tr>

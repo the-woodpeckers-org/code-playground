@@ -1,6 +1,6 @@
 <template lang="">
         <tr >
-            <td>{{ title}}</td>
+            <td><a :href="`/Job-detail/${url}`" target="_blank" rel="noopener noreferrer" class="underline">{{ title }}</a></td>
             <td>{{ company }}</td>
             <td>{{ location }}</td>
             <td>{{ formattedDate}}</td>
@@ -18,7 +18,8 @@ export default {
         company: String,
         location: String,
         applied_at: String,
-        status: String
+        status: String,
+        url: String,
     },
     computed: {
         formattedDate() {

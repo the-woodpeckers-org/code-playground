@@ -100,11 +100,6 @@ export default {
             Name CV
             <input type="text" class="grow required" v-model="title" placeholder="Daisy" />
           </label>
-          <select class="select select-info w-full m-3">
-            <option disabled selected>Select language</option>
-            <option>English</option>
-            <option>Japanese</option>
-          </select>
           <div class="flex justify-end w-full mt-2 ml-5">
             <button class="btn btn-neutral m-2">Close</button>
             <button @click="newCV" class="btn btn-primary m-2" type="submit">Begin</button>

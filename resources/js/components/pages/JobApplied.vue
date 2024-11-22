@@ -51,7 +51,7 @@ export default {
                 </tr>
             </thead>
             <tbody>
-                <JobAppliedItem v-for="job in data" :key="job.job.user.id" :title="job.job.title" :company="job.job.user.name" :location="job.job.location" :applied_at="job.created_at" :status="job.status"></JobAppliedItem>
+                <JobAppliedItem v-for="job in data" :key="job.job.user.id" :title="job.job.title" :company="job.job.user.name" :location="job.job.location" :applied_at="job.created_at" :status="job.status" :url="job.job.id"></JobAppliedItem>
             </tbody>
         </table>
     </div>
