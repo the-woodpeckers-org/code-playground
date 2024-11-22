@@ -43,8 +43,10 @@ class ApplicationService
         $application->user_id = $user_company->id;
         $application->job_id = $jobId;
         $application->cv_id = $cv_id;
-        $application->letter = $request->input('job.letter');
+        $application->letter = $letter;
         $application ->status = ApplicationStatus::PENDING;
+        // send mail to company here! 
+        // add templates plese Deepthesaint
         $application->save();
         return response()->json([
             'status' => '200',

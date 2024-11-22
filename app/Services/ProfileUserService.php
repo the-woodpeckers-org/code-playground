@@ -105,7 +105,7 @@ class ProfileUserService
             $user = Auth::user();
             $company = ProfileCompany::where('user_id', '=', $user->id)->first();
             if ($user_view != null) {
-                $cv = $user_view->getCVPrimary()->get();
+                $cv = $user_view->getCVPrimary()->first();
                 $userProfile = ProfileUser::where('user_id', '=', $id)->first();
                 $hidden = HiddenCompany::where('profile_user_id', '=', $userProfile->id)->where('profile_company_id', '=', $company->id)->first();
                 if ($hidden != null) {

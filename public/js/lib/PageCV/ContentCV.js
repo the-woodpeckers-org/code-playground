@@ -563,24 +563,51 @@ Default parameters are used when a new element is created*/
         });
         const token = localStorage.getItem('accessToken');
         //Fetch default CV data and display as formatted HTML
-        fetch(`/api/getProfileCV`, { headers: { 'Authorization': `Bearer ${token}` } })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        const cleanedJsonString = data.cv.content.replace(/\\n/g, '').replace(/\s+/g, ' ');
-                        const jsonObject = JSON.parse(cleanedJsonString);
-                        setContent(jsonObject);
-                        toggleUnprinted();
-                        removeAlldeletableHover();
-                        makeAnchors("printable");
-                        makeSortable();
-                    })
-                    .catch(error => {
-                        console.error('Fetch error:', error);
-                    });
+        const url =  window.location.href;
+        if (url.includes('/View-User')) {
+            const userId = url.split('/').pop();
+            console.log(userId);  // lấy ra được profile_user_id
+            fetch('/api/getUserCVToView/' + userId, { headers: { 'Authorization': `Bearer ${token}` } })
+            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                const cleanedJsonString = data.cv.content.replace(/\\n/g, '').replace(/\s+/g, ' ');
+                                const jsonObject = JSON.parse(cleanedJsonString);
+                                setContent(jsonObject);
+                                toggleUnprinted();
+                                removeAlldeletableHover();
+                                makeAnchors("printable");
+                                makeSortable();
+                            })
+                            .catch(error => {
+                                console.error('Fetch error:', error);
+                            });
+        }
+        else{
+
+            fetch(`/api/getProfileCV`, { headers: { 'Authorization': `Bearer ${token}` } })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const cleanedJsonString = data.cv.content.replace(/\\n/g, '').replace(/\s+/g, ' ');
+                            const jsonObject = JSON.parse(cleanedJsonString);
+                            setContent(jsonObject);
+                            toggleUnprinted();
+                            removeAlldeletableHover();
+                            makeAnchors("printable");
+                            makeSortable();
+                        })
+                        .catch(error => {
+                            console.error('Fetch error:', error);
+                        });
+        }
     });
 })();

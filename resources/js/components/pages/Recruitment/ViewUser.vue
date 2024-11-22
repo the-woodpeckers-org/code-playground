@@ -80,15 +80,18 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
+    <ContentCV></ContentCV>
 </template>
 <script>
 import { HTTP } from '@/http-common.js'
+import ContentCV from '@/components/cvs/ContentCV.vue'
 export default {
     name: "view-user-applied",
+    components: {
+        ContentCV
+    },
     data() {
         return {
             User: {},
@@ -97,7 +100,6 @@ export default {
             selectedSkills: [],
             skills: [],
             address: [],
-            cv: {},
             isBlock: false,
         }
     },
@@ -126,7 +128,6 @@ export default {
                     if (response.data.hidden != null) {
                         this.isBlock = true;
                     }
-                    this.cv = response.data.cv;
                 })
                 .catch(error => {
                     console.log(error);
