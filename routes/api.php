@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\api\JobRecruitmentController;
 use App\Http\Controllers\Api\ProfileViewHistoryController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\Management\UserMController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -79,7 +80,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/approvedCV',[JobRecruitmentController::class,'approvedCV'])->name('approvedCV');
     Route::post('/refuseCV',[JobRecruitmentController::class,'refuseCV'])->name('refuseCV');
     Route::get('/getUserCVToView/{id}',[ProfileUserController::class,'getUserCVToView'])->name('getUserCVToView');
-    
+    Route::get('/getAllUser',[UserMController::class,'getAllUser'])->name('getAllUser');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');

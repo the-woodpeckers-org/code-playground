@@ -35,6 +35,11 @@ const AddJob = () => import("@/components/pages/Recruitment/AddJob.vue");
 const DetailJobM = () => import("@/components/pages/Recruitment/DetailJobM.vue");
 const ViewUser = () => import("@/components/pages/Recruitment/ViewUser.vue");
 
+const AdminDashboard = () => import("@/components/pages/Admin/DashboardAdmin.vue");
+const AdminHome = () => import("@/components/pages/Admin/HomeAdmin.vue");
+const AdminProfile = () => import("@/components/pages/Admin/ProfileAdmin.vue");
+const AdminUserM = () => import("@/components/pages/Admin/UserAdmin.vue");
+
 const routes = [
     {
         path: '/problem/:id',
@@ -210,6 +215,28 @@ const routes = [
         path: '/contributor/dashboard',
         component: Dashboard,
         name: 'contributor-dashboard'
+    },
+    {
+        path: '/admin/dashboard',
+        component: AdminDashboard,
+        name: 'admin-dashboard',
+        children:[
+            {
+                name: 'home',
+                path: '/admin/home',
+                component: AdminHome
+              },
+              {
+                name: 'profile',
+                path: '/admin/profile',
+                component: AdminProfile
+              },
+              {
+                name: 'user-management',
+                path: '/admin/user',
+                component: AdminUserM
+              }
+        ]
     }
 ]
 
