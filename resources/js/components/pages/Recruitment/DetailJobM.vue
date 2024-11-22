@@ -26,7 +26,7 @@
                     </tbody>
                 </table>
             </div>
-            <div v-else>No applications yet</div>
+            <div v-else class="mt-3 text-center"><p class="font-semibold text-2xl">No applications yet</p></div>
         </div>
 
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Edit job" checked="checked" />

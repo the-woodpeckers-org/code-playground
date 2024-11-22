@@ -95,8 +95,7 @@ export default {
       } else {
         const query = this.searchQuery.toLowerCase();
         this.filteredSuggestions = this.jobList.filter((item) =>
-          item.title.toLowerCase().includes(query) ||
-          (item.company && item.company.toLowerCase().includes(query))
+          item.title.toLowerCase().includes(query)
         );
       }
     },
