@@ -3,7 +3,6 @@
       
         <div class="text-center">
         <div class="h-10">
-         
         </div>
         <i class="fa-regular fa-face-sad-cry text-9xl my-6"></i>
         <h1 class="text-4xl font-semibold my-6">The current user is hiding information!</h1>

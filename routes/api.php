@@ -76,12 +76,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/addViewHistory',[ProfileViewHistoryController::class,'addViewHistory'])->name('addViewHistory');
     Route::get('/getListCompanyView',[ProfileViewHistoryController::class,'getListCompanyView'])->name('getListCompanyView');
     Route::get('/contributor/problems', [ProblemController::class, 'getAllProblemsByContributor'])->name('getAllProblemsByContributor');
+    Route::post('/approvedCV',[JobRecruitmentController::class,'approvedCV'])->name('approvedCV');
+    Route::post('/refuseCV',[JobRecruitmentController::class,'refuseCV'])->name('refuseCV');
+    Route::get('/getUserCVToView/{id}',[ProfileUserController::class,'getUserCVToView'])->name('getUserCVToView');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');
 
 Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
-Route::get('/getUserCVToView/{id}',[ProfileUserController::class,'getUserCVToView'])->name('getUserCVToView');
 // Password reset
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('auth.resetPassword');

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\TryCatch;
 use App\Models\Application;
 use App\Models\JobRecruitment;
+use App\Models\ProfileUser;
 use App\Utils\Constants\ApplicationStatus;
 
 class ApplicationService
@@ -20,7 +21,7 @@ class ApplicationService
         $listJobs = $user->getJobApplied()->with('job.user')->get()->pluck('job'); 
         return response()->json([
             'status' => '200',
-            'data' => $listJobs
+            'data' => $listJobs,
         ]);
     }   
    
@@ -54,11 +55,17 @@ class ApplicationService
     {
         $user = $request->user();
         $cvs = $user->getYourCV()->get();
-        $applications = Application::whereIn('cv_id', $cvs->pluck('id'))->with('job.user')->get()->pluck('job');
-        return response()->json([
-            'status' => '200',
-            'applications' => $applications
-        ]);
+        $applications = Application::whereIn('cv_id', $cvs->pluck('id'))
+        ->with('job.user')
+        ->get();
+
+        $jobs = $applications->map(function ($application) {
+            return $application->job;
+        });
+    return response()->json([
+        'status' => '200',
+        'data' => $applications, 
+    ]);
     }
 
     public function isApplied($id, Request $request)

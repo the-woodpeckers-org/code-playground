@@ -79,7 +79,7 @@ export default {
        capproveCV() {
             // Handle approve logic here
             this.showOptions = false;
-            emit('approveCV', this.id_cv);
+            this.$emit('approveCV', this.id_cv);
         },
     }
 }
