@@ -5,7 +5,7 @@
 
             <div class="flex flex-col items-center space-y-4">
                 <img alt="Avatar" class="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s"
+                    :src="userCompany.avatar_url"
                     loading="lazy" />
                 <input type="file" class="file-input file-input-bordered w-full max-w-xs" />
             </div>
@@ -15,6 +15,11 @@
                     Name
                     <input type="text" class="input input-bordered mt-1 p-2 rounded-md" placeholder="Company name"
                         v-model="userCompany.name" />
+                </label>
+                <label class="flex flex-col text-sm font-medium text-gray-700">
+                   Code company
+                    <input type="number" class="input input-bordered mt-1 p-2 rounded-md" placeholder="Company code"
+                        v-model="profileCompany.codeCompany" />
                 </label>
                 <label class="flex flex-col text-sm font-medium text-gray-700">
                     Email

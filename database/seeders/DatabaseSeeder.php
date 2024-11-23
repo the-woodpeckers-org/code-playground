@@ -15,7 +15,7 @@ use App\Models\ProfileCompany;
 use App\Models\ProfileUser;
 use App\Models\Testcase;
 use App\Models\User;
-
+use App\Utils\Constants\Role;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -57,8 +57,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'tuyendung@gmail.com',
             'password' => Hash::make('123'),
             'address' => null,
-            'role' => 1,
+            'role' => Role::Company,
             'phone_number' => '0123456789',
+            'status' => 'approved',
             'gender' => 'None',
             'birthday' => '2003-01-01'
         ];
@@ -412,6 +413,7 @@ class DatabaseSeeder extends Seeder
         $application->user_id = 1;
         $application->job_id = $job_rece->id;
         $application->cv_id = 1;
+        $application->status = 'pending';
         $application->applied_at = Carbon::now();
         $application->save();
 
@@ -431,6 +433,7 @@ class DatabaseSeeder extends Seeder
         $profile->phone = "0123456789";
         $profile->address = "Ho Chi Minh City";
         $profile->skill = "PHP, Laravel, ReactJS";
+        $profile->codeCompany = "123";
         $profile->save();
 
         $languages = [

@@ -1,6 +1,6 @@
 <script>
 import { HTTP } from "@/http-common.js";
-import Job from "../cards/Job.vue";
+import Job from "@/components/cards/Job.vue";
 export default {
     name: "ViewCompany",
     components: {
@@ -24,12 +24,12 @@ export default {
             let _this = this;
             await HTTP.get(`/api/getProfileCompany/${this.$route.params.id}`)
                 .then(response => {
+                    console.log(response.data);
                     _this.profileCompany = response.data.data.profileCompany;
                     _this.userCompany = response.data.data.userCompany;
                     _this.jobRecruitments = response.data.data.jobRecruitments;
                     _this.skills = JSON.parse(_this.profileCompany.skill.replace(/'/g, '"'));
                     _this.address =JSON.parse(_this.profileCompany.address.replace(/'/g, '"'));
-                    console.log(_this.skills);
                 })
                 .catch(e => {
                     console.log(e);
@@ -43,20 +43,18 @@ export default {
     <div class="grid grid-cols-3 gap-6">
         <div class="relative col-span-2">
             <div id="company-header-section" class="pt-6">
-                <div class="relative"><img alt="HEINEKEN Vietnam" loading="lazy" width="832" height="250"
+                <div class="relative"><img alt="" loading="lazy" width="832" height="250"
                         decoding="async" data-nimg="1" class="h-[250px] w-full max-w-full rounded bg-white object-cover"
                         style="color: transparent;"
-                        srcset="https://salt.topdev.vn/tu4EGpNODfjK75d0IMcdJBwUu2xFMZcGZpeCqBkX-x4/fit/1080/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIzLzA3LzI1L1RvcERldi0wNWMzODFhMDg2ODhlMTczNTQ5YWRlZWYzMmIxM2IyMS0xNjkwMjUwNzY3LmpwZw 1x, https://salt.topdev.vn/b32n0RDzJinX8I99VfcNDcrKrnl4TC5Y4tPniNBl1Xo/fit/1920/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIzLzA3LzI1L1RvcERldi0wNWMzODFhMDg2ODhlMTczNTQ5YWRlZWYzMmIxM2IyMS0xNjkwMjUwNzY3LmpwZw 2x"
-                        src="https://salt.topdev.vn/b32n0RDzJinX8I99VfcNDcrKrnl4TC5Y4tPniNBl1Xo/fit/1920/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIzLzA3LzI1L1RvcERldi0wNWMzODFhMDg2ODhlMTczNTQ5YWRlZWYzMmIxM2IyMS0xNjkwMjUwNzY3LmpwZw">
+                        :src="userCompany.avatar_url">
                     <div>
                         <div id="common-information"
                             class="w-full absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-24 px-8">
                             <div class="flex gap-4 rounded bg-white p-4">
-                                <div><img alt="HEINEKEN Vietnam" loading="lazy" width="160" height="112"
+                                <div><img alt="" loading="lazy" width="160" height="112"
                                         decoding="async" data-nimg="1" class="h-28 w-40 rounded-xl object-contain p-2"
                                         style="color: transparent;"
-                                        srcset="https://salt.topdev.vn/YxHsQOf4D4Q3JJ4kNLf9mNwNYB1Xw722KaH1yBUP6Ug/fit/256/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIzLzA3LzI1L1RvcERldi1Mb2dvLUhOSy0tLVZOLS0tVnktSG8tVGh1eS0xNjkwMjUwNzY2LnBuZw 1x, https://salt.topdev.vn/Ru6dFW-fIBb_E1E7iYOlIs_JFcAHZuPA8s0qQ4rOIWM/fit/384/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIzLzA3LzI1L1RvcERldi1Mb2dvLUhOSy0tLVZOLS0tVnktSG8tVGh1eS0xNjkwMjUwNzY2LnBuZw 2x"
-                                        src="https://salt.topdev.vn/Ru6dFW-fIBb_E1E7iYOlIs_JFcAHZuPA8s0qQ4rOIWM/fit/384/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIzLzA3LzI1L1RvcERldi1Mb2dvLUhOSy0tLVZOLS0tVnktSG8tVGh1eS0xNjkwMjUwNzY2LnBuZw">
+                                        :src="userCompany.avatar_url">
                                 </div>
                                 <div class="flex-1">
                                     <h1 class="text-lg font-bold">{{ this.userCompany.name }}</h1>
@@ -114,7 +112,7 @@ export default {
 
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
                     <div class="grid grid-cols-1 gap-4 overflow-x-auto" style="height: 500px;">
-                        <Job v-for="job in jobRecruitments" :key="job.id" :title="job.title" :skill="job.skill" :url="job.id"/>
+                        <Job v-for="job in jobRecruitments" :key="job.id" :description="job.description" :title="job.title" :companyName="this.userCompany.name" :imgUrl="this.userCompany.avatar_url" :salary="job.salary" :skill="job.skill" :url="job.id"/>
                     </div>
                 </div>
             </div>
@@ -150,11 +148,7 @@ export default {
                         </div>
                         <hr>
                         <div class="p-4 pt-0">
-                            <div class="mt-4">
-                                <h3 class="font-bold">Website</h3><a
-                                    class="mt-2 inline-block break-all text-blue-dark hover:underline" target="_blank"
-                                    href="http://heineken-vietnam.com.vn/">http://heineken-vietnam.com.vn/</a>
-                            </div>
+                            
                             <div class="mt-4">
                                 <h3 class="font-bold">Address</h3>
                                 <ul class="mt-2">

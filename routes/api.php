@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\api\JobRecruitmentController;
 use App\Http\Controllers\Api\ProfileViewHistoryController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\Management\UserMController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,7 +31,7 @@ Route::get('/problem/get', [ProblemController::class, 'getProblem'])->name('prob
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-
+Route::post('/registerCompany ', [AuthController::class, 'registerCompany'])->name('auth.registerCompany');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/contest/get', [ContestController::class, 'get'])->name('contest.get');
     Route::get('/problem/u', [ProblemController::class, 'getProblemsU'])->name('problem.getProblemsU');
@@ -76,12 +77,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/addViewHistory',[ProfileViewHistoryController::class,'addViewHistory'])->name('addViewHistory');
     Route::get('/getListCompanyView',[ProfileViewHistoryController::class,'getListCompanyView'])->name('getListCompanyView');
     Route::get('/contributor/problems', [ProblemController::class, 'getAllProblemsByContributor'])->name('getAllProblemsByContributor');
+    Route::post('/approvedCV',[JobRecruitmentController::class,'approvedCV'])->name('approvedCV');
+    Route::post('/refuseCV',[JobRecruitmentController::class,'refuseCV'])->name('refuseCV');
+    Route::get('/getUserCVToView/{id}',[ProfileUserController::class,'getUserCVToView'])->name('getUserCVToView');
+    Route::get('/getAllUser',[UserMController::class,'getAllUser'])->name('getAllUser');
+    
+    Route::get('/getListSubscribe',[UserMController::class,'getListSubscribe'])->name('getListSubscribe');
+    Route::get('/approvedSubscribeCompany/{id}',[UserMController::class,'approvedSubscribeCompany'])->name('approvedSubscribeCompany');
+    Route::get('/rejectSubscribeCompany/{id}',[UserMController::class,'rejectSubscribeCompany'])->name('rejectSubscribeCompany');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');
 
 Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
-Route::get('/getUserCVToView/{id}',[ProfileUserController::class,'getUserCVToView'])->name('getUserCVToView');
 // Password reset
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('auth.resetPassword');

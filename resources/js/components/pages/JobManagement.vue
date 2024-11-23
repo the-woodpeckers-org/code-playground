@@ -142,8 +142,7 @@ export default {
                                 <div class="stat-figure text-secondary ">
                                     <div class="avatar">
                                         <div class="w-16 md:w-20 lg:w-20 rounded-full h-auto">
-                                            <img
-                                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s" />
+                                            <img :src="this.User.avatar_url"/>
                                         </div>
                                     </div>
                                 </div>

@@ -5,9 +5,6 @@ export default {
         title: {
             default: 'N/A'
         },
-        description: {
-            default: 'N/A'
-        },
         imgUrl: {
             default: 'N/A'
         },
@@ -23,8 +20,7 @@ export default {
         },
         salary:{
             type: String,
-            default: 'N/A'
-            
+            default: 'N/A'       
         }
     }
 }
@@ -36,8 +32,7 @@ export default {
             <img class="w-20 h-20 object-center object-contain" :src="imgUrl" loading="lazy">
             <h1 class="text-xl font-semibold">{{ title }}</h1>
             <p class="font-semibold">{{ companyName }}</p>
-            <p>{{ description }}</p>
-            <p>{{ url }}</p>
+            <p class="font-semibold">{{ salary === 0 ? 'Negotiable' : salary }}</p>
             <p class="font-semibold">Available until: {{ date }}</p>
         </div>
     </router-link>

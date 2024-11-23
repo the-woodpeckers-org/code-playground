@@ -11,8 +11,12 @@ use App\Mail\MailVerifyEmailNotify;
 use App\Models\EmailVerifyToken;
 use App\Models\Password_Reset_Tokens;
 use App\Models\User;
+use App\Models\ProfileCompany;
+use App\Utils\Constants\Status;
 use App\Utils\Token;
+use App\Utils\Constants\Role;
 use Carbon\Carbon;
+use Faker\Provider\ar_EG\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -27,6 +31,7 @@ class AuthService
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+            
             $token = $user->createToken('token')->plainTextToken;
             return ['user' => $user, 'token' => $token];
         }
@@ -138,5 +143,35 @@ class AuthService
     public function getAuthenticatedUser(Request $request)
     {
         return User::where('id', $request->user()->id)->first();
+    }
+    
+    public function registerCompany(Request $request)
+    {
+        try {
+            $user = new User();
+            $user->name = $request->input('company_name');
+            $user->password = bcrypt($request->input('password'));
+            $user->email = $request->input('email');
+            $user->address = $request->input('company_address');
+            $user->role = Role::Company;
+            $user->phone_number = $request->input('phone_number');
+            $user->status= Status::PENDING;
+            $user->save();
+
+            $company = new ProfileCompany();
+            $company->user_id = $user->id;
+            $company->description= ' ';
+            $company->phone	 = $request->input('phone_number');
+            $company->general_information = ' ';
+            $company->address = $request->input('company_address');
+            $company->codeCompany = $request->input('company_code');
+            $company->email = $request->input('email');
+            $company->skill =' ';
+            $company->save();
+            return ['message' => 'Company register successfully!','status'=> '200'];
+        }
+        catch(\Exception $exception){
+            throw new BadRequestHttpException($exception->getMessage());
+        }
     }
 }

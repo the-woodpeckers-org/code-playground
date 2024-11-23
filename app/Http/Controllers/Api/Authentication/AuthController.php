@@ -63,4 +63,8 @@ class AuthController
     {
         return response()->json($this->service->getAuthenticatedUser($request));
     }
+    public function registerCompany(Request $request)
+    {
+        return response()->json($this->service->registerCompany($request));
+    }
 }

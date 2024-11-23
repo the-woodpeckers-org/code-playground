@@ -21,6 +21,7 @@ class ProfileUserService
 
             if ($user != null) {
                 $profile_user = ProfileUser::where('user_id', '=', $userId)->first();
+                $cvPrimary = $user->getCVPrimary()->first();
                 $listCompanyHidden = HiddenCompany::where('profile_user_id', '=', $profile_user->id)->get();
                 $companyIds = $listCompanyHidden->pluck('profile_company_id');
                 $companies = ProfileCompany::whereIn('id', $companyIds)->with('user')->get();         
@@ -28,6 +29,7 @@ class ProfileUserService
                     return response()->json([
                         'status' => '200',
                         'user' => $user,
+                        'cv' => $cvPrimary,
                         'profile' => 'null'
                     ]);
                 } else {
@@ -35,7 +37,9 @@ class ProfileUserService
                         'status' => '200',
                         'user' => $user,
                         'profile' => $profile_user,
+                        'cv' => $cvPrimary,
                         'hiddenCompanies' => $companies
+                        
                     ]);
                 }
             } else {
@@ -101,7 +105,7 @@ class ProfileUserService
             $user = Auth::user();
             $company = ProfileCompany::where('user_id', '=', $user->id)->first();
             if ($user_view != null) {
-                $cv = $user_view->getCVPrimary()->get();
+                $cv = $user_view->getCVPrimary()->first();
                 $userProfile = ProfileUser::where('user_id', '=', $id)->first();
                 $hidden = HiddenCompany::where('profile_user_id', '=', $userProfile->id)->where('profile_company_id', '=', $company->id)->first();
                 if ($hidden != null) {

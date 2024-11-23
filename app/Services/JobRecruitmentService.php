@@ -82,10 +82,12 @@ class JobRecruitmentService
     {
         $job = JobRecruitment::find($id);
         $profileCompany = $job->user->getCompany()->first();
+        $userCompany = $profileCompany->user;
         return response()->json([
             'status' => '200',
             'data' => JobRecruitment::find($id),
-            'profileCompany' => $profileCompany
+            'profileCompany' => $profileCompany,
+            'userCompany' => $userCompany
         ]);
     }
     public function createJob(Request $request)

@@ -2,6 +2,7 @@
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
 import LocationPicker from '@/components/locationPicker/LocationPicker.vue';
 import { HTTP } from "@/http-common.js";
+import ContentCV from '@/components/cvs/ContentCV.vue';
 import {
     RouterView,
     RouterLink
@@ -24,11 +25,12 @@ export default {
                 ward: null,
                 name: null
             },
+            cv: {},
             rate: 0,
             
         };
     },
-    components: { NavigatorCV, LocationPicker },
+    components: { NavigatorCV, LocationPicker,ContentCV },
     methods: {
         showProfile() {
             profile_modal.showModal();
@@ -60,8 +62,9 @@ export default {
                 if(response.data.user == null){
                     this.User = this.getAuth();
                 }
+                this.cv = response.data.cv;         
                 this.User = response.data.user;
-                console.log(response.data.user);
+           //     console.log(response.data.user);
                 if (this.User.address != null) {
                     this.User.address = JSON.parse(this.User.address.replace(/'/g, '"'));
                     this.address.province = this.User.address[0];
@@ -111,7 +114,7 @@ export default {
             };
             HTTP.post('/api/updateProfileCV', data)
                 .then(response => {
-                    console.log(response.data);
+            //        console.log(response.data);
                     alert("Save successfully");
                     this.rateCalculate();
                 })
@@ -156,6 +159,7 @@ export default {
     async mounted() {
         await this.onLoad();
         this.rateCalculate();
+        console.log("cv ne", this.cv.content);
     },
     updated() {
         console.log(this.User);
@@ -511,8 +515,12 @@ export default {
                 </div>
             </div>
         </div>
-
-
+        <div v-if="!this.cv">
+            <div class="bg-base-100 w-full text-center">
+                <p class="text-2xl">go create CV and setting primary cv</p>
+            </div>
+        </div>
+        <ContentCV v-else></ContentCV>
     </div>
 </template>
 <style scoped>

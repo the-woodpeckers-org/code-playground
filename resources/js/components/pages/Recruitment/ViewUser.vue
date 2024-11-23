@@ -3,7 +3,6 @@
       
         <div class="text-center">
         <div class="h-10">
-         
         </div>
         <i class="fa-regular fa-face-sad-cry text-9xl my-6"></i>
         <h1 class="text-4xl font-semibold my-6">The current user is hiding information!</h1>
@@ -81,15 +80,18 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
+    <ContentCV></ContentCV>
 </template>
 <script>
 import { HTTP } from '@/http-common.js'
+import ContentCV from '@/components/cvs/ContentCV.vue'
 export default {
     name: "view-user-applied",
+    components: {
+        ContentCV
+    },
     data() {
         return {
             User: {},
@@ -98,7 +100,6 @@ export default {
             selectedSkills: [],
             skills: [],
             address: [],
-            cv: {},
             isBlock: false,
         }
     },
@@ -127,7 +128,6 @@ export default {
                     if (response.data.hidden != null) {
                         this.isBlock = true;
                     }
-                    this.cv = response.data.cv;
                 })
                 .catch(error => {
                     console.log(error);

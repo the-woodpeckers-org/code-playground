@@ -1,25 +1,25 @@
 <script>
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue'
 import JobAppliedItem from '@/components/listItems/JobAppliedItem.vue'
-import {HTTP} from '@/http-common.js'
+import { HTTP } from '@/http-common.js'
 export default {
 
     components: {
-        NavigatorCV,JobAppliedItem
+        NavigatorCV, JobAppliedItem
     },
-    
+
     data: function () {
         return {
-            jobs: Array
+            data: Array
         }
     },
     methods: {
-       async getJobsApplied() {
-          await  HTTP.get('/api/getCV_Applied')
+        async getJobsApplied() {
+            await HTTP.get('/api/getCV_Applied')
                 .then(response => {
-                    console.log(response.data.applications);    
-                    this.jobs = response.data.applications;
-                    console.log(this.jobs);
+                    this.data = response.data.data;
+                    console.log(response.data);
+                    console.log("job ne",this.data);
                 })
                 .catch(e => {
                     console.log(e)
@@ -27,7 +27,7 @@ export default {
         },
     },
     async mounted() {
-      await this.getJobsApplied();
+        await this.getJobsApplied();
     }
 }
 </script>
@@ -40,7 +40,7 @@ export default {
     </div>
     <div class="mt-10 sm:mt-20 md:mt-20 lg:clear-both"></div>
     <div class="overflow-x-auto">
-        <table class="table">
+        <table class="table w-full">
             <thead>
                 <tr class="bg-base-200 text-zinc-900 text-md md:text-lg lg:text-xl font-semibold">
                     <th>Job Title</th>
@@ -51,12 +51,12 @@ export default {
                 </tr>
             </thead>
             <tbody>
-                <JobAppliedItem v-for="job in jobs" :key="job.id" :title="job.title" :company="job.user.name" :location="job.location" :applied_at="job.created_at"></JobAppliedItem>
+                <JobAppliedItem v-for="job in data" :key="job.job.user.id" :title="job.job.title" :company="job.job.user.name" :location="job.job.location" :applied_at="job.created_at" :status="job.status" :url="job.job.id"></JobAppliedItem>
             </tbody>
         </table>
     </div>
 </div>
 </template>
 <style lang="">
-    
+
 </style>
