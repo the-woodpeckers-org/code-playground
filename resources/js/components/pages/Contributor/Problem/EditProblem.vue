@@ -20,13 +20,10 @@ export default {
                 'PHP',
                 'JavaScript',
             ],
-            testcases: [
-                {
-                    id: '00000000',
-                    stdin: '',
-                    output: ''
-                }
-            ]
+            testcases: [],
+            title: '',
+            description: '',
+            difficulty: ''
         }
     },
     mounted() {
@@ -42,7 +39,6 @@ export default {
         addLanguageTag(newTag) {
             const tag = {
                 name: newTag,
-                code: newTag == 'C' ? '1' : newTag == 'C++' ? '2' : newTag == 'Python' ? '3' : newTag == 'PHP' ? '4' : '5'
             };
             this.currentLanguages.push(tag);
             this.languages.push(tag);
@@ -56,16 +52,16 @@ export default {
         },
         addTestcase() {
             this.testcases.push({
-                id: (Math.random() + 1).toString(36).substring(7),
+                cid: (Math.random() + 1).toString(36).substring(7),
                 stdin: '',
-                output: ''
+                expected_output: ''
             });
             console.log(this.testcases);
         },
-        removeTestcase(id) {
+        removeTestcase(cid) {
             console.log(this.testcases);
             this.testcases = this.testcases.filter((item) => {
-                return item.id != id;
+                return item.cid != cid;
             });
         },
         async getCategories() {
@@ -80,9 +76,32 @@ export default {
         },
         async getProblem(id) {
             this.isShowed = true;
+            let _this = this;
             await HTTP.get('api/problem/get?id=' + id)
                 .then((response) => {
                     console.log(response);
+                    _this.currentLanguages = response.data.languages.map((item) => {
+                        _this.addLanguageTag(item.name);
+                        return item.name;
+                    });
+
+                    _this.currentCategories = response.data.categories;
+                    _this.title = response.data.title;
+                    _this.description = response.data.description;
+
+                    let rte = new RichTextEditor("#text-editor-et");
+                    rte.setHTMLCode(_this.description);
+
+                    _this.difficulty = response.data.difficulty;
+                    response.data.testcases.forEach((item) => {
+                        _this.testcases.push({
+                            cid: (Math.random() + 1).toString(36).substring(7),
+                            id: item.id,
+                            stdin: item.stdin,
+                            expected_output: item.expected_output
+                        })
+                    });
+
                 })
                 .catch((err) => {
                     console.log(err);
@@ -103,11 +122,11 @@ export default {
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <div>
                         <label>Title</label>
-                        <input class="rounded-lg border border-gray-400 h-8 w-full">
+                        <input v-model="title" class="rounded-lg border border-gray-400 h-8 w-full">
                     </div>
                     <div>
                         <label>Difficulty</label>
-                        <select class="rounded-lg border border-gray-400 h-8 w-full">
+                        <select v-model="difficulty" class="rounded-lg border border-gray-400 h-8 w-full">
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
                             <option value="Hard">Hard</option>
@@ -147,18 +166,18 @@ export default {
                     <div class="col-span-full">
                         <label>Testcases</label>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                            <div v-for="testcase in testcases" class="bg-base-200 p-3 rounded-lg h-52 lobster">
+                            <div v-for="(testcase, index) in testcases" class="bg-base-200 p-3 rounded-lg h-52 lobster">
                                 <div class="h-5 text-end">
                                     <button v-if="testcases.length > 1" type="button"
                                             class="text-white bg-red-500 rounded-full px-1.5"
-                                            @click="removeTestcase(testcase.id)"><i class="fa-solid fa-x"></i>
+                                            @click="removeTestcase(testcase.cid)"><i class="fa-solid fa-x"></i>
                                     </button>
                                 </div>
                                 <br>
                                 <label>Input (stdin format) <span class="font-bold">[NOT TESTED]</span></label>
-                                <input class="rounded-lg border border-gray-400 h-8 w-full">
+                                <input v-model="testcases[index].stdin" class="rounded-lg border border-gray-400 h-8 w-full">
                                 <label>Expected output <span class="font-bold">[NOT TESTED]</span></label>
-                                <input class="rounded-lg border border-gray-400 h-8 w-full">
+                                <input v-model="testcases[index].expected_output" class="rounded-lg border border-gray-400 h-8 w-full">
                                 <div class="text-end">
                                     <button class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">Test with
                                         code
