@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\TryCatch;
 use App\Models\HiddenCompany;
 use App\Models\ProfileCompany;
+
 class ProfileUserService
 {
     public function getProfileCV(Request $request)
@@ -18,30 +19,26 @@ class ProfileUserService
         try {
             $userId = $request->user()->id;
             $user = User::find($userId);
-
             if ($user != null) {
                 $profile_user = ProfileUser::where('user_id', '=', $userId)->first();
-                $cvPrimary = $user->getCVPrimary()->first();
-                $listCompanyHidden = HiddenCompany::where('profile_user_id', '=', $profile_user->id)->get();
-                $companyIds = $listCompanyHidden->pluck('profile_company_id');
-                $companies = ProfileCompany::whereIn('id', $companyIds)->with('user')->get();         
                 if ($profile_user === null) {
                     return response()->json([
                         'status' => '200',
                         'user' => $user,
-                        'cv' => $cvPrimary,
-                        'profile' => 'null'
-                    ]);
-                } else {
-                    return response()->json([
-                        'status' => '200',
-                        'user' => $user,
-                        'profile' => $profile_user,
-                        'cv' => $cvPrimary,
-                        'hiddenCompanies' => $companies
-                        
+                        'profile' => 'null',
                     ]);
                 }
+                $cvPrimary = $user->getCVPrimary()->first();
+                $listCompanyHidden = HiddenCompany::where('profile_user_id', '=', $profile_user->id)->get();
+                $companyIds = $listCompanyHidden->pluck('profile_company_id');
+                $companies = ProfileCompany::whereIn('id', $companyIds)->with('user')->get();
+                return response()->json([
+                    'status' => '200',
+                    'user' => $user,
+                    'profile' => $profile_user,
+                    'cv' => $cvPrimary,
+                    'hiddenCompanies' => $companies
+                ]);
             } else {
                 return response()->json([
                     'status' => '404',
@@ -95,6 +92,7 @@ class ProfileUserService
         $user->save();
         return response()->json([
             'status' => 200,
+            'active' => $user->is_active,
             'message' => 'Success',
         ]);
     }
@@ -122,7 +120,7 @@ class ProfileUserService
                     'user' => $user_view,
                     'cv' => $cv,
                     'profile' => $userProfile,
-                    'company'=> $user
+                    'company' => $user
                 ]);
             } else {
                 return response()->json([

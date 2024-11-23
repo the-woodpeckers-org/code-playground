@@ -1,6 +1,6 @@
 <template >
-<div class="p-2 bg-gray-100 rounded-lg shadow-md">
-        <h3 class="text-2xl font-bold text-left py-4">User Management</h3>
+    <div class="p-2 bg-gray-100 rounded-lg shadow-md">
+        <h3 class="text-2xl font-bold text-left py-4">Contributor Review</h3>
         <div class="flex flex-wrap gap-2">
             <div class="flex items-center w-full sm:w-1/2 md:w-1/2">
                 <label class="form-control w-full max-w-xs">
@@ -9,10 +9,7 @@
                     </div>
                     <select class="select select-bordered">
                         <option value="" disabled selected>Pick one</option>
-                        <option value="User">User</option>
                         <option value="User">Contributor</option>
-                        <option value="1">Employer</option>
-                        <option value="All">All</option>
                     </select>
                 </label>
             </div>
@@ -24,57 +21,40 @@
                     <th>Company</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th>Code Company</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                    <CompanyItemM v-for="(item, index) in filteredSubscribe" :key="index" @approved="approved" @reject="reject" :id="item.id" :status="item.status" :user="item.name" :email="item.email" :phone="item.phone_number" :codeCompany="item.get_company.codeCompany"></CompanyItemM>
+                    <ContributorItemM v-for="(item, index) in filteredSubscribe" :key="index" @approved="approved" @reject="reject" :id="item.id" :status="item.status" :user="item.name" :email="item.email" :phone="item.phone_number"></ContributorItemM>
             </tbody>
         </table>
     </div>
 </template>
 <script>
 import {HTTP} from "@/http-common.js";
-import CompanyItemM from "@/components/listItems/Management/CompanyItemM.vue";
+import ContributorItemM from "@/components/listItems/Management/ContributorItemM.vue";
 export default {
-    name : "SubscribeAdmin",
+    name : "SubscribeContributor",
     components: {
-        CompanyItemM
+        ContributorItemM
     },
-    data(){
+    data() {
         return {
-            listSubscribe: [],
+            subscribe: [],
             filteredSubscribe: [],
-            openId: null,
-            selectedRole: ""
         };
     },
-    mounted(){
-        this.getSubscribe();
-    },
-    methods: {
-        getSubscribe(){
-            HTTP.get("/api/getListSubscribe")
-            .then(response => {
-                this.listSubscribe = response.data.data;
-                this.filteredSubscribe = response.data.data;
-                console.log(this.listSubscribe);
-            })
-            .catch(e => {
-                console.log(e);
+    methods:{
+        async getSubscribe(){
+           await HTTP.get('/api/getListSubscribe').then(response => {
+                this.subscribe = response.data.contributors;
+                this.filteredSubscribe = this.subscribe;
+                console.log(this.subscribe);
             });
         },
-        filterUsers(){
-            if(this.selectedRole === "All"){
-                this.filteredSubscribe = this.listSubscribe;
-            }else{
-                this.filteredSubscribe = this.listSubscribe.filter(user => user.role === this.selectedRole);
-            }
-        },
         async approved(id){
-            await HTTP.get(`/api/approvedSubscribeCompany/${id}`)
+            await HTTP.get(`/api/approvedSubscribe/${id}`)
                 .then(response => {
                     this.getSubscribe();
                 })
@@ -83,7 +63,7 @@ export default {
                 });
         },
         async reject(id){
-          await HTTP.get(`/api/rejectSubscribeCompany/${id}`)
+          await HTTP.get(`/api/rejectSubscribe/${id}`)
             .then(response => {
                 this.getSubscribe();
             })
@@ -91,6 +71,9 @@ export default {
                 console.log(e);
             });
         },
+    },
+    async mounted(){
+        await this.getSubscribe();
     }
 }
 </script>

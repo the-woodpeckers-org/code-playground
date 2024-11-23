@@ -39,7 +39,8 @@ const AdminDashboard = () => import("@/components/pages/Admin/DashboardAdmin.vue
 const AdminHome = () => import("@/components/pages/Admin/HomeAdmin.vue");
 const AdminProfile = () => import("@/components/pages/Admin/ProfileAdmin.vue");
 const AdminUserM = () => import("@/components/pages/Admin/UserAdmin.vue");
-const AdminSubscribeM = () => import("@/components/pages/Admin/SubscribeAdmin.vue");
+const SubscribeCompanyM = () => import("@/components/pages/Admin/SubscribeCompanyM.vue");
+const SubscribeContributorM = () => import("@/components/pages/Admin/SubscribeContributorM.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -237,9 +238,14 @@ const routes = [
                 component: AdminUserM
               },
               {
-                name: 'subscribe-management',
-                path: '/admin/subscribe',
-                component: AdminSubscribeM
+                name: 'subscribe-company-management',
+                path: '/admin/subscribe/company',
+                component: SubscribeCompanyM
+              },
+              {
+                name: 'subscribe-contributor-management',
+                path: '/admin/subscribe/contributor',
+                component: SubscribeContributorM
               }
         ]
     }
