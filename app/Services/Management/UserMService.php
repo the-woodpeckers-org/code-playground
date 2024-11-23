@@ -5,6 +5,7 @@ namespace App\Services\Management;
 use App\Http\Requests\UpdateUserFormRequest;
 use App\Models\User;
 use App\Utils\Constants\Status;
+use App\Utils\Constants\Role;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
@@ -37,17 +38,19 @@ class UserMService
     
     public function getListSubscribe()
     {
-        $users = User::all()->whereNotNull('status')->where('role','company');
-        $profileCompanies = $users->map(function ($user) {
+        $usersCompany = User::all()->whereNotNull('status')->where('role',Role::Company);
+        $contributors = User::all()->whereNotNull('status')->where('role',Role::Contributor);
+        $profileCompanies = $usersCompany->map(function ($user) {
             return $user->getCompany;
         });
         return response()->json([
             'status' => '200',
-            'data' => $users,
+            'companies' => $usersCompany,
+            'contributors' => $contributors,
         ]);
     }
 
-    public function approvedSubscribeCompany($id)
+    public function approvedSubscribe($id)
     {
         $user = User::find($id);
         if ($user) {
@@ -65,7 +68,7 @@ class UserMService
         }
     }
 
-    public function rejectSubscribeCompany($id)
+    public function rejectSubscribe($id)
     {
         $user = User::find($id);
         if ($user) {
