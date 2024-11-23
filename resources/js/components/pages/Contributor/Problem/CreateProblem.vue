@@ -21,9 +21,9 @@ export default {
             ],
             testcases: [
                 {
-                    id: '00000000',
+                    cid: '00000000',
                     stdin: '',
-                    output: ''
+                    expected_output: ''
                 }
             ]
         }
@@ -55,16 +55,16 @@ export default {
         },
         addTestcase() {
             this.testcases.push({
-                id: (Math.random() + 1).toString(36).substring(7),
+                cid: (Math.random() + 1).toString(36).substring(7),
                 stdin: '',
-                output: ''
+                expected_output: ''
             });
             console.log(this.testcases);
         },
-        removeTestcase(id) {
+        removeTestcase(cid) {
             console.log(this.testcases);
             this.testcases = this.testcases.filter((item) => {
-                return item.id != id;
+                return item.cid != cid;
             });
         },
         async getCategories() {
@@ -141,7 +141,7 @@ export default {
                                 <div class="h-5 text-end">
                                     <button v-if="testcases.length > 1" type="button"
                                             class="text-white bg-red-500 rounded-full px-1.5"
-                                            @click="removeTestcase(testcase.id)"><i class="fa-solid fa-x"></i>
+                                            @click="removeTestcase(testcase.cid)"><i class="fa-solid fa-x"></i>
                                     </button>
                                 </div>
                                 <br>
