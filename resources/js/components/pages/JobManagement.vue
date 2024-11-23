@@ -1,3 +1,6 @@
+<script setup>
+import {getAuth} from "@/utils/authLocalStorage.js";
+</script>
 <script>
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
 import CvItem2 from '@/components/listItems/CvItem2.vue';
@@ -9,7 +12,7 @@ export default {
     },
     data() {
         return {
-            User: {},
+            User: getAuth(),
             Profile: {},
             isLoading: false,
             listItemcvs: Array,
@@ -32,10 +35,16 @@ export default {
             await
                 HTTP.get('/api/getProfileCV')
                     .then(response => {
-                        _this.User = response.data.user;
-                        _this.Profile = response.data.profile;
-                        _this.list_company_hidden = response.data.hiddenCompanies;
                         console.log(response.data);
+                        if(response.data.profile!='null'){
+                            _this.Profile = response.data.profile;
+                            _this.list_company_hidden = response.data.hiddenCompanies;
+                            _this.User = response.data.user;
+                        }
+                        else{
+                            alert('Please complete your profile');
+                            this.$router.push('/ProfileCV');
+                        }
                     })
                     .catch(error => {
                         console.error(error);
@@ -68,6 +77,7 @@ export default {
             let _this = this;
             await HTTP.post('/api/setActiveProfile')
                 .then(response => {
+                    console.log(response.data);
                 })
                 .catch(error => {
                     console.error(error);
@@ -142,7 +152,7 @@ export default {
                                 <div class="stat-figure text-secondary ">
                                     <div class="avatar">
                                         <div class="w-16 md:w-20 lg:w-20 rounded-full h-auto">
-                                            <img :src="this.User.avatar_url"/>
+                                            <img :src="this.User.avatar_url?this.User.avatar_url: 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'"/>
                                         </div>
                                     </div>
                                 </div>

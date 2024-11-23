@@ -83,8 +83,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getAllUser',[UserMController::class,'getAllUser'])->name('getAllUser');
     
     Route::get('/getListSubscribe',[UserMController::class,'getListSubscribe'])->name('getListSubscribe');
-    Route::get('/approvedSubscribeCompany/{id}',[UserMController::class,'approvedSubscribeCompany'])->name('approvedSubscribeCompany');
-    Route::get('/rejectSubscribeCompany/{id}',[UserMController::class,'rejectSubscribeCompany'])->name('rejectSubscribeCompany');
+    Route::get('/approvedSubscribe/{id}',[UserMController::class,'approvedSubscribe'])->name('approvedSubscribe');
+    Route::get('/rejectSubscribe/{id}',[UserMController::class,'rejectSubscribe'])->name('rejectSubscribe');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');

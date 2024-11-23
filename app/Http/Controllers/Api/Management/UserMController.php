@@ -36,12 +36,12 @@ class UserMController
     {
         return $this->service->getListSubscribe();
     }
-    public function approvedSubscribeCompany($id)
+    public function approvedSubscribe($id)
     {
-        return $this->service->approvedSubscribeCompany($id);
+        return $this->service->approvedSubscribe($id);
     }
-    public function rejectSubscribeCompany($id)
+    public function rejectSubscribe($id)
     {
-        return $this->service->rejectSubscribeCompany($id);
+        return $this->service->rejectSubscribe($id);
     }
 }
