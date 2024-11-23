@@ -2,12 +2,17 @@
 import {HTTP} from "@/http-common.js";
 import CreateProblem from "@/components/pages/Contributor/Problem/CreateProblem.vue";
 import Toast from "@/components/messages/Toast.vue";
+import EditProblem from "@/components/pages/Contributor/Problem/EditProblem.vue";
+import {ref} from "vue";
+
+const editProblemRef = ref(null);
 
 export default {
     name: "ProblemManager",
-    components: {Toast, CreateProblem},
+    components: {EditProblem, Toast, CreateProblem},
     data: () => {
         return {
+            editingProblemId: null,
             currentPage: '1',
             problems: Array,
             links: Array,
@@ -33,9 +38,6 @@ export default {
                     console.log(err);
                 })
         },
-        async getProblem(id) {
-
-        },
         showConfirmDelete(deletingId, deletingTitle) {
             this.isDeletedSomeRecord = false;
             this.deletingId = deletingId;
@@ -47,9 +49,11 @@ export default {
             document.getElementById("modal_delete").classList.remove('modal-open')
         },
         async confirmDelete() {
-            let _this = this;
             this.isDeletedSomeRecord = true;
             this.confirmNo();
+        },
+        showEdit(id) {
+            this.$refs.editProblemRef.getProblem(id);
         }
     }
 }
@@ -61,6 +65,7 @@ export default {
         <p class="text-lg">Your problems on The CodePlayground</p>
         <div class="w-full">
             <CreateProblem></CreateProblem>
+            <EditProblem ref="editProblemRef"></EditProblem>
         </div>
         <div class="overflow-x-auto bg-base-100 rounded-xl">
             <table class="table table-lg">
@@ -81,7 +86,7 @@ export default {
                     <td>{{ problem.difficulty }}</td>
                     <td>{{ problem.acceptance_rate }}</td>
                     <td>
-                        <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg">Edit</button>
+                        <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="showEdit(problem.id)">Edit</button>
                         <button class="bg-red-300 px-3 py-1 mx-1 hover:bg-red-500 rounded-lg"
                                 @click="showConfirmDelete(problem.id, problem.title)">Delete
                         </button>

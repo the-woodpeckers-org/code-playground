@@ -10,15 +10,15 @@ class CodeExecutionService
     public function execute($language, $code, $input, $problem_id)
     {
         switch ($language) {
-            case Language::where('name', 'C++')->first()->id:
+            case 1:
                 return $this->executeCpp($code, $input, $problem_id);
-            case Language::where('name', 'C')->first()->id:
+            case 2:
                 return $this->executeC($code, $input, $problem_id);
-            case Language::where('name', 'Python')->first()->id:
+            case 3:
                 return $this->executePython($code, $input, $problem_id);
-            case Language::where('name', 'PHP')->first()->id:
+            case 4:
                 return $this->executePhp($code, $input, $problem_id);
-            case Language::where('name', 'JavaScript')->first()->id:
+            case 5:
                 return $this->executeJavascript($code, $input, $problem_id);
             default:
                 break;
@@ -30,7 +30,7 @@ class CodeExecutionService
     {
         $results = array();
         $testcases = Testcase::where('problem_id', $problem_id)->get();
-        $random = substr(md5(mt_rand()), 0, 7);
+        $random = substr(md5(mt_rand()), 0, 15);
         $filePath = "program\\" . $random . ".cpp";
         $programFile = fopen($filePath, "w+");
 
