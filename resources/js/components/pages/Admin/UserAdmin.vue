@@ -10,7 +10,8 @@
                     <select class="select select-bordered" v-model="selectedRole" @change="filterUsers">
                         <option value="" disabled selected>Pick one</option>
                         <option value="User">User</option>
-                        <option value="1">Employer</option>
+                        <option value="contributor">Contributor</option>
+                        <option value="company">Company</option>
                         <option value="All">All</option>
                     </select>
                 </label>
