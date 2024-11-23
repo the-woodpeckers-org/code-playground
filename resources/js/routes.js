@@ -39,7 +39,7 @@ const AdminDashboard = () => import("@/components/pages/Admin/DashboardAdmin.vue
 const AdminHome = () => import("@/components/pages/Admin/HomeAdmin.vue");
 const AdminProfile = () => import("@/components/pages/Admin/ProfileAdmin.vue");
 const AdminUserM = () => import("@/components/pages/Admin/UserAdmin.vue");
-
+const AdminSubscribeM = () => import("@/components/pages/Admin/SubscribeAdmin.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -222,12 +222,12 @@ const routes = [
         name: 'admin-dashboard',
         children:[
             {
-                name: 'home',
+                name: 'homeAdmin',
                 path: '/admin/home',
                 component: AdminHome
               },
               {
-                name: 'profile',
+                name: 'profileAdmin',
                 path: '/admin/profile',
                 component: AdminProfile
               },
@@ -235,6 +235,11 @@ const routes = [
                 name: 'user-management',
                 path: '/admin/user',
                 component: AdminUserM
+              },
+              {
+                name: 'subscribe-management',
+                path: '/admin/subscribe',
+                component: AdminSubscribeM
               }
         ]
     }

@@ -47,47 +47,58 @@ export default {
 </script>
 
 <template>
-    <form v-if="!auth">
-        <div class="w-full pt-16">
-            <div class="border w-4/12 rounded-xl p-6 bg-gradient-to-tl from-cyan-100 to-purple-100 mx-auto">
-                <label class="font-bold">Email</label>
-                <input v-model="input_email" type="email" class="border rounded p-1 w-full my-2 mb-2"
-                       placeholder="example@email.com">
-                <label class="font-bold">Password</label>
-                <input v-model="input_password" type="password" class="border rounded p-1 w-full my-2 mb-2">
-                <div v-if="login_failed || error_email || error_password" class="alert alert-warning">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <div>
-                        <h1 class="text-base" v-if="error_email">{{ error_email }}</h1>
-                        <h1 class="text-base" v-if="error_password">{{ error_password }}</h1>
-                        <h1 class="text-base" v-if="login_failed">Incorrect email or password!</h1>
+    <div role="tablist" class="tabs tabs-bordered grid grid-cols-2 bg-white">
+        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Candidates" checked/>
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <form v-if="!auth">
+                <div class="w-full ">
+                    <div class="border w-4/12 rounded-xl p-6 bg-gradient-to-tl from-cyan-100 to-purple-100 mx-auto">
+                        <label class="font-bold">Email</label>
+                        <input v-model="input_email" type="email" class="border rounded p-1 w-full my-2 mb-2"
+                               placeholder="example@email.com">
+                        <label class="font-bold">Password</label>
+                        <input v-model="input_password" type="password" class="border rounded p-1 w-full my-2 mb-2">
+                        <div v-if="login_failed || error_email || error_password" class="alert alert-warning">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div>
+                                <h1 class="text-base" v-if="error_email">{{ error_email }}</h1>
+                                <h1 class="text-base" v-if="error_password">{{ error_password }}</h1>
+                                <h1 class="text-base" v-if="login_failed">Incorrect email or password!</h1>
+                            </div>
+                        </div>
+                        <p class="my-2"><span><router-link class="link text-cyan-600 font-semibold"
+                                                           to="/forgot-password">I forgot my password!</router-link></span></p>
+                        <input class="p-1 me-3" type="checkbox">
+                        <label class="my-auto">Keep me logged in</label>
+                        <div class="text-center w-full my-3">
+                            <button type="button"
+                                    class="rounded bg-amber-300 hover:bg-amber-600 p-2 border-amber-500 border transition"
+                                    @click="login">Login
+                            </button>
+                        </div>
+        
+                        <p class="my-2 py-2">Don't have an account? <span><router-link class="text-blue-400 font-bold"
+                                                                                       to="/register">Sign up now!</router-link></span>
+                        </p>
+                        <p class="border-t my-2 py-2 text-center">Or login with</p>
+                        <div class="w-full">
+                            <p class="text-center text-4xl">
+                                <router-link><i class="fa-brands fa-github hover:scale-125 transition mx-2"></i></router-link>
+                                <router-link><i class="fa-brands fa-google hover:scale-125 transition mx-2"></i></router-link>
+                                <router-link><i class="fa-brands fa-facebook hover:scale-125 transition mx-2"></i></router-link>
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <p class="my-2"><span><router-link class="link text-cyan-600 font-semibold"
-                                                   to="/forgot-password">I forgot my password!</router-link></span></p>
-                <input class="p-1 me-3" type="checkbox">
-                <label class="my-auto">Keep me logged in</label>
-                <div class="text-center w-full my-3">
-                    <button type="button"
-                            class="rounded bg-amber-300 hover:bg-amber-600 p-2 border-amber-500 border transition"
-                            @click="login">Login
-                    </button>
-                </div>
-
-                <p class="my-2 py-2">Don't have an account? <span><router-link class="text-blue-400 font-bold"
-                                                                               to="/register">Sign up now!</router-link></span>
-                </p>
-                <p class="border-t my-2 py-2 text-center">Or login with</p>
-                <div class="w-full">
-                    <p class="text-center text-4xl">
-                        <router-link><i class="fa-brands fa-github hover:scale-125 transition mx-2"></i></router-link>
-                        <router-link><i class="fa-brands fa-google hover:scale-125 transition mx-2"></i></router-link>
-                        <router-link><i class="fa-brands fa-facebook hover:scale-125 transition mx-2"></i></router-link>
-                    </p>
-                </div>
-            </div>
+            </form>
         </div>
-    </form>
+        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Employer" checked="checked" />
+        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <form v-if="!$root.auth">
+                
+            </form>
+        </div>
+    </div>
 </template>
 
 <style scoped>

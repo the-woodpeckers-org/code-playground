@@ -65,7 +65,7 @@
      async loadItems() {
             await HTTP.get('/api/getCompaniesU')
                 .then(response => {
-                  console.log(response.data);
+                  console.log("cong ty: ",response.data);
                     this.allItems = response.data.data;
                 })
                 .catch(error => {

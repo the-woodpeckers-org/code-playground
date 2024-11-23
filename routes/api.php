@@ -31,7 +31,7 @@ Route::get('/problem/get', [ProblemController::class, 'getProblem'])->name('prob
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-
+Route::post('/registerCompany ', [AuthController::class, 'registerCompany'])->name('auth.registerCompany');
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/contest/get', [ContestController::class, 'get'])->name('contest.get');
     Route::get('/problem/u', [ProblemController::class, 'getProblemsU'])->name('problem.getProblemsU');
@@ -81,6 +81,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/refuseCV',[JobRecruitmentController::class,'refuseCV'])->name('refuseCV');
     Route::get('/getUserCVToView/{id}',[ProfileUserController::class,'getUserCVToView'])->name('getUserCVToView');
     Route::get('/getAllUser',[UserMController::class,'getAllUser'])->name('getAllUser');
+    
+    Route::get('/getListSubscribe',[UserMController::class,'getListSubscribe'])->name('getListSubscribe');
+    Route::get('/approvedSubscribeCompany/{id}',[UserMController::class,'approvedSubscribeCompany'])->name('approvedSubscribeCompany');
+    Route::get('/rejectSubscribeCompany/{id}',[UserMController::class,'rejectSubscribeCompany'])->name('rejectSubscribeCompany');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');

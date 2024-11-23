@@ -17,6 +17,11 @@
                         v-model="userCompany.name" />
                 </label>
                 <label class="flex flex-col text-sm font-medium text-gray-700">
+                   Code company
+                    <input type="number" class="input input-bordered mt-1 p-2 rounded-md" placeholder="Company code"
+                        v-model="profileCompany.codeCompany" />
+                </label>
+                <label class="flex flex-col text-sm font-medium text-gray-700">
                     Email
                     <input type="email" class="input input-bordered mt-1 p-2 rounded-md" placeholder="Email address"
                         v-model="profileCompany.email" />

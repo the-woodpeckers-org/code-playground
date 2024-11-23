@@ -8,4 +8,5 @@ class Role
     const Admin = "admin";
     const Contributor = "contributor";
     const User = "user";
+    const Company = "company";
 }

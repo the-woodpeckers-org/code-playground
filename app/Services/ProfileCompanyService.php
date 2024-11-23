@@ -12,15 +12,15 @@ use App\Models\ProfileCompany;
 use App\Models\JobRecruitment;
 use App\Models\User;
 use App\Models\ProfileUser;
-
+use App\Utils\Constants\Role;
+use App\Utils\Constants\Status;
 class ProfileCompanyService
 {
     public function getCompaniesU()
     {
         $user = Auth::user(); 
         $profile_user = ProfileUser::where('user_id', '=', $user->id)->first(); 
-    
-        $companies = User::where('role', '=', 1)
+        $companies = User::where('role', '=', Role::Company)->where('status', '=', Status::APPROVED)
             ->with('getCompany')
             ->get();
     
@@ -101,6 +101,7 @@ class ProfileCompanyService
         $profile->phone = $request->input('profileCompany.phone');
         $profile->email = $request->input('profileCompany.email');
         $profile->skill = $request->input('profileCompany.skill');
+        $profile->codeCompany= $request->input('profileCompany.codeCompany');
         $profile->save();
         return response()->json([
             'status' => 200,

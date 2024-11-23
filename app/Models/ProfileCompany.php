@@ -16,6 +16,7 @@ class ProfileCompany extends Model
         'phone',
         'email',
         'skill',
+        'codeCompany',
     ];
     public function user()
     {
