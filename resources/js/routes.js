@@ -212,7 +212,7 @@ const routes = [
         name: 'verify-email'
     },
     {
-        path: '/contributor/dashboard',
+        path: '/contributor',
         component: Dashboard,
         name: 'contributor-dashboard'
     },
