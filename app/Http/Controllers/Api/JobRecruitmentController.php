@@ -47,4 +47,5 @@ class JobRecruitmentController
     {
         return $this->service->approvedCV($request);
     }   
+    
 }

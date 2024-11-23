@@ -15,6 +15,7 @@ use App\Http\Controllers\api\JobRecruitmentController;
 use App\Http\Controllers\Api\ProfileViewHistoryController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\Management\UserMController;
+use App\Http\Controllers\Api\Management\JobRecruitmentMController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -85,6 +86,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getListSubscribe',[UserMController::class,'getListSubscribe'])->name('getListSubscribe');
     Route::get('/approvedSubscribe/{id}',[UserMController::class,'approvedSubscribe'])->name('approvedSubscribe');
     Route::get('/rejectSubscribe/{id}',[UserMController::class,'rejectSubscribe'])->name('rejectSubscribe');
+
+    Route::get('/getListJobRecruitment',[JobRecruitmentMController::class,'getListJobRecruitment'])->name('getListJobRecruitment');
+    Route::get('/approvedJob/{id}',[JobRecruitmentMController::class,'approvedJob'])->name('approvedJob');
+    Route::get('/rejectJob/{id}',[JobRecruitmentMController::class,'rejectJob'])->name('rejectJob');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');

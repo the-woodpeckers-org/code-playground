@@ -1,5 +1,6 @@
 <template>
-    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-10 rounded-2xl shadow-xl max-w-4xl mx-auto mt-10">
+    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-10 rounded-2xl shadow-xl max-w-4xl mx-auto mt-10"
+        v-if="!this.result">
         <button @click="goBack" class="btn-back mb-6 flex items-center space-x-2">
             <span class="material-icons"><i class="fa-solid fa-arrow-left"></i></span>
             <span>Back</span>
@@ -52,7 +53,8 @@
             <div class="mb-6">
                 <label class="block text-gray-600 font-semibold mb-2">Salary</label>
                 <input v-model="jobForm.salary" type="number" class="input-field" placeholder="Salary range"
-                :disabled="jobForm.negotiable" :required="!jobForm.negotiable" onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'"  />
+                    :disabled="jobForm.negotiable" :required="!jobForm.negotiable"
+                    onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" />
             </div>
 
             <div class="mb-6">
@@ -68,6 +70,14 @@
                 <button type="submit" class="btn-primary">Save</button>
             </div>
         </form>
+    </div>
+    <div v-else class="text-center">
+        <div class="h-10">
+        </div>
+        <i class="fa-regular fa-bell text-9xl my-6"></i>
+        <h1 class="text-4xl font-semibold my-6">We've received information you want to post a job !</h1>
+        <p class="text-3xl my-6">Please wait for review!</p>
+        <p class="text-xl my-6">Check the mail regularly, as we will send the results through it</p>
     </div>
 </template>
 
@@ -88,6 +98,7 @@ export default {
                 negotiable: true,
                 rte_1: null,
             },
+            result: null,
         };
     },
     mounted() {
@@ -110,8 +121,10 @@ export default {
             };
             await HTTP.post('/api/createJob', data).then(response => {
                 console.log(response.data);
-                alert("Job created successfully");
-                this.goBack();
+                if (response.data.status === '200') {
+                    this.result = response.data.message;
+                    return;
+                }
             }).catch(error => {
                 console.error(error);
             });

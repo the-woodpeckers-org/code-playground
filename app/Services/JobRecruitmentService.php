@@ -115,6 +115,7 @@ class JobRecruitmentService
             $company->save();
             return response()->json([
                 'status' => '200',
+                'message' => 'Create job successfully',
                 'data' => $company
             ]);
         } catch (\Exception $e) {
