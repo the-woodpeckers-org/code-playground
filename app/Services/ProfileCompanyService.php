@@ -50,7 +50,7 @@ class ProfileCompanyService
     {
         $profile = ProfileCompany::find($id);
         $userCompany = $profile->user()->first();
-        $listJobs = JobRecruitment::where('user_id', '=', $userCompany->id)->get();
+        $listJobs = JobRecruitment::where('user_id', '=', $userCompany->id)->where('status','=',Status::APPROVED)->get();
         if (!$profile) {
             return response()->json(['status' => 404, 'data' => null]);
         }

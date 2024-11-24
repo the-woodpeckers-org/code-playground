@@ -15,6 +15,8 @@ use App\Http\Controllers\api\JobRecruitmentController;
 use App\Http\Controllers\Api\ProfileViewHistoryController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\Management\UserMController;
+use App\Http\Controllers\Api\Management\JobRecruitmentMController;
+use App\Http\Controllers\Api\Management\ProblemMController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,53 +45,61 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/participate/finish', [ParticipationController::class, 'finish'])->name('participate.finish');
     Route::get('/participate/get', [ParticipationController::class, 'getParticipationU'])->name('participate.getParticipationU');
     Route::post('/saveCV', [CvController::class, 'saveCV'])->name('saveCV');
-    Route::get('/cvsU',[CvController::class,'getCvsU'])->name('getCvsU');
-    Route::post('/newCV',[CvController::class,'newCV'])->name('newCV');
-    Route::get('/deleteCV/{id}',[CvController::class,'deleteCV'])->name('deleteCV');
+    Route::get('/cvsU', [CvController::class, 'getCvsU'])->name('getCvsU');
+    Route::post('/newCV', [CvController::class, 'newCV'])->name('newCV');
+    Route::get('/deleteCV/{id}', [CvController::class, 'deleteCV'])->name('deleteCV');
     Route::get('/getCV/{id}', [CvController::class, 'getCV'])->name('getCV');
     Route::get('/getProfileCV', [ProfileUserController::class, 'getProfileCV'])->name('getProfileCV');
     Route::post('/updateProfileCV', [ProfileUserController::class, 'updateProfileCV'])->name('updateProfileCV');
     Route::post('/setPrimaryCv', [CvController::class, 'setPrimaryCv'])->name('setPrimaryCv');
     Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile');
-    Route::get('/getJobsApplied',[ApplicationController::class,'getJobsApplied'])->name('getJobsApplied');
+    Route::get('/getJobsApplied', [ApplicationController::class, 'getJobsApplied'])->name('getJobsApplied');
     Route::post('/avatar-upload', [UserController::class, 'uploadAvatar'])->name('auth.avatarUpload');
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
     Route::post('/updateProfileCompany', [ProfileCompanyController::class, 'updateProfileCompany'])->name('updateProfileCompany');
-    Route::get('/getProfileCompanyByUserId',[ProfileCompanyController::class,'getProfileCompanyByUserId'])->name('getProfileCompanyByUserId');
-    Route::get('/getJobsU',[JobRecruitmentController::class,'getJobsU'])->name('getJobsU');
+    Route::get('/getProfileCompanyByUserId', [ProfileCompanyController::class, 'getProfileCompanyByUserId'])->name('getProfileCompanyByUserId');
+    Route::get('/getJobsU', [JobRecruitmentController::class, 'getJobsU'])->name('getJobsU');
     Route::post('/createJob', [JobRecruitmentController::class, 'createJob'])->name('createJob');
-    Route::get('/getDetailJob/{id}',[JobRecruitmentController::class,'getDetailJob'])->name('getDetailJob');
-    Route::get('/deleteJob/{id}',[JobRecruitmentController::class,'deleteJob'])->name('deleteJob');
-    Route::post('/updateJob',[JobRecruitmentController::class,'updateJob'])->name('updateJob');
-    Route::get('/getCVsApplied/{id}',[JobRecruitmentController::class,'getCVsApplied'])->name('getCVsApplied');
-    Route::post('/applyCV',[ApplicationController::class,'applyCV'])->name('applyCV');
-    Route::get('/getCV_Applied',[ApplicationController::class,'getCV_Applied'])->name('updateProfileCV');
-    Route::get('/isApplied/{id}',[ApplicationController::class,'isApplied'])->name('isApplied');
-    Route::get('/cancelApply/{id}',[ApplicationController::class,'cancelApply'])->name('cancelApply');
+    Route::get('/getDetailJob/{id}', [JobRecruitmentController::class, 'getDetailJob'])->name('getDetailJob');
+    Route::get('/deleteJob/{id}', [JobRecruitmentController::class, 'deleteJob'])->name('deleteJob');
+    Route::post('/updateJob', [JobRecruitmentController::class, 'updateJob'])->name('updateJob');
+    Route::get('/getCVsApplied/{id}', [JobRecruitmentController::class, 'getCVsApplied'])->name('getCVsApplied');
+    Route::post('/applyCV', [ApplicationController::class, 'applyCV'])->name('applyCV');
+    Route::get('/getCV_Applied', [ApplicationController::class, 'getCV_Applied'])->name('updateProfileCV');
+    Route::get('/isApplied/{id}', [ApplicationController::class, 'isApplied'])->name('isApplied');
+    Route::get('/cancelApply/{id}', [ApplicationController::class, 'cancelApply'])->name('cancelApply');
     Route::get('/get-stats', [UserController::class, 'getStats'])->name('getStats');
     Route::get('/get-stats-by-id/{id}', [UserController::class, 'getStatsById'])->name('getStatsById');
-    Route::get('/getCompaniesU',[ProfileCompanyController::class,'getCompaniesU'])->name('getCompaniesU');
-    Route::post('/addHiddenCompany',[HiddenCompanyController::class,'addHiddenCompany'])->name('addHiddenCompany');
+    Route::get('/getCompaniesU', [ProfileCompanyController::class, 'getCompaniesU'])->name('getCompaniesU');
+    Route::post('/addHiddenCompany', [HiddenCompanyController::class, 'addHiddenCompany'])->name('addHiddenCompany');
     Route::patch('/user', [UserController::class, 'updateUser'])->name('updateUser');
     Route::patch('/auth/verify-email', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
     Route::post('/auth/send-verification-email', [AuthController::class, 'sendVerificationEmail'])->name('sendVerificationEmail');
-    Route::post('/removeHiddenCompany',[HiddenCompanyController::class,'removeHiddenCompany'])->name('removeHiddenCompany');
-    Route::post('/addViewHistory',[ProfileViewHistoryController::class,'addViewHistory'])->name('addViewHistory');
-    Route::get('/getListCompanyView',[ProfileViewHistoryController::class,'getListCompanyView'])->name('getListCompanyView');
+    Route::post('/removeHiddenCompany', [HiddenCompanyController::class, 'removeHiddenCompany'])->name('removeHiddenCompany');
+    Route::post('/addViewHistory', [ProfileViewHistoryController::class, 'addViewHistory'])->name('addViewHistory');
+    Route::get('/getListCompanyView', [ProfileViewHistoryController::class, 'getListCompanyView'])->name('getListCompanyView');
     Route::get('/contributor/problems', [ProblemController::class, 'getAllProblemsByContributor'])->name('getAllProblemsByContributor');
-    Route::post('/approvedCV',[JobRecruitmentController::class,'approvedCV'])->name('approvedCV');
-    Route::post('/refuseCV',[JobRecruitmentController::class,'refuseCV'])->name('refuseCV');
-    Route::get('/getUserCVToView/{id}',[ProfileUserController::class,'getUserCVToView'])->name('getUserCVToView');
-    Route::get('/getAllUser',[UserMController::class,'getAllUser'])->name('getAllUser');
+    Route::post('/approvedCV', [JobRecruitmentController::class, 'approvedCV'])->name('approvedCV');
+    Route::post('/refuseCV', [JobRecruitmentController::class, 'refuseCV'])->name('refuseCV');
+    Route::get('/getUserCVToView/{id}', [ProfileUserController::class, 'getUserCVToView'])->name('getUserCVToView');
+    Route::get('/getAllUser', [UserMController::class, 'getAllUser'])->name('getAllUser');
+
+    Route::get('/getListSubscribe', [UserMController::class, 'getListSubscribe'])->name('getListSubscribe');
+    Route::get('/approvedSubscribe/{id}', [UserMController::class, 'approvedSubscribe'])->name('approvedSubscribe');
+    Route::get('/rejectSubscribe/{id}', [UserMController::class, 'rejectSubscribe'])->name('rejectSubscribe');
+
+    Route::get('/getListSubscribeJobRecruitment', [JobRecruitmentMController::class, 'getListSubscribeJobRecruitment'])->name('getListSubscribeJobRecruitment');
+    Route::get('/approvedJob/{id}', [JobRecruitmentMController::class, 'approvedJob'])->name('approvedJob');
+    Route::get('/rejectJob/{id}', [JobRecruitmentMController::class, 'rejectJob'])->name('rejectJob');
+    Route::post('/send-request-change-job', [JobRecruitmentMController::class, 'sendRequestChangeJob'])->name('sendRequestChangeJob');
+
+    Route::get('/getListSubscribeProblem', [ProblemMController::class, 'getListSubscribeProblem'])->name('getListSubscribeProblem');
     
-    Route::get('/getListSubscribe',[UserMController::class,'getListSubscribe'])->name('getListSubscribe');
-    Route::get('/approvedSubscribe/{id}',[UserMController::class,'approvedSubscribe'])->name('approvedSubscribe');
-    Route::get('/rejectSubscribe/{id}',[UserMController::class,'rejectSubscribe'])->name('rejectSubscribe');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');
 
-Route::get('/getProfileCompany/{id}',[ProfileCompanyController::class,'getProfileCompany'])->name('getProfileCompany');
+Route::get('/getProfileCompany/{id}', [ProfileCompanyController::class, 'getProfileCompany'])->name('getProfileCompany');
 // Password reset
 Route::post('/forgot-password', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('auth.resetPassword');

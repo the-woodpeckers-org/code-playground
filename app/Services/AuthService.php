@@ -12,6 +12,7 @@ use App\Models\EmailVerifyToken;
 use App\Models\Password_Reset_Tokens;
 use App\Models\User;
 use App\Models\ProfileCompany;
+use App\Mail\MailThankYou;
 use App\Utils\Constants\Status;
 use App\Utils\Token;
 use App\Utils\Constants\Role;
@@ -168,6 +169,14 @@ class AuthService
             $company->email = $request->input('email');
             $company->skill =' ';
             $company->save();
+            // send mail
+            $token = substr(str_shuffle("0123456789"), 0, 5);
+            $emailVerifyToken = EmailVerifyToken::where('email', $user->email)->first();
+            if ($emailVerifyToken) {
+                $emailVerifyToken->delete();
+            }
+            $mailTy = new MailThankYou($user);
+            Mail::to($user->email)->send($mailTy);
             return ['message' => 'Company register successfully!','status'=> '200'];
         }
         catch(\Exception $exception){

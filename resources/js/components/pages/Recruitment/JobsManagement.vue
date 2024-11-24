@@ -36,6 +36,7 @@
           @delete-item="deleteJob(item.id)"
           :negotiable="item.negotiable"
           :imgUrl="user.avatar_url"
+          :status = "item.status"
         />
         <div
           @click="addJob"

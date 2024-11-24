@@ -55,6 +55,7 @@ class UserMService
         $user = User::find($id);
         if ($user) {
             $user->status = Status::APPROVED;
+            //send mail
             $user->save();
             return response()->json([
                 'status' => '200',
@@ -73,6 +74,7 @@ class UserMService
         $user = User::find($id);
         if ($user) {
             $user->status = Status::REJECTED;
+            //send mail
             $user->save();
             return response()->json([
                 'status' => '200',

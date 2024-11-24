@@ -41,6 +41,7 @@ const AdminProfile = () => import("@/components/pages/Admin/ProfileAdmin.vue");
 const AdminUserM = () => import("@/components/pages/Admin/UserAdmin.vue");
 const SubscribeCompanyM = () => import("@/components/pages/Admin/SubscribeCompanyM.vue");
 const SubscribeContributorM = () => import("@/components/pages/Admin/SubscribeContributorM.vue");
+const ApplicationsM = () => import("@/components/pages/Admin/ApplicationsM.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -246,6 +247,10 @@ const routes = [
                 name: 'subscribe-contributor-management',
                 path: '/admin/subscribe/contributor',
                 component: SubscribeContributorM
+              },{
+                name: 'applications-management',
+                path: '/admin/applications',
+                component: ApplicationsM
               }
         ]
     }

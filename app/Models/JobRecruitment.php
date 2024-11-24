@@ -17,6 +17,8 @@ class JobRecruitment extends Model
         'salary',  
         'negotiable',
         'deadline', 
+        'status',
+        'change_required',
         'created_at',     
         'updated_at',    
     ];
