@@ -36,7 +36,7 @@ export default {
     },
     methods: {
         async getApplications() {
-            await HTTP.get('/api/getListJobRecruitment').then(response => {
+            await HTTP.get('/api/getListSubscribeJobRecruitment').then(response => {
                 console.log(response.data.data);
                 this.applications = response.data.data;
             }).catch(error => {

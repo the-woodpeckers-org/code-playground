@@ -14,9 +14,9 @@ class JobRecruitmentMController
         $this->service = $_serivce;
     }
 
-    public function getListJobRecruitment()
+    public function getListSubscribeJobRecruitment()
     {
-        return $this->service->getListJobRecruitment();
+        return $this->service->getListSubscribeJobRecruitment();
     }
 
     public function approvedJob($id)

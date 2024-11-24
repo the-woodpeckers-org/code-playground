@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class JobRecruitmentMService
 {
-  public function getListJobRecruitment()
+  public function getListSubscribeJobRecruitment()
   {
     $jobs = JobRecruitment::all();
     $detailJobs = [];
@@ -83,6 +83,7 @@ class JobRecruitmentMService
     try{
       $job= JobRecruitment::find($request->input('id'));
       $job->change_required = $request->input('request_change');
+      // send mail  
       $job->save();
       return response()->json([
         'status' => '200',
