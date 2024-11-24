@@ -7,6 +7,9 @@ use App\Models\User;
 use App\Utils\Constants\Status;
 use App\Utils\Constants\Role;
 use Illuminate\Http\Request;
+use App\Mail\MailCongratulation;
+use App\Mail\MailSorry;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class UserMService
@@ -56,6 +59,8 @@ class UserMService
         if ($user) {
             $user->status = Status::APPROVED;
             //send mail
+            $mailCon = new MailCongratulation($user);
+            Mail::to($user->email)->send($mailCon);
             $user->save();
             return response()->json([
                 'status' => '200',
@@ -74,7 +79,8 @@ class UserMService
         $user = User::find($id);
         if ($user) {
             $user->status = Status::REJECTED;
-            //send mail
+            $mailSorry = new MailSorry($user);
+            Mail::to($user->email)->send($mailSorry);
             $user->save();
             return response()->json([
                 'status' => '200',

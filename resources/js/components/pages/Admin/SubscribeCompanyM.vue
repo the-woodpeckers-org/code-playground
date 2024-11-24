@@ -34,6 +34,9 @@
             </tbody>
         </table>
     </div>
+    <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!loading">
+            <span class="loading loading-dots loading-lg"></span>
+    </div> 
 </template>
 <script>
 import {HTTP} from "@/http-common.js";
@@ -48,7 +51,8 @@ export default {
             listSubscribe: [],
             filteredSubscribe: [],
             openId: null,
-            selectedRole: ""
+            selectedRole: "",
+            loading: true,
         };
     },
     mounted(){
@@ -74,18 +78,22 @@ export default {
             }
         },
         async approved(id){
+            this.loading = false;
             await HTTP.get(`/api/approvedSubscribe/${id}`)
                 .then(response => {
                     this.getSubscribe();
+                    this.loading=true;
                 })
                 .catch(e => {
                     console.log(e);
                 });
         },
         async reject(id){
+            this.loading = false;
           await HTTP.get(`/api/rejectSubscribe/${id}`)
             .then(response => {
                 this.getSubscribe();
+                this.loading=true;
             })
             .catch(e => {
                 console.log(e);
