@@ -26,6 +26,9 @@ class JobRecruitmentMService
         'skill' => $job->skill,
         'location' => $job->location,
         'salary' => $job->salary,
+        'negotiable' => $job->negotiable,
+        'deadline' => $job->deadline,
+        'change_required' => $job->change_required,
         'created_at' => $job->created_at,
         'updated_at' => $job->updated_at
       ];
@@ -75,9 +78,23 @@ class JobRecruitmentMService
     }
   }
 
-  public function requestJob(Request $request)
+  public function sendRequestChangeJob(Request $request)
   {
-
+    try{
+      $job= JobRecruitment::find($request->input('id'));
+      $job->change_required = $request->input('request_change');
+      $job->save();
+      return response()->json([
+        'status' => '200',
+        'message' => 'Send request change job successfully',
+        'data' => $job
+      ]);
+    }catch(\Exception $e){
+      return response()->json([
+        'status' => '500',
+        'message' => 'Send request change job failed'
+      ]);
+    }
   }
 
   public function deleteJob($id)

@@ -90,6 +90,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getListJobRecruitment',[JobRecruitmentMController::class,'getListJobRecruitment'])->name('getListJobRecruitment');
     Route::get('/approvedJob/{id}',[JobRecruitmentMController::class,'approvedJob'])->name('approvedJob');
     Route::get('/rejectJob/{id}',[JobRecruitmentMController::class,'rejectJob'])->name('rejectJob');
+    Route::post('/send-request-change-job',[JobRecruitmentMController::class,'sendRequestChangeJob'])->name('sendRequestChangeJob');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');

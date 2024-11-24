@@ -12,7 +12,7 @@
                     </tr>
                 </thead>
                    <tbody>
-                            <ApplicationItemM v-for="(item, index) in this.applications" :key="index" :id="item.id" :company_name="item.user.name" :title="item.title" :status="item.status" :detailJob="item"></ApplicationItemM>
+                            <ApplicationItemM v-for="(item, index) in this.applications" :key="index" @reject="reject" @approved="approved" @request_changed_required="request_changed_required" :id="item.id" :company_name="item.user.name" :title="item.title" :status="item.status" :detailJob="item"></ApplicationItemM>
                    </tbody>
             </table>
         </div>
@@ -43,6 +43,34 @@ export default {
                 console.log(error);
             });
         },
+      async request_changed_required(id,request_change)
+        {
+          console.log(id,request_change);
+          await HTTP.post('/api/send-request-change-job',{id:id,request_change:request_change}).then(response => {
+                console.log(response.data);
+                this.getApplications();
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        async reject(id)
+        {
+          await HTTP.get(`/api/rejectJob/${id}`).then(response => {
+                console.log(response.data);
+                this.getApplications();
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        async approved(id)
+        {
+          await HTTP.get(`/api/approvedJob/${id}`).then(response => {
+                console.log(response.data);
+                this.getApplications();
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     },
 
 }

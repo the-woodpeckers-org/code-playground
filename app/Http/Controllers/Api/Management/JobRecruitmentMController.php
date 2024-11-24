@@ -28,8 +28,10 @@ class JobRecruitmentMController
         return $this->service->rejectJob($id);
     }
 
-    public function requestJob(Request $request)
+    public function sendRequestChangeJob(Request $request)
     {
-        return $this->service->requestJob($request);
+        return $this->service->sendRequestChangeJob($request);
     }
+
+    
 }
