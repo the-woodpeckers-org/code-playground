@@ -1,6 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
+import Dashboard from "@/components/pages/Contributor/Dashboard.vue";
 
-const Dashboard = () => import("@/components/pages/Contributor/Dashboard.vue");
 const UserEmailVerification = () => import("@/components/pages/Email/UserEmailVerification.vue");
 const ForgotPassword = () => import("@/components/pages/ForgotPassword.vue");
 const ResetPassword = () => import("@/components/pages/ResetPassword.vue");

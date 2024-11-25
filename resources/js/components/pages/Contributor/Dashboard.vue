@@ -1,14 +1,16 @@
 <script>
+const ProblemManager = defineAsyncComponent(() => import("@/components/pages/Contributor/Problem/ProblemManager.vue"));
+const ContestManager = defineAsyncComponent(() => import( "@/components/pages/Contributor/Contest/ContestManager.vue"));
+import CourseManager from "@/components/pages/Contributor/Course/CourseManager.vue";
+import PostManager from "@/components/pages/Contributor/Post/PostManager.vue";
+import {defineAsyncComponent} from "vue";
 export default {
-    name: "Dashboard"
+    name: "Dashboard",
+    components: {PostManager, CourseManager, ContestManager, ProblemManager}
 }
 </script>
 <script setup>
 import {getAuth} from "@/utils/authLocalStorage.js";
-import ProblemManager from "@/components/pages/Contributor/Problem/ProblemManager.vue";
-import ContestManager from "@/components/pages/Contributor/Contest/ContestManager.vue";
-import CourseManager from "@/components/pages/Contributor/Course/CourseManager.vue";
-import PostManager from "@/components/pages/Contributor/Post/PostManager.vue";
 </script>
 <template>
     <div class="w-full">
@@ -24,8 +26,8 @@ import PostManager from "@/components/pages/Contributor/Post/PostManager.vue";
                 <ContestManager></ContestManager>
             </div>
 
-            <input type="radio" name="tab" role="tab" class="tab" aria-label="Courses"/>
-            <div role="tabpanel" class="tab-content p-10">
+            <input type="radio" name="tab" role="tab" class="tab hidden" aria-label="Courses"/>
+            <div role="tabpanel" class="tab-content p-10 hidden">
                 <CourseManager></CourseManager>
             </div>
 
@@ -36,7 +38,6 @@ import PostManager from "@/components/pages/Contributor/Post/PostManager.vue";
         </div>
     </div>
 </template>
-
 <style scoped>
 
 </style>

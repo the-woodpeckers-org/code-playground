@@ -18,28 +18,28 @@
                      class="h-12">
             </router-link>
             <div class="hidden lg:flex space-x-4">
-                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
+                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
                     Explore
                 </router-link>
-                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
+                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
                     Contests
                 </router-link>
-                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/courses">
+                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden" to="/courses">
                     Courses
                 </router-link>
-                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl"
+                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden"
                              to="/challenges">
                     Challenges
                 </router-link>
-                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
+                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
                     Problems
                 </router-link>
-                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
+                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
                     Career
                 </router-link>
-                <router-link to="/Info-Recruitment" v-if="getAuth() && getAuth().role == 'company'"
+                <router-link to="/Info-Recruitment" v-if="getAuth() && getAuth().role == '1'"
                              class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
-                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor">
+                <router-link v-if="getAuth() && getAuth().role == 2" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor">
                     Contributor
                 </router-link>
             </div>
@@ -71,7 +71,7 @@
                         <router-link class="text-base" to="/profile">Profile</router-link>
                     </li>
                     <li v-if="getAuth()">
-                        <router-link class="text-base" to="/settings">Settings</router-link>
+                        <router-link class="text-base hidden" to="/settings">Settings</router-link>
                     </li>
                     <li v-if="getAuth()"><a class="text-base" onclick="confirm_logout_modal.showModal()">Logout</a>
                     </li>
