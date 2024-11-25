@@ -39,7 +39,7 @@
                 </router-link>
                 <router-link to="/Info-Recruitment" v-if="getAuth() && getAuth().role == 'company'"
                              class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
-                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor/dashboard">
+                <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor">
                     Contributor
                 </router-link>
             </div>

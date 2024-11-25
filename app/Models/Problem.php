@@ -16,12 +16,13 @@ class Problem extends Model
     protected $fillable = [
         'title',
         'description',
-        'attempt_count',
-        'is_passed',
-        'passed_at',
+        'difficulty',
+        'acceptance_rate',
         'deleted_at',
         'contest_id',
-        'created_by'
+        'created_by',
+        'status',
+        'change_required'
     ];
 
     protected $appends = [
@@ -31,7 +32,7 @@ class Problem extends Model
     ];
 
     public function getCategoriesAttribute() {
-        return ProblemTags::select('categories.*')->where('problem_id', $this->id)->join('categories', 'category_id', '=', 'categories.id')->get();
+        return ProblemTag::select('categories.*')->where('problem_id', $this->id)->join('categories', 'category_id', '=', 'categories.id')->get();
     }
 
     public function getLanguagesAttribute() {

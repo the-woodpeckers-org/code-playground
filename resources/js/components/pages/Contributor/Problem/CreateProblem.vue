@@ -21,16 +21,18 @@ export default {
             ],
             testcases: [
                 {
-                    cid: '00000000',
+                    cid: '0000000',
                     stdin: '',
                     expected_output: ''
                 }
-            ]
+            ],
+            title: '',
+            description: '',
+            richText: null,
         }
     },
     mounted() {
-        let rte = new RichTextEditor("#text-editor");
-        rte.setHTMLCode("");
+        this.richText = new RichTextEditor("#text-editor-ce");
         let editor = ace.edit('editor');
         editor.setTheme('ace/theme/monokai');
         editor.session.setMode('ace/mode/c_cpp');
@@ -41,7 +43,6 @@ export default {
         addLanguageTag(newTag) {
             const tag = {
                 name: newTag,
-                code: newTag == 'C' ? '1' : newTag == 'C++' ? '2' : newTag == 'Python' ? '3' : newTag == 'PHP' ? '4' : '5'
             };
             this.currentLanguages.push(tag);
             this.languages.push(tag);
@@ -69,12 +70,49 @@ export default {
         },
         async getCategories() {
             let _this = this;
+            this.categories = [];
             await HTTP.get('api/categories')
                 .then((response) => {
                     _this.categories = response.data;
                 })
                 .catch((err) => {
                     console.log(err);
+                });
+        },
+        async createProblem() {
+            this.isCreatedSomeRecord = false;
+            let _this = this;
+            const data = {
+                title: _this.title,
+                difficulty: _this.difficulty,
+                description: _this.richText.getHTMLCode(),
+                categories: this.currentCategories,
+                languages: this.currentLanguages,
+                testcases: this.testcases
+            }
+            await HTTP.post('api/problem/create', data)
+                .then((response) => {
+                    rte.setHTMLCode("");
+                    let editor = ace.edit('editor');
+                    editor.setTheme('ace/theme/monokai');
+                    editor.session.setMode('ace/mode/c_cpp');
+                    this.getCategories();
+                    this.currentCategories = [];
+                    this.currentLanguages = [];
+                    this.languages = [
+                        'C',
+                        'C++',
+                        'Python',
+                        'PHP',
+                        'JavaScript',
+                    ];
+                    this.testcases = [];
+                    this.title = '';
+                    this.difficulty = '';
+                    this.isCreatedSomeRecord = true;
+                })
+                .catch((err) => {
+
                 });
         }
     }
@@ -94,11 +132,11 @@ export default {
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <div>
                         <label>Title</label>
-                        <input class="rounded-lg border border-gray-400 h-8 w-full">
+                        <input v-model="title" class="rounded-lg border border-gray-400 h-8 w-full">
                     </div>
                     <div>
                         <label>Difficulty</label>
-                        <select class="rounded-lg border border-gray-400 h-8 w-full">
+                        <select v-model="difficulty" class="rounded-lg border border-gray-400 h-8 w-full">
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
                             <option value="Hard">Hard</option>
@@ -117,16 +155,15 @@ export default {
                     </div>
                     <div class="col-span-full">
                         <label>Description</label>
-                        <div id="text-editor">
-
-                        </div>
+                        <div id="text-editor-ce"></div>
                     </div>
                     <div class="col-span-full mb-6">
                         <label>Testing Code</label>
                         <br>
                         <div class="h-96 bg-base-300 py-3">
                             <label for="language">Select language: </label>
-                            <select id="language" name="language" class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
+                            <select id="language" name="language"
+                                    class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
                                 <option v-for="language in languages" :value="language"> {{ language }}</option>
                             </select>
                             <div id="editor" style="width: 100%; height: 100%" class="text-base mt-3">
@@ -137,7 +174,7 @@ export default {
                     <div class="col-span-full">
                         <label>Testcases</label>
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                            <div v-for="testcase in testcases" class="bg-base-200 p-3 rounded-lg h-52 lobster">
+                            <div v-for="(testcase, index) in testcases" class="bg-base-200 p-3 rounded-lg h-52 lobster">
                                 <div class="h-5 text-end">
                                     <button v-if="testcases.length > 1" type="button"
                                             class="text-white bg-red-500 rounded-full px-1.5"
@@ -146,9 +183,11 @@ export default {
                                 </div>
                                 <br>
                                 <label>Input (stdin format) <span class="font-bold">[NOT TESTED]</span></label>
-                                <input class="rounded-lg border border-gray-400 h-8 w-full">
+                                <input v-model="testcases[index].stdin"
+                                       class="rounded-lg border border-gray-400 h-8 w-full">
                                 <label>Expected output <span class="font-bold">[NOT TESTED]</span></label>
-                                <input class="rounded-lg border border-gray-400 h-8 w-full">
+                                <input v-model="testcases[index].expected_output"
+                                       class="rounded-lg border border-gray-400 h-8 w-full">
                                 <div class="text-end">
                                     <button class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">Test with
                                         code
@@ -168,7 +207,9 @@ export default {
             </form>
             <div class="modal-action">
                 <form method="dialog">
-                    <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg">Create</button>
+                    <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="createProblem">
+                        Create
+                    </button>
                     <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg">Cancel</button>
                 </form>
             </div>

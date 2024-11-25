@@ -94,7 +94,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/send-request-change-job', [JobRecruitmentMController::class, 'sendRequestChangeJob'])->name('sendRequestChangeJob');
 
     Route::get('/getListSubscribeProblem', [ProblemMController::class, 'getListSubscribeProblem'])->name('getListSubscribeProblem');
-    
+
+    //crud problems
+    Route::post('/problem', [ProblemController::class, 'createProblem'])->name('createProblem');
+    Route::delete('/problem', [ProblemController::class, 'deleteProblem'])->name('deleteProblem');
+    Route::put('/problem', [ProblemController::class, 'updateProblem'])->name('updateProblem');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');

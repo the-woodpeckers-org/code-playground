@@ -153,7 +153,7 @@ export default {
                         </div>
                     </div>
                     <div class="w-full border-b-2"></div>
-                    <p class="text-base mx-1" v-if="loading"> {{ description }}</p>
+                    <p class="text-base mx-1" v-if="loading"><span v-html="description"></span></p>
                     <div class="text-2xl font-bold border-b-2 mx-1" v-if="!loading">
                         <div class="skeleton h-8 my-1 w-full"></div>
                     </div>

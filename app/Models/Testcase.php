@@ -14,7 +14,9 @@ class Testcase extends Model
     use HasFactory;
 
     protected $fillable = [
-        'stdin'
+        'problem_id',
+        'stdin',
+        'expected_output'
     ];
 
     public function problem() {

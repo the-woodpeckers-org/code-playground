@@ -2,17 +2,21 @@
 
 namespace App\Services;
 
+use App\Http\Requests\CreateProblemFormRequest;
 use App\Http\Requests\SubmitCodeFormRequest;
 use App\Http\Requests\SubmitCodeParticipationFormRequest;
 use App\Models\Attempt;
 use App\Models\CategoryStat;
+use App\Models\Language;
 use App\Models\LanguageStat;
 use App\Models\Participation_Attempts;
 use App\Models\Problem;
+use App\Models\ProblemLanguage;
+use App\Models\ProblemTag;
+use App\Models\Testcase;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ProblemService
@@ -77,7 +81,7 @@ class ProblemService
     {
         $result = Problem::query();
         $result->where('problems.contest_id', '!=', null);
-        $result->where('problems.id', '=' ,$request->input('id'));
+        $result->where('problems.id', '=', $request->input('id'));
         $participation_id = $request->input('participation_id');
         $result->leftJoin('participation_attempts', function ($query) use ($participation_id) {
             $query->on('participation_attempts.problem_id', '=', 'problems.id')
@@ -131,7 +135,6 @@ class ProblemService
             $attempt->save();
 
 
-
             return response()->json(['message' => 'Problem submitted!']);
         }
         return new BadRequestHttpException('Unauthenticated');
@@ -155,5 +158,70 @@ class ProblemService
             return response()->json(['message' => 'Problem submitted!']);
         }
         return new BadRequestHttpException('Unauthenticated');
+    }
+
+    public function createProblem(CreateProblemFormRequest $request)
+    {
+        if ($request->user()) {
+            $problem = new Problem();
+            $problem->fill([
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'difficulty' => $request->input('difficulty'),
+                'acceptance_rate' => 0,
+                'created_by' => $request->user()->id,
+                'status' => 'Pending',
+                'change_required' => ''
+            ]);
+            $problem->save();
+            foreach ($request->input('categories') as $category) {
+                if (!empty($category['id'])) {
+                    $problemTag = new ProblemTag();
+                    $problemTag->fill([
+                        'problem_id' => $problem->id,
+                        'category_id' => $category['id'],
+                    ]);
+                    $problemTag->save();
+                }
+            }
+            foreach ($request->input('languages') as $language) {
+                $problemLanguage = new ProblemLanguage();
+                $problemLanguage->fill([
+                    'problem_id' => $problem->id,
+                    'language_id' => Language::where('name', $language)->first()->id
+                ]);
+                $problemLanguage->save();
+            }
+            foreach ($request->input('testcases') as $testcase) {
+                $nTestcase = new Testcase();
+                $nTestcase->fill([
+                    'problem_id' => $problem->id,
+                    'stdin' => $testcase['stdin'],
+                    'expected_output' => $testcase['expected_output'],
+                ]);
+                $nTestcase->save();
+            }
+            return ['message' => 'Success'];
+        }
+        return new BadRequestHttpException('Unauthenticated');
+    }
+
+    public function updateProblem(UpdateProblemFormRequest $request)
+    {
+
+    }
+
+    public function deleteProblem(Request $request)
+    {
+        if ($request->user()) {
+            Testcase::where('problem_id', $request->input('id'))->delete();
+            ProblemLanguage::where('problem_id', $request->input('id'))->delete();
+            ProblemTag::where('problem_id', $request->input('id'))->delete();
+            Attempt::where('problem_id', $request->input('id'))->delete();
+            Participation_Attempts::where('problem_id', $request->input('id'))->delete();
+            Problem::where('id', $request->input('id'))->delete();
+            return ['message' => 'Success'];
+        }
+        return throw new BadRequestHttpException('Unauthenticated');
     }
 }

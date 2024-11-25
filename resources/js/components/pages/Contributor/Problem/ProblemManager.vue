@@ -14,17 +14,23 @@ export default {
         return {
             editingProblemId: null,
             currentPage: '1',
-            problems: Array,
-            links: Array,
+            problems: [],
+            links: [],
             deletingTitle: '',
             deletingId: '',
             isDeletedSomeRecord: false,
+            isEditedSomeRecord: false,
         }
     },
     mounted() {
-        this.getProblems(1);
+        this.fetchData();
     },
     methods: {
+        fetchData() {
+            this.problems = [];
+            this.links = [];
+            this.getProblems(1);
+        },
         async getProblems(index) {
             let _this = this;
             await HTTP.get('api/contributor/problems?page=' + index)
@@ -49,8 +55,16 @@ export default {
             document.getElementById("modal_delete").classList.remove('modal-open')
         },
         async confirmDelete() {
-            this.isDeletedSomeRecord = true;
-            this.confirmNo();
+            let _this = this;
+            await HTTP.delete('api/problem/?id=' + this.deletingId)
+                .then((response) => {
+                    this.isDeletedSomeRecord = true;
+                    this.fetchData();
+                    this.confirmNo();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         showEdit(id) {
             this.$refs.editProblemRef.getProblem(id);

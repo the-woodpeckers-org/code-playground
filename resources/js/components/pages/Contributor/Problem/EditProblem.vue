@@ -9,7 +9,7 @@ export default {
     name: "EditProblem",
     data: () => {
         return {
-            isShowed: true,
+            isShowed: false,
             currentCategories: [],
             categories: [],
             currentLanguages: [],
@@ -77,6 +77,7 @@ export default {
         async getProblem(id) {
             this.isShowed = true;
             let _this = this;
+            this.testcases = [];
             await HTTP.get('api/problem/get?id=' + id)
                 .then((response) => {
                     console.log(response);

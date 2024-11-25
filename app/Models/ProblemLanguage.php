@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class ProblemLanguage extends Model
 {
     protected $table = 'problem_languages';
+    protected $fillable = [
+        'problem_id',
+        'language_id'
+    ];
     use HasFactory;
 
     public function problem() {
