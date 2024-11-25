@@ -13,6 +13,7 @@ export default {
             allItems: [],
             filteredSuggestions: [],
             listCompany: [],
+            listJob: []
         };
     },
    async mounted() {
@@ -25,6 +26,7 @@ export default {
                 .then(response => {
                     console.log("cong ty: ",response.data);
                     this.listCompany = response.data.companies;
+                    this.listJob = response.data.jobs;
                 })
                 .catch(error => {
                     console.log(error);
@@ -73,22 +75,7 @@ export default {
                     <p>Our powerful CV Builder will help you create beautiful CV</p>
                 </div>
             </router-link>
-            <router-link to="">
-                <div
-                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-pink-300 to-green-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
-                    <i class="fa-solid fa-wand-magic-sparkles text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
-                    <h1 class="text-xl font-semibold">Specialize your CV</h1>
-                    <p>Making your CV to be the special & unique Developer CV!</p>
-                </div>
-            </router-link>
-            <router-link to="">
-                <div
-                    class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-purple-300 to-amber-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
-                    <i class="fa-solid fa-face-smile text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
-                    <h1 class="text-xl font-semibold">Test your personalities</h1>
-                    <p>Explore suitable jobs through your personalities!</p>
-                </div>
-            </router-link>
+           
             <router-link to="">
                 <div
                     class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-lime-300 to-violet-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
@@ -118,18 +105,8 @@ export default {
         </div>
         <h1 class="text-xl font-semibold my-3">Available jobs based on your skills</h1>
         <div class="flex flex-row flex-wrap justify-center">
-            <Job :imgUrl="'https://maychufpt.com.vn/wp-content/uploads/2022/05/hosting-fpt.png'"
-                 :title="'Project Manager'" :companyName="'FPT Software'" :description="'Up to 3500$'" :url="'/Job-detail/1'"></Job>
-            <Job :imgUrl="'https://ircdn.vingroup.net/storage/Public/VinHMS%20Logo.png'"
-                 :title="'Senior Angular Developer'" :companyName="'VinHMS'" :description="'Up to 3000$'" :url="'/Job-detail/1'"></Job>
-            <Job :imgUrl="'https://baan.vn/wp-content/uploads/2023/07/RICONS-01-1.png'"
-                 :title="'QA/QC'" :companyName="'Ricons Construction'" :description="'Up to 6000$'" :url="'/Job-detail/1'"></Job>
-            <Job :imgUrl="'https://www.techsoup.org/SiteCollectionImages/Product/prod-adobe-logo.png'"
-                 :title="'Junior Front-end Developer'" :companyName="'Adobe Vietnam'" :description="'Up to 1500$'" :url="'/Job-detail/1'"></Job>
-            <Job :imgUrl="'https://play-lh.googleusercontent.com/XEReFv_aetLFZq2VCYEUF6cMeHLwJ3eM_WMcjucGKwdKPm8ob1_ghAdltlMwnHMEsQk'"
-                 :title="'PHP Developer'" :companyName="'Báo điện tử VnExpress'" :description="'Up to 2000$'" :url="'#'"></Job>
-            <Job :imgUrl="'https://cdn.tuoitre.vn/thumb_w/600/471584752817336320/2023/2/23/29229888323456029822604684420721366064172575n-16771238637691533081421.jpg'"
-                 :title="'QA/QC'" :companyName="'Vietcombank'" :description="'Up to 3000$'" :url="'#'"></Job>
+            <Job v-for="(item, index) in this.listJob " :key="index" :imgUrl="item.company.avatar_url"
+                 :title="item.title" :companyName="item.company.name" :salary="item.salary" :url="'/Job-detail/'+item.id"></Job>
         </div>
     </div>
 </template>

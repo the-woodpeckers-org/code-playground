@@ -113,6 +113,11 @@ class ProfileCompanyService
     
         $companies = User::where('role', '=', Role::Company)->where('status', '=', Status::APPROVED)->get();
         $detailCompanies = [];
+        $jobs = JobRecruitment::where('status', '=', Status::APPROVED)->get();
+        $jobs = $jobs->map(function ($job) {
+            $job->company = $job->user()->first();
+            return $job;
+        });
         foreach ($companies as $company) {
             $profile = ProfileCompany::where('user_id', '=', $company->id)->first();
             $listJobs = JobRecruitment::where('user_id', '=', $company->id)->where('status','=',Status::APPROVED)->get();
@@ -124,7 +129,8 @@ class ProfileCompanyService
         }
         return response()->json([
             'status' => 200,
-            'companies' => $detailCompanies
+            'companies' => $detailCompanies,
+            'jobs' => $jobs
         ]);
     }
 }
