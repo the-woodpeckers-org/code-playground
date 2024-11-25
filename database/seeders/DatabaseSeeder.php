@@ -16,7 +16,6 @@ use App\Models\ProfileUser;
 use App\Models\Testcase;
 use App\Models\User;
 use App\Utils\Constants\Role;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -29,31 +28,34 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $user = [
-            'name' => 'Demo User',
+            'name' => 'Vũ Thanh Dương',
             'email' => 'duongdeptrai102x@gmail.com',
             'password' => Hash::make('123'),
-            'address' => 'Demo Address, City',
+            'address' => 'Ho Chi Minh City',
+            'phone_number' => '0360100250',
+            'gender' => 'None',
+            'birthday' => '2003-01-11',
+            'avatar_url' => 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg',
+            'role' => Role::Contributor
+        ];
+
+        User::create($user);
+
+        $user = [
+            'name' => 'Bảo Vinh Phan',
+            'email' => 'barovinh@gmail.com',
+            'password' => Hash::make('123'),
+            'address' => 'Ho Chi Minh City',
             'phone_number' => '0360100250',
             'gender' => 'None',
             'birthday' => '2003-01-01',
-            'avatar_url' => 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg'
-        ];
-
-        User::create($user);
-
-        $user = [
-            'name' => 'Demo User',
-            'email' => 'barovinh@gmail.com',
-            'password' => Hash::make('123'),
-            'address' => 'Demo Address, City',
-            'phone_number' => '0360100250',
-            'gender' => 'None',
-            'birthday' => '2003-01-01'
+            'avatar_url' => 'https://res-console.cloudinary.com/dazvvxymm/thumbnails/v1/image/upload/v1726165796/aW1hZ2VfMV9lNnp3dHY=/drilldown',
+            'role' => Role::User
         ];
         User::create($user);
 
         $user = [
-            'name' => 'tao là nhà tuyển dụng',
+            'name' => 'Riot Games Inc',
             'email' => 'tuyendung@gmail.com',
             'password' => Hash::make('123'),
             'address' => null,
@@ -61,7 +63,8 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '0123456789',
             'status' => 'approved',
             'gender' => 'None',
-            'birthday' => '2003-01-01'
+            'birthday' => '2003-01-01',
+            'avatar_url' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAGvRhdg1vaZyhkn5zzE7p35e70SUgv0TVCw&s'
         ];
 
         User::create($user);
@@ -70,19 +73,25 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Sum of two numbers',
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of three numbers',
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Medium',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of four numbers',
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Hard',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
         ];
 
@@ -149,6 +158,7 @@ class DatabaseSeeder extends Seeder
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW7S24aqeMJVm-ofv0JGjUFakDXJeV6WpJfQ&s',
                 'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
                 'end_date' => Carbon::create(2024, 10, 18, 18, 15, 00),
+                'created_by' => 1
             ],
             [
                 'title' => 'ZoBoi Hackathon Aishh',
@@ -156,6 +166,7 @@ class DatabaseSeeder extends Seeder
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThHzVwYwhZph2gph0cCeoP-d6nj3aB-ZogMA&s',
                 'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
                 'end_date' => Carbon::create(2024, 10, 10, 22, 10, 00),
+                'created_by' => 1
             ],
             [
                 'title' => 'CMS Hackathon numberthon',
@@ -163,6 +174,7 @@ class DatabaseSeeder extends Seeder
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI6FdZ-KcBkNiy0cBtPZaYWKtmTajsmOtehQ&s',
                 'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
                 'end_date' => Carbon::create(2024, 10, 15, 12, 30, 00),
+                'created_by' => 1
             ]
         ];
 
@@ -177,63 +189,81 @@ class DatabaseSeeder extends Seeder
                 'contest_id' => 1,
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of three numbers',
                 'contest_id' => 1,
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Medium',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of four numbers',
                 'contest_id' => 1,
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Hard',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of two numbers',
                 'contest_id' => 2,
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of three numbers',
                 'contest_id' => 2,
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Medium',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of four numbers',
                 'contest_id' => 2,
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Hard',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of two numbers',
                 'contest_id' => 3,
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of three numbers',
                 'contest_id' => 3,
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Medium',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
             [
                 'title' => 'Sum of four numbers',
                 'contest_id' => 3,
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Hard',
-                'acceptance_rate' => 0
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
             ],
         ];
 
