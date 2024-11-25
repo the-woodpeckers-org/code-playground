@@ -47,9 +47,6 @@ export default {
 </script>
 
 <template>
-    <div role="tablist" class="tabs tabs-bordered grid grid-cols-2 bg-white">
-        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Candidates" checked/>
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
             <form v-if="!auth">
                 <div class="w-full ">
                     <div class="border w-4/12 rounded-xl p-6 bg-gradient-to-tl from-cyan-100 to-purple-100 mx-auto">
@@ -91,14 +88,6 @@ export default {
                     </div>
                 </div>
             </form>
-        </div>
-        <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Employer" checked="checked" />
-        <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-            <form v-if="!$root.auth">
-                
-            </form>
-        </div>
-    </div>
 </template>
 
 <style scoped>
