@@ -10,7 +10,7 @@ use App\Models\JobRecruitment;
 use App\Models\Language;
 use App\Models\Problem;
 use App\Models\ProblemLanguage;
-use App\Models\ProblemTags;
+use App\Models\ProblemTag;
 use App\Models\ProfileCompany;
 use App\Models\ProfileUser;
 use App\Models\Testcase;
@@ -705,7 +705,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         foreach ($problem_tags as $tag) {
-            ProblemTags::create($tag);
+            ProblemTag::create($tag);
         }
         // end Problem Tags
     }

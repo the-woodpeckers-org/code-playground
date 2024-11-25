@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\CreateProblemFormRequest;
 use App\Http\Requests\SubmitCodeFormRequest;
 use App\Http\Requests\SubmitCodeParticipationFormRequest;
 use App\Services\ProblemService;
@@ -52,6 +53,20 @@ class ProblemController
         return response()->json($result);
     }
 
+    public function createProblem(CreateProblemFormRequest $request)
+    {
+        return response()->json($this->service->createProblem($request));
+    }
+
+    public function updateProblem(UpdateProblemFormRequest $request)
+    {
+
+    }
+
+    public function deleteProblem(Request $request)
+    {
+        return response()->json($this->service->deleteProblem($request));
+    }
 
     public function submit(SubmitCodeFormRequest $request)
     {
@@ -67,4 +82,6 @@ class ProblemController
     {
         return $this->service->getAllProblemsByContributor($request);
     }
+
+
 }
