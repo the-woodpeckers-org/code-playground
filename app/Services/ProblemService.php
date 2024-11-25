@@ -26,6 +26,7 @@ class ProblemService
         $result = Problem::query();
         $result->select();
         $result->where('contest_id', '=', null);
+        $result->where('status', 'active');
         $result->addSelect(['problems.*']);
         return $result->paginate(16);
     }
@@ -49,6 +50,7 @@ class ProblemService
         $result = Problem::query();
         $result->select();
         $result->where('contest_id', '=', null);
+        $result->where('status', 'active');
         if ($request->user()) {
             $userId = $request->user()->id;
             $result->leftJoin('attempts', function ($query) use ($userId) {

@@ -18,28 +18,39 @@
                      class="h-12">
             </router-link>
             <div class="hidden lg:flex space-x-4">
-                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
+                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
                     Explore
                 </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
+                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
                     Contests
                 </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden" to="/courses">
+                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden"
+                             to="/courses">
                     Courses
                 </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden"
+                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden"
                              to="/challenges">
                     Challenges
                 </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
+                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
                     Problems
                 </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == 0 || getAuth().role == 2)" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
+                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
                     Career
                 </router-link>
-                <router-link to="/Info-Recruitment" v-if="getAuth() && getAuth().role == '1'"
-                             class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
-                <router-link v-if="getAuth() && getAuth().role == 2" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor">
+                <router-link to="/Info-Recruitment" v-if="getAuth() && getAuth().role == Role.Company"
+                             class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test
+                    Company
+                </router-link>
+                <router-link v-if="getAuth() && (getAuth().role == Role.Contributor || getAuth().role == Role.Company)"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl"
+                             to="/contributor">
                     Contributor
                 </router-link>
             </div>
@@ -49,7 +60,7 @@
                 <!-- đổi cái hình khác -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
                 </svg>
             </button>
         </div>
@@ -59,7 +70,7 @@
                     <div class="w-10 rounded-full">
                         <img v-if="getAuth()" alt="Avatar"
                              :src="getAuth().avatar_url"
-                             loading="lazy" />
+                             loading="lazy"/>
                         <img v-if="!getAuth()" alt="Avatar"
                              src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
                              loading="lazy">
@@ -105,11 +116,13 @@
             Career
         </router-link>
         <router-link to="/Info-Recruitment"
-                     class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company</router-link>
+                     class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">Test Company
+        </router-link>
     </div>
 </template>
 <script setup>
 import {getAuth} from "@/utils/authLocalStorage.js";
+import {Role} from "@/utils/roles.js";
 </script>
 <script>
 export default {
