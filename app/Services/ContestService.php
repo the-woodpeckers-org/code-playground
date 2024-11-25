@@ -9,14 +9,21 @@ class ContestService
 {
     public function getAll(Request $request)
     {
-        return Contest::paginate(16);
+        return Contest::paginate(8);
     }
 
-    public function getById(Request $request) {
+    public function getById(Request $request)
+    {
         return Contest::where("id", $request->id)->first();
     }
 
-    public function getForLanding() {
+    public function getForLanding()
+    {
         return Contest::orderBy("created_at", "desc")->limit(3)->get();
+    }
+
+    public function getAllByContributor(Request $request)
+    {
+        return Contest::where('created_by', $request->user()->id)->paginate(8);
     }
 }
