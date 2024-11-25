@@ -19,8 +19,8 @@ export default {
     },
     data: function () {
         return {
-            problems: Array,
-            contests: Array,
+            problems: [],
+            contests: [],
             loading: false
         }
     },
