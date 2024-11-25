@@ -1,9 +1,11 @@
 <script>
 import Multiselect from 'vue-multiselect';
 import {HTTP} from "@/http-common.js";
+import Toast from "@/components/messages/Toast.vue";
 
 export default {
     components: {
+        Toast,
         Multiselect
     },
     name: "CreateProblem",
@@ -28,8 +30,10 @@ export default {
             ],
             title: '',
             description: '',
-            richText: null,
-            editor: null
+            rte: null,
+            editor: null,
+            isCreated: false,
+            isShowed: false
         }
     },
     mounted() {
@@ -88,17 +92,19 @@ export default {
             const data = {
                 title: _this.title,
                 difficulty: _this.difficulty,
-                description: _this.richText.getHTMLCode(),
+                description: _this.rte.getHTMLCode(),
                 categories: this.currentCategories,
                 languages: this.currentLanguages,
                 testcases: this.testcases
             };
-            HTTP.post('api/problem/create', data)
+            HTTP.post('api/problem', data)
                 .then((response) => {
-                    this.richText.setHTMLCode("");
-                    let editor = ace.edit('editor');
-                    editor.setTheme('ace/theme/monokai');
-                    editor.session.setMode('ace/mode/c_cpp');
+                    _this.isShowed = false;
+                    _this.isCreated = true;
+                    _this.rte.setHTMLCode("");
+                    _this.editor = ace.edit('editor');
+                    _this.editor.setTheme('ace/theme/monokai');
+                    _this.editor.session.setMode('ace/mode/c_cpp');
                     _this.getCategories();
                     _this.currentCategories = [];
                     _this.currentLanguages = [];
@@ -112,22 +118,23 @@ export default {
                     _this.testcases = [];
                     _this.title = '';
                     _this.difficulty = '';
+                    this.$emit('toggle-fetch');
                 })
                 .catch((err) => {
 
                 });
-        }
+        },
     }
 }
 </script>
 
 <template>
     <div class="text-end">
-        <button onclick="my_modal.showModal()" class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">Create new
+        <button @click="this.isShowed = true; this.isCreated = false;" class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">Create new
             problem
         </button>
     </div>
-    <dialog id="my_modal" class="modal">
+    <dialog id="my_modal" class="modal" :class="{'modal-open' : isShowed}">
         <div class="modal-box w-11/12 max-w-5xl" style="min-height: 600px">
             <h3 class="text-lg font-bold">Create new problem</h3>
             <form>
@@ -212,11 +219,12 @@ export default {
                     <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="createProblem">
                         Create
                     </button>
-                    <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg">Cancel</button>
+                    <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg" @click="this.isShowed = false;">Cancel</button>
                 </form>
             </div>
         </div>
     </dialog>
+    <Toast v-if="isCreated" :toastData="{type: 'success', message: 'Create problem successfully'}"></Toast>
 </template>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

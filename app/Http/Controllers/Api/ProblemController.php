@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\CreateProblemFormRequest;
 use App\Http\Requests\SubmitCodeFormRequest;
 use App\Http\Requests\SubmitCodeParticipationFormRequest;
+use App\Http\Requests\UpdateProblemFormRequest;
 use App\Services\ProblemService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -60,7 +61,7 @@ class ProblemController
 
     public function updateProblem(UpdateProblemFormRequest $request)
     {
-
+        return response()->json($this->service->updateProblem($request));
     }
 
     public function deleteProblem(Request $request)
@@ -82,6 +83,4 @@ class ProblemController
     {
         return $this->service->getAllProblemsByContributor($request);
     }
-
-
 }

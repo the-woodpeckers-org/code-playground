@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Requests\CreateProblemFormRequest;
 use App\Http\Requests\SubmitCodeFormRequest;
 use App\Http\Requests\SubmitCodeParticipationFormRequest;
+use App\Http\Requests\UpdateProblemFormRequest;
 use App\Models\Attempt;
 use App\Models\CategoryStat;
 use App\Models\Language;
@@ -18,6 +19,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProblemService
 {
@@ -28,7 +30,7 @@ class ProblemService
         $result->where('contest_id', '=', null);
         $result->where('status', 'active');
         $result->addSelect(['problems.*']);
-        return $result->paginate(16);
+        return $result->paginate(8);
     }
 
     public function get(Request $request)
@@ -42,7 +44,7 @@ class ProblemService
     public function getAllProblemsByContributor(Request $request)
     {
         $contributor = User::find($request->user()->id);
-        return Problem::where('created_by', $contributor->id)->paginate(8);
+        return Problem::where('created_by', $contributor->id)->where('contest_id', null)->paginate(8);
     }
 
     public function getAllU(Request $request)
@@ -60,7 +62,7 @@ class ProblemService
             $result->addSelect(['attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
         }
         $result->addSelect(['problems.*']);
-        return $result->paginate(16);
+        return $result->paginate(8);
     }
 
     public function getU(Request $request)
@@ -172,7 +174,7 @@ class ProblemService
                 'difficulty' => $request->input('difficulty'),
                 'acceptance_rate' => 0,
                 'created_by' => $request->user()->id,
-                'status' => 'Pending',
+                'status' => 'pending',
                 'change_required' => ''
             ]);
             $problem->save();
@@ -210,7 +212,50 @@ class ProblemService
 
     public function updateProblem(UpdateProblemFormRequest $request)
     {
+        if ($request->user()) {
 
+            $problem = Problem::where('id', $request->input('id'))->first();
+            if ($problem) {
+                Testcase::where('problem_id', $request->input('id'))->delete();
+                ProblemLanguage::where('problem_id', $request->input('id'))->delete();
+                ProblemTag::where('problem_id', $request->input('id'))->delete();
+                $problem->update([
+                    'title' => $request->input('title'),
+                    'description' => $request->input('description'),
+                    'difficulty' => $request->input('difficulty'),
+                ]);
+                foreach ($request->input('categories') as $category) {
+                    if (!empty($category['id'])) {
+                        $problemTag = new ProblemTag();
+                        $problemTag->fill([
+                            'problem_id' => $problem->id,
+                            'category_id' => $category['id'],
+                        ]);
+                        $problemTag->save();
+                    }
+                }
+                foreach ($request->input('languages') as $language) {
+                    $problemLanguage = new ProblemLanguage();
+                    $problemLanguage->fill([
+                        'problem_id' => $problem->id,
+                        'language_id' => Language::where('name', $language)->first()->id
+                    ]);
+                    $problemLanguage->save();
+                }
+                foreach ($request->input('testcases') as $testcase) {
+                    $nTestcase = new Testcase();
+                    $nTestcase->fill([
+                        'problem_id' => $problem->id,
+                        'stdin' => $testcase['stdin'],
+                        'expected_output' => $testcase['expected_output'],
+                    ]);
+                    $nTestcase->save();
+                }
+                return ['message' => 'Success'];
+            }
+            return new NotFoundHttpException('Problem not found');
+        }
+        return new BadRequestHttpException('Unauthenticated');
     }
 
     public function deleteProblem(Request $request)

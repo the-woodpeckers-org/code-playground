@@ -1,9 +1,11 @@
 <script>
 import Multiselect from 'vue-multiselect';
 import {HTTP} from "@/http-common.js";
+import Toast from "@/components/messages/Toast.vue";
 
 export default {
     components: {
+        Toast,
         Multiselect
     },
     name: "EditProblem",
@@ -27,7 +29,8 @@ export default {
             difficulty: '',
             rte: null,
             editor: null,
-            isLoading: true
+            isLoading: true,
+            isUpdated: false
         }
     },
     mounted() {
@@ -82,6 +85,7 @@ export default {
         },
         getProblem(id) {
             document.getElementById('edit-modal-box').scrollTop = 0;
+            this.isUpdated = false;
             this.isShowed = true;
             this.isLoading = true;
             let _this = this;
@@ -107,7 +111,6 @@ export default {
                             expected_output: item.expected_output
                         })
                     });
-
                     this.isLoading = false;
                 })
                 .catch((err) => {
@@ -116,7 +119,25 @@ export default {
 
         },
         updateProblem() {
-
+            let _this = this;
+            const data = {
+                title: _this.title,
+                difficulty: _this.difficulty,
+                description: _this.rte.getHTMLCode(),
+                categories: this.currentCategories,
+                languages: this.currentLanguages,
+                testcases: this.testcases
+            };
+            console.log(data);
+            HTTP.put('api/problem/?id=' + _this.id, data)
+                .then((response) => {
+                    this.isShowed = false;
+                    this.isUpdated = true;
+                    this.$emit('toggle-fetch');
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         closeModal() {
             this.isShowed = false;
@@ -220,6 +241,7 @@ export default {
             </div>
         </div>
     </dialog>
+    <Toast v-if="isUpdated" :toastData="{type: 'success', message: 'Update problem successfully'}"></Toast>
 </template>
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

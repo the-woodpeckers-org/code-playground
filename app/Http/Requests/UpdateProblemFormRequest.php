@@ -22,7 +22,6 @@ class UpdateProblemFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|integer',
             'title' => 'required|string',
             'difficulty' => 'required|string',
             'description' => 'required|string',

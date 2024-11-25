@@ -78,8 +78,8 @@ export default {
         <p class="text-center font-bold text-2xl">Problem management</p>
         <p class="text-lg">Your problems on The CodePlayground</p>
         <div class="w-full">
-            <CreateProblem ></CreateProblem>
-            <EditProblem ref="editProblemRef"></EditProblem>
+            <CreateProblem @toggle-fetch="fetchData"></CreateProblem>
+            <EditProblem @toggle-fetch="fetchData" ref="editProblemRef"></EditProblem>
         </div>
         <div class="overflow-x-auto bg-base-100 rounded-xl">
             <table class="table table-lg">

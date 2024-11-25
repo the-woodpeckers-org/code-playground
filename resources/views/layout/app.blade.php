@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>CodePlayground</title>
+    <link rel="stylesheet" type="text/css" href="{{asset('richtexteditor/runtime/richtexteditor_content.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('richtexteditor/rte_theme_default.css')}}">
     <script type="text/javascript" src="{{asset('richtexteditor/rte.js')}}"></script>
     <script type="text/javascript" src="{{asset('richtexteditor/plugins/all_plugins.js')}}"></script>
