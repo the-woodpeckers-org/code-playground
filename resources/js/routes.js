@@ -1,6 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router";
 import Dashboard from "@/components/pages/Contributor/Dashboard.vue";
 
+const PostPage = () => import("@/components/pages/Post/PostPage.vue");
 const UserEmailVerification = () => import("@/components/pages/Email/UserEmailVerification.vue");
 const ForgotPassword = () => import("@/components/pages/ForgotPassword.vue");
 const ResetPassword = () => import("@/components/pages/ResetPassword.vue");
@@ -34,7 +35,6 @@ const JobsManagement = () => import("@/components/pages/Recruitment/JobsManageme
 const AddJob = () => import("@/components/pages/Recruitment/AddJob.vue");
 const DetailJobM = () => import("@/components/pages/Recruitment/DetailJobM.vue");
 const ViewUser = () => import("@/components/pages/Recruitment/ViewUser.vue");
-
 const AdminDashboard = () => import("@/components/pages/Admin/DashboardAdmin.vue");
 const AdminHome = () => import("@/components/pages/Admin/HomeAdmin.vue");
 const AdminProfile = () => import("@/components/pages/Admin/ProfileAdmin.vue");
@@ -222,37 +222,42 @@ const routes = [
         path: '/admin/dashboard',
         component: AdminDashboard,
         name: 'admin-dashboard',
-        children:[
+        children: [
             {
                 name: 'homeAdmin',
                 path: '/admin/home',
                 component: AdminHome
-              },
-              {
+            },
+            {
                 name: 'profileAdmin',
                 path: '/admin/profile',
                 component: AdminProfile
-              },
-              {
+            },
+            {
                 name: 'user-management',
                 path: '/admin/user',
                 component: AdminUserM
-              },
-              {
+            },
+            {
                 name: 'subscribe-company-management',
                 path: '/admin/subscribe/company',
                 component: SubscribeCompanyM
-              },
-              {
+            },
+            {
                 name: 'subscribe-contributor-management',
                 path: '/admin/subscribe/contributor',
                 component: SubscribeContributorM
-              },{
+            }, {
                 name: 'applications-management',
                 path: '/admin/applications',
                 component: ApplicationsM
-              }
+            }
         ]
+    },
+    {
+        path: '/post/:slug',
+        component: PostPage,
+        name: 'post-page'
     }
 ]
 

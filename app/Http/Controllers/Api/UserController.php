@@ -39,4 +39,9 @@ class UserController
     {
         return response()->json($this->service->updateUser($request));
     }
+
+    public function getLandingRanking()
+    {
+        return response()->json($this->service->getLandingRanking());
+    }
 }

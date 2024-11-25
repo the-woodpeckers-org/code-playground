@@ -19,8 +19,8 @@ export default {
     },
     data: function () {
         return {
-            problems: Array,
-            contests: Array,
+            problems: [],
+            contests: [],
             loading: false
         }
     },
@@ -34,17 +34,14 @@ export default {
             HTTP.get(_url)
                 .then(function (response) {
                     _this.problems = response.data.data
-                    console.log(response.data.data);
                 })
                 .catch(function (error) {
-                    console.log(error)
                 }),
             HTTP.get('api/contest/landing')
                 .then(response => {
                     _this.contests = response.data;
                 })
                 .catch(error => {
-                    console.log(error)
                 })
         ]);
         _this.loading = true

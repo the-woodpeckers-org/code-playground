@@ -1,13 +1,31 @@
 <script>
+import {HTTP} from "@/http-common.js";
+
 export default {
-    name: "Ranking"
+    name: "Ranking",
+    data: () => {
+        return {
+            users: []
+        }
+    },
+    mounted() {
+        let _this = this;
+        HTTP.get('api/user/weekly-ranking')
+            .then((response) => {
+                _this.users = response.data;
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },
+    methods: {}
 }
 </script>
 
 <template>
     <div>
         <div style="min-height: 520px">
-            <h1 class="text-xl font-semibold">Top 10 last week!</h1>
+            <h1 class="text-xl font-semibold">Top 10 last 7 days!</h1>
             <div class="overflow-x-auto text-lg">
                 <table class="table table-sm border-gray-600">
                     <thead>
@@ -15,21 +33,19 @@ export default {
                         <th></th>
                         <th>User</th>
                         <th>Problem solved</th>
-                        <th>Acceptance</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="item in 10" class="">
+                    <tr v-for="user in users">
                         <td>
                             <div class="flex items-center gap-3">
                                 <img class="h-7 w-7 rounded-full"
-                                     src="https://upload.wikimedia.org/wikipedia/en/e/e9/Where%27s_My_Perry_icon.jpg">
+                                     :src="user.avatar_url">
                             </div>
 
                         </td>
-                        <td>sample</td>
-                        <td>419</td>
-                        <td>99.1%</td>
+                        <td> {{ user.name }}</td>
+                        <td> {{ user.attempts_count }}</td>
                     </tr>
                     </tbody>
                 </table>

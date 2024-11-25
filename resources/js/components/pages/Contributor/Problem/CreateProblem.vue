@@ -130,7 +130,7 @@ export default {
 
 <template>
     <div class="text-end">
-        <button @click="this.isShowed = true; this.isCreated = false;" class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">Create new
+        <button @click="this.isShowed = true; this.isCreated = false;" class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">New
             problem
         </button>
     </div>
