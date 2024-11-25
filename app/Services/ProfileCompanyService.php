@@ -108,4 +108,23 @@ class ProfileCompanyService
             'data' => $profile
         ]);
     }
+    public function listCompanyHiring(Request $request)
+    {
+    
+        $companies = User::where('role', '=', Role::Company)->where('status', '=', Status::APPROVED)->get();
+        $detailCompanies = [];
+        foreach ($companies as $company) {
+            $profile = ProfileCompany::where('user_id', '=', $company->id)->first();
+            $listJobs = JobRecruitment::where('user_id', '=', $company->id)->where('status','=',Status::APPROVED)->get();
+            $detailCompanies[] = [
+                'profileCompany' => $profile,
+                'userCompany' => $company,
+                'jobRecruitments' => $listJobs
+            ];
+        }
+        return response()->json([
+            'status' => 200,
+            'companies' => $detailCompanies
+        ]);
+    }
 }

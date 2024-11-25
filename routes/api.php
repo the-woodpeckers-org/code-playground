@@ -114,3 +114,5 @@ Route::get('/verify-reset-token', [AuthController::class, 'verifyPasswordResetTo
 
 Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('contest.getLanding');
 Route::get('/contest/', [ContestController::class, 'getAll'])->name('contest.getAll');
+
+Route::get('/listCompanyHiring', [ProfileCompanyController::class, 'listCompanyHiring'])->name('listCompanyHiring');
