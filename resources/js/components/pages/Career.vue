@@ -3,10 +3,35 @@ import BaseCard from "@/components/cards/BaseCard.vue";
 import Company from "@/components/cards/Company.vue";
 import Job from "@/components/cards/Job.vue";
 import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
-
+import {HTTP} from "@/http-common.js";
 export default {
     name: "Careers",
-    components: {LoginRequiredDialog, Job, Company, BaseCard}
+    components: {LoginRequiredDialog, Job, Company, BaseCard},
+    data() {
+        return {
+            searchQuery: "",
+            allItems: [],
+            filteredSuggestions: [],
+            listCompany: [],
+        };
+    },
+   async mounted() {
+        await this.fetchData();
+    },  
+    methods: {
+       async fetchData()
+        {
+            await HTTP.get('/api/listCompanyHiring')
+                .then(response => {
+                    console.log("cong ty: ",response.data);
+                    this.listCompany = response.data.companies;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    }
+
 }
 </script>
 
@@ -83,47 +108,12 @@ export default {
         </div>
         <h1 class="text-xl font-semibold my-3">Top Hiring Companies</h1>
         <div class="flex flex-row flex-wrap justify-center">
-            <Company
-                :imgUrl="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYglsy9_TEorHs0WeIy4wAlfNBmKG3fqy4MA&s'"
-                :title="'Microsoft'"
-                :description="'Empowering every person and every organization on the planet to achieve more'"
-                :url="'#'"
-                :slot="36"
-            ></Company>
-            <Company
-                :imgUrl="'https://cdn.omnirise.com/cms/Riot_7c037463ed.png'"
-                :title="'Riot Games'"
-                :description="'We Are Player First · Hyper-serve the core'"
-                :url="'#'"
-                :slot="51"
-            ></Company>
-            <Company
-                :imgUrl="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKDJ2Ng40CF4yr4q89wueOVHuQGwEWqq3oMg&s'"
-                :title="'Google'"
-                :description="'Do the right thing'"
-                :url="'#'"
-                :slot="22"
-            ></Company>
-            <Company
-                :imgUrl="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnOVjTWaheo4E99cgYZ6y14tpsgHlm0VN8Hw&s'"
-                :title="'Oracle'"
-                :description="'Integrated Cloud - Applications and Platform Services'"
-                :url="'#'"
-                :slot="36"
-            ></Company>
-            <Company
-                :imgUrl="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8WU0Emt19dyXiCPIuhVtxIFbqx13mkj54hA&s'"
-                :title="'Amazon'"
-                :description="'Work hard, Have fun, Make history.'"
-                :url="'#'"
-                :slot="11"
-            ></Company>
-            <Company
-                :imgUrl="'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsAhpa2Oys1ydVEiF3VkytYY6oCZ7g2LNvjg&s'"
-                :title="'Valve'"
-                :description="'At Valve we make games, Steam, and hardware'"
-                :url="'#'"
-                :slot="5"
+            <Company v-for="(item, index) in this.listCompany" :key="index"
+                :imgUrl="item.userCompany.avatar_url"
+                :title="item.userCompany.name"
+                :description="item.profileCompany.description"
+                :url="'/View-Company/' + item.profileCompany.id"
+                :slot="item.jobRecruitments.length"
             ></Company>
         </div>
         <h1 class="text-xl font-semibold my-3">Available jobs based on your skills</h1>

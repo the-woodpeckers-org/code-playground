@@ -67,6 +67,7 @@ class DatabaseSeeder extends Seeder
             'avatar_url' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAGvRhdg1vaZyhkn5zzE7p35e70SUgv0TVCw&s'
         ];
 
+        
         User::create($user);
         $problems = [
             [
@@ -448,13 +449,6 @@ class DatabaseSeeder extends Seeder
         $application->save();
 
 
-        // 'user_id',
-        // 'description',
-        // 'general_information',
-        // 'address',
-        // 'phone',
-        // 'email',
-        // 'skill',
         $profile = new ProfileCompany();
         $profile->user_id = 3;
         $profile->description = 'hehe';
@@ -738,5 +732,103 @@ class DatabaseSeeder extends Seeder
             ProblemTag::create($tag);
         }
         // end Problem Tags
+
+        // create company
+        $company1 = new User();
+        $company1->name = 'Google';
+        $company1->email = 'google@gmail.com';
+        $company1->password = Hash::make('123');
+        $company1->role = Role::Company;
+        $company1->status = 'approved';
+        $company1->save();
+
+        $profile_company1 = new ProfileCompany();
+        $profile_company1->user_id = $company1->id;
+        $profile_company1->description = 'Google is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware.';
+        $profile_company1->general_information = 'Google is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware.';
+        $profile_company1->email = 'google@gmail.com';
+        $profile_company1->phone = '0123456789';
+        $profile_company1->address = 'Mountain View, California, United States';
+        $profile_company1->skill = '["Java", "Python", "C++"]';
+        $profile_company1->codeCompany = '123';
+        $profile_company1->save();
+
+        $company2 = new User();
+        $company2->name = 'Facebook';
+        $company2->email = 'facebook@gmail.com';
+        $company2->password = Hash::make('123');
+        $company2->role = Role::Company;
+        $company2->status = 'approved';
+        $company2->save();
+
+        $profile_company2 = new ProfileCompany();
+        $profile_company2->user_id = $company2->id;
+        $profile_company2->description = 'Facebook is an American online social media and social networking service company based in Menlo Park, California.';
+        $profile_company2->general_information = 'Facebook is an American online social media and social networking service company based in Menlo Park, California.';
+        $profile_company2->email = 'facebook@gmail.com';
+        $profile_company2->phone = '0123456789';
+        $profile_company2->address = 'Menlo Park, California, United States';
+        $profile_company2->skill = '["Java", "Python", "C++"]';
+        $profile_company2->codeCompany = '123';
+        $profile_company2->save();
+        
+        $company3 = new User();
+        $company3->name = 'Amazon';
+        $company3->email = 'amazon@gmail.com';
+        $company3->password = Hash::make('123');
+        $company3->role = Role::Company;
+        $company3->status = 'approved';
+        $company3->save();
+
+        $profile_company3 = new ProfileCompany();
+        $profile_company3->user_id = $company3->id;
+        $profile_company3->description = 'Amazon.com, Inc. is an American multinational technology company which focuses on e-commerce, cloud computing, digital streaming, and artificial intelligence.';
+        $profile_company3->general_information = 'Amazon.com, Inc. is an American multinational technology company which focuses on e-commerce, cloud computing, digital streaming, and artificial intelligence.';
+        $profile_company3->email = 'amazon@gmail.com';
+        $profile_company3->phone = '0123456789';
+        $profile_company3->address = 'Seattle, Washington, United States';
+        $profile_company3->skill = '["Java", "Python", "C++"]';
+        $profile_company3->codeCompany = '123';
+        $profile_company3->save();
+
+        $company4 = new User();
+        $company4->name = 'Apple';
+        $company4->email = 'apple@gmail.com';
+        $company4->password = Hash::make('123');
+        $company4->role = Role::Company;
+        $company4->status = 'approved';
+        $company4->save();
+
+        $profile_company4 = new ProfileCompany();
+        $profile_company4->user_id = $company4->id;
+        $profile_company4->description = 'Apple Inc. is an American multinational technology company that specializes in consumer electronics, computer software, and online services.';
+        $profile_company4->general_information = 'Apple Inc. is an American multinational technology company that specializes in consumer electronics, computer software, and online services.';
+        $profile_company4->email = 'apple@gmail.com';
+        $profile_company4->phone = '0123456789';
+        $profile_company4->address = 'Cupertino, California, United States';
+        $profile_company4->skill = '["Java", "Python", "C++"]';
+        $profile_company4->codeCompany = '123';
+        $profile_company4->save();
+
+        $company5 = new User();
+        $company5->name = 'Microsoft';
+        $company5->email = 'microsoft@gmail.com';
+        $company5->password = Hash::make('123');
+        $company5->role = Role::Company;
+        $company5->status = 'approved';
+        $company5->save();
+
+        $profile_company5 = new ProfileCompany();
+        $profile_company5->user_id = $company5->id;
+        $profile_company5->description = 'Microsoft Corporation is an American multinational technology company which produces computer software, consumer electronics, personal computers, and related services.';
+        $profile_company5->general_information = 'Microsoft Corporation is an American multinational technology company which produces computer software, consumer electronics, personal computers, and related services.';
+        $profile_company5->email = 'microsoft@gmail.com';
+        $profile_company5->phone = '0123456789';
+        $profile_company5->address = 'Redmond, Washington, United States';
+        $profile_company5->skill = '["Java", "Python", "C++"]';
+        $profile_company5->codeCompany = '123';
+        $profile_company5->save();
+
+        
     }
 }

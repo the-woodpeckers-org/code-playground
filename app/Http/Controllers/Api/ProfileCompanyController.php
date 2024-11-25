@@ -37,6 +37,10 @@ class ProfileCompanyController
         
     }
 
+    public function listCompanyHiring(Request $request)
+    {
+        return $this->_service->listCompanyHiring($request);
+    }
     public function deleteProfileCompany(Request $request)
     {
         
