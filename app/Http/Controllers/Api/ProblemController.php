@@ -82,6 +82,4 @@ class ProblemController
     {
         return $this->service->getAllProblemsByContributor($request);
     }
-
-
 }

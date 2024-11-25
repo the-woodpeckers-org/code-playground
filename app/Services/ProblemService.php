@@ -28,7 +28,7 @@ class ProblemService
         $result->where('contest_id', '=', null);
         $result->where('status', 'active');
         $result->addSelect(['problems.*']);
-        return $result->paginate(16);
+        return $result->paginate(8);
     }
 
     public function get(Request $request)
@@ -42,7 +42,7 @@ class ProblemService
     public function getAllProblemsByContributor(Request $request)
     {
         $contributor = User::find($request->user()->id);
-        return Problem::where('created_by', $contributor->id)->paginate(8);
+        return Problem::where('created_by', $contributor->id)->where('contest_id', null)->paginate(8);
     }
 
     public function getAllU(Request $request)
@@ -60,7 +60,7 @@ class ProblemService
             $result->addSelect(['attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
         }
         $result->addSelect(['problems.*']);
-        return $result->paginate(16);
+        return $result->paginate(8);
     }
 
     public function getU(Request $request)
@@ -172,7 +172,7 @@ class ProblemService
                 'difficulty' => $request->input('difficulty'),
                 'acceptance_rate' => 0,
                 'created_by' => $request->user()->id,
-                'status' => 'Pending',
+                'status' => 'pending',
                 'change_required' => ''
             ]);
             $problem->save();

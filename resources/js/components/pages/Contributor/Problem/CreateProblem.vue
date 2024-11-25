@@ -28,7 +28,7 @@ export default {
             ],
             title: '',
             description: '',
-            richText: null,
+            rte: null,
             editor: null
         }
     },
@@ -88,12 +88,12 @@ export default {
             const data = {
                 title: _this.title,
                 difficulty: _this.difficulty,
-                description: _this.richText.getHTMLCode(),
+                description: _this.rte.getHTMLCode(),
                 categories: this.currentCategories,
                 languages: this.currentLanguages,
                 testcases: this.testcases
             };
-            HTTP.post('api/problem/create', data)
+            HTTP.post('api/problem', data)
                 .then((response) => {
                     this.richText.setHTMLCode("");
                     let editor = ace.edit('editor');
