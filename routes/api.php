@@ -29,6 +29,7 @@ Route::post('/compile', [CodeExecutionController::class, 'compileCode'])->name('
 Route::get('/problem', [ProblemController::class, 'getProblems'])->name('problem.getProblems');
 Route::get('/problem/get', [ProblemController::class, 'getProblem'])->name('problem.getProblem');
 
+Route::get('/user/weekly-ranking', [UserController::class, 'getLandingRanking'])->name('user.getLandingRanking');
 
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');

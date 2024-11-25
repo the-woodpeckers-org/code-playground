@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Http\Requests\UpdateUserFormRequest;
 use App\Models\User;
+use App\Utils\Constants\Role;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
@@ -30,8 +32,7 @@ class UserService
             $user = User::find($request->user()->id);
             $user->update($request->validated());
             return ['message' => 'Success'];
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw new ServiceUnavailableHttpException($e->getMessage());
         }
     }
@@ -44,5 +45,16 @@ class UserService
     public function getStatsById(Request $request): array
     {
         return User::find($request->input('id'))->getStatsAttribute();
+    }
+
+    public function getLandingRanking()
+    {
+        return User::withCount(['attempts' => function ($query) {
+            $query->where('attempts.created_at', '>', Carbon::now()->addDays(-7));
+        }])
+            ->where('role', '!=', Role::Company)
+            ->orderBy('attempts_count', 'desc')
+            ->take(10)
+            ->get();
     }
 }
