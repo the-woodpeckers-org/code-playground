@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ContestController;
 use App\Http\Controllers\Api\CvController;
 use App\Http\Controllers\api\HiddenCompanyController;
 use App\Http\Controllers\Api\ParticipationController;
+use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProblemController;
 use App\Http\Controllers\Api\ProfileCompanyController;
 use App\Http\Controllers\Api\ProfileUserController;
@@ -28,6 +29,8 @@ Route::post('/compile', [CodeExecutionController::class, 'compileCode'])->name('
 
 Route::get('/problem', [ProblemController::class, 'getProblems'])->name('problem.getProblems');
 Route::get('/problem/get', [ProblemController::class, 'getProblem'])->name('problem.getProblem');
+Route::get('/post/slug', [PostController::class, 'getBySlug'])->name('post.getBySlug');
+Route::get('/post/landing', [PostController::class, 'getLanding'])->name('post.getLanding');
 
 Route::get('/user/weekly-ranking', [UserController::class, 'getLandingRanking'])->name('user.getLandingRanking');
 
@@ -100,6 +103,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/problem', [ProblemController::class, 'createProblem'])->name('createProblem');
     Route::delete('/problem', [ProblemController::class, 'deleteProblem'])->name('deleteProblem');
     Route::put('/problem', [ProblemController::class, 'updateProblem'])->name('updateProblem');
+
+    //crud contributor posts
+    Route::post('/post', [PostController::class, 'create'])->name('post.create');
+    Route::put('/post', [PostController::class, 'update'])->name('post.update');
+    Route::delete('/post', [PostController::class, 'delete'])->name('post.delete');
+    Route::get('contributor/post', [PostController::class, 'getAllByContributor'])->name('post.getAllByContributor');
 
     //crud contributor contests
     Route::get('/contributor/contest/', [ContestController::class, 'getAllByContributor'])->name('contest.getAll');
