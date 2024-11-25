@@ -99,6 +99,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/problem', [ProblemController::class, 'createProblem'])->name('createProblem');
     Route::delete('/problem', [ProblemController::class, 'deleteProblem'])->name('deleteProblem');
     Route::put('/problem', [ProblemController::class, 'updateProblem'])->name('updateProblem');
+
+    //crud contributor contests
+    Route::get('/contributor/contest/', [ContestController::class, 'getAllByContributor'])->name('contest.getAll');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');
