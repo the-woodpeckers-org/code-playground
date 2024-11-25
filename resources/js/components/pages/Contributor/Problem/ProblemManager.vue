@@ -1,12 +1,11 @@
 <script>
 import {HTTP} from "@/http-common.js";
-import CreateProblem from "@/components/pages/Contributor/Problem/CreateProblem.vue";
+const CreateProblem = defineAsyncComponent(() => import("@/components/pages/Contributor/Problem/CreateProblem.vue"));
+const EditProblem = defineAsyncComponent(() => import("@/components/pages/Contributor/Problem/EditProblem.vue"));
 import Toast from "@/components/messages/Toast.vue";
-import EditProblem from "@/components/pages/Contributor/Problem/EditProblem.vue";
-import {ref} from "vue";
 
+import {defineAsyncComponent, ref} from "vue";
 const editProblemRef = ref(null);
-
 export default {
     name: "ProblemManager",
     components: {EditProblem, Toast, CreateProblem},
@@ -31,9 +30,9 @@ export default {
             this.links = [];
             this.getProblems(1);
         },
-        async getProblems(index) {
+        getProblems(index) {
             let _this = this;
-            await HTTP.get('api/contributor/problems?page=' + index)
+            HTTP.get('api/contributor/problems?page=' + index)
                 .then((response) => {
                     _this.problems = response.data.data;
                     _this.links = response.data.links;
@@ -67,6 +66,7 @@ export default {
                 });
         },
         showEdit(id) {
+            this.isEditing = true;
             this.$refs.editProblemRef.getProblem(id);
         }
     }
@@ -78,7 +78,7 @@ export default {
         <p class="text-center font-bold text-2xl">Problem management</p>
         <p class="text-lg">Your problems on The CodePlayground</p>
         <div class="w-full">
-            <CreateProblem></CreateProblem>
+            <CreateProblem ></CreateProblem>
             <EditProblem ref="editProblemRef"></EditProblem>
         </div>
         <div class="overflow-x-auto bg-base-100 rounded-xl">

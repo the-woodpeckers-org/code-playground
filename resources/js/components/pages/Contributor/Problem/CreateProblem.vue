@@ -29,15 +29,19 @@ export default {
             title: '',
             description: '',
             richText: null,
+            editor: null
         }
     },
     mounted() {
-        this.richText = new RichTextEditor("#text-editor-ce");
-        let editor = ace.edit('editor');
-        editor.setTheme('ace/theme/monokai');
-        editor.session.setMode('ace/mode/c_cpp');
         this.currentCategories = [];
         this.getCategories();
+        setTimeout(() => {
+            this.rte = new RichTextEditor("#text-editor-ce");
+            this.rte.setHTMLCode("");
+            this.editor = ace.edit('editor');
+            this.editor.setTheme('ace/theme/monokai');
+            this.editor.session.setMode('ace/mode/c_cpp');
+        }, 500);
     },
     methods: {
         addLanguageTag(newTag) {
@@ -68,10 +72,10 @@ export default {
                 return item.cid != cid;
             });
         },
-        async getCategories() {
+        getCategories() {
             let _this = this;
             this.categories = [];
-            await HTTP.get('api/categories')
+            HTTP.get('api/categories')
                 .then((response) => {
                     _this.categories = response.data;
                 })
@@ -79,8 +83,7 @@ export default {
                     console.log(err);
                 });
         },
-        async createProblem() {
-            this.isCreatedSomeRecord = false;
+        createProblem() {
             let _this = this;
             const data = {
                 title: _this.title,
@@ -89,27 +92,26 @@ export default {
                 categories: this.currentCategories,
                 languages: this.currentLanguages,
                 testcases: this.testcases
-            }
-            await HTTP.post('api/problem/create', data)
+            };
+            HTTP.post('api/problem/create', data)
                 .then((response) => {
-                    rte.setHTMLCode("");
+                    this.richText.setHTMLCode("");
                     let editor = ace.edit('editor');
                     editor.setTheme('ace/theme/monokai');
                     editor.session.setMode('ace/mode/c_cpp');
-                    this.getCategories();
-                    this.currentCategories = [];
-                    this.currentLanguages = [];
-                    this.languages = [
+                    _this.getCategories();
+                    _this.currentCategories = [];
+                    _this.currentLanguages = [];
+                    _this.languages = [
                         'C',
                         'C++',
                         'Python',
                         'PHP',
                         'JavaScript',
                     ];
-                    this.testcases = [];
-                    this.title = '';
-                    this.difficulty = '';
-                    this.isCreatedSomeRecord = true;
+                    _this.testcases = [];
+                    _this.title = '';
+                    _this.difficulty = '';
                 })
                 .catch((err) => {
 

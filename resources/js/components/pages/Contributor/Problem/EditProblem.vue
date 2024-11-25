@@ -21,19 +21,25 @@ export default {
                 'JavaScript',
             ],
             testcases: [],
+            id: '',
             title: '',
             description: '',
-            difficulty: ''
+            difficulty: '',
+            rte: null,
+            editor: null,
+            isLoading: true
         }
     },
     mounted() {
-        let rte = new RichTextEditor("#text-editor-et");
-        rte.setHTMLCode("");
-        let editor = ace.edit('editor-et');
-        editor.setTheme('ace/theme/monokai');
-        editor.session.setMode('ace/mode/c_cpp');
         this.currentCategories = [];
         this.getCategories();
+        setTimeout(() => {
+            this.rte = new RichTextEditor("#text-editor-et");
+            this.rte.setHTMLCode("");
+            this.editor = ace.edit('editor-et');
+            this.editor.setTheme('ace/theme/monokai');
+            this.editor.session.setMode('ace/mode/c_cpp');
+        }, 500);
     },
     methods: {
         addLanguageTag(newTag) {
@@ -64,9 +70,9 @@ export default {
                 return item.cid != cid;
             });
         },
-        async getCategories() {
+        getCategories() {
             let _this = this;
-            await HTTP.get('api/categories')
+            HTTP.get('api/categories')
                 .then((response) => {
                     _this.categories = response.data;
                 })
@@ -74,25 +80,24 @@ export default {
                     console.log(err);
                 });
         },
-        async getProblem(id) {
+        getProblem(id) {
+            document.getElementById('edit-modal-box').scrollTop = 0;
             this.isShowed = true;
+            this.isLoading = true;
             let _this = this;
             this.testcases = [];
-            await HTTP.get('api/problem/get?id=' + id)
+            HTTP.get('api/problem/get?id=' + id)
                 .then((response) => {
                     console.log(response);
                     _this.currentLanguages = response.data.languages.map((item) => {
                         _this.addLanguageTag(item.name);
                         return item.name;
                     });
-
+                    _this.id = response.data.id;
                     _this.currentCategories = response.data.categories;
                     _this.title = response.data.title;
                     _this.description = response.data.description;
-
-                    let rte = new RichTextEditor("#text-editor-et");
-                    rte.setHTMLCode(_this.description);
-
+                    _this.rte.setHTMLCode(_this.description);
                     _this.difficulty = response.data.difficulty;
                     response.data.testcases.forEach((item) => {
                         _this.testcases.push({
@@ -103,10 +108,15 @@ export default {
                         })
                     });
 
+                    this.isLoading = false;
                 })
                 .catch((err) => {
                     console.log(err);
                 });
+
+        },
+        updateProblem() {
+
         },
         closeModal() {
             this.isShowed = false;
@@ -117,21 +127,23 @@ export default {
 
 <template>
     <dialog id="edit_problem" class="modal" :class="{'modal-open' : this.isShowed }">
-        <div class="modal-box w-11/12 max-w-5xl" style="min-height: 600px">
+        <div id="edit-modal-box" class="modal-box w-11/12 max-w-5xl" style="min-height: 600px">
             <h3 class="text-lg font-bold">Edit problem</h3>
             <form>
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                     <div>
                         <label>Title</label>
-                        <input v-model="title" class="rounded-lg border border-gray-400 h-8 w-full">
+                        <input v-if="!isLoading" v-model="title" class="rounded-lg border border-gray-400 h-8 w-full">
+                        <div v-if="isLoading" class="rounded-lg border border-gray-400 h-8 w-full skeleton"></div>
                     </div>
                     <div>
                         <label>Difficulty</label>
-                        <select v-model="difficulty" class="rounded-lg border border-gray-400 h-8 w-full">
+                        <select v-if="!isLoading" v-model="difficulty" class="rounded-lg border border-gray-400 h-8 w-full">
                             <option value="Easy">Easy</option>
                             <option value="Medium">Medium</option>
                             <option value="Hard">Hard</option>
                         </select>
+                        <div v-if="isLoading" class="rounded-lg border border-gray-400 h-8 w-full skeleton"></div>
                     </div>
                     <div>
                         <label>Programming Languages</label>
@@ -176,9 +188,11 @@ export default {
                                 </div>
                                 <br>
                                 <label>Input (stdin format) <span class="font-bold">[NOT TESTED]</span></label>
-                                <input v-model="testcases[index].stdin" class="rounded-lg border border-gray-400 h-8 w-full">
+                                <input v-model="testcases[index].stdin"
+                                       class="rounded-lg border border-gray-400 h-8 w-full">
                                 <label>Expected output <span class="font-bold">[NOT TESTED]</span></label>
-                                <input v-model="testcases[index].expected_output" class="rounded-lg border border-gray-400 h-8 w-full">
+                                <input v-model="testcases[index].expected_output"
+                                       class="rounded-lg border border-gray-400 h-8 w-full">
                                 <div class="text-end">
                                     <button class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">Test with
                                         code
@@ -198,8 +212,10 @@ export default {
             </form>
             <div class="modal-action">
                 <form method="dialog">
-                    <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg">Update</button>
-                    <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg" @click="closeModal">Cancel</button>
+                    <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="updateProblem">Update</button>
+                    <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg" @click="closeModal">
+                        Cancel
+                    </button>
                 </form>
             </div>
         </div>
