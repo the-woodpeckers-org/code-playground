@@ -106,6 +106,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/problem', [ProblemController::class, 'deleteProblem'])->name('deleteProblem');
     Route::put('/problem', [ProblemController::class, 'updateProblem'])->name('updateProblem');
 
+    // user problems
+    Route::get('/problem/recently', [ProblemController::class, 'getRecentAttempts'])->name('recentProblem');
+    Route::get('/participation/recently', [ParticipationController::class, 'getRecentParticipation'])->name('recentParticipation');
+
     //crud contributor posts
     Route::post('/post', [PostController::class, 'create'])->name('post.create');
     Route::put('/post', [PostController::class, 'update'])->name('post.update');
