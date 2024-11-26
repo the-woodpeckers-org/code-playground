@@ -526,7 +526,7 @@ export default {
         <ContentCV v-else></ContentCV>
     </div>
 
-    <dialog v-if="isUpdateProfile" id="login_modal" class="modal modal-open">
+    <dialog v-if="isUpdateProfile" id="" class="modal modal-open">
         <div class="modal-box text-center overflow-hidden">
             <h3 class="text-lg font-bold"></h3>
             <div class="w-full text-center text-5xl text-green-600 animate-jump-in">

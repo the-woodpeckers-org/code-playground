@@ -4,18 +4,19 @@
         <td> <a :href="`/View-User/${id_user}`" target="_blank">{{ name }}</a></td>
         <td><a :href="linkCV" target="_blank">{{ linkCV }}</a></td>
         <td>{{ status }}</td>
-        <!-- Clickable icon to toggle options -->
         <td @click="toggleOptions">
             <i class="fa-solid fa-ellipsis-vertical hover:text-red-500"></i>
         </td>
       
     </tr>
-    <div v-if="showOptions" class="absolute bg-white border rounded shadow-lg right-0 top-0">
-                <ul class="text-sm">
-                    <li @click="refuseCV" class="px-4 py-2 hover:bg-red-100 cursor-pointer">Từ chối</li>
-                    <li @click="capproveCV" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Duyệt</li>
-                </ul>
-        </div>
+        <tr v-if="showOptions" class="bg-gray-50">
+        <td colspan="5">
+            <ul class="text-sm">
+                <li v-if="status !=='Rejected' " @click="refuseCV" class="px-4 py-2 hover:bg-red-100 cursor-pointer">Rejected</li>
+                <li v-if="status !=='Approved'" @click="approveCV" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Approved</li>
+            </ul>
+        </td>
+    </tr>
 </template>
 <script>
 export default {
@@ -74,8 +75,7 @@ export default {
         toggleOptions() {
             this.showOptions = !this.showOptions;
         },
-       capproveCV() {
-            // Handle approve logic here
+       approveCV() {
             this.showOptions = false;
             this.$emit('approveCV', this.id_cv);
         },

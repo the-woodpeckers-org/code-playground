@@ -22,11 +22,14 @@
                     <tbody>
                         <CvItemApplied v-for="(item, index) in this.applications" :key="index"
                             :id_user="item.cv.user.id" :name="item.cv.user.name" :time="item.created_at"
-                            :linkCV="`/cv/show/${item.cv.id}`" @refuseCV="refuseCV" :status="item.status" :id_cv="item.cv.id" @approveCV="approveCV"></CvItemApplied>
+                            :linkCV="`/cv/show/${item.cv.id}`" @refuseCV="refuseCV" :status="item.status"
+                            :id_cv="item.cv.id" @approveCV="approveCV"></CvItemApplied>
                     </tbody>
                 </table>
             </div>
-            <div v-else class="mt-3 text-center"><p class="font-semibold text-2xl">No applications yet</p></div>
+            <div v-else class="mt-3 text-center">
+                <p class="font-semibold text-2xl">No applications yet</p>
+            </div>
         </div>
 
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Edit job" checked="checked" />
@@ -38,6 +41,11 @@
                         <label class="block text-gray-600 font-semibold mb-2">Title</label>
                         <input v-model="jobForm.title" type="text" class="input-field" placeholder="Enter job title"
                             required />
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-600 font-semibold mb-2">Number of vacancies</label>
+                        <input v-model="jobForm.position_number" type="number" class="input-field" placeholder="Enter Number of vacancies" required
+                        onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" />
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-600 font-semibold mb-2">Location</label>
@@ -77,7 +85,8 @@
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-600 font-semibold mb-2">Negotiable</label>
-                        <input type="checkbox" class="checkbox checkbox-accent" :checked="jobForm.negotiable"  v-on:click="setNegotiable"/>
+                        <input type="checkbox" class="checkbox checkbox-accent" :checked="jobForm.negotiable"
+                            v-on:click="setNegotiable" />
                     </div>
                     <div class="mb-6">
                         <label class="block text-gray-600 font-semibold mb-2">Salary</label>
@@ -103,7 +112,30 @@
 
     </div>
 
-
+    <dialog v-if="notificationNumberApproved" id="" class="modal modal-open">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">You are exceeding your initial recruitment numbers!</p>
+            <p>If you continue, the system will automatically update the location number</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="approveCVUpdate">Yes</button>
+                    <button class="btn btn-sm m-1 border" @click="cancelNotification">No</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+    <dialog v-if="isUpdated" id="" class="modal modal-open">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+            <p class="py-4 font-semibold">Update successfully!</p>
+        </div>
+    </dialog>
 </template>
 
 <script>
@@ -126,8 +158,14 @@ export default {
                 salary: "",
                 negotiable: Boolean,
                 deadline: "",
+                position_number: Number,
                 rte_1: null,
             },
+            position_number_max: null,
+            position_number_approved_count: null,
+            notificationNumberApproved: false,
+            id_temp:null,
+            isUpdated: false,
         };
     },
     async mounted() {
@@ -135,7 +173,7 @@ export default {
         this.jobForm.rte_1 = new RichTextEditor('#text-editor-3');
         this.jobForm.rte_1.setHTMLCode(this.jobForm.description);
         await this.fetchDataListCV();
-        console.log(this.jobForm);
+        console.log(this.position_number_approved_count);
     },
     methods: {
         async handleSubmit() {
@@ -155,7 +193,6 @@ export default {
                 this.availableSkills = this.availableSkills.filter(s => s !== skill);
             }
             event.target.value = "Select a skill";
-            console.log(this.selectedSkills);
         },
         removeSkill(skill) {
             this.selectedSkills = this.selectedSkills.filter(s => s !== skill);
@@ -169,10 +206,10 @@ export default {
         },
         async fetchDataAboutJob() {
             await HTTP.get(`/api/getDetailJob/${this.$route.params.id}`).then(response => {
-                //   /  console.log(response.data);
                 this.jobForm = response.data.data;
                 this.selectedSkills = JSON.parse(this.jobForm.skill);
                 this.availableSkills = this.availableSkills.filter(skill => !this.selectedSkills.includes(skill));
+                this.position_number_max = this.jobForm.position_number;
             }).catch(error => {
                 console.error(error);
             });
@@ -193,7 +230,6 @@ export default {
             };
 
             await HTTP.post('/api/updateJob', data).then(response => {
-                console.log(response.data);
                 alert("Job updated successfully");
                 this.goBack();
             }).catch(error => {
@@ -203,32 +239,72 @@ export default {
         async fetchDataListCV() {
             await HTTP.get(`/api/getCVsApplied/${this.$route.params.id}`).then(response => {
                 this.applications = response.data.applications;
-                console.log("cv",response.data);
+                for (let index = 0; index < this.applications.length; index++) {
+                    const element = this.applications[index];  // Corrected this line
+                    if (element.status === "Approved") {
+                        this.position_number_approved_count += 1;
+                    }
+                }
             }).catch(error => {
                 console.error(error);
             });
         },
-       async refuseCV(id) {
-            await HTTP.post('/api/refuseCV',{job_id: this.jobForm.id , cv_id: id})
-            .then(response => {
-                console.log(response.data);
-                alert("CV refused successfully");
-                this.fetchDataListCV();
-            }).catch(error => {
-                console.error(error);
-            });
+
+        async refuseCV(id) {
+            await HTTP.post('/api/refuseCV', { job_id: this.jobForm.id, cv_id: id })
+                .then(response => {
+                    this.fetchDataListCV();
+                    this.isUpdated= true;
+                        setTimeout(() => {
+                           this.isUpdated = false;
+                    }, 2000);
+                }).catch(error => {
+                    console.error(error);
+                });
             // alert("Refuse CV "+ id);
         },
+        checkMaxApproved()
+        {
+            return this.position_number_approved_count+1 < this.position_number_max;
+        },
         async approveCV(id) {
-            await HTTP.post('/api/approvedCV',{job_id: this.jobForm.id , cv_id: id})
-            .then(response => {
-                console.log(response.data);
-                alert("CV approved successfully");
-                this.fetchDataListCV();
-            }).catch(error => {
-                console.error(error);
+            const flag = this.checkMaxApproved();
+            if(flag)
+            {
+                await HTTP.post('/api/approvedCV', { job_id: this.jobForm.id, cv_id: id })
+                    .then(response => {
+                        this.isUpdated= true;
+                        setTimeout(() => {
+                            this.isUpdated = false;
+                        }, 2000);
+                        this.fetchDataListCV();
+                    }).catch(error => {
+                        console.error(error);
+                    });
+            }
+            else{
+                this.notificationNumberApproved = true;
+                this.id_temp = id;
+            }
+        },
+        async approveCVUpdate()
+        {
+            const numberUpdate = this.position_number_max + 1;
+            await HTTP.post('/api/approvedCVUpdate', { job_id: this.jobForm.id, cv_id: this.id_temp, numberUpdate: numberUpdate})
+                    .then(response => {
+                        this.fetchDataListCV();
+                        this.isUpdated= true;
+                        setTimeout(() => {
+                           this.isUpdated = false;
+                    }, 2000);
+                    }).catch(error => {
+                        console.error(error);
             });
         },
+        cancelNotification()
+        {
+            this.notificationNumberApproved = false;
+        }
     }
 };
 </script>
