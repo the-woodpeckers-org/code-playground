@@ -18,7 +18,7 @@
       <span>{{ suggestion.title }}</span>
       <span class="text-gray-500">{{ suggestion.company.name }}</span>
     </li>
-    <li v-if="seemore"
+    <li v-if="seemore" @click="jobITAll"
       class="bg-indigo-50 text-indigo-600 font-semibold px-4 py-2 text-center cursor-pointer hover:bg-indigo-100">
       See more →
     </li>
@@ -79,6 +79,9 @@ export default {
       }
       this.searchQuery = "";
       this.filteredSuggestions = [];
+    },
+    jobITAll() {
+      this.$router.push({ name: 'job-it-all' });
     },
   },
 };

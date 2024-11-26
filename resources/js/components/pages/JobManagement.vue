@@ -22,9 +22,12 @@ export default {
             CompanyHidden: {},
             remove_id: null,
             list_company_view_history:[],
+            isResultActionHidden: false,
+            isCompeteCV: false,
         };
     },
     async mounted() {
+        this.isLoading=false;
         await this.getListCompanyView();
         await this.getUser();
         await this.getCvU();
@@ -32,6 +35,7 @@ export default {
     methods: {
         async getUser() {
             let _this = this
+            this.isCompeteCV =false;
             await
                 HTTP.get('/api/getProfileCV')
                     .then(response => {
@@ -40,10 +44,11 @@ export default {
                             _this.Profile = response.data.profile;
                             _this.list_company_hidden = response.data.hiddenCompanies;
                             _this.User = response.data.user;
+                            this.isCompeteCV= false;
                         }
                         else{
-                            alert('Please complete your profile');
-                            this.$router.push('/ProfileCV');
+                            this.isCompeteCV = true;
+                            this.$refs.modal_is_notification_compelte_cv.showModal();
                         }
                     })
                     .catch(error => {
@@ -52,6 +57,7 @@ export default {
         },
         async getCvU() {
             let _this = this
+        
             await
                 HTTP.get('/api/cvsU')
                     .then(response => {
@@ -99,13 +105,12 @@ export default {
         },
         handleSearchSelected(suggestion) {
             this.CompanyHidden = suggestion;
-            this.$refs.confirmHiddenCompany.showModal();
+             this.$refs.confirmHiddenCompany.showModal();
         },
         async confirmHideCompany() {
 
             await HTTP.post('/api/addHiddenCompany', { profile_user_id: this.Profile.id, profile_company_id: this.CompanyHidden.get_company.id })
                 .then(response => {
-                    alert('Hidden company successfully');
                     this.getUser();
                 })
                 .catch(error => {
@@ -264,14 +269,7 @@ export default {
                                 src="https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp">
                             <div class="p-4 text-gray-500">
                                 <h5 class="mt-4 text-xl font-bold">No recruiters have viewed your profile yet.</h5>
-                                <p class="mt-2">To attract more employers, <a title="Hoàn thành TopDev CV"
-                                        href="/users/profile"
-                                        class="font-weight cursor-pointer font-bold text-primary underline">Hoàn thành
-                                        TopDev CV</a> hoặc <a title="Tạo CV" href="/tao-cv-online"
-                                        class="font-weight cursor-pointer font-bold text-primary underline">Tạo CV</a>,
-                                    sau đó bật chế độ <span title="Đang tìm việc"
-                                        class="cursor-pointer font-semibold text-primary underline">Đang tìm
-                                        việc</span>.</p>
+                          
                             </div>
                         </div>
                       
@@ -313,7 +311,27 @@ export default {
                 </div>
             </div>
         </dialog>
+
+        <dialog class="modal" ref="modal_is_notification_compelte_cv">
+            <div class="modal-box bg-base-100">
+                <h3 class="text-lg font-semibold">Warning</h3>
+                <p class="py-4 text-base">
+                    You need complete your CV before come here
+                </p>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
+                            @click="this.$router.push('/ProfileCV');">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+        
+        <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!isLoading">
+            <span class="loading loading-dots loading-lg"></span>
+          </div> 
     </div>
+
 </template>
 <style scoped>
 .bg-primary {

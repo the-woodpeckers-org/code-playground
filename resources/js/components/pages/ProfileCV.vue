@@ -27,10 +27,10 @@ export default {
             },
             cv: {},
             rate: 0,
-            
+
         };
     },
-    components: { NavigatorCV, LocationPicker,ContentCV },
+    components: { NavigatorCV, LocationPicker, ContentCV },
     methods: {
         showProfile() {
             profile_modal.showModal();
@@ -59,18 +59,19 @@ export default {
         async onLoad() {
             try {
                 const response = await HTTP.get('/api/getProfileCV');
-                if(response.data.user == null){
+                if (response.data.user == null) {
                     this.User = this.getAuth();
                 }
-                this.cv = response.data.cv;         
+                this.cv = response.data.cv;
                 this.User = response.data.user;
-           //     console.log(response.data.user);
+                //     console.log(response.data.user);
                 if (this.User.address != null) {
                     this.User.address = JSON.parse(this.User.address.replace(/'/g, '"'));
                     this.address.province = this.User.address[0];
                     this.address.district = this.User.address[1];
                     this.address.ward = this.User.address[2];
                     this.address.name = this.User.address[3];
+                    this.imagePreview = this.User.avatar_url;
                 }
                 this.Profile = response.data.profile;
                 if (this.Profile === "null") {
@@ -114,8 +115,12 @@ export default {
             };
             HTTP.post('/api/updateProfileCV', data)
                 .then(response => {
-            //        console.log(response.data);
-                    alert("Save successfully");
+                    this.isUpdateProfile = true;
+                    setTimeout(() => {
+                        window.location.reload();
+                        this.isUpdateProfile = false;
+                    }, 2000);
+                    //        console.log(response.data);
                     this.rateCalculate();
                 })
                 .catch(error => {
@@ -150,11 +155,11 @@ export default {
                 if (Array.isArray(source[key]) ? source[key].length : source[key]) {
                     rate += weight;
                 } else {
-                    this.isMissingInfo.push({label,weight});
+                    this.isMissingInfo.push({ label, weight });
                 }
             });
             this.rate = rate;
-        }                                                       
+        }
     },
     async mounted() {
         await this.onLoad();
@@ -194,23 +199,9 @@ export default {
                         <div class="flex flex-wrap gap-3 md:gap-5">
                             <div class="w-full md:w-auto">
                                 <div class="h-40 w-40 relative overflow-hidden rounded-full bg-gray-200">
-                                    <img v-if="imagePreview" :src="imagePreview" alt="Avatar"
-                                        class="h-40 w-40 rounded-full" />
-                                    <img v-else alt="Avatar" class="h-40 w-40 rounded-full"
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s" />
-
-                                    <label
-                                        class="text-4xl absolute bottom-0 flex w-full cursor-pointer justify-center py-2 text-white backdrop-blur">
-                                        <input class="hidden" type="file" @change="onFileChange" />
-                                        <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                            viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M12 9a3.75 3.75 0 100 7.5A3.75 3.75 0 0012 9z"></path>
-                                            <path fill-rule="evenodd"
-                                                d="M9.344 3.071a49.52 49.52 0 015.312 0c.967.052 1.83.585 2.332 1.39l.821 1.317c.24.383.645.643 1.11.71.386.054.77.113 1.152.177 1.432.239 2.429 1.493 2.429 2.909V18a3 3 0 01-3 3h-15a3 3 0 01-3-3V9.574c0-1.416.997-2.67 2.429-2.909.382-.064.766-.123 1.151-.178a1.56 1.56 0 001.11-.71l.822-1.315a2.942 2.942 0 012.332-1.39zM6.75 12.75a5.25 5.25 0 1110.5 0 5.25 5.25 0 01-10.5 0zm12-1.5a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                                clip-rule="evenodd"></path>
-                                        </svg>
-                                    </label>
+                                    <img class="h-40 w-40 rounded-full"
+                                        :src="this.User.avatar_url ? this.User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
+                                   
                                 </div>
                             </div>
                             <div class="grid grow grid-cols-2 gap-5">
@@ -400,7 +391,8 @@ export default {
                                     <div class="avatar">
                                         <div class="w-16 md:w-20 lg:w-20 rounded-full h-auto">
                                             <img
-                                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s" />
+                                                :src="this.User.avatar_url ? this.User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
+
                                         </div>
                                     </div>
                                 </div>
@@ -409,15 +401,18 @@ export default {
                             </div>
                         </div>
                     </div>
-                    <div class="mt-3 p-3  bg-base-100" v-if="this.isMissingInfo.length">
+                    <div class="mt-3 p-3 bg-base-100" v-if="this.isMissingInfo.length">
                         <label class="text-balance text-sm lg:text-md">You are missing the following
                             information:</label>
-                        <ul class="grid grid-1 ml-2">
-                            <span class="bg-primary rounded-full w-max mt-2 text-white" v-for="(item, index) in this.isMissingInfo" :key="index"><a class="p-2">{{ item.label }} +{{ item.weight }}</a></span>
+                        <ul class="grid grid-1 ml-2 border-none">
+                            <span class="bg-primary rounded-full w-max mt-2 text-white animate-bounce"
+                                v-for="(item, index) in this.isMissingInfo" :key="index"><a class="p-2">{{ item.label }}
+                                    +{{ item.weight }}</a></span>
                         </ul>
                     </div>
                     <div class="mt-3 p-3 bg-base-100" v-else>
-                        <label for="">You have completed enough personal information, which will help employers find you</label>
+                        <label for="">You have completed enough personal information, which will help employers find
+                            you</label>
                     </div>
                     <div class="mt-3 p-3 bg-gradient-to-tr from-cyan-300 to-purple-300">
                         <span class="text-sm md:text-md lg:text-md">🧑🏻‍💻 Activate the working state</span>
@@ -437,14 +432,15 @@ export default {
                     <div>
                         <div class="m-3 flex flex-1 justify-between w-full">
                             <label for="" class="text-sm md:text-md lg:text-2xl  font-bold">Information</label>
-                        
+
                         </div>
                         <div class="relative hidden gap-8 rounded bg-white py-6 pl-6 pr-4 md:flex">
                             <div class="flex-none">
                                 <div class="h-40 w-40 rounded-full bg-gray-500">
                                     <img alt="Avatar" loading="lazy" width="160" height="160" decoding="async"
                                         data-nimg="1" class="h-40 w-40 rounded-full" style="color: transparent"
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s" />
+                                        :src="this.User.avatar_url ? this.User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
+
 
                                 </div>
                             </div>
@@ -456,7 +452,7 @@ export default {
                                         </h4>
                                         <span
                                             class="ml-2 rounded-full bg-blue-50 px-3 py-[2px] text-sm font-bold text-blue-500">{{
-                                            this.rate }}%</span>
+                                                this.rate }}%</span>
                                     </div>
                                     <div class="flex">
                                         <div class="flex items-center"><span
@@ -471,7 +467,8 @@ export default {
                                         <div class="flex w-100 truncate">
                                             <span v-if="this.User.address">{{ this.address.province + "," || " " }} {{
                                                 this.address.district + "," || " " }} {{ this.address.ward || " " }}
-                                                <span v-if="this.address.name">{{ ", " + this.address.name }}</span></span>
+                                                <span v-if="this.address.name">{{ ", " + this.address.name
+                                                    }}</span></span>
                                             <span v-else> Add address</span>
 
                                         </div>
@@ -516,12 +513,30 @@ export default {
             </div>
         </div>
         <div v-if="!this.cv">
-            <div class="bg-base-100 w-full text-center">
-                <p class="text-2xl">go create CV and setting primary cv</p>
+            <div class="bg-base-100 w-full text-center mt-6 p-6 rounded-lg shadow-md">
+                <p class="text-2xl text-sky-800 font-semibold mb-3">
+                    Go create a CV and set it as your primary CV
+                </p>
+                <router-link :to="'/Mycv'"
+                    class="btn bg-sky-800 text-white px-4 py-2 rounded-full hover:bg-sky-700 transition-all duration-300">
+                    Create CV Now
+                </router-link>
             </div>
         </div>
         <ContentCV v-else></ContentCV>
     </div>
+
+    <dialog v-if="isUpdateProfile" id="login_modal" class="modal modal-open">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+            <p class="py-4 font-semibold">Update successfully!</p>
+        </div>
+    </dialog>
 </template>
 <style scoped>
 @keyframes rotate {
@@ -539,5 +554,5 @@ export default {
 }
 </style>
 <script setup>
-import {getAuth} from "@/utils/authLocalStorage.js";
+import { getAuth } from "@/utils/authLocalStorage.js";
 </script>
