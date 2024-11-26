@@ -78,6 +78,10 @@ export default {
         status:{
             type: String,
             default: 'N/A'
+        },
+        change_required:{
+            type:String,
+            default:'N/A',
         }
     },
     methods: {

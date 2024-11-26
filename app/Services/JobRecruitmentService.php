@@ -159,6 +159,19 @@ class JobRecruitmentService
         ]);
     }
 
+    public function approvedCVUpdate(Request $request)
+    {
+        $application = Application::where('job_id', $request->input('job_id'))->where('cv_id', $request->input('cv_id'))->first();
+        $job = JobRecruitment::where('id','=',$request->input('job_id'))->first();
+        $job->position_number = $request->input('numberUpdate');
+        $job->save();
+        $application->status = Status::APPROVED;
+        $application->save();
+        return response()->json([
+            'status' => '200',
+            'message' => 'Approved CV successfully'
+        ]);
+    }
 
     
 }

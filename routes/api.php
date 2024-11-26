@@ -85,6 +85,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getListCompanyView', [ProfileViewHistoryController::class, 'getListCompanyView'])->name('getListCompanyView');
     Route::get('/contributor/problems', [ProblemController::class, 'getAllProblemsByContributor'])->name('getAllProblemsByContributor');
     Route::post('/approvedCV', [JobRecruitmentController::class, 'approvedCV'])->name('approvedCV');
+    Route::post('/approvedCVUpdate', [JobRecruitmentController::class, 'approvedCVUpdate'])->name('approvedCVUpdate');
     Route::post('/refuseCV', [JobRecruitmentController::class, 'refuseCV'])->name('refuseCV');
     Route::get('/getUserCVToView/{id}', [ProfileUserController::class, 'getUserCVToView'])->name('getUserCVToView');
     Route::get('/getAllUser', [UserMController::class, 'getAllUser'])->name('getAllUser');
