@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
             'avatar_url' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAGvRhdg1vaZyhkn5zzE7p35e70SUgv0TVCw&s'
         ];
 
-        
+
         User::create($user);
         $problems = [
             [
@@ -157,24 +157,24 @@ class DatabaseSeeder extends Seeder
                 'title' => 'Viettel Hackathon 2024',
                 'description' => 'Hehe boi',
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW7S24aqeMJVm-ofv0JGjUFakDXJeV6WpJfQ&s',
-                'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
-                'end_date' => Carbon::create(2024, 10, 18, 18, 15, 00),
+                'start_date' => Carbon::now(),
+                'end_date' => Carbon::now()->addDays(7),
                 'created_by' => 1
             ],
             [
                 'title' => 'ZoBoi Hackathon Aishh',
                 'description' => 'Hehe boi',
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThHzVwYwhZph2gph0cCeoP-d6nj3aB-ZogMA&s',
-                'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
-                'end_date' => Carbon::create(2024, 10, 10, 22, 10, 00),
+                'start_date' => Carbon::now(),
+                'end_date' => Carbon::now()->addDays(7),
                 'created_by' => 1
             ],
             [
                 'title' => 'CMS Hackathon numberthon',
                 'description' => 'Hehe boi',
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI6FdZ-KcBkNiy0cBtPZaYWKtmTajsmOtehQ&s',
-                'start_date' => Carbon::create(2024, 9, 27, 12, 30, 00),
-                'end_date' => Carbon::create(2024, 10, 15, 12, 30, 00),
+                'start_date' => Carbon::now(),
+                'end_date' => Carbon::now()->addDays(7),
                 'created_by' => 1
             ]
         ];
@@ -771,7 +771,7 @@ class DatabaseSeeder extends Seeder
         $profile_company2->skill = '["Java", "Python", "C++"]';
         $profile_company2->codeCompany = '123';
         $profile_company2->save();
-        
+
         $company3 = new User();
         $company3->name = 'Amazon';
         $company3->email = 'amazon@gmail.com';
@@ -829,6 +829,199 @@ class DatabaseSeeder extends Seeder
         $profile_company5->codeCompany = '123';
         $profile_company5->save();
 
-        
+        $problems2 = [
+            [
+                'title' => 'Sum of two numbers',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Easy',
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
+            ],
+            [
+                'title' => 'Sum of two numbers',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Easy',
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
+            ],
+            [
+                'title' => 'Sum of two numbers',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Easy',
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
+            ],
+            [
+                'title' => 'Sum of two numbers',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Easy',
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
+            ],
+            [
+                'title' => 'Sum of two numbers',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Easy',
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
+            ],
+            [
+                'title' => 'Sum of two numbers',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Easy',
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
+            ],
+            [
+                'title' => 'Sum of two numbers',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Easy',
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
+            ],
+            [
+                'title' => 'Sum of two numbers',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Easy',
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
+            ],
+            [
+                'title' => 'Sum of two numbers',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Easy',
+                'acceptance_rate' => 0,
+                'created_by' => 1,
+                'status' => 'active'
+            ]
+        ];
+        foreach ($problems2 as $problem) {
+            Problem::create($problem);
+        }
+
+        $testcases2 = [
+            [
+                'problem_id' => 13,
+                'stdin' => '4 5',
+                'expected_output' => '9'
+            ],
+            [
+                'problem_id' => 14,
+                'stdin' => '10 5',
+                'expected_output' => '15'
+            ],
+            [
+                'problem_id' => 15,
+                'stdin' => '7 1',
+                'expected_output' => '8'
+            ],
+            [
+                'problem_id' => 16,
+                'stdin' => '4 5',
+                'expected_output' => '9'
+            ],
+            [
+                'problem_id' => 17,
+                'stdin' => '10 5',
+                'expected_output' => '15'
+            ],
+            [
+                'problem_id' => 18,
+                'stdin' => '7 1',
+                'expected_output' => '8'
+            ],
+            [
+                'problem_id' => 19,
+                'stdin' => '4 5',
+                'expected_output' => '9'
+            ],
+            [
+                'problem_id' => 20,
+                'stdin' => '10 5',
+                'expected_output' => '15'
+            ],
+            [
+                'problem_id' => 21,
+                'stdin' => '7 1',
+                'expected_output' => '8'
+            ],
+        ];
+
+        foreach ($testcases2 as $testcase) {
+            Testcase::create($testcase);
+        }
+
+        for($i = 13; $i <= 21; $i++) {
+            $problem_languages2 = [
+                [
+                    'problem_id' => $i,
+                    'language_id' => '1',
+                ],
+                [
+                    'problem_id' => $i,
+                    'language_id' => '2',
+                ],
+            ];
+            foreach ($problem_languages2 as $p_language) {
+                ProblemLanguage::create($p_language);
+            }
+            $problem_tags2 = [
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Math')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Bit Manipulation')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Sliding Window')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Dynamic Programming')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Sorting')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Greedy')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Hash Table')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'String')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Array')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Counting')->first()->id,
+                ],
+                [
+                    'problem_id' => $i,
+                    'category_id' => Category::where('name', 'Two Pointers')->first()->id,
+                ],
+            ];
+            foreach ($problem_tags2 as $tag) {
+                ProblemTag::create($tag);
+            }
+        }
     }
 }

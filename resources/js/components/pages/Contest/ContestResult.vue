@@ -69,7 +69,7 @@ export default {
             <p>End date: {{ contest.end_date }}</p>
             <div class="divider"></div>
             <p>You have finished at: <span class="font-semibold">{{ finished_at }}</span></p>
-            <p>Finished time: {{format(participation.finishedTime.days, participation.finishedTime.hours, participation.finishedTime.minutes, participation.finishedTime.seconds)}}</p>
+            <p>Finished time: {{format(participation.finishedTime?.days, participation.finishedTime?.hours, participation.finishedTime?.minutes, participation.finishedTime?.seconds)}}</p>
             <p>Problems solved: <span class="font-semibold">{{ participation.finished_problems + '/' + total_problems }}</span></p>
             <p>Your code: </p>
             <div role="tablist" class="tabs tabs-lifted m-0">
