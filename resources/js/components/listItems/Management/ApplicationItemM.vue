@@ -74,6 +74,12 @@
                                     disabled="" v-model="detailJob.location"></div>
                         </div>
                         <div class="mb-6">
+                            <label class="block text-gray-600 font-semibold mb-2">Number postion</label>
+                            <div class="relative w-full"><input
+                                    class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                    disabled="" v-model="detailJob.position_number"></div>
+                        </div>
+                        <div class="mb-6">
                             <label class="block text-gray-600 font-semibold mb-2">Deadline</label>
                             <div class="relative w-full"><input
                                     class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
@@ -91,12 +97,7 @@
                                     class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                     disabled="" v-model="detailJob.salary"></div>
                         </div>
-                        <div class="mb-6">
-                            <label class="block text-gray-600 font-semibold mb-2">Skill</label>
-                            <div class="relative w-full"><input
-                                    class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                    disabled="" v-model="detailJob.skill"></div>
-                        </div>
+
                         <div class="mb-6">
                             <label class="block text-gray-600 font-semibold mb-2">Email</label>
                             <div class="relative w-full"><input
@@ -182,12 +183,7 @@
                                     class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                     disabled="" v-model="detailJob.salary"></div>
                         </div>
-                        <div class="mb-6">
-                            <label class="block text-gray-600 font-semibold mb-2">Skill</label>
-                            <div class="relative w-full"><input
-                                    class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                    disabled="" v-model="detailJob.skill"></div>
-                        </div>
+                      
                         <div class="mb-6">
                             <label class="block text-gray-600 font-semibold mb-2">Email</label>
                             <div class="relative w-full"><input
@@ -278,7 +274,7 @@ export default {
     created() {
         const arrayOfSkills = JSON.parse(this.detailJob.skill.replace(/'/g, '"'));
         this.selectedSkills = arrayOfSkills;
-        console.log(this.selectedSkills);
+        console.log(this.detailJob);
     },
 };
 </script>

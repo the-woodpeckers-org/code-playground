@@ -119,6 +119,7 @@ export default {
                     location: this.jobForm.location,
                     skill: JSON.stringify(this.selectedSkills),
                     salary: this.jobForm.salary,
+                    position_number: this.jobForm.position_number,
                     deadline: this.jobForm.deadline,
                     description: this.jobForm.rte_1.getHTMLCode(),
                     negotiable: this.jobForm.negotiable

@@ -102,6 +102,7 @@ class JobRecruitmentService
                 'skill' =>  $request->input('job.skill'),
                 'negotiable' =>  $request->input('job.negotiable'),
                 'salary' =>  0,
+                'position_number' =>  $request->input('job.position_number'),
                 'deadline' =>  $request->input('job.deadline'),
             ]);
             if($request->input('job.negotiable') == 'true'){

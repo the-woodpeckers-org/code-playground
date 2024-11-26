@@ -40,7 +40,7 @@ class MailCongratulation extends Mailable
     public function content(): Content
     {
         return new Content( 
-            view: 'mails.congratulation-mail',
+            view: 'mails.company.congratulation-mail',
             with: ['user' => $this->user]
         );
     }
