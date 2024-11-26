@@ -40,7 +40,7 @@ class MailThankYou extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.thankyou-mail',
+            view: 'mails.company.thankyou-mail',
             with: ['user' => $this->user]
         );
     }

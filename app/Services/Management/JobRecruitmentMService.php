@@ -8,6 +8,8 @@ use App\Utils\Constants\Status;
 use App\Utils\Constants\Role;
 use Illuminate\Http\Request;
 use App\Models\JobRecruitment;
+use App\mail\MailSendRequestChange;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class JobRecruitmentMService
@@ -27,6 +29,7 @@ class JobRecruitmentMService
         'location' => $job->location,
         'salary' => $job->salary,
         'negotiable' => $job->negotiable,
+        'position_number' => $job->position_number, 
         'deadline' => $job->deadline,
         'change_required' => $job->change_required,
         'created_at' => $job->created_at,
@@ -81,14 +84,16 @@ class JobRecruitmentMService
   public function sendRequestChangeJob(Request $request)
   {
     try{
+      $currentUser = User::find($request->user()->id);
       $job= JobRecruitment::find($request->input('id'));
       $job->change_required = $request->input('request_change');
-      // send mail  
+      $userCompany = $job->user;
+      Mail::to($userCompany->email)->send(new MailSendRequestChange($userCompany,$request->input('request_change')));
       $job->save();
       return response()->json([
         'status' => '200',
         'message' => 'Send request change job successfully',
-        'data' => $job
+        'data' => $job,
       ]);
     }catch(\Exception $e){
       return response()->json([

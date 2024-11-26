@@ -1,6 +1,6 @@
 <template>
     <div class="flex">
-        <div class="w-[400px] h-full bg-gray-200 text-white" v-show="showSide">
+        <div class="w-[400px] h-full bg-gray-200 text-white" v-show="showSide" style="min-width:300px">
             <div class="h-[50px] bg-gray-900 flex justify-start  items-center ">
                 <div class="px-[20px]">
                     <h3 class="font-bold text-xl">Admin Dashboard</h3>
@@ -149,8 +149,8 @@
                     </div>
                 </div>
             </div>
-            <div class="h-[calc(100vh-50px)] bg-gray-50 p-[20px]">
-                <div class="border border-gray-300 rounded-md p-[20px] h-full">
+            <div class=" bg-gray-50 " style="min-height: 680px">
+                <div class="border border-gray-300 rounded-md ">
                     <router-view></router-view>
                 </div>
             </div>
