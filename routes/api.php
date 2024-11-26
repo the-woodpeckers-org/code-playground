@@ -112,6 +112,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //crud contributor contests
     Route::get('/contributor/contest/', [ContestController::class, 'getAllByContributor'])->name('contest.getAll');
+    
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');

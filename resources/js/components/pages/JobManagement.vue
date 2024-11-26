@@ -5,7 +5,7 @@ import {getAuth} from "@/utils/authLocalStorage.js";
 import NavigatorCV from '@/components/navbar/NavigatorCV.vue';
 import CvItem2 from '@/components/listItems/CvItem2.vue';
 import { HTTP } from "@/http-common.js";
-import SearchDynamic from '@/components/search/SearchDynamic.vue';
+import SearchDynamic from '@/components/search/SearchHiddenCompany.vue';
 export default {
     components: {
         NavigatorCV, CvItem2, SearchDynamic

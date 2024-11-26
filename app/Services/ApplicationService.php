@@ -28,7 +28,7 @@ class ApplicationService
     public function applyCV(Request $request)
     {
         $user = $request->user();   
-        if($user->role!=null){
+        if($user->role!='user'){
             return response()->json([
                 'status' => '400',
                 'message' => 'You are not allowed to apply for a job'
