@@ -12,6 +12,7 @@ export default {
     components: {Footer, Header},
     data() {
         return {
+            auth: getAuth()
         }
     },
     methods: {},
@@ -29,7 +30,7 @@ export default {
             <router-view></router-view>
         </div>
     </div>
-    <Footer></Footer> 
+    <Footer></Footer>
 
 </template>
 

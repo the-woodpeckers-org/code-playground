@@ -124,6 +124,7 @@ export default {
             }
         },
         async uploadImage() {
+            let _this = this;
             const formData = new FormData();
             formData.append('file', this.selectedFile);
             try {
@@ -137,10 +138,9 @@ export default {
                 await HTTP.get('/api/auth/get')
                     .then((response) => {
                         setAuth(response.data);
-                        location.reload();
+                        _this.$root.auth = getAuth();
                     })
                     .catch((error) => {
-                        localStorage.clear();
                     });
             } catch (error) {
                 console.error('Error uploading:', error);
@@ -216,7 +216,7 @@ export default {
             <p class="col-span-full font-semibold text-lg border-b my-2">Information</p>
             <form class="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md space-y-4" @submit.prevent="save">
                 <div class="flex justify-center">
-                    <img :src="auth.avatar_url"
+                    <img :src="$root.auth.avatar_url"
                          alt="Profile Picture" class="w-24 h-24 rounded-full border-2 border-gray-300">
                 </div>
                 <div class="text-center">

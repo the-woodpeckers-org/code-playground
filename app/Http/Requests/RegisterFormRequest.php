@@ -22,7 +22,7 @@ class RegisterFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|min:2',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
             'birthday' => 'required',
@@ -37,6 +37,7 @@ class RegisterFormRequest extends FormRequest
     {
         return [
             'name.required' => 'Name is required',
+            'name.min' => 'Name must be at least 1 character',
             'email.required' => 'Email is required',
             'password.required' => 'Password is required',
             'password.min' => 'Password must be at least 6 characters',
