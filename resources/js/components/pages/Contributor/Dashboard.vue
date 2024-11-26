@@ -1,9 +1,8 @@
 <script>
-const ProblemManager = defineAsyncComponent(() => import("@/components/pages/Contributor/Problem/ProblemManager.vue"));
-const ContestManager = defineAsyncComponent(() => import( "@/components/pages/Contributor/Contest/ContestManager.vue"));
 import CourseManager from "@/components/pages/Contributor/Course/CourseManager.vue";
 import PostManager from "@/components/pages/Contributor/Post/PostManager.vue";
-import {defineAsyncComponent} from "vue";
+import ContestManager from "@/components/pages/Contributor/Contest/ContestManager.vue";
+import ProblemManager from "@/components/pages/Contributor/Problem/ProblemManager.vue";
 export default {
     name: "Dashboard",
     components: {PostManager, CourseManager, ContestManager, ProblemManager}
