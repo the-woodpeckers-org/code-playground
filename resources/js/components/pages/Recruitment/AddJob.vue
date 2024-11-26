@@ -12,6 +12,11 @@
                 <input v-model="jobForm.title" type="text" class="input-field" placeholder="Enter job title" required />
             </div>
             <div class="mb-6">
+                <label class="block text-gray-600 font-semibold mb-2">Number of vacancies</label>
+                <input v-model="jobForm.position_number" type="number" class="input-field" placeholder="Enter Number of vacancies" required
+                onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'" />
+            </div>
+            <div class="mb-6">
                 <label class="block text-gray-600 font-semibold mb-2">Location</label>
                 <input v-model="jobForm.location" type="text" class="input-field" placeholder="Job location" required />
             </div>
