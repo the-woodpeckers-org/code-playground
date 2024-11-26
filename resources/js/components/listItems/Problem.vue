@@ -19,8 +19,7 @@
             </div>
 
         </div>
-        <div class="col-span-2 truncate ..."><a class="w-full hover:link"
-                                                :href="'/problem/' + problem.id">{{ problem.title }}</a></div>
+        <div class="col-span-2 cursor-pointer truncate ..." @click="goTo">{{ problem.title }}</div>
         <div class="truncate ..."><span
             :class="{ 'text-green-600': problem.difficulty === 'Easy', 'text-yellow-600':problem.difficulty === 'Medium','text-red-600': problem.difficulty === 'Hard'}">{{
                 problem.difficulty
@@ -45,6 +44,11 @@ export default {
     props: {
         problem: {
             Type: Object
+        }
+    },
+    methods: {
+        goTo() {
+            this.$router.push('/problem/' + this.problem.id)
         }
     }
 }

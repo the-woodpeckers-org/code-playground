@@ -151,7 +151,7 @@ class ProblemService
             $attempt = Participation_Attempts::where('problem_id', $request->input('problem_id'))->where('participation_id', $request->input('participation_id'))->first();
             if ($attempt == null) {
                 $attempt = new Participation_Attempts();
-                $attempt->participation_id = $userId;
+                $attempt->participation_id = $request->input('participation_id');
                 $attempt->problem_id = $request->input('problem_id');
             }
             if ($attempt->passed_at === null) {

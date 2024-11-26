@@ -145,7 +145,9 @@ class AuthService
 
     public function getAuthenticatedUser(Request $request)
     {
-        return User::where('id', $request->user()->id)->first();
+        if ($request->user()) {
+            return User::where('id', $request->user()->id)->first();
+        }
     }
 
     public function registerCompany(Request $request)

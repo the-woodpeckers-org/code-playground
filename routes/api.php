@@ -38,6 +38,8 @@ Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::post('/registerCompany ', [AuthController::class, 'registerCompany'])->name('auth.registerCompany');
+
+
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/contest/get', [ContestController::class, 'get'])->name('contest.get');
     Route::get('/problem/u', [ProblemController::class, 'getProblemsU'])->name('problem.getProblemsU');
@@ -59,7 +61,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/setActiveProfile', [ProfileUserController::class, 'setActiveProfile'])->name('setActiveProfile');
     Route::get('/getJobsApplied', [ApplicationController::class, 'getJobsApplied'])->name('getJobsApplied');
     Route::post('/avatar-upload', [UserController::class, 'uploadAvatar'])->name('auth.avatarUpload');
-    Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
     Route::post('/updateProfileCompany', [ProfileCompanyController::class, 'updateProfileCompany'])->name('updateProfileCompany');
     Route::get('/getProfileCompanyByUserId', [ProfileCompanyController::class, 'getProfileCompanyByUserId'])->name('getProfileCompanyByUserId');
     Route::get('/getJobsU', [JobRecruitmentController::class, 'getJobsU'])->name('getJobsU');
@@ -112,7 +113,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //crud contributor contests
     Route::get('/contributor/contest/', [ContestController::class, 'getAllByContributor'])->name('contest.getAll');
-    
+
+    Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
 });
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');

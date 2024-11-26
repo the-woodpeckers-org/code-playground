@@ -32,7 +32,7 @@ export default {
     methods: {
         updatePassed(value) {
             this.isPassed = value;
-            this.$emit('isPassed', true);
+            this.$emit('problem-passed', true);
         }
     },
     data: function () {
@@ -49,7 +49,7 @@ export default {
     <input v-if="index !== 0" type="radio" :name="name" role="tab" class="tab font-semibold"
            :class="{ 'text-green-600': isPassed }" :aria-label="tabName + ' ' + (index + 1)"/>
     <div role="tabpanel" class="tab-content">
-        <ContestCodePanel @problemPassed="updatePassed" :contestId="contestId" :problemId="problemId"
+        <ContestCodePanel @problem-passed="updatePassed" :contestId="contestId" :problemId="problemId"
                           :participationId="participationId"></ContestCodePanel>
     </div>
 </template>

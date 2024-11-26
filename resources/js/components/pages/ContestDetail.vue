@@ -1,10 +1,11 @@
 <script>
 import BaseCountDown from "@/components/countdowns/BaseCountDown.vue";
 import { HTTP } from "@/http-common.js";
+import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
 
 export default {
     name: "ContestDetail",
-    components: { BaseCountDown },
+    components: {LoginRequiredDialog, BaseCountDown },
     data: function () {
         return {
             title: 'Contest',
@@ -52,6 +53,7 @@ export default {
 </script>
 
 <template>
+    <LoginRequiredDialog></LoginRequiredDialog>
     <div>
         <div class="grid grid-cols-1 lg:grid-cols-3">
             <h1 class="text-2xl font-bold col-span-full">{{ title }}</h1>
@@ -92,10 +94,10 @@ export default {
                         </router-link>
                     </div>
                     <div v-if="isEnded && !isFinished" class="flex flex-row flex-wrap justify-center mt-6">
-                        <p>Ê mày cuộc thi này đã kết thúc rồi xin được hẹn bạn lần sau nhé.</p>
+                        <p>Cuộc thi đã kết thúc! Xin hẹn gặp lại bạn tại các cuộc thi khác!</p>
                     </div>
                     <div v-if="isFinished" class="flex flex-row flex-wrap justify-center mt-6">
-                        <p>Mày đã thi cái này xong rồi!</p>
+                        <p>Bạn đã hoàn thành cuộc thi này! Nhấn vào đây để xem bảng xếp hạng!</p>
                     </div>
                 </div>
             </div>
