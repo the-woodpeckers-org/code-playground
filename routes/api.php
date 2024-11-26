@@ -115,7 +115,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/contributor/contest/', [ContestController::class, 'getAllByContributor'])->name('contest.getAll');
 
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
+
+    Route::get('/contest/result', [ParticipationController::class, 'getResult'])->name('contest.getResult');
 });
+
+Route::get('/contest/ranking', [ParticipationController::class, 'getResults'])->name('contest.getResults');
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');
 

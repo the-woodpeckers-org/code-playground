@@ -1,13 +1,12 @@
 import {createRouter, createWebHistory} from "vue-router";
-import Dashboard from "@/components/pages/Contributor/Dashboard.vue";
-
+const Dashboard = () => import("@/components/pages/Contributor/Dashboard.vue");
 const PostPage = () => import("@/components/pages/Post/PostPage.vue");
 const UserEmailVerification = () => import("@/components/pages/Email/UserEmailVerification.vue");
 const ForgotPassword = () => import("@/components/pages/ForgotPassword.vue");
 const ResetPassword = () => import("@/components/pages/ResetPassword.vue");
 const ProfileCV = () => import("@/components/pages/ProfileCV.vue");
 const MyCVPanel = () => import("@/components/pages/MyCVPanel.vue");
-const ContestResult = () => import("@/components/pages/ContestResult.vue");
+const ContestResult = () => import("@/components/pages/Contest/ContestResult.vue");
 const CodePanel = () => import("@/components/pages/CodePanel.vue");
 const Landing = () => import("@/components/pages/Landing.vue");
 const Login = () => import("@/components/authentication/Login.vue");
@@ -130,7 +129,7 @@ const routes = [
         name: 'MyCv'
     },
     {
-        path: '/participate/result/:id',
+        path: '/contest/:id/result/',
         component: ContestResult,
         name: 'contest-result'
     },

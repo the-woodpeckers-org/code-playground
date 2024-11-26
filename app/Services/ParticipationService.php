@@ -45,4 +45,19 @@ class ParticipationService
         ]);
         return $participation;
     }
+
+    public function getResult(Request $request)
+    {
+        $participation = Participation::query();
+        $participation->where('user_id', $request->user()->id);
+        $participation->where('contest_id', $request->input('contest_id'));
+        return ['participation' => $participation->first(), 'attempts' => $participation->first()->attempts()->get()];
+    }
+
+    public function getResults(Request $request)
+    {
+        $participation = Participation::query();
+        $participation->where('contest_id', $request->input('contest_id'));
+        return $participation->paginate(10);
+    }
 }
