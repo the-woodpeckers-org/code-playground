@@ -42,6 +42,7 @@ const AdminUserM = () => import("@/components/pages/Admin/UserAdmin.vue");
 const SubscribeCompanyM = () => import("@/components/pages/Admin/SubscribeCompanyM.vue");
 const SubscribeContributorM = () => import("@/components/pages/Admin/SubscribeContributorM.vue");
 const ApplicationsM = () => import("@/components/pages/Admin/ApplicationsM.vue");
+const JobIT = () => import("@/components/pages/JobIT.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -253,6 +254,16 @@ const routes = [
                 component: ApplicationsM
             }
         ]
+    },
+    {
+        name:'job-it',
+        path: '/job-it/:keyword',
+        component: JobIT
+    },
+    {
+        name:'job-it-all',
+        path: '/job-it/',
+        component: JobIT
     },
     {
         path: '/post/:slug',

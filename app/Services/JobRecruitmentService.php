@@ -7,7 +7,7 @@ use App\Models\Cv;
 use App\Models\Application;
 use App\Models\JobRecruitment;
 use App\Models\Users;
-use App\Utils\Constants\ApplicationStatus;
+use App\Utils\Constants\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -140,7 +140,7 @@ class JobRecruitmentService
     {
         // tìm ra job_id và cv_id
         $application = Application::where('job_id', $request->input('job_id'))->where('cv_id', $request->input('cv_id'))->first();
-        $application->status = ApplicationStatus::REJECTED;
+        $application->status = Status::REJECTED;
         $application->save();
         return response()->json([
             'status' => '200',
@@ -150,11 +150,14 @@ class JobRecruitmentService
     public function approvedCV(Request $request)
     {
         $application = Application::where('job_id', $request->input('job_id'))->where('cv_id', $request->input('cv_id'))->first();
-        $application->status = ApplicationStatus::APPROVED;
+        $application->status = Status::APPROVED;
         $application->save();
         return response()->json([
             'status' => '200',
             'message' => 'Approved CV successfully'
         ]);
     }
+
+
+    
 }
