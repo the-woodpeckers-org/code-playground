@@ -2,12 +2,14 @@
 import BaseCountDown from "@/components/countdowns/BaseCountDown.vue";
 import { HTTP } from "@/http-common.js";
 import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
+import moment from "moment";
 
 export default {
     name: "ContestDetail",
     components: {LoginRequiredDialog, BaseCountDown },
     data: function () {
         return {
+            id: null,
             title: 'Contest',
             description: 'Nothing here',
             days: 0,
@@ -16,7 +18,8 @@ export default {
             seconds: 0,
             isEnded: null,
             isLoaded: false,
-            isFinished: false
+            isFinished: false,
+            finishedDate: '',
         }
     },
     async mounted() {
@@ -24,8 +27,7 @@ export default {
         await Promise.all([
             HTTP.get('/api/contest/get?id=' + this.$route.params.c_id)
                 .then(function (response) {
-                    console.log(response.data);
-                    console.log(response.data.remainingTime)
+                    _this.id = response.data.id;
                     _this.title = response.data.title;
                     _this.description = response.data.description;
                     _this.days = response.data.remainingTime.days;
@@ -41,6 +43,7 @@ export default {
                 .then(response => {
                     if (response.data.finished_at) {
                         _this.isFinished = true;
+                        _this.finishedDate = moment(response.data.finished_at).format('DD/MM/YYYY HH:mm::ss');
                     }
                 })
                 .catch(error => {
@@ -94,10 +97,15 @@ export default {
                         </router-link>
                     </div>
                     <div v-if="isEnded && !isFinished" class="flex flex-row flex-wrap justify-center mt-6">
-                        <p>Cuộc thi đã kết thúc! Xin hẹn gặp lại bạn tại các cuộc thi khác!</p>
+                        <p>The contest is ended! See you at other contests!</p>
                     </div>
                     <div v-if="isFinished" class="flex flex-row flex-wrap justify-center mt-6">
-                        <p>Bạn đã hoàn thành cuộc thi này! Nhấn vào đây để xem bảng xếp hạng!</p>
+                        <p>You have finished this contest!</p>
+                        <p>Finished date: {{ finishedDate }}</p>
+                        <div class="w-full flex gap-2 justify-center my-3">
+                            <button class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition" @click="this.$router.push('/contest/' + this.id + '/result')">Your result</button>
+                            <button class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition">Ranking</button>
+                        </div>
                     </div>
                 </div>
             </div>

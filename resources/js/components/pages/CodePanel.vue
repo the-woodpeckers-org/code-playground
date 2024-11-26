@@ -92,7 +92,6 @@ export default {
             }
             HTTP.get(_url + _this.$route.params.id)
                 .then(function (response) {
-                    console.log(response);
                     _this.description = response.data.description;
                     _this.title = response.data.title;
                     _this.testcases = response.data.testcases;
@@ -111,7 +110,6 @@ export default {
                     }
                 })
                 .catch(function (error) {
-                    alert(error)
                 })
         }
     },
