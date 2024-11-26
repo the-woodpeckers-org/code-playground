@@ -3,10 +3,11 @@ import BaseCard from "@/components/cards/BaseCard.vue";
 import Company from "@/components/cards/Company.vue";
 import Job from "@/components/cards/Job.vue";
 import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
+import Search from "@/components/search/Search.vue";
 import {HTTP} from "@/http-common.js";
 export default {
     name: "Careers",
-    components: {LoginRequiredDialog, Job, Company, BaseCard},
+    components: {LoginRequiredDialog, Job, Company, BaseCard,Search},
     data() {
         return {
             searchQuery: "",
@@ -33,7 +34,6 @@ export default {
                 });
         }
     }
-
 }
 </script>
 
@@ -42,11 +42,8 @@ export default {
     <div>
         <h1 class="text-2xl font-bold border-b">Career</h1>
         <h1 class="text-xl font-semibold my-3">Search for job...</h1>
-        <div class="flex gap-2">
-            <input type="text" class="input h-14 shadow-xl w-full"
-                   placeholder="React, Flutter, Laravel, Team Leader, Front-end,...">
-            <button class="w-32 rounded-2xl bg-teal-200 hover:bg-teal-300 transition shadow-xl"><span class="font-bold">Search</span>
-            </button>
+        <div class="w-full">
+            <Search :allItems="this.listJob"></Search>
         </div>
         <h1 class="my-3">Suggested keywords: </h1>
         <div class="flex flex-row flex-wrap">

@@ -112,7 +112,7 @@ export default {
 
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
                     <div class="grid grid-cols-1 gap-4 overflow-x-auto" style="height: 500px;">
-                        <Job v-for="job in jobRecruitments" :key="job.id" :description="job.description" :title="job.title" :companyName="this.userCompany.name" :imgUrl="this.userCompany.avatar_url" :salary="job.salary" :skill="job.skill" :url="job.id"/>
+                        <Job v-for="job in jobRecruitments" :key="job.id" :description="job.description" :title="job.title" :companyName="this.userCompany.name" :imgUrl="this.userCompany.avatar_url" :salary="job.salary" :skill="job.skill" :url="'/Job-detail/'+job.id"/>
                     </div>
                 </div>
             </div>
@@ -130,7 +130,6 @@ export default {
                         <div class="mt-4">
                             <h3 class="font-bold">Skill</h3>
                             <ul class="mt-1 flex flex-wrap">
-
                                 <li class="mt-2">
                                     <a class="mr-2 inline-block" v-for="(item, index) in this.skills" :key="index"><span
                                             class="whitespace-nowrap rounded border border-solid font-normal transition-all inline-flex items-center justify-center border-blue-light text-blue-dark bg-blue-light hover:border-blue-dark h-[1.625rem] px-2 text-xs md:h-7 md:px-2 md:text-sm">

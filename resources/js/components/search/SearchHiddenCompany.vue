@@ -41,7 +41,7 @@
       };
     },
     emits: ['selected'],
-    name : 'SearchDynamic',
+    name : 'SearchHiddenCompany',
     methods: {
       updateSuggestions() {
         if (!this.searchQuery) {
