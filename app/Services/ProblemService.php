@@ -29,6 +29,7 @@ class ProblemService
         $result->select();
         $result->where('contest_id', '=', null);
         $result->where('status', 'active');
+        $result->orderBy('created_at', 'desc');
         $result->addSelect(['problems.*']);
         return $result->paginate(8);
     }
@@ -53,6 +54,7 @@ class ProblemService
         $result->select();
         $result->where('contest_id', '=', null);
         $result->where('status', 'active');
+
         if ($request->user()) {
             $userId = $request->user()->id;
             $result->leftJoin('attempts', function ($query) use ($userId) {
@@ -61,6 +63,7 @@ class ProblemService
             });
             $result->addSelect(['attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
         }
+        $result->orderBy('problems.created_at', 'desc');
         $result->addSelect(['problems.*']);
         return $result->paginate(8);
     }
