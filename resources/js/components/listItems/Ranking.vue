@@ -39,7 +39,7 @@ export default {
                     <tr v-for="user in users">
                         <td>
                             <div class="flex items-center gap-3">
-                                <img class="h-7 w-7 rounded-full"
+                                <img class="h-7 w-7 rounded-full object-cover"
                                      :src="user.avatar_url">
                             </div>
 

@@ -21,13 +21,13 @@ export default {
             isModalClosing: false,
             participationId: 0,
             finishedProblemCount: 0,
-            totalProblem: 9
+            totalProblem: -1,
+            contestId: -1,
         }
     },
     methods: {
         updateFinishedProblemCount(val) {
             this.finishedProblemCount++;
-            console.log(this.finishedProblemCount);
         },
         async finish() {
             let _this = this;
@@ -36,11 +36,9 @@ export default {
                 finishedProblems: _this.finishedProblemCount
             })
                 .then(response => {
-                    console.log(response);
-                    window.location.href = '/participate/result/' + _this.participationId
+                    _this.$router.push('/contest/' + _this.contestId + '/result/');
                 })
                 .catch(error => {
-                    console.log(error)
                 })
         }
     },
@@ -56,8 +54,8 @@ export default {
                 _this.problems = response.data.problems;
                 _this.participationId = response.data.id;
                 _this.totalProblem = response.data.problems.length;
+                _this.contestId = response.data.contest_id;
                 _this.isLoaded = true
-                console.log(response.data)
             })
             .catch(error => {
                 alert(error)
@@ -76,7 +74,7 @@ export default {
             <div class="modal-action">
                 <form method="dialog">
                     <button class="btn btn-sm w-16 bg-amber-400 hover:bg-amber-600 transition"
-                            @click="isModalClosing = true">Yes
+                            @click="finish">Yes
                     </button>
                     <button class="btn btn-sm w-16 bg-amber-400 hover:bg-amber-600 transition"
                             @click="isModalClosing = true">No

@@ -20,6 +20,7 @@ export default {
             isLoaded: false,
             isFinished: false,
             finishedDate: '',
+            isParticipated: false
         }
     },
     async mounted() {
@@ -41,9 +42,12 @@ export default {
                 }),
             HTTP.get('/api/participate/get?contest_id=' + this.$route.params.c_id)
                 .then(response => {
-                    if (response.data.finished_at) {
-                        _this.isFinished = true;
-                        _this.finishedDate = moment(response.data.finished_at).format('DD/MM/YYYY HH:mm::ss');
+                    if (response.data.id) {
+                        _this.isParticipated = true;
+                        if (response.data.finished_at) {
+                            _this.isFinished = true;
+                            _this.finishedDate = moment(response.data.finished_at).format('DD/MM/YYYY HH:mm::ss');
+                        }
                     }
                 })
                 .catch(error => {
@@ -93,7 +97,8 @@ export default {
                     <div v-if="!isEnded && !isFinished && isLoaded" class="flex flex-row flex-wrap justify-center mt-6">
                         <router-link :to="'/contest/participate/' + this.$route.params.c_id"
                             class="shadow-xl hover:bg-cyan-700 bg-primary p-2 font-semibold text-lg text-white rounded-xl transition">
-                            Set me in!
+                            <span v-if="isParticipated">Continue</span>
+                            <span v-if="!isParticipated">Set me in!</span>
                         </router-link>
                     </div>
                     <div v-if="isEnded && !isFinished" class="flex flex-row flex-wrap justify-center mt-6">
@@ -104,7 +109,7 @@ export default {
                         <p>Finished date: {{ finishedDate }}</p>
                         <div class="w-full flex gap-2 justify-center my-3">
                             <button class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition" @click="this.$router.push('/contest/' + this.id + '/result')">Your result</button>
-                            <button class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition">Ranking</button>
+                            <button class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition" @click="this.$router.push('/contest/' + this.id + '/ranking')">Ranking</button>
                         </div>
                     </div>
                 </div>

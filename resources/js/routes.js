@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
+const ContestRanking = () => import("@/components/pages/Contest/ContestRanking.vue");
 const Dashboard = () => import("@/components/pages/Contributor/Dashboard.vue");
 const PostPage = () => import("@/components/pages/Post/PostPage.vue");
 const UserEmailVerification = () => import("@/components/pages/Email/UserEmailVerification.vue");
@@ -129,9 +130,18 @@ const routes = [
         name: 'MyCv'
     },
     {
-        path: '/contest/:id/result/',
-        component: ContestResult,
-        name: 'contest-result'
+        path: '/contest',
+        name: 'contest',
+        children: [
+            {
+                path: ':id/result/',
+                component: ContestResult,
+            },
+            {
+                path: ':id/ranking/',
+                component: ContestRanking
+            }
+        ]
     },
     {
         path: '/ProfileCV',
@@ -255,12 +265,12 @@ const routes = [
         ]
     },
     {
-        name:'job-it',
+        name: 'job-it',
         path: '/job-it/:keyword',
         component: JobIT
     },
     {
-        name:'job-it-all',
+        name: 'job-it-all',
         path: '/job-it/',
         component: JobIT
     },
