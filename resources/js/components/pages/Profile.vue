@@ -36,8 +36,8 @@ export default {
     mounted() {
         this.getUserStatsData();
         this.getUserInformation();
-        this.getRecentAttempts();
-        this.getRecentParticipation();
+        this.getRecentAttempts(1);
+        this.getRecentParticipation(1);
     },
     methods: {
         async getUserStatsData() {
@@ -240,15 +240,68 @@ export default {
             <p>Streak</p>
         </div>
         <div class="border-r p-2">
-            <div>
-                <p class="col-span-full font-semibold text-lg border-b my-2">Activities</p>
-                <p class="my-2">Contests you have participated recently</p>
-                <div v-for="participation in recentParticipation">
-                    {{ participation.contest?.title }}
+            <p class="col-span-full font-semibold text-lg border-b my-2">Activities</p>
+            <p class="my-2">Contests you have participated recently</p>
+            <div class="overflow-x-auto">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Finished at</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="participation in recentParticipation">
+                        <td>{{ participation.contest?.title }}</td>
+                        <td>{{ participation.finished_at }}</td>
+                        <td>
+                            <button class="bg-orange-400 rounded-lg px-3 hover:bg-orange-600 transition"
+                                    @click="this.$router.push('/contest/' + participation.contest?.id + '/result')">Result
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="flex">
+                    <div class="join mx-auto my-3">
+                        <button v-for="link in recentParticipationLinks" :disabled="!link.url"
+                                class="join-item btn text-xs"
+                                :class="{ 'btn-active' : link.label == currentParticipationIndex}"
+                                @click="getRecentParticipation(link.label)"><span
+                            v-html="link.label"></span></button>
+                    </div>
                 </div>
-                <p class="my-2">Problems you have solved recently</p>
-                <div v-for="attempt in recentProblems">
-                    {{ attempt.problem?.title }}
+            </div>
+            <p class="my-2">Problems you have solved recently</p>
+            <div class="overflow-x-auto">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Passed at</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="attempt in recentProblems">
+                        <td>{{ attempt.problem?.title }}</td>
+                        <td>{{ attempt.passed_at }}</td>
+                        <td>
+                            <button class="bg-orange-400 rounded-lg px-3 hover:bg-orange-600 transition"
+                                    @click="this.$router.push('/problem/' + attempt.problem?.id)">Goto
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="flex">
+                    <div class="join mx-auto my-3">
+                        <button v-for="link in recentProblemsLinks" :disabled="!link.url" class="join-item btn text-xs"
+                                :class="{ 'btn-active' : link.label == currentProblemsIndex}"
+                                @click="getRecentAttempts(link.label)"><span
+                            v-html="link.label"></span></button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -284,9 +337,12 @@ export default {
                     <input v-model="emailInput" class="w-full h-8 border border-gray-500 rounded-lg bg-base-300"
                            disabled>
                     <div v-if="!isEmailVerified" role="alert" class="rounded-lg bg-yellow-300 px-3 my-1">
-                        <p><i class="fa-solid fa-triangle-exclamation"></i> Your email is not verified! <router-link to="verify-email"
-                                                                                                           class="link font-semibold">Verify
-                            your email here</router-link></p>
+                        <p><i class="fa-solid fa-triangle-exclamation"></i> Your email is not verified!
+                            <router-link to="verify-email"
+                                         class="link font-semibold">Verify
+                                your email here
+                            </router-link>
+                        </p>
                     </div>
                     <label>Address</label>
                     <input v-model="addressInput" class="w-full h-8 border border-gray-500 rounded-lg bg-base-100">

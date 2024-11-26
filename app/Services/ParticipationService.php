@@ -68,6 +68,7 @@ class ParticipationService
     public function getRecentParticipation(Request $request)
     {
         return Participation::where('user_id', $request->user()->id)
+            ->where('finished_at', '!=', null)
             ->orderBy('finished_at', 'desc')
             ->paginate(8);
     }
