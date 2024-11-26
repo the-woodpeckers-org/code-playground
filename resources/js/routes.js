@@ -229,37 +229,37 @@ const routes = [
         name: 'contributor-dashboard'
     },
     {
-        path: '/admin/dashboard',
+        path: '/admin',
         component: AdminDashboard,
         name: 'admin-dashboard',
         children: [
             {
                 name: 'homeAdmin',
-                path: '/admin/home',
+                path: 'home',
                 component: AdminHome
             },
             {
                 name: 'profileAdmin',
-                path: '/admin/profile',
+                path: 'profile',
                 component: AdminProfile
             },
             {
                 name: 'user-management',
-                path: '/admin/user',
+                path: 'user',
                 component: AdminUserM
             },
             {
                 name: 'subscribe-company-management',
-                path: '/admin/subscribe/company',
+                path: 'subscribe/company',
                 component: SubscribeCompanyM
             },
             {
                 name: 'subscribe-contributor-management',
-                path: '/admin/subscribe/contributor',
+                path: 'subscribe/contributor',
                 component: SubscribeContributorM
             }, {
                 name: 'applications-management',
-                path: '/admin/applications',
+                path: 'applications',
                 component: ApplicationsM
             }
         ]
