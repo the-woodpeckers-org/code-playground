@@ -18,8 +18,10 @@ export default {
         }
     },
     mounted() {
-        this.rte = new RichTextEditor('#post-text-editor');
-        this.rte.setHTMLCode("");
+        setTimeout(() => {
+            this.rte = new RichTextEditor('#post-text-editor');
+            this.rte.setHTMLCode("");
+        }, 500);
     },
     methods: {
         handleFileChange(event) {

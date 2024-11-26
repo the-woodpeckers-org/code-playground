@@ -19,7 +19,7 @@ export default {
     },
    async mounted() {
         await this.fetchData();
-    },  
+    },
     methods: {
        async fetchData()
         {
@@ -72,7 +72,7 @@ export default {
                     <p>Our powerful CV Builder will help you create beautiful CV</p>
                 </div>
             </router-link>
-           
+
             <router-link to="">
                 <div
                     class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-lime-300 to-violet-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">

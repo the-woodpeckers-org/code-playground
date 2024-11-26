@@ -31,8 +31,11 @@ export default {
     },
     methods: {
         updatePassed(value) {
-            this.isPassed = value;
-            this.$emit('problem-passed', true);
+            if (this.isPassed !== value) {
+                this.isPassed = value;
+                this.$emit('problem-passed', true);
+            }
+            return;
         }
     },
     data: function () {
