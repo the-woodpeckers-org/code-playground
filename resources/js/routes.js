@@ -43,6 +43,7 @@ const SubscribeCompanyM = () => import("@/components/pages/Admin/SubscribeCompan
 const SubscribeContributorM = () => import("@/components/pages/Admin/SubscribeContributorM.vue");
 const ApplicationsM = () => import("@/components/pages/Admin/ApplicationsM.vue");
 const JobIT = () => import("@/components/pages/JobIT.vue");
+const ProblemsM = () => import("@/components/pages/Admin/ProblemsM.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -261,6 +262,10 @@ const routes = [
                 name: 'applications-management',
                 path: 'applications',
                 component: ApplicationsM
+            },{
+                name : 'problems-management',
+                path: 'problems',
+                component: ProblemsM
             }
         ]
     },

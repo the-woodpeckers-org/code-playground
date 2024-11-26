@@ -57,4 +57,15 @@ class Problem extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
+
+    public function tags()
+    {
+        return $this->hasMany(ProblemTag::class, 'problem_id', 'id');
+    }
+    public function languages()
+    {
+        return $this->hasMany(ProblemLanguage::class, 'problem_id', 'id');
+    }
+
+
 }

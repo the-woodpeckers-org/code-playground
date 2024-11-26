@@ -27,7 +27,7 @@
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
                                     clip-rule="evenodd"></path>
                             </svg>
-                           User
+                            User
                         </router-link>
                         <div>
                             <button @click="toggleSubscribeDropdown"
@@ -39,8 +39,11 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                                 Subscribe
-                                <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd"
+                                        d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 01.02-1.06z"
+                                        clip-rule="evenodd" />
                                 </svg>
                             </button>
                             <div v-show="showSubscribeDropdown" class="ml-6 space-y-2">
@@ -57,7 +60,10 @@
                         <router-link to="/admin/applications"
                             class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
                             <i class="fa-solid fa-bag-shopping text-xl mr-3"></i><span>Applications</span>
-                         
+                        </router-link>
+                        <router-link to="/admin/problems"
+                            class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
+                            <i class="fa-solid fa-book text-xl mr-3"></i><span>Problems</span>
                         </router-link>
                     </div>
                     <div class="h-[50px]">
@@ -121,12 +127,12 @@
                     <!-- User login -->
                     <div class="w-[200px] ">
                         <div class="flex items-center justify-start space-x-4" @click="toggleDrop">
-                            <img class="w-10 h-10 rounded-full border-2 border-gray-50"
-                                src="https://yt3.ggpht.com/hqsxh-Vnbw9OK0_X4DAWh6RkmEUVnL-82SRCyh-IKr9fIXR8zhUCRdBEwgWWL_14q_L8Piod=s108-c-k-c0x00ffffff-no-rj"
+                            <img :src="$root.auth.avatar_url" class="w-10 h-10 rounded-full border-2 border-gray-50"
                                 alt="">
                             <div class="font-semibold dark:text-white text-left">
-                                <div>Madona ,Dev OP</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">Admin</div>
+                                <div v-if="$root.auth">{{ $root.auth.name }}</div>
+                                <div v-if="$root.auth" class="text-xs text-gray-500 dark:text-gray-400">{{
+                                    $root.auth.role }}</div>
                             </div>
                         </div>
                         <!-- Drop down -->
@@ -141,8 +147,8 @@
                                 <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
                                     id="menu-item-2">License</a>
                                 <form method="POST" action="#" role="none">
-                                    <button type="submit" class="text-gray-700 block w-full px-4 py-2 text-left text-sm"
-                                        role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
+                                    <button type="button" class="text-gray-700 block w-full px-4 py-2 text-left text-sm"
+                                        role="menuitem" tabindex="-1" id="menu-item-3" @click="logout">Sign out</button>
                                 </form>
                             </div>
                         </div>
@@ -159,21 +165,22 @@
     </div>
 </template>
 <script>
+import { getAuth } from "@/utils/authLocalStorage.js";
+import { Role } from "@/utils/roles.js";
 export default {
     data() {
         return {
             showDropDown: false,
             showSide: true,
+            auth: getAuth(),
             showSubscribeDropdown: false,
         }
     },
     methods: {
-        // hide show side bar
         toggleSideBar() {
             this.showSide = !this.showSide
 
         },
-        // toggle user 
         toggleDrop() {
             this.showDropDown = !this.showDropDown
 
@@ -181,12 +188,22 @@ export default {
         toggleSubscribeDropdown() {
             this.showSubscribeDropdown = !this.showSubscribeDropdown;
         },
+        logout() {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("user");
+            this.$root.auth = null;
+            this.isLoggedOut = true;
+            setTimeout(() => {
+                this.isLoggedOut = false;
+                window.location.reload();
+            }, 2000);
+        }
     }
 
 }
 </script>
 <style scoped>
 .router-link-active {
-  color: red;
+    color: red;
 }
 </style>
