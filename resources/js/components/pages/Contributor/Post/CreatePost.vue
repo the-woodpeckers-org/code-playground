@@ -15,13 +15,17 @@ export default {
             thumbnail: null,
             rte: null,
             isCreating: false,
+            isLoadRte: false,
         }
     },
     mounted() {
         setTimeout(() => {
             this.rte = new RichTextEditor('#post-text-editor');
             this.rte.setHTMLCode("");
-        }, 500);
+        }, 3000);
+    },
+    updated() {
+
     },
     methods: {
         handleFileChange(event) {
