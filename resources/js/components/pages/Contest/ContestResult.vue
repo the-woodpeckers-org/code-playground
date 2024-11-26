@@ -40,6 +40,22 @@ export default {
                 .catch((err) => {
 
                 });
+        },
+        format(d, h, m, s) {
+            let cd = String(d), ch = String(h), cm = String(m), cs = String(s);
+            if (cd.length == 1) {
+                cd = '0' + cd;
+            }
+            if (ch.length == 1) {
+                ch = '0' + ch;
+            }
+            if (cm.length == 1) {
+                cm = '0' + cm;
+            }
+            if (cs.length == 1) {
+                cs = '0' + cs;
+            }
+            return cd + 'd' + ' ' + ch + 'h' + ' ' + cm + 'm' + ' ' + cs + 's';
         }
     }
 }
@@ -53,6 +69,7 @@ export default {
             <p>End date: {{ contest.end_date }}</p>
             <div class="divider"></div>
             <p>You have finished at: <span class="font-semibold">{{ finished_at }}</span></p>
+            <p>Finished time: {{format(participation.finishedTime.days, participation.finishedTime.hours, participation.finishedTime.minutes, participation.finishedTime.seconds)}}</p>
             <p>Problems solved: <span class="font-semibold">{{ participation.finished_problems + '/' + total_problems }}</span></p>
             <p>Your code: </p>
             <div role="tablist" class="tabs tabs-lifted m-0">

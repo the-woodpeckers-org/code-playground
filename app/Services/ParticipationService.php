@@ -57,7 +57,11 @@ class ParticipationService
     public function getResults(Request $request)
     {
         $participation = Participation::query();
+        $participation->selectRaw('participation.*,TIMESTAMPDIFF(second, started_at, finished_at) as duration');
         $participation->where('contest_id', $request->input('contest_id'));
-        return $participation->paginate(10);
+        $participation->where('finished_at', '!=', null);
+        $participation->orderBy('finished_problems', 'desc');
+        $participation->orderBy('duration', 'asc');
+        return $participation->paginate(2);
     }
 }
