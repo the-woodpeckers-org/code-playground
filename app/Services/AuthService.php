@@ -32,7 +32,7 @@ class AuthService
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            
+
             $token = $user->createToken('token')->plainTextToken;
             return ['user' => $user, 'token' => $token];
         }
@@ -50,6 +50,8 @@ class AuthService
             $user->birthday = $request->input('birthday');
             $user->gender = $request->input('gender');
             $user->phone_number = $request->input('phone_number');
+            $user->role = Role::User;
+            $user->avatar_url = 'https://res.cloudinary.com/dazvvxymm/image/upload/v1732598242/default-avatar-icon-of-social-media-user-vector_yizaq4.jpg';
             $user->save();
             return ['message' => 'User register successfully!'];
         } catch (\Exception $exception) {
@@ -145,7 +147,7 @@ class AuthService
     {
         return User::where('id', $request->user()->id)->first();
     }
-    
+
     public function registerCompany(Request $request)
     {
         try {

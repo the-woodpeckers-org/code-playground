@@ -60,7 +60,7 @@ export default {
                 language: document.getElementById('language-' + _this.problemId).value,
                 problem_id: _this.problemId
             }).then(function (response) {
-                _this.isCompiling = false
+                _this.isCompiling = false;
                 if (response.data.succeed == false) {
                     console.log(response)
                     _this.isCompileError = true
