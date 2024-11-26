@@ -14,9 +14,9 @@ class ProblemMController
     {
         $this->service = $service;
     }
-    public function getListSubscribeProblem()
+    public function getListSubscribeProblem( Request $request)
     {
-        return $this->service->getListSubscribeProblem();
+        return $this->service->getListSubscribeProblem($request);
     }
 
     
