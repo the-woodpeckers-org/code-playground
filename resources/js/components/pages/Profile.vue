@@ -24,12 +24,20 @@ export default {
             genderInput: "",
             birthdayInput: "",
             isEmailVerified: false,
-            isUpdated: false
+            isUpdated: false,
+            recentProblems: [],
+            currentProblemsIndex: 1,
+            recentProblemsLinks: [],
+            recentParticipation: [],
+            currentParticipationIndex: 1,
+            recentParticipationLinks: [],
         };
     },
     mounted() {
         this.getUserStatsData();
         this.getUserInformation();
+        this.getRecentAttempts();
+        this.getRecentParticipation();
     },
     methods: {
         async getUserStatsData() {
@@ -186,6 +194,30 @@ export default {
                 .catch((err) => {
 
                 });
+        },
+        async getRecentAttempts(index) {
+            let _this = this;
+            _this.currentProblemsIndex = index;
+            await HTTP.get('api/problem/recently?page=' + index)
+                .then((response) => {
+                    _this.recentProblems = response.data.data;
+                    _this.recentProblemsLinks = response.data.links;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        async getRecentParticipation(index) {
+            let _this = this;
+            _this.currentParticipationIndex = index;
+            await HTTP.get('api/participation/recently?page=' + index)
+                .then((response) => {
+                    _this.recentParticipation = response.data.data;
+                    _this.recentParticipationLinks = response.data.links;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     },
 };
@@ -207,9 +239,17 @@ export default {
             </div>
             <p>Streak</p>
         </div>
-        <div class="border-r">
+        <div class="border-r p-2">
             <div>
-
+                <p class="col-span-full font-semibold text-lg border-b my-2">Activities</p>
+                <p class="my-2">Contests you have participated recently</p>
+                <div v-for="participation in recentParticipation">
+                    {{ participation.contest?.title }}
+                </div>
+                <p class="my-2">Problems you have solved recently</p>
+                <div v-for="attempt in recentProblems">
+                    {{ attempt.problem?.title }}
+                </div>
             </div>
         </div>
         <div class="p-2">

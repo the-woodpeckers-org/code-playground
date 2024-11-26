@@ -274,4 +274,15 @@ class ProblemService
         }
         return throw new BadRequestHttpException('Unauthenticated');
     }
+
+    public function getRecentAttempts(Request $request)
+    {
+        if ($request->user()) {
+            return Attempt::where('user_id', $request->user()->id)
+                ->orderBy('passed_at', 'desc')
+                ->with('problem')
+                ->paginate(8);
+        }
+        return throw new BadRequestHttpException('Unauthenticated');
+    }
 }
