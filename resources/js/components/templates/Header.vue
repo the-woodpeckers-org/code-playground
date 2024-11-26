@@ -117,6 +117,12 @@
             Info Recruitment Profile
         </router-link>
     </div>
+    <dialog v-if="isLoggedOut" id="register_modal" class="modal modal-open">
+        <div class="modal-box">
+            <h3 class="text-lg font-bold"></h3>
+            <p class="py-4">You have logged out!</p>
+        </div>
+    </dialog>
 </template>
 <script setup>
 import { getAuth } from "@/utils/authLocalStorage.js";
@@ -129,7 +135,8 @@ export default {
     data: function () {
         return {
             isMenuOpen: false,
-            auth: getAuth()
+            auth: getAuth(),
+            isLoggedOut: false,
         }
     },
     methods: {
@@ -137,6 +144,11 @@ export default {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("user");
             this.$root.auth = null;
+            this.isLoggedOut = true;
+            setTimeout(() => {
+                this.isLoggedOut = false;
+                window.location.reload();
+            }, 2000);
         },
         OpenMenu() {
             this.isMenuOpen = !this.isMenuOpen;

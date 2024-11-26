@@ -33,6 +33,8 @@ export default {
             passedTestcases: String,
             description: String,
             title: String,
+            categories: [],
+            languages: [],
             testcases: Array,
             runData: Array,
             loading: false,
@@ -62,14 +64,12 @@ export default {
             }).then(function (response) {
                 _this.isCompiling = false;
                 if (response.data.succeed == false) {
-                    console.log(response)
                     _this.isCompileError = true
                     document.getElementById('error-msg-' + _this.problemId).innerText = response.data.output;
                 } else {
                     _this.run = true
                     _this.runData = response.data.output
                     _this.passedTestcases = response.data.passedTestcases
-                    console.log(response)
                     if (_this.passedTestcases === _this.testcases.length) {
                         document.getElementById('submit-btn-' + _this.problemId).disabled = false
                     } else {
@@ -77,9 +77,7 @@ export default {
                     }
                 }
             }).catch(function (error) {
-                console.log(error)
                 _this.isCompiling = false
-                alert(error)
             })
         },
         async submit() {
@@ -92,14 +90,12 @@ export default {
                 problem_id: _this.problemId,
                 participation_id: _this.participationId
             }).then(function (response) {
-                _this.isSubmitted = true
-                _this.isSubmitting = false
-                if (!_this.isPassed) {
-                    this.$emit('problemPassed', true)
-                }
+                console.log('huhu');
+                _this.isSubmitted = true;
+                _this.isSubmitting = false;
+                _this.$emit('problem-passed', true);
             }).catch(function (error) {
                 _this.isSubmitting = false
-                console.log(error)
             })
 
         },
@@ -112,14 +108,16 @@ export default {
             HTTP.get('/api/participate/problem?id=' + _this.problemId + '&participation_id=' + _this.participationId)
                 .then(function (response) {
                     console.log(response)
-                    _this.description = response.data.description
-                    _this.title = response.data.title
-                    _this.testcases = response.data.testcases
+                    _this.description = response.data.description;
+                    _this.title = response.data.title;
+                    _this.testcases = response.data.testcases;
+                    _this.languages = response.data.languages;
+                    _this.categories = response.data.categories;
                     _this.loading = true
                     if (response.data.passed_at) {
-                        _this.isPassed = true
-                        _this.passedDate = response.data.passed_at
-                        _this.$emit('problemPassed', true)
+                        _this.isPassed = true;
+                        _this.passedDate = response.data.passed_at;
+                        _this.$emit('problem-passed', true);
                     }
                     if (response.data.contestId) {
                         _this.isBelongsToContest = true
@@ -160,23 +158,23 @@ export default {
             <div class="grid grid-cols-12">
                 <div class="col-span-6 me-1 border-e-2">
                     <p class="text-2xl font-bold border-b-2 mx-1" v-if="loading"> {{ title }}</p>
-
+                    <div class="w-full flex flex-row flex-wrap my-1">
+                        <div class="border bg-base-200 border-gray-400 px-1 mx-1 mt-1" v-for="category in categories">
+                            {{ category.name }}
+                        </div>
+                    </div>
                     <p class="text-base mx-1" v-if="loading"> {{ description }}</p>
                     <div class="text-2xl font-bold border-b-2 mx-1" v-if="!loading">
                         <div class="skeleton h-8 my-1 w-full"></div>
                     </div>
                     <div class="text-base mx-1" v-if="!loading">
-                        <div v-for="index in 30" class="skeleton h-4 mt-1 w-full"></div>
+                        <div v-for="val in 30" class="skeleton h-4 mt-1 w-full"></div>
                     </div>
                 </div>
                 <div class="col-span-6 mx-1">
                     <label for="language">Select language: </label>
                     <select :id="'language-' + problemId" name="language" class="bg-gray-200 rounded-xl border-2 border-gray-400 ms-3">
-                        <option value="cpp">C++</option>
-                        <option value="c">C</option>
-                        <option value="python">Python</option>
-                        <option value="php">PHP</option>
-                        <option value="javascript">JavaScript</option>
+                        <option v-for="language in languages" :value="language.id"> {{ language.name }}</option>
                     </select>
                     <div class="h-96">
                         <div :id="'editor' + '-' + problemId" style="width: 100%; height: 100%" class="text-base mt-3">
@@ -217,7 +215,7 @@ export default {
                     </div>
                     <div class="mt-3 w-full h-80 overflow-auto">
                         <div v-if="!loading">
-                            <div v-for="index in 3" class="skeleton h-28 my-1 w-full"></div>
+                            <div v-for="val in 3" class="skeleton h-28 my-1 w-full"></div>
                         </div>
                         <div v-if="loading">
                             <TestcaseList v-if="!run" :data="testcases"></TestcaseList>

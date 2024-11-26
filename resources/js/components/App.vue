@@ -5,7 +5,7 @@ const Header = defineAsyncComponent(() => import('@/components/templates/Header.
 const Footer = defineAsyncComponent(() => import('@/components/templates/Footer.vue'))
 
 import {defineAsyncComponent} from "vue";
-import {getAuth} from "@/utils/authLocalStorage.js";
+import {getAuth, setAccessToken, setAuth} from "@/utils/authLocalStorage.js";
 
 export default {
     name: "App",
@@ -16,8 +16,19 @@ export default {
         }
     },
     methods: {},
-    created() {
-
+    mounted() {
+        let _this = this;
+        if (localStorage.getItem('accessToken')) {
+            HTTP.get('api/auth/get')
+                .then((response) => {
+                    console.log(response);
+                    setAuth(response.data);
+                    _this.auth = response.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     }
 }
 </script>

@@ -25,8 +25,9 @@ export default {
         }
     },
     methods: {
-        updateFinishedProblemCount() {
+        updateFinishedProblemCount(val) {
             this.finishedProblemCount++;
+            console.log(this.finishedProblemCount);
         },
         async finish() {
             let _this = this;
@@ -105,7 +106,7 @@ export default {
 
         <div class="divider my-2"></div>
         <div role="tablist" class="tabs tabs-bordered w-full">
-            <ContestProblemTab @isPassed="updateFinishedProblemCount" v-if="participationId"
+            <ContestProblemTab @problem-passed="updateFinishedProblemCount" v-if="participationId"
                                v-for="(problem, index) in problems"
                                :name="'code-tab'" :index="index"
                                :contestId="this.$route.params.c_id"

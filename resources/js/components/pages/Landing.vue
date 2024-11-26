@@ -42,6 +42,7 @@ export default {
                     _this.contests = response.data;
                 })
                 .catch(error => {
+                    window.location.reload();
                 })
         ]);
         _this.loading = true

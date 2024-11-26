@@ -25,9 +25,11 @@ export default {
                 setAccessToken(response.data.token);
                 setAuth(response.data.user);
                 _this.$root.auth = getAuth();
+                console.log(localStorage.getItem('accessToken'))
                 _this.isLoggedIn = true;
                 setTimeout(() => {
                     _this.$router.push('/');
+                    window.location.reload();
                 }, 2000);
             }).catch(function (error) {
                 console.log(error)

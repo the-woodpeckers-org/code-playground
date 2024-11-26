@@ -13,7 +13,7 @@ export default {
 </script>
 
 <template>
-<Testcase v-for="(item, index) in data" :data="item" :index="index + 1">
+<Testcase v-for="(item, index) in data" :data="item" :index="String(index + 1)">
 </Testcase>
 </template>
 
