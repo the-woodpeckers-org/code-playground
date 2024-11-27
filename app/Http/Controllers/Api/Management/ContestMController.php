@@ -19,4 +19,16 @@ class ContestMController
     {
         return $this->service->getListSubscribeContest();
     }
+    public function approvedContest(Request $request)
+    {
+        return $this->service->approvedContest($request);
+    }
+    public function rejectContest(Request $request)
+    {
+        return $this->service->rejectContest($request);
+    }
+    public function changeRequiredContest(Request $request)
+    {
+        return $this->service->changeRequiredContest($request);
+    }
 }

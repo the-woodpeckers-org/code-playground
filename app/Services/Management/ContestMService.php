@@ -9,7 +9,10 @@ use App\Utils\Constants\Status;
 use App\Utils\Constants\Role;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailResponseReview;
+use App\Mail\MailSendRequestChange;
 class ContestMService
 {
     public function getListSubscribeContest()
@@ -37,6 +40,58 @@ class ContestMService
             'status' => 'success',
             'contests' => $detailContests,
             'message' => 'Get list contest successfully'
+        ]);
+    }
+
+    public function approvedContest(Request $request)
+    {
+        $contest = Contest::find($request->input('contest_id'));
+        if ($contest == null) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Contest not found'
+            ]);
+        }
+        $contest->status = Status::APPROVED;
+        $contest->save();
+        Mail::to($contest->user->email)->send(new MailResponseReview($contest->user,null,$contest,Status::APPROVED));
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Approve contest successfully'
+        ]);
+    }
+    public function rejectContest(Request $request)
+    {
+        $contest = Contest::find($request->input('contest_id'));
+        if ($contest == null) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Contest not found'
+            ]);
+        }
+        $contest->status = Status::REJECTED;
+        $contest->save();
+        Mail::to($contest->user->email)->send(new MailResponseReview($contest->user,null,$contest,Status::REJECTED));
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Reject contest successfully'
+        ]);
+    }
+    public function changeRequiredContest(Request $request)
+    {
+        $contest = Contest::find($request->input('contest_id'));
+        if ($contest == null) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Contest not found'
+            ]);
+        }
+        $contest->change_required = $request->input('change_required');
+        $contest->save();
+        Mail::to($contest->user->email)->send(new MailSendRequestChange($contest->user->mail, $request->input('change_required')));
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Change required contest successfully'
         ]);
     }
 }
