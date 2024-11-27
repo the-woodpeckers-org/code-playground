@@ -6,7 +6,9 @@
                 <thead>
                     <tr class="bg-gray-200">
                         <th class="px-4 py-2 text-left">Problem Title</th>
-                        <th class="px-4 py-2 text-left">Difficulty</th>
+                        <th class="px-4 py-2 text-left">Number Problem</th>
+                        <th class="px-4 py-2 text-left">Start Time</th>
+                        <th class="px-4 py-2 text-left">End Time</th>
                         <th class="px-4 py-2 text-left">Created By</th>
                         <th class="px-4 py-2 text-left">Detail</th>
                         <th class="px-4 py-2 text-left">Status</th>
@@ -15,6 +17,7 @@
                 <tbody>
                     <!-- <ProblemItemM v-for="(item, index) in problems" :key="index" :problem="item"
                         @change_request="change_request" @reject="reject" @approved="approved" /> -->
+                        <ContestItemM></ContestItemM>
                 </tbody>
             </table>
         </div>
@@ -30,8 +33,29 @@
     </div>
 </template>
 <script>
+import ContestItemM from "@/components/listItems/Management/ContestItemM.vue";
 export default {
     name: "ContestsM",
+    components: {
+        ContestItemM,
+    },
+    data() {
+        return {
+            contests: [],
+            pagination: {},
+        };
+    },
+    mounted() {
+        this.fetchContests();
+    },
+    methods: {
+        fetchContests() {
+            axios.get(`/api/contests`).then((response) => {
+                this.contests = response.data.data;
+                this.pagination = response.data;
+            });
+        },
+    },
 }
 </script>
 <style >

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('job_recruitments', function (Blueprint $table) {
-            $table->string('status')->default('Pending'); // Use string instead of text
+            $table->string('status')->default('pending'); // Use string instead of text
             $table->string('change_required')->nullable();
         });
     }
