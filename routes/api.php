@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\Management\UserMController;
 use App\Http\Controllers\Api\Management\JobRecruitmentMController;
 use App\Http\Controllers\Api\Management\ProblemMController;
+use App\Http\Controllers\Api\Management\ContestMController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -127,6 +128,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/ChangeRequestProblem', [ProblemMController::class, 'ChangeRequestProblem'])->name('ChangeRequestProblem');
     Route::post('/RejectProblem', [ProblemMController::class, 'rejectProblem'])->name('rejectProblem');
     Route::post('/ApprovedProblem', [ProblemMController::class, 'ApprovedProblem'])->name('approvedProblem');
+
+    // contest Management
+    Route::get('/getListSubscribeContest', [ContestMController::class, 'getListSubscribeContest'])->name('getListSubscribeContest');
+    Route::post('/approvedContest', [ContestMController::class, 'approvedContest'])->name('approvedContest');
+    Route::post('/rejectContest', [ContestMController::class, 'rejectContest'])->name('rejectContest');
+    Route::post('/send-request-change-contest', [ContestMController::class, 'sendRequestChangeContest'])->name('sendRequestChangeContest');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');

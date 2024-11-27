@@ -15,6 +15,8 @@
             </div>
         </div>
         <div class="mt-3"></div>
+        <div class="overflow-x-auto">
+
         <table class="table">
             <thead>
                 <tr class="bg-base-200 text-zinc-900 text-md md:text-lg lg:text-xl font-semibold">
@@ -29,6 +31,7 @@
                     <ContributorItemM v-for="(item, index) in filteredSubscribe" :key="index" @approved="approved" @reject="reject" :id="item.id" :status="item.status" :user="item.name" :email="item.email" :phone="item.phone_number"></ContributorItemM>
             </tbody>
         </table>
+        </div>
     </div>
 </template>
 <script>

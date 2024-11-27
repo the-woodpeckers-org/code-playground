@@ -18,27 +18,25 @@
             </div>
         </div>
         <div class="mt-3"></div>
-        <table class="table">
-            <thead>
-                <tr class="bg-base-200 text-zinc-900 text-md md:text-lg lg:text-xl font-semibold">
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Role</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <UserItemM
-                    v-for="item in filteredUsers"
-                    :key="item.id"
-                    :user="item.name"
-                    :email="item.email"
-                    :phone="item.phone_number"
-                    :role="item.role"
-                ></UserItemM>
-            </tbody>
-        </table>
+        <div class="overflow-x-auto">
+
+
+            <table class="table">
+                <thead>
+                    <tr class="bg-base-200 text-zinc-900 text-md md:text-lg lg:text-xl font-semibold">
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <UserItemM v-for="item in filteredUsers" :key="item.id" :user="item.name" :email="item.email"
+                        :phone="item.phone_number" :role="item.role"></UserItemM>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
