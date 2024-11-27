@@ -65,6 +65,10 @@
                             class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
                             <i class="fa-solid fa-book text-xl mr-3"></i><span>Problems</span>
                         </router-link>
+                        <router-link to="/admin/contests"
+                            class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
+                            <i class="fa-solid fa-book text-xl mr-3"></i><span>Contests</span>
+                        </router-link>
                     </div>
                     <div class="h-[50px]">
                         <div>

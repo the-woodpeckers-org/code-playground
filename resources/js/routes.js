@@ -44,6 +44,7 @@ const SubscribeContributorM = () => import("@/components/pages/Admin/SubscribeCo
 const ApplicationsM = () => import("@/components/pages/Admin/ApplicationsM.vue");
 const JobIT = () => import("@/components/pages/JobIT.vue");
 const ProblemsM = () => import("@/components/pages/Admin/ProblemsM.vue");
+const ConstestsM = () => import("@/components/pages/Admin/ContestsM.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -83,7 +84,7 @@ const routes = [
     {
         path: '/contests',
         component: Contests,
-        name: 'contest'
+        name: 'contest-page'
     },
     {
         path: '/courses',
@@ -266,6 +267,10 @@ const routes = [
                 name : 'problems-management',
                 path: 'problems',
                 component: ProblemsM
+            },{
+                name : 'contests-management',
+                path:'contests',
+                component: ConstestsM
             }
         ]
     },
