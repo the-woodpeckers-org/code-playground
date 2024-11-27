@@ -83,7 +83,7 @@ const routes = [
     {
         path: '/contests',
         component: Contests,
-        name: 'contest'
+        name: 'contest-page'
     },
     {
         path: '/courses',
