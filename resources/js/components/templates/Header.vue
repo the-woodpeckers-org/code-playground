@@ -77,7 +77,7 @@
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                     <li v-if="$root.auth">
-                        <router-link class="text-base" :to="'/profile/' + $root.auth.id">Profile</router-link>
+                        <router-link class="text-base" :to="'/profile/' + $root.auth.id" :id="$root.auth.id">Profile</router-link>
                     </li>
                     <li v-if="$root.auth" onclick="confirm_logout_modal.showModal()">
                         <p class="text-base">Logout</p>

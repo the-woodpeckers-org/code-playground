@@ -15,7 +15,6 @@ export default {
             languageStatAttempts: Array,
             categoryStatLabels: Array,
             categoryStatAttempts: Array,
-
             // user information form input
             nameInput: "",
             emailInput: "",
@@ -31,9 +30,7 @@ export default {
             recentParticipation: [],
             currentParticipationIndex: 1,
             recentParticipationLinks: [],
-
             avatar_url: "",
-            userId: this.$route.params.id
         };
     },
     mounted() {
@@ -41,6 +38,9 @@ export default {
         this.getUserInformation();
         this.getRecentAttempts(1);
         this.getRecentParticipation(1);
+    },
+    beforeRouteUpdate() {
+        window.location.href = '/profile/' + this.$root.auth.id;
     },
     methods: {
         async getUserStatsData() {

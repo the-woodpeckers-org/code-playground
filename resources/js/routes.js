@@ -45,6 +45,7 @@ const ApplicationsM = () => import("@/components/pages/Admin/ApplicationsM.vue")
 const JobIT = () => import("@/components/pages/JobIT.vue");
 const ProblemsM = () => import("@/components/pages/Admin/ProblemsM.vue");
 const ConstestsM = () => import("@/components/pages/Admin/ContestsM.vue");
+
 const routes = [
     {
         path: '/problem/:id',
@@ -109,7 +110,8 @@ const routes = [
     {
         path: '/profile/:id',
         component: Profile,
-        name: 'profile'
+        name: 'profile',
+        props: true
     },
     {
         path: '/contest/:c_id',
