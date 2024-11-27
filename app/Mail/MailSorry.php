@@ -22,7 +22,6 @@ class MailSorry extends Mailable
     {
         $this->user = $user;
     }
-
     /**
      * Get the message envelope.
      */

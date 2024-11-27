@@ -3,6 +3,7 @@
         <td class="px-4 py-2">{{ problem.title }}</td>
         <td class="px-4 py-2">{{ problem.difficulty }}</td>
         <td class="px-4 py-2">{{ problem.created_by.name }}</td>
+        
         <td class="px-4 py-2 text-center "> <a @click="showDetailModal"
                 class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300">
                 <i class="fa-regular fa-eye"></i>
@@ -15,9 +16,9 @@
     <tr v-if="showOptions" class="bg-gray-50">
         <td colspan="5">
             <ul class="text-sm">
-                <li v-if="problem.status !== 'rejected'" @click="$emit('reject', id)"
+                <li v-if="problem.status !== 'rejected'" @click="showConfirmReject"
                     class="px-4 py-2 hover:bg-red-100 cursor-pointer">Rejected</li>
-                <li v-if="problem.status !== 'active'" @click="$emit('Active', id)"
+                <li v-if="problem.status !== 'active'" @click="showConfirmApprove"
                     class="px-4 py-2 hover:bg-green-100 cursor-pointer">Approved</li>
                 <li @click="request_change_ShowModal" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Request
                     change</li>
@@ -32,6 +33,8 @@
                     <h3 id=":r9:" class="text-xl font-medium text-gray-900 dark:text-white">
                         <p class="font-bold text-black">{{ problem.created_by.name }}</p>
                         <p class="text-base font-normal text-gray-400"> {{ problem.title }} </p>
+                        <p class="text-base font-normal text-gray-400"> {{ problem.created_by.email }} </p>
+
                     </h3>
                 </div>
                 <div class="flex justify-end p-0">
@@ -121,11 +124,37 @@
             </div>
         </div>
     </dialog>
+
+    <dialog class="modal" ref="confirm_status_approved_modal">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">Are you sure you want approved it?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="$emit('approved', this.problem.id)">Yes</button>
+                    <button class="btn btn-sm m-1 border">No</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog class="modal" ref="confirm_status_reject_modal">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">Are you sure you want reject it?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="$emit('reject', this.problem.id)">Yes</button>
+                    <button class="btn btn-sm m-1 border">No</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 </template>
 
 <script>
 export default {
-    emits: ['reject', 'Active', 'change_request'],
+    emits: ['reject', 'approved', 'change_request'],
     name: "CompanyItemM",
     props: {
         problem: {},
@@ -148,10 +177,10 @@ export default {
             this.openRequest = false;
         },
         showConfirmReject() {
-
+            this.$refs.confirm_status_reject_modal.showModal();
         },
         showConfirmApprove() {
-
+            this.$refs.confirm_status_approved_modal.showModal();
         },
         sendRequest()
         {

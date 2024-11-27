@@ -22,5 +22,13 @@ class ProblemMController
     {
         return $this->service->ChangeRequestProblem($request);
     }
+    public function rejectProblem(Request $request)
+    {
+        return $this->service->rejectProblem($request);
+    }
+    public function approvedProblem(Request $request)
+    {
+        return $this->service->approvedProblem($request);
+    }
     
 }

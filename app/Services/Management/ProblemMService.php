@@ -3,6 +3,7 @@
 namespace App\Services\Management;
 
 use App\Http\Requests\UpdateUserFormRequest;
+use App\Mail\MailCongratulation;
 use App\Models\User;
 use App\Models\Problem;
 use App\Utils\Constants\Status;
@@ -10,6 +11,7 @@ use App\Utils\Constants\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailSendRequestChange;
+use App\Mail\MailSorry;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class ProblemMService
@@ -25,7 +27,7 @@ class ProblemMService
     
         $skip = ($page - 1) * $perPage;
     
-        $problems = Problem::skip($skip)->take($perPage)->where('status','=',Status::ACTIVE)->get();
+        $problems = Problem::skip($skip)->take($perPage)->where('status','!=',Status::ACTIVE)->get();
         $detailProblems = $problems->map(function ($problem) {
             return [
                 'id' => $problem->id,
@@ -42,7 +44,7 @@ class ProblemMService
                 'change_required' => $problem->change_required,
             ];
         });
-        $total = Problem::all()->where('status','=',Status::ACTIVE)->count();
+        $total = Problem::all()->where('status','!=',Status::ACTIVE)->count();
         
         return response()->json([
             'status' => '200',
@@ -60,12 +62,13 @@ class ProblemMService
     }
     
 
-    public function approvedProblem($id)
+    public function approvedProblem(Request $request)
     {
-        $problem = Problem::find($id);
+        $problem = Problem::find($request->input('problem_id'));
         if ($problem) {
-            $problem->status = Status::APPROVED;
-            // SEND MAIL
+            $problem->status = Status::ACTIVE;
+            $currentUser = $problem->user;
+            Mail::to($currentUser->email)->send(new MailSorry($currentUser));
             $problem->save();
             return response()->json([
                 'status' => '200',
@@ -78,7 +81,35 @@ class ProblemMService
             ]);
         }
     }
+    public function rejectProblem(Request $request)
+    {
+        $problem = Problem::find($request->input('problem_id'));
+        if ($problem) {
+            $problem->status = Status::REJECTED;
+            $currentUser = $problem->user;
+            try{
 
+                Mail::to($currentUser->email)->send(new MailCongratulation($currentUser));
+            }catch(\Exception $e){
+                return response()->json([
+                    'status' => '404',
+                    'message' =>'!!',
+                    'error' => $e->getMessage()
+                ]);
+            }
+            $problem->save();
+            return response()->json([
+                'status' => '200',
+                'message' => 'Problem rejected successfully',
+                'mail' => $currentUser->email
+            ]);
+        } else {
+            return response()->json([
+                'status' => '404',
+                'message' => 'Problem not found'
+            ]);
+        }
+    }
     public function ChangeRequestProblem(Request $request)
     {
         $problem = Problem::find($request->input('problem_id'));

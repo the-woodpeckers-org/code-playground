@@ -13,7 +13,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ProblemItemM v-for="(item, index) in problems" :key="index" :problem="item" @change_request="change_request"/>
+                    <ProblemItemM v-for="(item, index) in problems" :key="index" :problem="item"
+                        @change_request="change_request" @reject="reject" @approved="approved" />
                 </tbody>
             </table>
         </div>
@@ -35,7 +36,7 @@
                     <i class="fa-solid fa-check"></i>
                 </span>
             </div>
-            <p class="py-4 font-semibold">Send request successfully!</p>
+            <p class="py-4 font-semibold">Action Successfully!</p>
         </div>
     </dialog>
     <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="isLoading">
@@ -90,9 +91,9 @@ export default {
                 this.fetchData(page);
             }
         },
-    async change_request(problem_id, change_required) {
-        this.isLoading = true;
-          await  HTTP.post('/api/ChangeRequestProblem', {
+        async change_request(problem_id, change_required) {
+            this.isLoading = true;
+            await HTTP.post('/api/ChangeRequestProblem', {
                 problem_id: problem_id,
                 change_required: change_required,
             }).then(response => {
@@ -106,7 +107,39 @@ export default {
             }).catch(error => {
                 console.error("Error sending request:", error);
             });
-         }
+        },
+        async reject(id) {
+            this.isLoading = true;
+            await HTTP.post('/api/RejectProblem', {
+                problem_id: id,
+            }).then(response => {
+                this.isLoading = false;
+                this.isSendRequest = true;
+                this.fetchData(this.pagination.current_page);
+                setTimeout(() => {
+                    window.location.reload();
+                    this.isSendRequest = false;
+                }, 2000);
+            }).catch(error => {
+                console.error("Error rejecting problem:", error);
+            });
+        },
+        async approved(id) {
+            this.isLoading = true;
+            await HTTP.post('/api/ApprovedProblem', {
+                problem_id: id,
+            }).then(response => {
+                this.isLoading = false;
+                this.isSendRequest = true;
+                this.fetchData(this.pagination.current_page);
+                setTimeout(() => {
+                    window.location.reload();
+                    this.isSendRequest = false;
+                }, 2000);
+            }).catch(error => {
+                console.error("Error approving problem:", error);
+            });
+        }
     }
 };
 </script>
