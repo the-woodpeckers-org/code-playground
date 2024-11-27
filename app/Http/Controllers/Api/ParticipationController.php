@@ -44,4 +44,9 @@ class ParticipationController
     {
         return response()->json($this->service->getRecentParticipation($request));
     }
+
+    public function getRecentParticipationById(Request $request)
+    {
+        return response()->json($this->service->getRecentParticipationById($request));
+    }
 }

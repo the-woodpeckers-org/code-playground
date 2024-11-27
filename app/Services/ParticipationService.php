@@ -72,4 +72,12 @@ class ParticipationService
             ->orderBy('finished_at', 'desc')
             ->paginate(8);
     }
+
+    public function getRecentParticipationById(Request $request)
+    {
+        return Participation::where('user_id', $request->input('user_id'))
+            ->where('finished_at', '!=', null)
+            ->orderBy('finished_at', 'desc')
+            ->paginate(8);
+    }
 }

@@ -88,4 +88,9 @@ class ProblemController
     {
         return $this->service->getRecentAttempts($request);
     }
+
+    public function getRecentAttemptsById(Request $request)
+    {
+        return $this->service->getRecentAttemptsById($request);
+    }
 }

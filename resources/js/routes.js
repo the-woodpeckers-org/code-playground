@@ -106,7 +106,7 @@ const routes = [
         name: 'career'
     },
     {
-        path: '/profile',
+        path: '/profile/:id',
         component: Profile,
         name: 'profile'
     },
