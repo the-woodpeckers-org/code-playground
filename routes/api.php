@@ -122,6 +122,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
 
     Route::get('/contest/result', [ParticipationController::class, 'getResult'])->name('contest.getResult');
+
+    // problems Management
+    Route::post('/ChangeRequestProblem', [ProblemMController::class, 'ChangeRequestProblem'])->name('ChangeRequestProblem');
+    Route::post('/RejectProblem', [ProblemMController::class, 'rejectProblem'])->name('rejectProblem');
+    Route::post('/ApprovedProblem', [ProblemMController::class, 'ApprovedProblem'])->name('approvedProblem');
 });
 
 Route::get('/contest/ranking', [ParticipationController::class, 'getResults'])->name('contest.getResults');

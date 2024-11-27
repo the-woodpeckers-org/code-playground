@@ -12,8 +12,8 @@
         <tr v-if="showOptions" class="bg-gray-50">
         <td colspan="5">
             <ul class="text-sm">
-                <li v-if="status !=='Rejected' " @click="refuseCV" class="px-4 py-2 hover:bg-red-100 cursor-pointer">Rejected</li>
-                <li v-if="status !=='Approved'" @click="approveCV" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Approved</li>
+                <li v-if="status !=='rejected' " @click="refuseCV" class="px-4 py-2 hover:bg-red-100 cursor-pointer">Rejected</li>
+                <li v-if="status !=='approved'" @click="approveCV" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Approved</li>
             </ul>
         </td>
     </tr>

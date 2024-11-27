@@ -16,7 +16,7 @@ class UserMService
 {
     public function getAllUser()
     {
-        $users = User::all()->where('role','!=','admin');
+        $users = User::all()->where('role','!=','admin')->where('status','=',Status::APPROVED);
         return response()->json([
             'status' => '200',
             'data' => $users
@@ -41,8 +41,8 @@ class UserMService
     
     public function getListSubscribe()
     {
-        $usersCompany = User::all()->whereNotNull('status')->where('role',Role::Company);
-        $contributors = User::all()->whereNotNull('status')->where('role',Role::Contributor);
+        $usersCompany = User::all()->whereNotNull('status')->where('role',Role::Company)->where('status','!=',Status::APPROVED);
+        $contributors = User::all()->whereNotNull('status')->where('role',Role::Contributor)->where('status','!=',Status::APPROVED);
         $profileCompanies = $usersCompany->map(function ($user) {
             return $user->getCompany;
         });

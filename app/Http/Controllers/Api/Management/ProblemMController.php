@@ -18,6 +18,17 @@ class ProblemMController
     {
         return $this->service->getListSubscribeProblem($request);
     }
-
+    public function ChangeRequestProblem(Request $request)
+    {
+        return $this->service->ChangeRequestProblem($request);
+    }
+    public function rejectProblem(Request $request)
+    {
+        return $this->service->rejectProblem($request);
+    }
+    public function approvedProblem(Request $request)
+    {
+        return $this->service->approvedProblem($request);
+    }
     
 }

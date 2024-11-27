@@ -7,6 +7,8 @@ use App\Models\Cv;
 use App\Models\Application;
 use App\Models\JobRecruitment;
 use App\Models\Users;
+use App\Mail\MailResponseCV;
+use Illuminate\Support\Facades\Mail;
 use App\Utils\Constants\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -143,6 +145,8 @@ class JobRecruitmentService
         $application = Application::where('job_id', $request->input('job_id'))->where('cv_id', $request->input('cv_id'))->first();
         $application->status = Status::REJECTED;
         $application->save();
+        //send mail thông báo cho user
+        Mail::to($application->cv->user->email)->send(new MailResponseCV($application->cv->user, $application->job->user->getCompany()->first()->user, $application->job, Status::REJECTED));
         return response()->json([
             'status' => '200',
             'message' => 'Refuse CV successfully'
@@ -153,6 +157,8 @@ class JobRecruitmentService
         $application = Application::where('job_id', $request->input('job_id'))->where('cv_id', $request->input('cv_id'))->first();
         $application->status = Status::APPROVED;
         $application->save();
+        //send mail thông báo cho user
+        Mail::to($application->cv->user->email)->send(new MailResponseCV($application->cv->user, $application->job->user->getCompany()->first()->user, $application->job, Status::APPROVED));
         return response()->json([
             'status' => '200',
             'message' => 'Approved CV successfully'
@@ -167,6 +173,8 @@ class JobRecruitmentService
         $job->save();
         $application->status = Status::APPROVED;
         $application->save();
+        //send mail thông báo cho user
+        Mail::to($application->cv->user->email)->send(new MailResponseCV($application->cv->user, $application->job->user->getCompany()->first()->user, $application->job, Status::APPROVED));
         return response()->json([
             'status' => '200',
             'message' => 'Approved CV successfully'

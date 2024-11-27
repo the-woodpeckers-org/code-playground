@@ -10,18 +10,26 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class MailSorry extends Mailable
+class MailApplyCV extends Mailable
 {
     use Queueable, SerializesModels;
     protected EmailVerifyToken $token;
-    protected User $user;
+    protected User $userApply;
+    protected User $user_company;
+    protected $application;
+    protected $user_profile;
     /**
+     * 
      * Create a new message instance.
      */
-    public function __construct($user)
+    public function __construct($userApply,$user_profile,$user_company,$application)
     {
-        $this->user = $user;
+        $this->userApply = $userApply;
+        $this->user_company = $user_company;
+        $this->application = $application;
+        $this->user_profile = $user_profile;
     }
+
     /**
      * Get the message envelope.
      */
@@ -29,7 +37,7 @@ class MailSorry extends Mailable
     {
         return new Envelope(
             from: 'support@code-playground.test',
-            subject: '[CodePlayground] Thank you!.',
+            subject: '[CodePlayground] Notifications.',
         );
     }
 
@@ -38,9 +46,9 @@ class MailSorry extends Mailable
      */
     public function content(): Content
     {
-        return new Content( 
-            view: 'mails.company.sorry-mail',
-            with: ['user' => $this->user]
+        return new Content(
+            view: 'mails.company.apply-cv-email',
+            with: ['userApply' => $this->userApply,'userProfile'=>$this->user_profile,'user_company'=>$this->user_company,'application'=>$this->application]
         );
     }
 

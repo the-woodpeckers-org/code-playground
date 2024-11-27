@@ -13,7 +13,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <ProblemItemM v-for="(item, index) in problems" :key="index" :problem="item" />
+                    <ProblemItemM v-for="(item, index) in problems" :key="index" :problem="item"
+                        @change_request="change_request" @reject="reject" @approved="approved" />
                 </tbody>
             </table>
         </div>
@@ -26,6 +27,26 @@
             </button>
         </div>
 
+    </div>
+    <dialog v-if="isSendRequest" id="" class="modal modal-open">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+            <p class="py-4 font-semibold">Action Successfully!</p>
+        </div>
+    </dialog>
+    <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="isLoading">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span class="loading loading-spinner loading-lg">
+                </span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -45,6 +66,8 @@ export default {
                 current_page: 1,
                 last_page: 1,
             },
+            isSendRequest: false,
+            isLoading: false,
         };
     },
     async mounted() {
@@ -67,6 +90,55 @@ export default {
                 this.pagination.current_page = page;
                 this.fetchData(page);
             }
+        },
+        async change_request(problem_id, change_required) {
+            this.isLoading = true;
+            await HTTP.post('/api/ChangeRequestProblem', {
+                problem_id: problem_id,
+                change_required: change_required,
+            }).then(response => {
+                this.isLoading = false;
+                this.isSendRequest = true;
+                this.fetchData(this.pagination.current_page);
+                setTimeout(() => {
+                    window.location.reload();
+                    this.isSendRequest = false;
+                }, 2000);
+            }).catch(error => {
+                console.error("Error sending request:", error);
+            });
+        },
+        async reject(id) {
+            this.isLoading = true;
+            await HTTP.post('/api/RejectProblem', {
+                problem_id: id,
+            }).then(response => {
+                this.isLoading = false;
+                this.isSendRequest = true;
+                this.fetchData(this.pagination.current_page);
+                setTimeout(() => {
+                    window.location.reload();
+                    this.isSendRequest = false;
+                }, 2000);
+            }).catch(error => {
+                console.error("Error rejecting problem:", error);
+            });
+        },
+        async approved(id) {
+            this.isLoading = true;
+            await HTTP.post('/api/ApprovedProblem', {
+                problem_id: id,
+            }).then(response => {
+                this.isLoading = false;
+                this.isSendRequest = true;
+                this.fetchData(this.pagination.current_page);
+                setTimeout(() => {
+                    window.location.reload();
+                    this.isSendRequest = false;
+                }, 2000);
+            }).catch(error => {
+                console.error("Error approving problem:", error);
+            });
         }
     }
 };
