@@ -4,6 +4,7 @@ namespace App\Services\Management;
 
 use App\Http\Requests\UpdateUserFormRequest;
 use App\Mail\MailCongratulation;
+use App\Mail\MailResponseReview;
 use App\Models\User;
 use App\Models\Problem;
 use App\Utils\Constants\Status;
@@ -68,7 +69,7 @@ class ProblemMService
         if ($problem) {
             $problem->status = Status::ACTIVE;
             $currentUser = $problem->user;
-            Mail::to($currentUser->email)->send(new MailSorry($currentUser));
+            Mail::to($currentUser->email)->send(new MailResponseReview($currentUser, $problem, null, Status::ACTIVE));
             $problem->save();
             return response()->json([
                 'status' => '200',
@@ -89,7 +90,7 @@ class ProblemMService
             $currentUser = $problem->user;
             try{
 
-                Mail::to($currentUser->email)->send(new MailCongratulation($currentUser));
+                Mail::to($currentUser->email)->send(new MailResponseReview($currentUser, $problem, null, Status::REJECTED));
             }catch(\Exception $e){
                 return response()->json([
                     'status' => '404',
