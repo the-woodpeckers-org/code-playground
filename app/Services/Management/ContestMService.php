@@ -14,13 +14,14 @@ class ContestMService
 {
    public function getListSubscribeContest()
    {
-    $contests = Contest::all();
+    $contests = Contest::all()->whereNotNull('status')->where('status','!=', Status::APPROVED);
     $detailContests = [];
     foreach ($contests as $contest) {
         $detailContest = [
             'id' => $contest->id,
             'title' => $contest->title,
             'description' => $contest->description,
+            'number_problem' => $contest->problems->count(),
             'start_date' => $contest->start_date,
             'end_date' => $contest->end_date,
             'status' => $contest->status,
