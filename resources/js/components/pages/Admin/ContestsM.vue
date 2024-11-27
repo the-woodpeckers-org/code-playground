@@ -1,8 +1,8 @@
 <template >
     <div class="p-2 bg-gray-100 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-left py-4">Contests Management</h3>
-        <div>
-            <table class="table-auto w-full">
+        <div class="overflow-x-auto">
+            <table class="table">
                 <thead>
                     <tr class="bg-gray-200">
                         <th class="px-4 py-2 text-left">Problem Title</th>
@@ -15,9 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- <ProblemItemM v-for="(item, index) in problems" :key="index" :problem="item"
-                        @change_request="change_request" @reject="reject" @approved="approved" /> -->
-                        <ContestItemM></ContestItemM>
+                    <ContestItemM v-for="contest in contests" :key="contest.id" :contest="contest" />
                 </tbody>
             </table>
         </div>
@@ -33,6 +31,7 @@
     </div>
 </template>
 <script>
+import {HTTP} from "@/http-common.js";
 import ContestItemM from "@/components/listItems/Management/ContestItemM.vue";
 export default {
     name: "ContestsM",
@@ -45,14 +44,15 @@ export default {
             pagination: {},
         };
     },
-    mounted() {
-        this.fetchContests();
+    async mounted() {
+        await this.fetchContests();
     },
     methods: {
-        fetchContests() {
-            axios.get(`/api/contests`).then((response) => {
-                this.contests = response.data.data;
+        async fetchContests() {
+           await HTTP.get(`/api/getListSubscribeContest`).then((response) => {
+                this.contests = response.data.contests;
                 this.pagination = response.data;
+                console.log(response.data);
             });
         },
     },

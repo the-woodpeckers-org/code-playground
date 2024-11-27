@@ -1,7 +1,7 @@
 <template>
     <div class="p-2 bg-gray-100 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-left py-4">Applcations Management</h3>
-        <div>
+        <div class="overflow-x-auto">
             <table class="table">
                 <thead>
                     <tr>

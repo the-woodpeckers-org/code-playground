@@ -17,6 +17,6 @@ class ContestMController
 
     public function getListSubscribeContest()
     {
-        return response()->json($this->service->getListSubscribeContest());
+        return $this->service->getListSubscribeContest();
     }
 }
