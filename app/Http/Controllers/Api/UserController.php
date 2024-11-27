@@ -20,6 +20,11 @@ class UserController
 
     }
 
+    public function getUserGuard(Request $request)
+    {
+        return response()->json($this->service->getUserGuard($request));
+    }
+
     public function getStats(Request $request)
     {
         return response()->json($this->service->getStats($request));

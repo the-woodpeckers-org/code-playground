@@ -74,7 +74,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/isApplied/{id}', [ApplicationController::class, 'isApplied'])->name('isApplied');
     Route::get('/cancelApply/{id}', [ApplicationController::class, 'cancelApply'])->name('cancelApply');
     Route::get('/get-stats', [UserController::class, 'getStats'])->name('getStats');
-    Route::get('/get-stats-by-id/{id}', [UserController::class, 'getStatsById'])->name('getStatsById');
+    Route::get('/get-stats-by-id', [UserController::class, 'getStatsById'])->name('getStatsById');
     Route::get('/getCompaniesU', [ProfileCompanyController::class, 'getCompaniesU'])->name('getCompaniesU');
     Route::post('/addHiddenCompany', [HiddenCompanyController::class, 'addHiddenCompany'])->name('addHiddenCompany');
     Route::patch('/user', [UserController::class, 'updateUser'])->name('updateUser');
@@ -129,6 +129,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/ApprovedProblem', [ProblemMController::class, 'ApprovedProblem'])->name('approvedProblem');
 });
 
+Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');
+Route::get('/user/participation/recently', [ParticipationController::class, 'getRecentParticipationById'])->name('recentParticipation');
+Route::get('/user/guard', [UserController::class, 'getUserGuard'])->name('getUserGuard');
 Route::get('/contest/ranking', [ParticipationController::class, 'getResults'])->name('contest.getResults');
 
 Route::get('/categories', [CategoryController::class, 'getAllCategories'])->name('getAllCategories');

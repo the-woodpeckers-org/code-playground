@@ -57,4 +57,11 @@ class UserService
             ->take(10)
             ->get();
     }
+
+    public function getUserGuard(Request $request)
+    {
+        return User::select(['name', 'avatar_url', 'role', 'created_at'])
+            ->where('id', $request->input('id'))
+            ->first();
+    }
 }
