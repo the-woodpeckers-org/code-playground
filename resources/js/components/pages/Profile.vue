@@ -205,12 +205,15 @@ export default {
             } else {
                 await HTTP.get('api/user/guard?id=' + this.$route.params.id)
                     .then((response) => {
-                        console.log(response);
-                        this.nameInput = response.data.name;
-                        this.avatar_url = response.data.avatar_url;
+                        if (response.data.role == 'company') {
+                            this.$router.go(-1);
+                        } else {
+                            this.nameInput = response.data.name;
+                            this.avatar_url = response.data.avatar_url;
+                        }
                     })
                     .catch((err) => {
-                        console.log(err);
+
                     });
             }
 
