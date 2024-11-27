@@ -4,8 +4,8 @@ namespace App\Utils\Constants;
 
 class Status
 {
-    const PENDING  = "Pending";
-    const APPROVED  = "Approved";
-    const REJECTED  = "Rejected";
-    const ACTIVE ="Active";
+    const PENDING  = "pending";
+    const APPROVED  = "approved";
+    const REJECTED  = "rejected";
+    const ACTIVE ="active";
 }

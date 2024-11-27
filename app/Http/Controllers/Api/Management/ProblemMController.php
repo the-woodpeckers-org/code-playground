@@ -18,6 +18,9 @@ class ProblemMController
     {
         return $this->service->getListSubscribeProblem($request);
     }
-
+    public function ChangeRequestProblem(Request $request)
+    {
+        return $this->service->ChangeRequestProblem($request);
+    }
     
 }

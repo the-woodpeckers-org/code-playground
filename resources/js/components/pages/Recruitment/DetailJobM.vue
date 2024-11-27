@@ -125,6 +125,7 @@
             </div>
         </div>
     </dialog>
+    
     <dialog v-if="isUpdated" id="" class="modal modal-open">
         <div class="modal-box text-center overflow-hidden">
             <h3 class="text-lg font-bold"></h3>

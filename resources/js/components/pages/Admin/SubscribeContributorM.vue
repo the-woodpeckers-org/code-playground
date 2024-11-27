@@ -48,6 +48,7 @@ export default {
     methods:{
         async getSubscribe(){
            await HTTP.get('/api/getListSubscribe').then(response => {
+                console.log("he?He?");
                 this.subscribe = response.data.contributors;
                 this.filteredSubscribe = this.subscribe;
                 console.log(this.subscribe);

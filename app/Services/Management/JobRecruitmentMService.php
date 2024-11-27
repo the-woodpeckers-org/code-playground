@@ -16,7 +16,7 @@ class JobRecruitmentMService
 {
   public function getListSubscribeJobRecruitment()
   {
-    $jobs = JobRecruitment::all();
+    $jobs = JobRecruitment::all()->where('status','!=', Status::APPROVED);
     $detailJobs = [];
     foreach ($jobs as $job) {
       $detailJobs[] = [

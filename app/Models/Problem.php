@@ -66,6 +66,13 @@ class Problem extends Model
     {
         return $this->hasMany(ProblemLanguage::class, 'problem_id', 'id');
     }
-
-
+    public function categories()
+    {
+        return $this->hasMany(ProblemTag::class, 'problem_id', 'id');
+    }
+    public function contests()
+    {
+        return $this->belongsTo(Contest::class, 'contest_id', 'id');
+    }
+ 
 }
