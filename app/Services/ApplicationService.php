@@ -10,6 +10,8 @@ use PhpParser\Node\Stmt\TryCatch;
 use App\Models\Application;
 use App\Models\JobRecruitment;
 use App\Models\ProfileUser;
+use App\Mail\MailApplyCV;
+use Illuminate\Support\Facades\Mail;
 use App\Utils\Constants\Status;
 
 class ApplicationService
@@ -39,14 +41,14 @@ class ApplicationService
         $cv_id = $request->input('cv_id');
         $letter = $request->input('letter');
         $user_company = JobRecruitment::where('id', $jobId)->first()->user()->first();
+        $user_profile = ProfileUser::where('user_id', $user->id)->first();
         $application = new Application();
         $application->user_id = $user_company->id;
         $application->job_id = $jobId;
         $application->cv_id = $cv_id;
         $application->letter = $letter;
         $application ->status = Status::PENDING;
-        // send mail to company here! 
-        // add templates plese Deepthesaint
+        Mail::to($user_company->email)->send(new MailApplyCV($user,$user_profile,$user_company,$application->letter));
         $application->save();
         return response()->json([
             'status' => '200',
