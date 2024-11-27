@@ -50,7 +50,6 @@ export default {
                 name: newTag,
             };
             this.currentLanguages.push(tag);
-            this.languages.push(tag);
         },
         addCategoryTag(newTag) {
             const tag = {
