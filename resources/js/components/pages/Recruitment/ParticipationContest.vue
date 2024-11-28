@@ -4,7 +4,8 @@
             <button class="underline text-gray-500 mb-5 text-md text-xl">Back to management</button>
         </router-link>
         <div>
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+            <h1 class="text-2xl font-semibold text-center mb-3 text-black">{{ contest.title }}</h1>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4" >
                 <div class="w-full lg:col-span-8 bg-base-100" style="min-height: 300px;">
                     <h2 class="font-semibold text-md text-xl p-3">List of contest participants</h2>
                     <div class="overflow-x-auto">
@@ -67,6 +68,7 @@ export default {
             participants: [],
             isClicked: false,
             isContestEnded: false,
+            contest :{},
             participant: {},
         };
     },
@@ -75,7 +77,9 @@ export default {
             try {
                 const id = this.$route.params.id;
                 const response = await HTTP.get(`/api/getParticipantsContestU/${id}`);
-                this.participants = response.data.data;
+                console.log(response.data);
+                this.contest = response.data.contest;
+                this.participants = response.data.participation.data;
                 if (this.participants.length > 0) {
                     this.isContestEnded = this.participants[0].contest?.isEnded;
                     this.participants = [...this.participants.sort(this.isContestEnded ? this.sortByFinished : this.sortByParticipatedAt)];

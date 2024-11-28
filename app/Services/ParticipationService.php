@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\FinishContestFormRequest;
+use App\Models\Contest;
 use App\Models\Participation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -80,9 +81,15 @@ class ParticipationService
             ->orderBy('finished_at', 'desc')
             ->paginate(8);
     }
-    public function getParticipantsContestU($id,Request $request)
+    public function getParticipantsContestU($id, Request $request)
     {
-        $participation = Participation::where('contest_id',$id);
-        return response()->json($participation->paginate(8));
+        $participation = Participation::where('contest_id', $id);
+        $contest = Contest::where('id', $id)->first();
+        return response()->json(
+            [
+                'participation' => $participation->paginate(8),
+                'contest' => $contest
+            ]
+        );
     }
 }
