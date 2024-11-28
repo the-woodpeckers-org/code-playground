@@ -51,7 +51,7 @@ class ParticipationService
         $participation = Participation::query();
         $participation->where('user_id', $request->user()->id);
         $participation->where('contest_id', $request->input('contest_id'));
-        return ['participation' => $participation->first(), 'attempts' => $participation->first()->attempts()->get()];
+        return ['participation' => $participation->first(), 'attempts' => $participation->first()?->attempts()->get()];
     }
 
     public function getResults(Request $request)
