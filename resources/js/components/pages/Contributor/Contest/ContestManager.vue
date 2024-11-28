@@ -1,6 +1,9 @@
 <script>
 import {HTTP} from "@/http-common.js";
 import CreateContest from "@/components/pages/Contributor/Contest/CreateContest.vue";
+import {ref} from "vue";
+
+const contestChild = ref("null");
 
 export default {
     name: "ContestManager",
@@ -35,7 +38,7 @@ export default {
                 });
         },
         showEdit(id) {
-
+            this.$refs.contestChild.showEdit(id);
         },
         showConfirmDelete() {
 
@@ -45,16 +48,22 @@ export default {
         },
         confirmNo() {
 
+        },
+        showCreate() {
+            this.$refs.contestChild.showCreate();
         }
     }
 }
 </script>
 
 <template>
-    <CreateContest></CreateContest>
+    <CreateContest ref="contestChild"></CreateContest>
     <div class="w-full">
         <p class="text-center font-bold text-2xl">Contest management</p>
         <p class="text-lg">Your contests on The CodePlayground</p>
+        <div class="w-full text-end">
+            <button @click="showCreate" class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">New contest</button>
+        </div>
         <div class="w-full">
         </div>
         <div class="overflow-x-auto bg-base-100 rounded-xl">

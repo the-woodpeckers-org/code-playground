@@ -30,6 +30,7 @@ export default {
             ],
             title: '',
             description: '',
+            difficulty: 'Easy',
             rte: null,
             editor: null,
             isCreated: false,
@@ -68,10 +69,8 @@ export default {
                 stdin: '',
                 expected_output: ''
             });
-            console.log(this.testcases);
         },
         removeTestcase(cid) {
-            console.log(this.testcases);
             this.testcases = this.testcases.filter((item) => {
                 return item.cid != cid;
             });
@@ -90,9 +89,9 @@ export default {
         createProblem() {
             let _this = this;
             const data = {
-                title: _this.title,
-                difficulty: _this.difficulty,
-                description: _this.rte.getHTMLCode(),
+                title: this.title,
+                difficulty: this.difficulty,
+                description: this.rte.getHTMLCode(),
                 categories: this.currentCategories,
                 languages: this.currentLanguages,
                 testcases: this.testcases
