@@ -23,15 +23,15 @@ export default {
             let _this = this;
             HTTP.get('api/contest/result?contest_id=' + this.$route.params.id)
                 .then((response) => {
-                    console.log(response);
                     _this.participation = response.data.participation;
-                    _this.contest = response.data.participation.contest;
-                    _this.finished_at = moment(response.data.finished_at).format('DD-MM-yyyy hh:mm:ss')
-                    _this.total_problems = response.data.participation.problems.length;
-                    _this.setCode(0);
+                    if (_this.participation) {
+                        _this.contest = response.data.participation.contest;
+                        _this.finished_at = moment(response.data.finished_at).format('DD-MM-yyyy hh:mm:ss')
+                        _this.total_problems = response.data.participation.problems.length;
+                    }
                 })
                 .catch((err) => {
-
+                    console.log(err);
                 });
             this.getParticipation(1);
         },
@@ -76,10 +76,15 @@ export default {
             <p>End date: {{ contest.end_date }}</p>
             <div class="divider"></div>
             <p class="text-lg font-semibold">Your result</p>
-            <p>You have finished at: <span class="font-semibold">{{ finished_at }}</span></p>
-            <p>Problems solved: <span class="font-semibold">{{
-                    participation.finished_problems + '/' + total_problems
-                }}</span></p>
+            <div v-if="this.participation">
+                <p>You have finished at: <span class="font-semibold">{{ finished_at }}</span></p>
+                <p>Problems solved: <span class="font-semibold">{{
+                        participation.finished_problems + '/' + total_problems
+                    }}</span></p>
+            </div>
+            <div v-if="!this.participation">
+                <p>You didn't participate this contest!</p>
+            </div>
             <div class="divider"></div>
             <div class="overflow-x-auto bg-base-100 rounded-xl">
                 <table class="table">
@@ -88,7 +93,7 @@ export default {
                         <th>Rank</th>
                         <th>User</th>
                         <th>Problems solved</th>
-                        <th>Finished Time</th>
+                        <th>Finished time</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -330,7 +335,7 @@ export default {
                         </th>
                         <td class="flex">
                             <img class="h-5 w-5 rounded-full object-cover me-3" :src="participation.user.avatar_url">
-                            <p class="inline">{{ participation.user.name }}</p>
+                            <router-link class="inline hover:link" :to="'/profile/' + participation.user.id">{{ participation.user.name }}</router-link>
                         </td>
                         <td> {{ participation.finished_problems }}</td>
                         <td>
