@@ -8,9 +8,9 @@ export default {
     components: {Toast},
     data() {
         return {
+            userId: 0,
             selectedFile: null,
             fileUpload: null,
-            auth: getAuth(),
             languageStatLabels: Array,
             languageStatAttempts: Array,
             categoryStatLabels: Array,
@@ -31,16 +31,23 @@ export default {
             currentParticipationIndex: 1,
             recentParticipationLinks: [],
             avatar_url: "",
+            categoriesChart: null,
+            languagesChart: null
         };
     },
     mounted() {
+        this.userId = this.$route.params.id;
         this.getUserStatsData();
         this.getUserInformation();
         this.getRecentAttempts(1);
         this.getRecentParticipation(1);
     },
-    beforeRouteUpdate() {
-        window.location.href = '/profile/' + this.$root.auth.id;
+    beforeRouteUpdate(to) {
+        this.userId = to.params.id
+        this.getUserStatsData();
+        this.getUserInformation();
+        this.getRecentAttempts(1);
+        this.getRecentParticipation(1);
     },
     methods: {
         async getUserStatsData() {
@@ -50,25 +57,25 @@ export default {
             let categoryStatLabels = [];
             let categoryStatAttempts = [];
             if (this.isAuthenticatedUser())
-            await HTTP.get('api/get-stats')
-                .then((response) => {
-                    languageStatLabels = response.data.language_stats.map((item) => {
-                        return item.name;
-                    });
-                    languageStatAttempts = response.data.language_stats.map((item) => {
-                        return item.attempt_count;
-                    });
-                    categoryStatLabels = response.data.category_stats.map((item) => {
-                        return item.name;
-                    });
-                    categoryStatAttempts = response.data.category_stats.map((item) => {
-                        return item.attempt_count;
-                    });
-                    _this.chartConfig(languageStatLabels, languageStatAttempts, categoryStatLabels, categoryStatAttempts);
-                })
-                .catch((err) => {
+                await HTTP.get('api/get-stats')
+                    .then((response) => {
+                        languageStatLabels = response.data.language_stats.map((item) => {
+                            return item.name;
+                        });
+                        languageStatAttempts = response.data.language_stats.map((item) => {
+                            return item.attempt_count;
+                        });
+                        categoryStatLabels = response.data.category_stats.map((item) => {
+                            return item.name;
+                        });
+                        categoryStatAttempts = response.data.category_stats.map((item) => {
+                            return item.attempt_count;
+                        });
+                        _this.chartConfig(languageStatLabels, languageStatAttempts, categoryStatLabels, categoryStatAttempts);
+                    })
+                    .catch((err) => {
 
-                });
+                    });
             else {
                 await HTTP.get('api/get-stats-by-id?id=' + _this.$route.params.id)
                     .then((response) => {
@@ -91,11 +98,16 @@ export default {
             }
         },
         chartConfig(langLabels, langAttempts, categoryLabels, categoryAttempts) {
+            if (this.categoriesChart != null) {
+                this.categoriesChart.destroy();
+            }
+            if (this.languagesChart != null) {
+                this.languagesChart.destroy();
+            }
             const ctx1 = document.getElementById('languageStatsChart');
             const ctx2 = document.getElementById('categoryStatsChart');
             Chart.register(...registerables);
-
-            new Chart(ctx1, {
+            this.categoriesChart = new Chart(ctx1, {
                 type: 'bar',
                 data: {
                     labels: categoryLabels,
@@ -123,7 +135,7 @@ export default {
                 },
                 scaleStepWidth: 1
             });
-            new Chart(ctx2, {
+            this.languagesChart = new Chart(ctx2, {
                 type: 'radar',
                 data: {
                     labels: langLabels,
@@ -184,9 +196,9 @@ export default {
                 console.error('No file selected');
             }
         },
-        async getUserInformation() {
+        getUserInformation() {
             if (this.isAuthenticatedUser()) {
-                await HTTP.get('api/auth/get')
+                HTTP.get('api/auth/get')
                     .then((response) => {
                         this.nameInput = response.data.name;
                         this.emailInput = response.data.email;
@@ -202,7 +214,7 @@ export default {
                     .catch((err) => {
                     });
             } else {
-                await HTTP.get('api/user/guard?id=' + this.$route.params.id)
+                HTTP.get('api/user/guard?id=' + this.$route.params.id)
                     .then((response) => {
                         if (response.data.role == 'company') {
                             this.$router.go(-1);
@@ -218,10 +230,10 @@ export default {
 
 
         },
-        async updateInformation() {
+        updateInformation() {
             let _this = this;
             this.isUpdated = false;
-            await HTTP.patch('api/user', {
+            HTTP.patch('api/user', {
                 name: _this.nameInput,
                 address: _this.addressInput,
                 phone_number: _this.phoneInput,
@@ -235,11 +247,11 @@ export default {
 
                 });
         },
-        async getRecentAttempts(index) {
+        getRecentAttempts(index) {
             let _this = this;
             _this.currentProblemsIndex = index;
             if (_this.isAuthenticatedUser()) {
-                await HTTP.get('api/problem/recently?page=' + index)
+                HTTP.get('api/problem/recently?page=' + index)
                     .then((response) => {
                         _this.recentProblems = response.data.data;
                         _this.recentProblemsLinks = response.data.links;
@@ -247,7 +259,7 @@ export default {
                     .catch((err) => {
                     });
             } else {
-                await HTTP.get('api/user/problem/recently?user_id=' + _this.$route.params.id + '&page=' + index)
+                HTTP.get('api/user/problem/recently?user_id=' + _this.$route.params.id + '&page=' + index)
                     .then((response) => {
                         _this.recentProblems = response.data.data;
                         _this.recentProblemsLinks = response.data.links;
@@ -256,11 +268,11 @@ export default {
                     });
             }
         },
-        async getRecentParticipation(index) {
+        getRecentParticipation(index) {
             let _this = this;
             _this.currentParticipationIndex = index;
             if (_this.isAuthenticatedUser()) {
-                await HTTP.get('api/participation/recently?page=' + index)
+                HTTP.get('api/participation/recently?page=' + index)
                     .then((response) => {
                         _this.recentParticipation = response.data.data;
                         _this.recentParticipationLinks = response.data.links;
@@ -268,7 +280,7 @@ export default {
                     .catch((err) => {
                     });
             } else {
-                await HTTP.get('api/user/participation/recently?user_id=' + _this.$route.params.id + '&page=' + index)
+                HTTP.get('api/user/participation/recently?user_id=' + _this.$route.params.id + '&page=' + index)
                     .then((response) => {
                         _this.recentParticipation = response.data.data;
                         _this.recentParticipationLinks = response.data.links;
@@ -278,7 +290,7 @@ export default {
             }
         },
         isAuthenticatedUser() {
-            return this.$root.auth.id == this.$route.params.id;
+            return this.$root.auth.id == this.userId;
         }
     },
 };
@@ -302,7 +314,8 @@ export default {
         </div>
         <div class="border-r p-2">
             <p class="col-span-full font-semibold text-lg border-b my-2">Activities</p>
-            <p class="my-2">Contests <span v-if="isAuthenticatedUser()">you</span><span v-if="!isAuthenticatedUser()">{{ nameInput }}</span> have participated recently</p>
+            <p class="my-2">Contests <span v-if="isAuthenticatedUser()">you</span><span
+                v-if="!isAuthenticatedUser()">{{ nameInput }}</span> have participated recently</p>
             <div class="overflow-x-auto">
                 <table class="table">
                     <thead>
@@ -318,7 +331,8 @@ export default {
                         <td>{{ participation.finished_at }}</td>
                         <td>
                             <button class="bg-orange-400 rounded-lg px-3 hover:bg-orange-600 transition"
-                                    @click="this.$router.push('/contest/' + participation.contest?.id + '/result')">Result
+                                    @click="this.$router.push('/contest/' + participation.contest?.id + '/result')">
+                                Result
                             </button>
                         </td>
                     </tr>
@@ -334,7 +348,8 @@ export default {
                     </div>
                 </div>
             </div>
-            <p class="my-2">Problems <span v-if="isAuthenticatedUser()">you</span><span v-if="!isAuthenticatedUser()">{{ nameInput }}</span> have solved recently</p>
+            <p class="my-2">Problems <span v-if="isAuthenticatedUser()">you</span><span
+                v-if="!isAuthenticatedUser()">{{ nameInput }}</span> have solved recently</p>
             <div class="overflow-x-auto">
                 <table class="table">
                     <thead>
@@ -393,7 +408,8 @@ export default {
             <div class="max-w-sm mx-auto mt-2 bg-white p-6 rounded-lg shadow-md space-y-4">
                 <div>
                     <label>Name</label>
-                    <input v-model="nameInput" class="w-full h-8 border border-gray-500 rounded-lg bg-base-100" :disabled="!isAuthenticatedUser()" :readonly="!isAuthenticatedUser()">
+                    <input v-model="nameInput" class="w-full h-8 border border-gray-500 rounded-lg bg-base-100"
+                           :disabled="!isAuthenticatedUser()" :readonly="!isAuthenticatedUser()">
                     <template>
 
                     </template>
