@@ -26,14 +26,22 @@ class Contest extends Model
     protected $appends = [
         'remainingTime',
         'isEnded',
+        'participantCount'
     ];
 
-    public function getIsEndedAttribute() {
+    public function getParticipantCountAttribute()
+    {
+        return Participation::where('contest_id', $this->id)->where('finished_at', '!=', 'null')->count();
+    }
+
+    public function getIsEndedAttribute()
+    {
         if (Carbon::now() > $this->end_date) {
             return true;
         }
         return false;
     }
+
     public function getRemainingTimeAttribute()
     {
         if (Carbon::now() > $this->end_date) {
@@ -65,6 +73,7 @@ class Contest extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
+
     public function participation()
     {
         return $this->hasMany(Participation::class, 'contest_id', 'id');

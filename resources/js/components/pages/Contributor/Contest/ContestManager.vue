@@ -74,7 +74,7 @@ export default {
                     <th>Title</th>
                     <th>Start date</th>
                     <th>End date</th>
-                    <th>Total participation</th>
+                    <th>Total participants</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -84,7 +84,7 @@ export default {
                     <td>{{ contest.title }}</td>
                     <td>{{ contest.start_date }}</td>
                     <td>{{ contest.end_date }}</td>
-                    <td> 0 </td>
+                    <td>{{ contest.participantCount }}</td>
                     <td>
                         <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="showEdit(contest.id)">Edit</button>
                         <button class="bg-red-300 px-3 py-1 mx-1 hover:bg-red-500 rounded-lg"
