@@ -25,7 +25,7 @@
           </svg>
         </label>
       </div>
-      <div class="grid grid-cols-1 lg:grid-cols-4">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
         <CardSkeleton v-if="!loading" v-for="i in 4"></CardSkeleton>
                 <ContestM v-if="loading" v-for="contest in this.contests"
                          :p_Days="contest.remainingTime.days"
