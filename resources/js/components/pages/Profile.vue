@@ -200,7 +200,6 @@ export default {
                         }
                     })
                     .catch((err) => {
-
                     });
             } else {
                 await HTTP.get('api/user/guard?id=' + this.$route.params.id)
