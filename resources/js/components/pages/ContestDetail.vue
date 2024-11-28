@@ -107,10 +107,10 @@ export default {
                     <div v-if="isFinished" class="flex flex-row flex-wrap justify-center mt-6">
                         <p>You have finished this contest!</p>
                         <p>Finished date: {{ finishedDate }}</p>
-                        <div class="w-full flex gap-2 justify-center my-3">
-                            <button class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition" @click="this.$router.push('/contest/' + this.id + '/result')">Your result</button>
-                            <button class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition" @click="this.$router.push('/contest/' + this.id + '/ranking')">Ranking</button>
-                        </div>
+                    </div>
+                    <div class="w-full flex gap-2 justify-center my-3">
+                        <button v-if="isFinished" class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition" @click="this.$router.push('/contest/' + this.id + '/result')">Your result</button>
+                        <button v-if="isEnded" class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition" @click="this.$router.push('/contest/' + this.id + '/ranking')">Ranking</button>
                     </div>
                 </div>
             </div>
