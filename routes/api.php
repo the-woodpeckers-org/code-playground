@@ -138,7 +138,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // contest Management Cruitment
     Route::get('/getContestsU',[ContestController::class, 'getContestForManage'])->name('contest.getContestForManage');
-    Route::get('/getParticipantsU/{id}',[ParticipationController::class, 'getParticipantsU'])->name('contest.getParticipantsU');
+    Route::get('/getParticipantsContestU/{id}',[ParticipationController::class, 'getParticipantsContestU'])->name('contest.getParticipantsContestU');
     
 });
 

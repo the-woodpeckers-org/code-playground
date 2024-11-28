@@ -80,8 +80,9 @@ class ParticipationService
             ->orderBy('finished_at', 'desc')
             ->paginate(8);
     }
-    public function getParticipantsU($id,Request $request)
+    public function getParticipantsContestU($id,Request $request)
     {
-        
+        $participation = Participation::where('contest_id',$id);
+        return response()->json($participation->paginate(8));
     }
 }
