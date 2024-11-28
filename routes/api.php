@@ -119,7 +119,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //crud contributor contests
     Route::get('/contributor/contest/', [ContestController::class, 'getAllByContributor'])->name('contest.getAll');
-
+    
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
 
     Route::get('/contest/result', [ParticipationController::class, 'getResult'])->name('contest.getResult');
@@ -129,11 +129,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/RejectProblem', [ProblemMController::class, 'rejectProblem'])->name('rejectProblem');
     Route::post('/ApprovedProblem', [ProblemMController::class, 'ApprovedProblem'])->name('approvedProblem');
 
-    // contest Management
+    // contest Management system
     Route::get('/getListSubscribeContest', [ContestMController::class, 'getListSubscribeContest'])->name('getListSubscribeContest');
     Route::post('/approvedContest', [ContestMController::class, 'approvedContest'])->name('approvedContest');
     Route::post('/rejectContest', [ContestMController::class, 'rejectContest'])->name('rejectContest');
-    Route::post('/send-request-change-contest', [ContestMController::class, 'sendRequestChangeContest'])->name('sendRequestChangeContest');
+    Route::post('/changeRequiredContest', [ContestMController::class, 'changeRequiredContest'])->name('changeRequiredContest');
+    
+
+    // contest Management Cruitment
+    Route::get('/getContestsU',[ContestController::class, 'getContestForManage'])->name('contest.getContestForManage');
+    
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');

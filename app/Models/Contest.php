@@ -65,4 +65,8 @@ class Contest extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
+    public function participation()
+    {
+        return $this->hasMany(Participation::class, 'contest_id', 'id');
+    }
 }

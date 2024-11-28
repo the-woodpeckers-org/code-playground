@@ -28,4 +28,9 @@ class ContestController
     public function getAllByContributor(Request $request) {
         return response()->json($this->service->getAllByContributor($request));
     }
+
+    public function getContestForManage(Request $request)
+    {
+       return $this->service->getContestForManage($request);
+    }
 }
