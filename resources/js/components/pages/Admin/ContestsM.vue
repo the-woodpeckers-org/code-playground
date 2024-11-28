@@ -102,19 +102,20 @@ export default {
                 }, 2000);
             });
         },
-        async change_request(problem_id, change_required) {
+        async change_request(contest_id, change_required) {
             this.isLoading = true;
-            // await HTTP.post('/api/ChangeRequestProblem', {
-            //     problem_id: problem_id,
-            //     change_required: change_required,
-            // }).then(response => {
-            //     this.isLoading = false;
-            //     this.isSendRequest = true;
-            //     this.fetchData(this.pagination.current_page);
-            //     setTimeout(() => {
-            //         window.location.reload();
-            //     }, 2000);
-            // });
+             await HTTP.post('/api/changeRequiredContest', {
+                 contest_id: contest_id,
+                 change_required: change_required,
+             }).then(response => {
+                 this.isLoading = false;
+                 this.isSendRequest = true;
+                 this.fetchContests();
+                setTimeout(() => {
+                     window.location.reload();
+                     this.isendRequest = false;
+                 }, 2000);
+         });
         },
     },
 }

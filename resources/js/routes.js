@@ -44,7 +44,8 @@ const ApplicationsM = () => import("@/components/pages/Admin/ApplicationsM.vue")
 const JobIT = () => import("@/components/pages/JobIT.vue");
 const ProblemsM = () => import("@/components/pages/Admin/ProblemsM.vue");
 const ConstestsM = () => import("@/components/pages/Admin/ContestsM.vue");
-
+const ContestManagement = () => import("@/components/pages/Recruitment/ContestManagement.vue");
+const ParticipationContest = () => import("@/components/pages/Recruitment/ParticipationContest.vue");
 const routes = [
     {
         path: '/problem/:id',
@@ -225,6 +226,16 @@ const routes = [
         path: '/contributor',
         component: Dashboard,
         name: 'contributor-dashboard'
+    },
+    {
+        path:'/contest-managent',
+        component: ContestManagement,
+        name: 'contest-management'
+    },
+    {
+        path:'/participation-contest/:id',
+        component: ParticipationContest,
+        name: 'participation-contest'
     },
     {
         path: '/admin',
