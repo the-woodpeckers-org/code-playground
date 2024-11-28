@@ -43,7 +43,9 @@
                 </div>
                 <div class="w-full lg:col-span-4 bg-base-100">
                     <h2 class="p-3 font-semibold text-md text-xl font-mono">Profile user</h2>
-                    <div v-if="isClicked"> hehe</div>
+                    <div v-if="isClicked"> 
+                        <Profile :participant="this.participant.user"></Profile>
+                    </div>
                     <div v-else
                         class="lg:mt-5 border rounded-lg md:rounded lg:animate-bounce bg-blue-300 p-3 font-mono font-semibold">
                         <- Select a row to view profile user </div>
@@ -56,15 +58,16 @@
 <script>
 import { HTTP } from "@/http-common.js";
 import Participant from "@/components/listItems/Management/Participant.vue";
-
+import Profile from "@/components/sideDialogs/Profile.vue";
 export default {
     name: "ParticipationContest",
-    components: { Participant },
+    components: { Participant, Profile },
     data() {
         return {
             participants: [],
             isClicked: false,
             isContestEnded: false,
+            participant: {},
         };
     },
     methods: {
@@ -92,8 +95,10 @@ export default {
         sortByParticipatedAt(a, b) {
             return new Date(a.started_at) - new Date(b.started_at);
         },
-        viewProfile() {
+        viewProfile(participant) {
             this.isClicked = true;
+            this.participant = participant;
+            console.log(participant.user);
         },
     },
     async mounted() {
