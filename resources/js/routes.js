@@ -14,7 +14,6 @@ const Login = () => import("@/components/authentication/Login.vue");
 const Register = () => import("@/components/authentication/Register.vue");
 const NotFound = () => import("@/components/errors/NotFound.vue");
 const AboutUs = () => import("@/components/pages/AboutUs.vue");
-const Explore = () => import("@/components/pages/Explore.vue");
 const Contests = () => import("@/components/pages/Contests.vue");
 const Courses = () => import("@/components/pages/Courses.vue");
 const Challenges = () => import("@/components/pages/Challenges.vue");
@@ -76,11 +75,6 @@ const routes = [
         path: '/about-us',
         component: AboutUs,
         name: 'about-us'
-    },
-    {
-        path: '/explore',
-        component: Explore,
-        name: 'explore'
     },
     {
         path: '/contests',

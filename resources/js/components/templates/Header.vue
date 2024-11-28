@@ -19,10 +19,6 @@
             </router-link>
             <div class="hidden lg:flex space-x-4">
                 <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
-                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
-                    Explore
-                </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
                              class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
                     Contests
                 </router-link>
@@ -93,9 +89,6 @@
         </div>
     </div>
     <div v-if="isMenuOpen" class="lg:hidden menu">
-        <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/explore">
-            Explore
-        </router-link>
         <router-link class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
             Contests
         </router-link>
