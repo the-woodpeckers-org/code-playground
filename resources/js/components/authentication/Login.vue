@@ -16,6 +16,15 @@ export default {
             isLoggedIn: false
         }
     },
+    mounted() {
+        let input = document.getElementById("ipassword");
+        input.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("loginBtn").click();
+            }
+        });
+    },
     methods: {
         login() {
             let _this = this
@@ -65,7 +74,7 @@ export default {
                 <input v-model="input_email" type="email" class="border rounded p-1 w-full my-2 mb-2"
                        placeholder="example@email.com">
                 <label class="font-bold">Password</label>
-                <input v-model="input_password" type="password" class="border rounded p-1 w-full my-2 mb-2">
+                <input id="ipassword" v-model="input_password" type="password" class="border rounded p-1 w-full my-2 mb-2">
                 <div v-if="login_failed || error_email || error_password" class="alert alert-warning">
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     <div>
@@ -79,7 +88,8 @@ export default {
                 <input class="p-1 me-3" type="checkbox">
                 <label class="my-auto">Keep me logged in</label>
                 <div class="text-center w-full my-3">
-                    <button type="button"
+                    <button id="loginBtn"
+                            type="button"
                             class="rounded bg-amber-300 hover:bg-amber-600 p-2 border-amber-500 border transition w-32"
                             @click="login">
                         <span v-if="!isLoggingIn">Login</span>

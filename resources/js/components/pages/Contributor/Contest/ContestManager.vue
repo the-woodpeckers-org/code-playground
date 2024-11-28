@@ -1,8 +1,10 @@
 <script>
 import {HTTP} from "@/http-common.js";
+import CreateContest from "@/components/pages/Contributor/Contest/CreateContest.vue";
 
 export default {
     name: "ContestManager",
+    components: {CreateContest},
     data: () => {
         return {
             currentPage: '1',
@@ -49,6 +51,7 @@ export default {
 </script>
 
 <template>
+    <CreateContest></CreateContest>
     <div class="w-full">
         <p class="text-center font-bold text-2xl">Contest management</p>
         <p class="text-lg">Your contests on The CodePlayground</p>
