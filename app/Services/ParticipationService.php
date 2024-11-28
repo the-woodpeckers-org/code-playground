@@ -80,4 +80,8 @@ class ParticipationService
             ->orderBy('finished_at', 'desc')
             ->paginate(8);
     }
+    public function getParticipantsU($id,Request $request)
+    {
+        
+    }
 }
