@@ -50,9 +50,9 @@ class ParticipationController
         return response()->json($this->service->getRecentParticipationById($request));
     }
 
-    public function getParticipantsU($id, Request $request)
+    public function getParticipantsContestU($id, Request $request)
     {
-        return $this->service->getParticipantsU($id, $request);
+        return $this->service->getParticipantsContestU($id, $request);
     }
 
 }

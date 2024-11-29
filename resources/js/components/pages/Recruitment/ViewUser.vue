@@ -1,13 +1,14 @@
 <template>
+    <router-link :to="'/Contest-managent'"> <button class="underline text-gray-500 mb-5 text-md text-xl">Back to
+            management</button></router-link>
     <div v-if="this.isBlock">
-      
         <div class="text-center">
-        <div class="h-10">
+            <div class="h-10">
+            </div>
+            <i class="fa-regular fa-face-sad-cry text-9xl my-6"></i>
+            <h1 class="text-4xl font-semibold my-6">The current user is hiding information!</h1>
+            <h1 class="text-3xl my-6">You can view CV</h1>
         </div>
-        <i class="fa-regular fa-face-sad-cry text-9xl my-6"></i>
-        <h1 class="text-4xl font-semibold my-6">The current user is hiding information!</h1>
-        <h1 class="text-3xl my-6">You can view CV</h1>
-    </div>
     </div>
     <div v-else class="mt-9 grid grid-cols-1 md:grid md:grid-cols-1 lg:flex">
         <div class="mt-3 md:mt-3 lg:m-0 w-full">
@@ -16,25 +17,24 @@
                     <div class="m-3 flex flex-1 justify-between w-full">
                         <label for="" class="text-sm md:text-md lg:text-2xl font-bold">Information</label>
                         <p></p>
-                        <label for=""
-                            class="items-center py-1 pl-3 pr-2 mb-3 text-xs font-normal border border-blue-500 rounded-full bg-blue-50">50%</label>
+
                     </div>
                     <div class="relative hidden gap-8 rounded bg-white py-6 pl-6 pr-4 md:flex">
                         <div class="flex-none">
                             <div class="h-40 w-40 rounded-full bg-gray-500">
                                 <img alt="Avatar" loading="lazy" width="160" height="160" decoding="async" data-nimg="1"
                                     class="h-40 w-40 rounded-full" style="color: transparent"
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZfQ0zsJp_LivQNFTRlvtBSCiRSwlhV9uGLQ&s" />
+                                    :src="this.User.avatar_url" />
                             </div>
                         </div>
+
+
                         <div class="flex-auto overflow-hidden">
                             <div class="flex flex-col">
                                 <div class="flex items-center gap-1.5">
                                     <h4 class="overflow-hidden text-2xl font-bold text-black" v-if="User"> {{
                                         this.User.name }}
                                     </h4>
-                                    <span
-                                        class="ml-2 rounded-full bg-blue-50 px-3 py-[2px] text-sm font-bold text-blue-500">50%</span>
                                 </div>
                                 <div class="flex">
                                     <div class="flex items-center"><span
@@ -73,10 +73,21 @@
                                             {{ item }}
                                         </a>
                                     </div>
+                                    <div class="mt-1 flex gap-4">
+                                        <div v-if="this.User.is_active">
+                                            <button
+                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-3"
+                                                @click="contact">Contact</button>
+                                        </div>
+                                        <div v-else>
+                                            <span class="text-red-500 font-bold"><strong
+                                                    class="text-xl font-bold text-black">{{ this.User.name }} </strong>
+                                                are not ready to enter the job market</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -141,6 +152,9 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+        },
+        contact() {
+            alert('Contact');
         }
     }
 

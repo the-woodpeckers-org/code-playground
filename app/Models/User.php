@@ -32,7 +32,10 @@ class User extends Authenticatable
         'avatar_url',
         'email_verified_at'
     ];
-
+    protected $appends = [
+        'profileUser',
+        'Cv',
+    ];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -106,4 +109,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(Problem::class, 'created_by', 'id');
     }
+
+    public function getProfileUserAttribute()
+    {
+        return ProfileUser::where('user_id', $this->id)->first();
+    }
+
+    public function getCvAttribute()
+    {
+        return Cv::where('user_id', $this->id)->where('isPrimary', '=', 1)->first();
+    }
+
 }
