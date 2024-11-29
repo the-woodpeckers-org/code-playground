@@ -82,15 +82,29 @@ export default {
             });
         },
         async reject(id) {
+            this.isLoading = true;
             await HTTP.get(`/api/rejectJob/${id}`).then(response => {
+                this.isLoading = false;
+                this.isSendRequest = true;
                 this.getApplications();
+                setTimeout(() => {
+                    window.location.reload();
+                    this.isSendRequest = false;
+                }, 2000);
             }).catch(error => {
                 console.log(error);
             });
         },
         async approved(id) {
+            this.isLoading = true;
             await HTTP.get(`/api/approvedJob/${id}`).then(response => {
+                this.isLoading = false;
+                this.isSendRequest = true;
                 this.getApplications();
+                setTimeout(() => {
+                    window.location.reload();
+                    this.isSendRequest = false;
+                }, 2000);
             }).catch(error => {
                 console.log(error);
             });

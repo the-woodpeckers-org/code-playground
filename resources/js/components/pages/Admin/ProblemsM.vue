@@ -2,7 +2,7 @@
     <div class="p-2 bg-gray-100 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-left py-4">Problems Management</h3>
         <div class="overflow-x-auto">
-            <table class="table-auto">
+            <table class="table">
                 <thead>
                     <tr class="bg-gray-200">
                         <th class="px-4 py-2 text-left">Problem Title</th>

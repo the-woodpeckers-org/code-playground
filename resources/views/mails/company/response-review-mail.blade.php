@@ -58,10 +58,20 @@
 
         @if($status === 'approved' || $status === 'active')
         <h1>Congratulations, {{$user->name}}!</h1>
-        <h2>Your {{$problem ? 'Problem: ' . $problem->title : ($contest ? 'Contest: ' . $contest->title : 'application')}} is approved</h2>
+        <h2> Your
+            {{ $problem ? 'Problem: ' . $problem->title : 
+       ($contest ? 'Contest: ' . $contest->title : 
+       ($job ? 'Job: ' . $job->title : 'application')) }}
+            is approved
+        </h2>
         @elseif($status === 'rejected')
         <h1>Sorry, {{$user->name}}!</h1>
-        <h2>Your {{$problem ? 'Problem: ' . $problem->title : ($contest ? 'Contest: ' . $contest->title : 'application')}} is rejected</h2>
+        <h2>Your
+            {{
+        $problem ? 'Problem: ' . $problem->title : 
+       ($contest ? 'Contest: ' . $contest->title : 
+       ($job ? 'Job: ' . $job->title : 'application')) }} is rejected
+        </h2>
         @else
         <h1>Application Status</h1>
         <p>We have not yet made a decision regarding your application. Please check back later for an update.</p>

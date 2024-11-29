@@ -23,17 +23,19 @@ class MailResponseReview extends Mailable
     protected User $user;
     protected ?Problem $problem;
     protected ?Contest $contest;
+    protected ?JobRecruitment $job;
     protected $status;
     /**
      * 
      * Create a new message instance.
      */
-    public function __construct($user, $problem = null, $contest = null, $status)
+    public function __construct($user,$job=null, $problem = null, $contest = null, $status)
 {
     $this->user = $user;
     $this->problem = $problem;
     $this->contest = $contest;
     $this->status = $status;
+    $this->job = $job;
 }
 
 
@@ -58,6 +60,7 @@ class MailResponseReview extends Mailable
                 'user' => $this->user,
                 'problem' => $this->problem ?? null,
                 'contest' => $this->contest ?? null,
+                'job' => $this->job ?? null,
                 'status' => $this->status,
             ]
         );

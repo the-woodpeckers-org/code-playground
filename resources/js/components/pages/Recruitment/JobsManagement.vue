@@ -40,7 +40,7 @@
         />
         <div
           @click="addJob"
-          class="border rounded-xl h-52 w-auto my-2 p-3 bg-base-100 hover:scale-105 hover:bg-base-200 transition cursor-pointer flex justify-center items-center"
+          class="border rounded-xl h-52 w-auto m-3 my-2 p-3 bg-base-100 hover:scale-105 hover:bg-base-200 transition cursor-pointer flex justify-center items-center"
         >
           <i class="fas fa-plus text-6xl text-gray-600"></i>
         </div>

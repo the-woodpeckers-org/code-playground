@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailResponseReview;
 use App\Mail\MailSendRequestChange;
+use App\Models\Notification;
+
 class ContestMService
 {
     public function getListSubscribeContest()
@@ -54,7 +56,14 @@ class ContestMService
         }
         $contest->status = Status::APPROVED;
         $contest->save();
-        Mail::to($contest->user->email)->send(new MailResponseReview($contest->user,null,$contest,Status::APPROVED));
+        Mail::to($contest->user->email)->send(new MailResponseReview($contest->user,null,null,$contest,Status::APPROVED));
+        Notification::create([
+            'user_id' => $contest->user->id,
+            'message' => 'Your'. $contest->title .' has been approved by admin',
+            'type' => 'Contest',
+            'fid' => 0,
+            'is_read' => false
+        ]);
         return response()->json([
             'status' => 'success',
             'message' => 'Approve contest successfully'
@@ -71,7 +80,14 @@ class ContestMService
         }
         $contest->status = Status::REJECTED;
         $contest->save();
-        Mail::to($contest->user->email)->send(new MailResponseReview($contest->user,null,$contest,Status::REJECTED));
+        Mail::to($contest->user->email)->send(new MailResponseReview($contest->user,null,null,$contest,Status::REJECTED));
+        Notification::create([
+            'user_id' => $contest->user->id,
+            'message' => 'Your'. $contest->title .' has been rejected by admin',
+            'type' => 'Contest',
+            'fid' => 0,
+            'is_read' => false
+        ]);
         return response()->json([
             'status' => 'success',
             'message' => 'Reject contest successfully'
@@ -89,6 +105,13 @@ class ContestMService
         $contest->change_required = $request->input('change_required');
         $contest->save();
         Mail::to($contest->user->email)->send(new MailSendRequestChange($contest->user->mail, $request->input('change_required')));
+        Notification::create([
+            'user_id' => $contest->user->id,
+            'message' => 'Your'. $contest->title .' has been required change by admin',
+            'type' => 'Contest',
+            'fid' => 0,
+            'is_read' => false
+        ]);
         return response()->json([
             'status' => 'success',
             'message' => 'Change required contest successfully'
