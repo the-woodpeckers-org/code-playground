@@ -23,7 +23,10 @@ export default {
             imgUrl: '',
             // Contest problems
             problems: [
-                {}
+                {
+                    id: '000000',
+                    existed: false
+                }
             ],
             // Contest status
         }
@@ -72,6 +75,19 @@ export default {
             this.problems = [
                 {}
             ];
+        },
+        removeProblem(id) {
+            this.problems = this.problems.filter(item => {
+                return item.id !== id;
+            });
+        },
+        checkBoxChange(id, cb) {
+            if (cb === 'cb1')
+                document.getElementById(id + 'cb2').checked = !document.getElementById(id + 'cb1').checked;
+            if (cb === 'cb2')
+                document.getElementById(id + 'cb1').checked = !document.getElementById(id + 'cb2').checked;
+            this.problems[this.problems.findIndex(obj => obj.id == id)].existed = document.getElementById(id + 'cb1').checked ? true : false;
+            console.log(this.problems[this.problems.findIndex(obj => obj.id == id)]);
         }
     }
 }
@@ -108,9 +124,28 @@ export default {
                 <div class="col-span-full">
                     <div class="divider"></div>
                     <p class="font-semibold text-lg">Problems</p>
+                    <p>Maximum problems: {{problems.length}}/5</p>
                 </div>
-                <div class="col-span-full">
-
+                <div class="col-span-full flex flex-col gap-3 relative ">
+                    <div v-for="problem in problems" class="w-full min-h-20 border border-gray-400 rounded-xl collapse lobster">
+                        <input type="checkbox">
+                        <div class="collapse-title text-xl font-medium">Problem</div>
+                        <div class="collapse-content">
+                            <div class="flex gap-x-2">
+                                <input @change="checkBoxChange(problem.id, 'cb1')" :id="problem.id + 'cb1'" type="checkbox" class="checkbox">
+                                <label>Choose existed problem</label>
+                            </div>
+                            <div class="flex gap-x-2 mt-2">
+                                <input @change="checkBoxChange(problem.id, 'cb2')" :id="problem.id + 'cb2'" type="checkbox" class="checkbox" checked>
+                                <label>Create new problem</label>
+                            </div>
+                        </div>
+                        <button v-if="problems.length > 1" class="absolute top-1 end-1 bg-red-500 rounded-xl px-1.5 text-white z-10 hover:bg-red-700" @click="removeProblem(problem.id)">X</button>
+                    </div>
+                    <div v-if="problems.length < 5" @click="problems.push({id: Math.random()})"
+                         class="w-full h-20 border border-gray-400 rounded-xl hover:bg-base-300 transition cursor-pointer flex">
+                        <span class="text-5xl m-auto"><i class="fa-solid fa-plus"></i></span>
+                    </div>
                 </div>
             </div>
             <div class="w-full modal-action">
@@ -165,5 +200,18 @@ export default {
 </template>
 
 <style scoped>
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1
+    }
+}
 
+.lobster {
+    animation-name: fade;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
 </style>
