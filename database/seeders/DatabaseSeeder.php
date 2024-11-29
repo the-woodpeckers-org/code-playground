@@ -43,11 +43,11 @@ class DatabaseSeeder extends Seeder
 
         $user = [
             'name' => 'Bảo Vinh Phan',
-            'email' => 'barovinh@gmail.com',
+            'email' => 'pv198357@gmail.com',
             'password' => Hash::make('123'),
             'address' => 'Ho Chi Minh City',
             'phone_number' => '0360100250',
-            'gender' => 'None',
+            'gender' => 'Male',
             'birthday' => '2003-01-01',
             'avatar_url' => 'https://res-console.cloudinary.com/dazvvxymm/thumbnails/v1/image/upload/v1726165796/aW1hZ2VfMV9lNnp3dHY=/drilldown',
             'role' => Role::User
@@ -739,6 +739,7 @@ class DatabaseSeeder extends Seeder
         $company1->email = 'google@gmail.com';
         $company1->password = Hash::make('123');
         $company1->role = Role::Company;
+        $company1->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company1->status = 'approved';
         $company1->save();
 
@@ -759,6 +760,7 @@ class DatabaseSeeder extends Seeder
         $company2->password = Hash::make('123');
         $company2->role = Role::Company;
         $company2->status = 'approved';
+        $company2->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company2->save();
 
         $profile_company2 = new ProfileCompany();
@@ -778,6 +780,7 @@ class DatabaseSeeder extends Seeder
         $company3->password = Hash::make('123');
         $company3->role = Role::Company;
         $company3->status = 'approved';
+        $company3->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company3->save();
 
         $profile_company3 = new ProfileCompany();
@@ -796,6 +799,7 @@ class DatabaseSeeder extends Seeder
         $company4->email = 'apple@gmail.com';
         $company4->password = Hash::make('123');
         $company4->role = Role::Company;
+        $company4->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company4->status = 'approved';
         $company4->save();
 
@@ -815,6 +819,7 @@ class DatabaseSeeder extends Seeder
         $company5->email = 'microsoft@gmail.com';
         $company5->password = Hash::make('123');
         $company5->role = Role::Company;
+        $company5->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company5->status = 'approved';
         $company5->save();
 

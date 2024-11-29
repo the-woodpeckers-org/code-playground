@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Contest;
 use Illuminate\Http\Request;
-
+use App\Utils\Constants\Status;
 class ContestService
 {
     public function getAll(Request $request)
@@ -19,7 +19,7 @@ class ContestService
 
     public function getForLanding()
     {
-        return Contest::orderBy("created_at", "desc")->limit(3)->get();
+        return Contest::orderBy("created_at", "desc")->where('status','=',Status::ACTIVE)->limit(3)->get();
     }
 
     public function getAllByContributor(Request $request)

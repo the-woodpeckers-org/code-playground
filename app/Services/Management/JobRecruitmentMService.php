@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use App\Models\JobRecruitment;
 use App\mail\MailSendRequestChange;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\MailResponseReview;
+use App\Models\Notification;
+use Mockery\Matcher\Not;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class JobRecruitmentMService
@@ -49,6 +52,14 @@ class JobRecruitmentMService
     if ($job) {
       $job->status = Status::APPROVED;
         // SEND MAIL
+      Mail::to($job->user->email)->send(new MailResponseReview($job->user, $job,null, null, Status::ACTIVE));
+      Notification::create([
+        'user_id' => $job->user->id,
+        'message' => 'Your '.$job->title.'has been approved by admin',
+        'type' => 'Job recruitment',
+        'fid' => 0,
+        'is_read' => false
+      ]);
       $job->save();
       return response()->json([
         'status' => '200',
@@ -68,6 +79,14 @@ class JobRecruitmentMService
     if ($job) {
       $job->status = Status::REJECTED;
         // SEND MAIL
+      Mail::to($job->user->email)->send(new MailResponseReview($job->user, $job,null, null, Status::REJECTED));
+      Notification::create([
+        'user_id' => $job->user->id,
+        'message' => 'Your '.$job->title.' has been rejected by admin',
+        'type' => 'Job recruitment',
+        'fid' => 0,
+        'is_read' => false
+      ]);
       $job->save();
       return response()->json([
         'status' => '200',
@@ -89,6 +108,13 @@ class JobRecruitmentMService
       $job->change_required = $request->input('request_change');
       $userCompany = $job->user;
       Mail::to($userCompany->email)->send(new MailSendRequestChange($userCompany,$request->input('request_change')));
+      Notification::create([
+        'user_id' => $userCompany->id,
+        'message' => 'You have a new request change job '.$job->title.'from Admin',
+        'type' => 'Request change job',
+        'fid' => 0,
+        'is_read' => false
+      ]);
       $job->save();
       return response()->json([
         'status' => '200',

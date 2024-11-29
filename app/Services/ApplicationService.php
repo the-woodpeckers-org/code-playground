@@ -11,6 +11,7 @@ use App\Models\Application;
 use App\Models\JobRecruitment;
 use App\Models\ProfileUser;
 use App\Mail\MailApplyCV;
+use App\Models\Notification;
 use Illuminate\Support\Facades\Mail;
 use App\Utils\Constants\Status;
 
@@ -49,6 +50,13 @@ class ApplicationService
         $application->letter = $letter;
         $application ->status = Status::PENDING;
         Mail::to($user_company->email)->send(new MailApplyCV($user,$user_profile,$user_company,$application->letter));
+        Notification::create([
+            'user_id' => $user_company->id,
+            'message' => 'You have a new application from '.$user->name ,'with Job '.$application->job->title,
+            'type' => 'Apply job',
+            'fid'=> $user->id,
+            'is_read' => false
+        ]);
         $application->save();
         return response()->json([
             'status' => '200',

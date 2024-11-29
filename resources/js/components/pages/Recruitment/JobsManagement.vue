@@ -40,13 +40,34 @@
         />
         <div
           @click="addJob"
-          class="border rounded-xl h-52 w-auto my-2 p-3 bg-base-100 hover:scale-105 hover:bg-base-200 transition cursor-pointer flex justify-center items-center"
+          class="border rounded-xl h-52 w-auto m-3 my-2 p-3 bg-base-100 hover:scale-105 hover:bg-base-200 transition cursor-pointer flex justify-center items-center"
         >
           <i class="fas fa-plus text-6xl text-gray-600"></i>
         </div>
       </div>
     </div>
   </div>
+
+   <dialog v-if="isSendRequest" id="login_modal" class="modal modal-open">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+            <p class="py-4 font-semibold">Send request successfully!</p>
+        </div>
+    </dialog>
+    <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="isLoading">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span class="loading loading-spinner loading-lg">
+                </span>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -70,6 +91,8 @@ export default {
       user: getAuth(),
       searchQuery: "",
       filteredSuggestions: [],
+      isLoading:false,
+      isSendRequest:false
     };
   },
   async mounted() {

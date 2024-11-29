@@ -137,6 +137,26 @@
             <p class="py-4 font-semibold">Update successfully!</p>
         </div>
     </dialog>
+    <dialog v-if="isSendRequest" id="login_modal" class="modal modal-open">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+            <p class="py-4 font-semibold">Send request successfully!</p>
+        </div>
+    </dialog>
+    <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="isLoading">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span class="loading loading-spinner loading-lg">
+                </span>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -167,6 +187,8 @@ export default {
             notificationNumberApproved: false,
             id_temp:null,
             isUpdated: false,
+            isSendRequest: false,
+            isLoading: false,
         };
     },
     async mounted() {
@@ -252,12 +274,17 @@ export default {
         },
 
         async refuseCV(id) {
+            this.isLoading = true;
             await HTTP.post('/api/refuseCV', { job_id: this.jobForm.id, cv_id: id })
                 .then(response => {
+                    this.isLoading = false;
+                    this.isSendRequest = true;
                     this.fetchDataListCV();
                     this.isUpdated= true;
                         setTimeout(() => {
                            this.isUpdated = false;
+                           this.isSendRequest = false;
+                           window.location.reload();
                     }, 2000);
                 }).catch(error => {
                     console.error(error);
@@ -272,13 +299,17 @@ export default {
             const flag = this.checkMaxApproved();
             if(flag)
             {
+                this.isLoading= true;
                 await HTTP.post('/api/approvedCV', { job_id: this.jobForm.id, cv_id: id })
                     .then(response => {
                         this.isUpdated= true;
+                        this.isLoading=false;
+                        this.fetchDataListCV();
                         setTimeout(() => {
                             this.isUpdated = false;
+                            this.isSendRequest = false;
+                            window.location.reload();
                         }, 2000);
-                        this.fetchDataListCV();
                     }).catch(error => {
                         console.error(error);
                     });
@@ -290,13 +321,18 @@ export default {
         },
         async approveCVUpdate()
         {
+            this.isLoading= true;
             const numberUpdate = this.position_number_max + 1;
             await HTTP.post('/api/approvedCVUpdate', { job_id: this.jobForm.id, cv_id: this.id_temp, numberUpdate: numberUpdate})
                     .then(response => {
+                        this.isSendRequest = true;
+                        this.isLoading=false;
                         this.fetchDataListCV();
                         this.isUpdated= true;
                         setTimeout(() => {
                            this.isUpdated = false;
+                            this.isSendRequest = false;
+                            window.location.reload();
                     }, 2000);
                     }).catch(error => {
                         console.error(error);

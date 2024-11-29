@@ -1,21 +1,20 @@
 <template>
     <div
-        class="border rounded-xl h-fit w-auto my-2 mx-3 p-3 bg-base-100 hover:scale-105 hover:bg-base-200 transition relative">
-        
+        class="border rounded-xl h-fit w-auto p-3 m-5 bg-base-100 hover:scale-105 hover:bg-base-200 transition relative">
         <!-- Pending Overlay -->
-        <div v-if="status === 'Pending'" class="absolute inset-0 bg-gray-700 bg-opacity-55 text-green-300 text-2xl font-extrabold flex items-center justify-center">
-                    {{ status }}
+        <div v-if="status === 'pending'" @click="edit" class="absolute inset-0 bg-gray-700 bg-opacity-55 text-green-300 text-2xl font-extrabold flex items-center justify-center">
+                    {{ status }} 
         </div>
 
-        <div v-if="status === 'Rejected'" class="absolute inset-0 bg-gray-700 bg-opacity-55 text-red-600 text-2xl font-extrabold flex items-center justify-center">
-                    {{ status }}
+        <div v-if="status === 'rejected'" @click="edit" class="absolute inset-0 bg-gray-700 bg-opacity-55 text-red-600 text-2xl font-extrabold flex items-center justify-center">
+                    {{ status }} 
         </div>
 
-        <div class="flex">
-            <div>
+        <div class="flex h-[160px] w-full">
+            <div class="w-full">
                 <router-link :to="this.link">
                     <img class="w-20 h-20 object-center object-contain" :src="imgUrl" loading="lazy">
-                    <h1 class="text-xl font-semibold">{{ title }}</h1>
+                    <h1 class="text-md font-semibold text-ellipsis line-clamp-2">{{ title }}</h1>
                     <p v-if="negotiable" class="font-semibold">Negotiable $</p>
                     <p v-else class="font-semibold">{{ salary }} $</p>
                     <p class="font-semibold">Available until: {{ date }}</p>
@@ -93,6 +92,9 @@ export default {
         },
         confirm_delete_modal() {
             this.$refs.confirm_delete_modal.showModal();
+        },
+        edit(){
+            this.$router.push({name: 'detail-job', params: {id: this.id}});
         }
     }
 }
@@ -117,9 +119,6 @@ export default {
 }
 .bg-opacity-50 {
     opacity: 0.5;
-}
-.flex {
-    display: flex;
 }
 .items-center {
     align-items: center;

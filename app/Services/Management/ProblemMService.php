@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailSendRequestChange;
 use App\Mail\MailSorry;
+use App\Models\Notification;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class ProblemMService
@@ -69,7 +70,14 @@ class ProblemMService
         if ($problem) {
             $problem->status = Status::ACTIVE;
             $currentUser = $problem->user;
-            Mail::to($currentUser->email)->send(new MailResponseReview($currentUser, $problem, null, Status::ACTIVE));
+            Mail::to($currentUser->email)->send(new MailResponseReview($currentUser,null, $problem, null, Status::ACTIVE));
+            Notification::create([
+                'user_id' => $currentUser->id,
+                'message' => 'Your problem '.$problem->title.' has been approved by admin',
+                'type' => 'Problem',
+                'fid'=> 0,
+                'is_read' => false
+            ]);
             $problem->save();
             return response()->json([
                 'status' => '200',
@@ -90,7 +98,14 @@ class ProblemMService
             $currentUser = $problem->user;
             try{
 
-                Mail::to($currentUser->email)->send(new MailResponseReview($currentUser, $problem, null, Status::REJECTED));
+                Mail::to($currentUser->email)->send(new MailResponseReview($currentUser,null, $problem, null, Status::REJECTED));
+                Notification::create([
+                    'user_id' => $currentUser->id,
+                    'message' => 'Your problem '.$problem->title.' has been rejected by admin',
+                    'type' => 'Problem',
+                    'fid'=> 0,
+                    'is_read' => false
+                ]);
             }catch(\Exception $e){
                 return response()->json([
                     'status' => '404',
@@ -120,6 +135,13 @@ class ProblemMService
             $problem->save();
             $currentUser = $problem->user;
             Mail::to($currentUser->email)->send(new MailSendRequestChange($currentUser, $request->input('change_required')));
+            Notification::create([
+                'user_id' => $currentUser->id,
+                'message' => 'Your problem '.$problem->title.' has been required to change by admin',
+                'type' => 'Problem',
+                'fid'=> 0,
+                'is_read' => false
+            ]);
             return response()->json([
                 'status' => '200',
                 'message' => 'Change request problem successfully',
