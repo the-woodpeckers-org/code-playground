@@ -22,10 +22,15 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+    // user_id là người nhận
+    // fid là loại trỏ đến bất kỳ bảng nào
+    // type loại thông bảng
+    // message nội dung thông báo
+    // is_read là trạng thái thông báo đã đọc hay chưa
+    
 
     /**
-     * Reverse the migrations.
-     */
+      */
     public function down(): void
     {
         Schema::dropIfExists('notifications');

@@ -13,4 +13,8 @@ class NotificationController
     {
         $this->service = $service;
     }
+    public function sendInviteApplyNotification(Request $request)
+    {
+        return $this->service->sendInviteApplyNotification($request);
+    }
 }
