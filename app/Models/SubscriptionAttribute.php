@@ -23,4 +23,9 @@ class SubscriptionAttribute extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function scopeActive(Builder $query)
+    {
+        return $query->where('end_date', '>', now());
+    }
+    
 }

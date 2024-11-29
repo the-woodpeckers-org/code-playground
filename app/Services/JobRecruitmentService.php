@@ -6,8 +6,10 @@ use App\Http\Requests\FinishContestFormRequest;
 use App\Models\Cv;
 use App\Models\Application;
 use App\Models\JobRecruitment;
+use App\Models\SubscriptionAttribute;
 use App\Models\Users;
 use App\Mail\MailResponseCV;
+use App\Utils\Constants\Subscription;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Mail;
 use App\Utils\Constants\Status;
@@ -21,9 +23,16 @@ class JobRecruitmentService
         $user = $request->user();
         try{
             $jobs = JobRecruitment::where('user_id', $user->id)->get();
+            $subUser = SubscriptionAttribute::where('user_id', $user->id)->first();  
+            $maxPost = null;
+            if($subUser->subscription_name == Subscription::FREEMIUM){
+                $maxPost = 5;
+            }
             return response()->json([
                 'status' => '200',
-                'data' => $jobs
+                'data' => $jobs,
+                'maxPost' => $maxPost,
+                'subUser' => $subUser
             ]);
         }catch(\Exception $e){
             return response()->json([
@@ -97,6 +106,7 @@ class JobRecruitmentService
     {
         $user = $request->user();
         try {
+             $countTemp = $user->getJobPosted()->count();
 
             $company = JobRecruitment::create([
                 'user_id' => $user->id,
@@ -121,7 +131,8 @@ class JobRecruitmentService
             return response()->json([
                 'status' => '200',
                 'message' => 'Create job successfully',
-                'data' => $company
+                'data' => $company,
+                'countTemp' => $countTemp
             ]);
         } catch (\Exception $e) {
             return response()->json([
