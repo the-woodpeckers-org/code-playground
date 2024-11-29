@@ -12,7 +12,8 @@ routes.beforeEach(async (to, from) => {
     if (!getAuth() &&
         (
             to.name == 'profile' ||
-            to.name == 'MyCv'
+            to.name == 'MyCv' ||
+            to.name == 'contest-participate'
         )
     ) {
         return '/';
