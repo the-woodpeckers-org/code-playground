@@ -54,9 +54,9 @@ class ContestMService
                 'message' => 'Contest not found'
             ]);
         }
-        $contest->status = Status::APPROVED;
+        $contest->status = Status::ACTIVE;
         $contest->save();
-        Mail::to($contest->user->email)->send(new MailResponseReview($contest->user,null,null,$contest,Status::APPROVED));
+        Mail::to($contest->user->email)->send(new MailResponseReview($contest->user,null,null,$contest,Status::ACTIVE));
         Notification::create([
             'user_id' => $contest->user->id,
             'message' => 'Your'. $contest->title .' has been approved by admin',

@@ -33,10 +33,31 @@
         </table>
         </div>
     </div>
+    <dialog v-if="isSendRequest" id="login_modal" class="modal modal-open">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+            <p class="py-4 font-semibold">Send request successfully!</p>
+        </div>
+    </dialog>
+    <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="isLoading">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span class="loading loading-spinner loading-lg">
+                </span>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import {HTTP} from "@/http-common.js";
 import ContributorItemM from "@/components/listItems/Management/ContributorItemM.vue";
+import { set } from "date-fns";
 export default {
     name : "SubscribeContributor",
     components: {
@@ -46,30 +67,47 @@ export default {
         return {
             subscribe: [],
             filteredSubscribe: [],
+            isSendRequest: false,
+            isLoading: false,
+
         };
     },
     methods:{
         async getSubscribe(){
            await HTTP.get('/api/getListSubscribe').then(response => {
-                console.log("he?He?");
+                
                 this.subscribe = response.data.contributors;
                 this.filteredSubscribe = this.subscribe;
                 console.log(this.subscribe);
             });
         },
         async approved(id){
+            this.isLoading = true;
             await HTTP.get(`/api/approvedSubscribe/${id}`)
                 .then(response => {
+                    this.isLoading = false;
+                    this.isSendRequest = true;
                     this.getSubscribe();
+                    setTimeout(() => {
+                        this.isSendRequest = false;
+                        window.location.reload();
+                    }, 1000);
                 })
                 .catch(e => {
                     console.log(e);
                 });
         },
         async reject(id){
+            this.isLoading = true;
           await HTTP.get(`/api/rejectSubscribe/${id}`)
             .then(response => {
+                this.isLoading = false;
+                this.isSendRequest = true;
                 this.getSubscribe();
+                setTimeout(() => {
+                    this.isSendRequest = false;
+                    window.location.reload();
+                }, 1000);
             })
             .catch(e => {
                 console.log(e);
