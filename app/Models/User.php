@@ -125,5 +125,6 @@ class User extends Authenticatable
     {
         return SubscriptionAttribute::where('user_id', $this->id)->first();
     }
-
+    
+    
 }
