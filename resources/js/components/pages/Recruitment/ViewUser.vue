@@ -27,8 +27,6 @@
                                     :src="this.User.avatar_url" />
                             </div>
                         </div>
-
-
                         <div class="flex-auto overflow-hidden">
                             <div class="flex flex-col">
                                 <div class="flex items-center gap-1.5">
@@ -95,13 +93,38 @@
     </div>
     <ContentCV></ContentCV>
     <dialog class="modal" ref="modal_job_list">
-        <div class="modal-box bg-base-100">
-            <h3 class="text-lg font-semibold">Warning</h3>
-            <p class="py-4 text-base">Are you sure you want approved it?</p>
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" >Yes</button>
-                    <button class="btn btn-sm m-1 border">No</button>
+        <div class="modal-box bg-base-100 w-11/12 max-w-screen-lg shadow-lg rounded-lg">
+            <!-- Tiêu đề -->
+            <h3 class="text-2xl font-bold text-center text-primary mb-6"> Invitation to Apply
+            </h3>
+
+            <!-- Nội dung -->
+            <div class="grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 items-center">
+                <div class="col-span-3 p-3 text-right">
+                    <label for="job-select" class="font-semibold text-lg">Job list: </label>
+                </div>
+
+                <div class="col-span-8 p-3">
+                    <select id="job-select"
+                        class="select select-bordered w-full max-w-lg focus:outline-none focus:ring focus:border-primary"
+                        @change="change($event)">
+                        <option disabled selected>Select a position</option>
+                        <option v-for="(item, index) in jobList" :key="index" :value="item">
+                            {{ item.title }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="modal-action flex justify-end mt-6">
+                <form method="dialog" class="flex gap-3">
+                    <button class="btn btn-sm bg-amber-400 text-white hover:bg-amber-500 px-4 rounded-md"
+                        @click="invite">
+                        Invitation to Apply
+                    </button>
+                    <button class="btn btn-sm bg-gray-200 hover:bg-gray-300 border px-4 rounded-md">
+                        Cancel
+                    </button>
                 </form>
             </div>
         </div>
@@ -125,12 +148,17 @@ export default {
             skills: [],
             address: [],
             isBlock: false,
+            jobList: [],
+
         }
     },
     async mounted() {
         await this.getUser();
         if (this.isBlock === false) {
             await this.addViewHistory();
+        }
+        if (this.User.is_active) {
+            await this.getJobs();
         }
     },
     methods: {
@@ -168,6 +196,22 @@ export default {
         },
         contact() {
             this.$refs.modal_job_list.showModal();
+        },
+        async getJobs() {
+            await HTTP.get("/api/getJobsU").then((response) => {
+                this.jobList = response.data.data;
+                console.log(this.jobList);
+            });
+        },
+        async invite() {
+            // await HTTP.post('/api/invite', {
+            //     user_invited: this.User.id,
+            //     job_id: this.job_id,
+            // }).then(response => {
+            //     console.log(response.data);
+            // }).catch(error => {
+            //     console.log(error);
+            // })
         }
     }
 
@@ -187,5 +231,21 @@ export default {
 
 .rotate-icon-on-hover:hover i {
     animation: rotate 0.5s ease-in-out;
+}
+
+.modal-box {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 </style>
