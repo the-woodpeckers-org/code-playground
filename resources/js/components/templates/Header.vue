@@ -56,26 +56,34 @@
                 </svg>
             </button>
         </div>
-        <div v-if="$root.auth" class="flex-none mx-4">
+        <div v-if="$root.auth" class="flex-none mx-8">
             <div class="dropdown dropdown-end mb-4">
                 <div tabindex="0" role="button">
                     <span class="relative flex h-3 w-3">
-                        <span
-                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"><i
-                                class="fa-regular fa-bell text-xl"></i></span>
+                        <!-- Hiệu ứng animate-ping chỉ xuất hiện nếu unRead > 0 -->
+                        <span v-if="this.unRead > 0"
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75">
+                        </span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500">
+                            <i class="fa-regular fa-bell text-xl"></i>
+                        </span>
+                        <!-- Hiển thị số lượng thông báo chưa đọc -->
+                        <span class="mx-3 text-blue-600" v-if="this.unRead > 0">
+                            {{ this.unRead }}
+                        </span>
                     </span>
                 </div>
                 <div tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow">
-                        <h2 class="p-3 border-b text-md">Notifications</h2>
-                        <div class="grid grid-cols-1 w-full h-2/6 overflow-y-scroll p-2">
-                                <Notification v-for="(item, index) in this.notifications" :key="index" :data="item"></Notification>
-                           
-                        </div>
+                    <h2 class="p-3 border-b text-md">Notifications</h2>
+                    <div class="grid grid-cols-1 w-full h-2/6 overflow-y-scroll p-2">
+                        <Notification v-for="(item, index) in this.notifications" :key="index" :data="item">
+                        </Notification>
+                    </div>
                 </div>
             </div>
         </div>
+
 
         <div class="flex-none gap-2">
             <div class="dropdown dropdown-end">
@@ -140,6 +148,18 @@
             <p class="py-4 font-semibold">You have logged out!</p>
         </div>
     </dialog>
+    <dialog class="modal" ref="advertise_modal">
+        <div class="modal-box w-11/12 p-0">
+            <div class="absolute right-0 text-end hover:text-red-400 p-2" role="button" @click="closeAdvertise">
+                <i class="fa-solid fa-x"></i>
+            </div>
+            <div class="flex justify-center">
+                <img src="https://res.cloudinary.com/ddgnrqr3j/image/upload/v1732898177/b0yiiiemh70zwsxua4bf.png"
+                    alt="Image" class="block max-w-full h-auto">
+            </div>
+        </div>
+    </dialog>
+
 </template>
 <script setup>
 import { getAuth } from "@/utils/authLocalStorage.js";
@@ -149,20 +169,26 @@ import Notification from "@/components/notifications/Notification.vue";
 </script>
 <script>
 import { getAuth } from "@/utils/authLocalStorage.js";
+import { th } from "date-fns/locale";
 
 export default {
     components: {
         Notification,
     },
     async mounted() {
-       await this.getNotifications();
+        await this.getNotifications();
+        console.log(this.auth);
+        if (this.auth.role == 'company' && this.auth.Subscription.subscription_name=='freemium') {
+            this.$refs.advertise_modal.showModal();
+        }
     },
     data: function () {
         return {
             isMenuOpen: false,
             auth: getAuth(),
             isLoggedOut: false,
-            notifications: []
+            notifications: [],
+            unRead: 0,
         }
     },
     methods: {
@@ -182,14 +208,20 @@ export default {
         show_Notification() {
             alert("Notification");
         },
-        async getNotifications()
-        {
+        async getNotifications() {
             await HTTP.get('/api/getNotification').then((response) => {
-                console.log(response.data.notifications);
-                this.notifications= response.data.notifications;
+                this.notifications = response.data.notifications;
+                this.notifications.forEach((item) => {
+                    if (!item.is_read) {
+                        this.unRead += 1;
+                    }
+                });
             }).catch((err) => {
                 console.log(err);
             });
+        },
+        closeAdvertise() {
+            this.$refs.advertise_modal.close();
         }
     },
 

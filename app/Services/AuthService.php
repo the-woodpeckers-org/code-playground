@@ -13,9 +13,11 @@ use App\Models\Password_Reset_Tokens;
 use App\Models\User;
 use App\Models\ProfileCompany;
 use App\Mail\MailThankYou;
+use App\Models\SubscriptionAttribute;
 use App\Utils\Constants\Status;
 use App\Utils\Token;
 use App\Utils\Constants\Role;
+use App\Utils\Constants\Subscription;
 use Carbon\Carbon;
 use Faker\Provider\ar_EG\Company;
 use Illuminate\Http\Request;
@@ -175,6 +177,8 @@ class AuthService
             $company->email = $request->input('email');
             $company->skill =' ';
             $company->save();
+
+
             // send mail
             $token = substr(str_shuffle("0123456789"), 0, 5);
             $emailVerifyToken = EmailVerifyToken::where('email', $user->email)->first();

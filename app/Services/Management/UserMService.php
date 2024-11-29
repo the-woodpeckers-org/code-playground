@@ -8,7 +8,9 @@ use App\Utils\Constants\Status;
 use App\Utils\Constants\Role;
 use Illuminate\Http\Request;
 use App\Mail\MailCongratulation;
+use App\Utils\Constants\Subscription;
 use App\Mail\MailSorry;
+use App\Models\SubscriptionAttribute;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
@@ -61,6 +63,15 @@ class UserMService
             //send mail
             $mailCon = new MailCongratulation($user);
             Mail::to($user->email)->send($mailCon);
+            // đăng ký dịch vụ cho công ty
+            if($user->role == Role::Company){
+                SubscriptionAttribute::create([
+                    'user_id' => $user->id,
+                    'subscription_name' => Subscription::FREEMIUM,
+                    // 'start_date' => now(),
+                    // 'end_date' => now()->addDays(30),
+                ]);
+            }
             $user->save();
             return response()->json([
                 'status' => '200',
