@@ -94,6 +94,19 @@
         </div>
     </div>
     <ContentCV></ContentCV>
+    <dialog class="modal" ref="modal_job_list">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">Are you sure you want approved it?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" >Yes</button>
+                    <button class="btn btn-sm m-1 border">No</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
 </template>
 <script>
 import { HTTP } from '@/http-common.js'
@@ -154,7 +167,7 @@ export default {
                 });
         },
         contact() {
-            alert('Contact');
+            this.$refs.modal_job_list.showModal();
         }
     }
 
