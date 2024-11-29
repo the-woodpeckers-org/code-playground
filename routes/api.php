@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\Management\UserMController;
 use App\Http\Controllers\Api\Management\JobRecruitmentMController;
 use App\Http\Controllers\Api\Management\ProblemMController;
 use App\Http\Controllers\Api\Management\ContestMController;
+use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -140,6 +141,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getContestsU',[ContestController::class, 'getContestForManage'])->name('contest.getContestForManage');
     Route::get('/getParticipantsContestU/{id}',[ParticipationController::class, 'getParticipantsContestU'])->name('contest.getParticipantsContestU');
     
+    // Notification
+    Route::post('/inviteApply',[NotificationController::class, 'inviteApply'])->name('inviteApply');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');

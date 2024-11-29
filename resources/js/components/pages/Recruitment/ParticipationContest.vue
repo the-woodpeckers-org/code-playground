@@ -47,8 +47,8 @@
                     <div v-if="isClicked"> 
                         <Profile :participant="this.participant.user"></Profile>
                     </div>
-                    <div v-else
-                        class="lg:mt-5 border rounded-lg md:rounded lg:animate-bounce bg-blue-300 p-3 font-mono font-semibold">
+                    <div v-else v-if="this.participants.length > 0"
+                        class="lg:mt-32 border rounded-lg md:rounded lg:animate-bounce bg-blue-300 p-4 font-mono font-semibold">
                         <- Select a row to view profile user </div>
                     </div>
                 </div>
