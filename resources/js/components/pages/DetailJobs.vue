@@ -10,7 +10,7 @@
                                 style="color: transparent; " :src="userCompany.avatar_url"></a>
                     </div>
                     <div class="w-3/4 flex flex-initial flex-col">
-                        <h1 class="text-2xl font-bold text-black">{{ job.title }}</h1>
+                        <h1 class="text-2xl font-bold text-black text-ellipsis line-clamp-2 ">{{ job.title }}</h1>
                         <p class="my-1 line-clamp-1 text-base font-bold text-gray-500">{{ job.location }}</p>
                         <div class="my-2 max-w-[540px] text-base text-gray-500">
                             <div class="mb-2 flex last:mb-0">
@@ -63,7 +63,13 @@
                 </div>
 
             </div>
-            <div class="flex w-full flex-wrap gap-4 md:w-[32.38%]" id="tabMnf2" v-if="!isApplied">
+            <div v-if="job.isEnded" class="flex w-full flex-wrap grap-4 md:w-[32.38%]">
+                <div
+                    class=" w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14">
+                    <h2 class="flex justify-center p-3">This job is ended. See you next time!</h2>  
+                </div>
+            </div>
+            <div v-else class="flex w-full flex-wrap gap-4 md:w-[32.38%]" id="tabMnf2" v-if="!isApplied">
                 <button id="applyCV"
                     class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
                     data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
@@ -73,7 +79,7 @@
                 </button>
                 <button id="createTopdevCV" type="button"
                     class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full"
-                  @click="createCV" ><span >Create CV to apply</span></button>
+                    @click="createCV"><span>Create CV to apply</span></button>
                 <section class="w-full bg-white">
                     <h2 class="p-4 text-lg font-bold text-gray-500">General information</h2>
                     <div class="flex flex-col self-stretch border-t border-gray-200 p-4">
@@ -196,7 +202,8 @@ export default {
             letter: '',
             id_CV: '',
             isApplied: false,
-            userCompany: {}
+            userCompany: {},
+
         }
     },
     name: "DetailJobs",

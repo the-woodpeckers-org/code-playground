@@ -11,6 +11,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use App\Models\ProfileCompany;
 use App\Models\JobRecruitment;
 use App\Models\User;
+use App\Models\SubscriptionAttribute;
 use App\Models\ProfileUser;
 use App\Utils\Constants\Role;
 use App\Utils\Constants\Status;
@@ -59,7 +60,7 @@ class ProfileCompanyService
             'data' => [
                 'profileCompany' => $profile,
                 'userCompany' => $userCompany,
-                'jobRecruitments' => $listJobs
+                'jobRecruitments' => $listJobs,
             ]
         ]);
     }
@@ -77,7 +78,7 @@ class ProfileCompanyService
             'data' => [
                 'profileCompany' => $profile,
                 'userCompany' => $userCompany,
-                'jobRecruitments' => $listJobs
+                'jobRecruitments' => $listJobs,
             ]
         ]);
     }

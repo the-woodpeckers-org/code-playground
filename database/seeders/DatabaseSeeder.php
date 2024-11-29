@@ -15,6 +15,7 @@ use App\Models\ProfileCompany;
 use App\Models\ProfileUser;
 use App\Models\Testcase;
 use App\Models\User;
+use App\Models\SubscriptionAttribute;
 use App\Utils\Constants\Role;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -743,6 +744,10 @@ class DatabaseSeeder extends Seeder
         $company1->status = 'approved';
         $company1->save();
 
+        SubscriptionAttribute::create([
+            'user_id' => $company1->id,
+            'subscription_name' => 'freemium'
+        ]);
         $profile_company1 = new ProfileCompany();
         $profile_company1->user_id = $company1->id;
         $profile_company1->description = 'Google is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware.';
@@ -754,6 +759,8 @@ class DatabaseSeeder extends Seeder
         $profile_company1->codeCompany = '123';
         $profile_company1->save();
 
+        
+
         $company2 = new User();
         $company2->name = 'Facebook';
         $company2->email = 'facebook@gmail.com';
@@ -762,7 +769,10 @@ class DatabaseSeeder extends Seeder
         $company2->status = 'approved';
         $company2->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company2->save();
-
+        SubscriptionAttribute::create([
+            'user_id' => $company2->id,
+            'subscription_name' => 'freemium'
+        ]);
         $profile_company2 = new ProfileCompany();
         $profile_company2->user_id = $company2->id;
         $profile_company2->description = 'Facebook is an American online social media and social networking service company based in Menlo Park, California.';
@@ -783,6 +793,10 @@ class DatabaseSeeder extends Seeder
         $company3->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company3->save();
 
+        SubscriptionAttribute::create([
+            'user_id' => $company3->id,
+            'subscription_name' => 'freemium'
+        ]);
         $profile_company3 = new ProfileCompany();
         $profile_company3->user_id = $company3->id;
         $profile_company3->description = 'Amazon.com, Inc. is an American multinational technology company which focuses on e-commerce, cloud computing, digital streaming, and artificial intelligence.';
@@ -803,6 +817,11 @@ class DatabaseSeeder extends Seeder
         $company4->status = 'approved';
         $company4->save();
 
+        SubscriptionAttribute::create([
+            'user_id' => $company4->id,
+            'subscription_name' => 'freemium'
+        ]);
+
         $profile_company4 = new ProfileCompany();
         $profile_company4->user_id = $company4->id;
         $profile_company4->description = 'Apple Inc. is an American multinational technology company that specializes in consumer electronics, computer software, and online services.';
@@ -822,6 +841,11 @@ class DatabaseSeeder extends Seeder
         $company5->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company5->status = 'approved';
         $company5->save();
+
+        SubscriptionAttribute::create([
+            'user_id' => $company5->id,
+            'subscription_name' => 'freemium'
+        ]);
 
         $profile_company5 = new ProfileCompany();
         $profile_company5->user_id = $company5->id;

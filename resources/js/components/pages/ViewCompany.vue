@@ -24,7 +24,7 @@ export default {
             let _this = this;
             await HTTP.get(`/api/getProfileCompany/${this.$route.params.id}`)
                 .then(response => {
-                    console.log(response.data);
+                    console.log(response.data.data);
                     _this.profileCompany = response.data.data.profileCompany;
                     _this.userCompany = response.data.data.userCompany;
                     _this.jobRecruitments = response.data.data.jobRecruitments;
@@ -112,7 +112,7 @@ export default {
 
                 <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
                     <div class="grid grid-cols-1 gap-4 overflow-x-auto" style="height: 500px;">
-                        <Job v-for="job in jobRecruitments" :key="job.id" :description="job.description" :title="job.title" :companyName="this.userCompany.name" :imgUrl="this.userCompany.avatar_url" :salary="job.salary" :skill="job.skill" :url="'/Job-detail/'+job.id"/>
+                        <Job v-for="job in jobRecruitments" :key="job.id" :description="job.description" :isEnded="job.isEnded" :date="job.deadline" :title="job.title" :companyName="this.userCompany.name" :imgUrl="this.userCompany.avatar_url" :salary="job.salary" :skill="job.skill" :url="'/Job-detail/'+job.id"/>
                     </div>
                 </div>
             </div>

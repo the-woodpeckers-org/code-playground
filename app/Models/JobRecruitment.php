@@ -3,7 +3,7 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class JobRecruitment extends Model
 {
     use HasFactory;
@@ -24,6 +24,9 @@ class JobRecruitment extends Model
         'updated_at',    
     ];
 
+    protected $appends = [
+        'isEnded',
+    ];
     /**
      * Get the user that owns the JobRecruitment.
      */
@@ -32,4 +35,11 @@ class JobRecruitment extends Model
         return $this->belongsTo(User::class);
     }
     
+    public function getIsEndedAttribute()
+    {
+        if (Carbon::now() > $this->deadline) {
+            return true;
+        }
+        return false;
+    }
 }

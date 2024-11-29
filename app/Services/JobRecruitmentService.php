@@ -97,6 +97,7 @@ class JobRecruitmentService
     {
         $user = $request->user();
         try {
+
             $company = JobRecruitment::create([
                 'user_id' => $user->id,
                 'title' =>  $request->input('job.title'),

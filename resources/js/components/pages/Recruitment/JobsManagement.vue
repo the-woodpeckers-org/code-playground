@@ -37,6 +37,7 @@
           :negotiable="item.negotiable"
           :imgUrl="user.avatar_url"
           :status = "item.status"
+          :date="item.deadline"
         />
         <div
           @click="addJob"
