@@ -204,7 +204,7 @@ export default {
             });
         },
         async invite() {
-            // await HTTP.post('/api/invite', {
+            // await HTTP.post('/api/inviteApply', {
             //     user_invited: this.User.id,
             //     job_id: this.job_id,
             // }).then(response => {
