@@ -107,9 +107,9 @@
                 <div class="col-span-8 p-3">
                     <select id="job-select"
                         class="select select-bordered w-full max-w-lg focus:outline-none focus:ring focus:border-primary"
-                        @change="change($event)">
+                        @change="job_selected" required>
                         <option disabled selected>Select a position</option>
-                        <option v-for="(item, index) in jobList" :key="index" :value="item">
+                        <option v-for="(item, index) in jobList" :key="index" :value="item.id">
                             {{ item.title }}
                         </option>
                     </select>
@@ -149,7 +149,7 @@ export default {
             address: [],
             isBlock: false,
             jobList: [],
-
+            job_id: null,
         }
     },
     async mounted() {
@@ -204,15 +204,24 @@ export default {
             });
         },
         async invite() {
-            // await HTTP.post('/api/inviteApply', {
-            //     user_invited: this.User.id,
-            //     job_id: this.job_id,
-            // }).then(response => {
-            //     console.log(response.data);
-            // }).catch(error => {
-            //     console.log(error);
-            // })
-        }
+            if(this.job_id == null) {
+                alert('Please select a job');
+                return;
+            }
+            await HTTP.post('/api/inviteApply', {
+                user_invited: this.User.id,
+                job_id: this.job_id,
+            }).then(response => {
+                console.log(response.data);
+            }).catch(error => {
+                console.log(error);
+            })
+        },
+        job_selected(event) {
+            this.job_id = event.target.value;
+            console.log('Selected Job:', this.job_id);
+        },
+
     }
 
 }

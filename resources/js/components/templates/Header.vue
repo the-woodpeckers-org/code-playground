@@ -69,16 +69,9 @@
                 <div tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow">
                         <h2 class="p-3 border-b text-md">Notifications</h2>
-                        <div class="grid grid-cols-1 w-full h-20 overflow-auto">
-                                <Notification></Notification>
-                                <Notification></Notification>
-                                <Notification></Notification>
-                                <Notification></Notification>                           
-                                <Notification></Notification>
-                                <Notification></Notification>
-                                <Notification></Notification>
-
-
+                        <div class="grid grid-cols-1 w-full h-2/6 overflow-y-scroll p-2">
+                                <Notification v-for="(item, index) in this.notifications" :key="index" :data="item"></Notification>
+                           
                         </div>
                 </div>
             </div>
@@ -151,6 +144,7 @@
 <script setup>
 import { getAuth } from "@/utils/authLocalStorage.js";
 import { Role } from "@/utils/roles.js";
+import { HTTP } from '@/http-common.js'
 import Notification from "@/components/notifications/Notification.vue";
 </script>
 <script>
@@ -160,11 +154,15 @@ export default {
     components: {
         Notification,
     },
+    async mounted() {
+       await this.getNotifications();
+    },
     data: function () {
         return {
             isMenuOpen: false,
             auth: getAuth(),
             isLoggedOut: false,
+            notifications: []
         }
     },
     methods: {
@@ -183,6 +181,15 @@ export default {
         },
         show_Notification() {
             alert("Notification");
+        },
+        async getNotifications()
+        {
+            await HTTP.get('/api/getNotification').then((response) => {
+                console.log(response.data.notifications);
+                this.notifications= response.data.notifications;
+            }).catch((err) => {
+                console.log(err);
+            });
         }
     },
 

@@ -19,17 +19,17 @@ class MailInviteApply extends Mailable
     protected User $invited_user;
     protected User $user_company;
     protected JobRecruitment $job;
-    protected Contest $contest;
+    // protected Contest $contest;
     /**
      * 
      * Create a new message instance.
      */
-    public function __construct($invited_user,$user_company,$job,$contest)
+    public function __construct($invited_user,$user_company,$job)
     {
         $this->invited_user = $invited_user;
         $this->user_company = $user_company;
         $this->job = $job;
-        $this->contest = $contest;
+        // $this->contest = $contest;
     }
     /**
      * Get the message envelope.
@@ -48,8 +48,8 @@ class MailInviteApply extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mails.company.invite-apply-email',
-            with: ['invited_user' => $this->invited_user,'user_company'=>$this->user_company,'job'=>$this->job,'contest'=>$this->contest]
+            view: 'mails.company.invitation-apply-email',
+            with: ['invited_user' => $this->invited_user,'user_company'=>$this->user_company,'job'=>$this->job]
         );
     }
 

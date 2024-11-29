@@ -142,7 +142,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getParticipantsContestU/{id}',[ParticipationController::class, 'getParticipantsContestU'])->name('contest.getParticipantsContestU');
     
     // Notification
-    Route::post('/inviteApply',[NotificationController::class, 'inviteApply'])->name('inviteApply');
+    Route::get('/getNotification', [NotificationController::class, 'getNotification'])->name('getNotification');            
+    Route::post('/inviteApply',[NotificationController::class, 'sendInviteApplyNotification'])->name('sendInviteApplyNotification');
+    Route::post('/isReadNotification',[NotificationController::class, 'isReadNotification'])->name('isReadNotification');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');
