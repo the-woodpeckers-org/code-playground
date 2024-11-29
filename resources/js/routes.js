@@ -1,4 +1,6 @@
 import {createRouter, createWebHistory} from "vue-router";
+import UserLayout from "@/components/templates/UserLayout/UserLayout.vue";
+import AdminLayout from "@/components/templates/AdminLayout/AdminLayout.vue";
 const ContestRanking = () => import("@/components/pages/Contest/ContestRanking.vue");
 const Dashboard = () => import("@/components/pages/Contributor/Dashboard.vue");
 const PostPage = () => import("@/components/pages/Post/PostPage.vue");
@@ -48,254 +50,266 @@ const ContestManagement = () => import("@/components/pages/Recruitment/ContestMa
 const ParticipationContest = () => import("@/components/pages/Recruitment/ParticipationContest.vue");
 const routes = [
     {
-        path: '/problem/:id',
-        component: CodePanel,
-        name: 'problem'
-    },
-    {
-        path: '/',
-        component: Landing,
-        name: 'landing'
-    },
-    {
-        path: '/landing',
-        component: Landing,
-        name: 'landing-problems'
-    },
-    {
-        path: '/login',
-        component: Login,
-        name: 'login'
-    },
-    {
-        path: '/register',
-        component: Register,
-        name: 'register'
-    },
-    {
-        path: '/about-us',
-        component: AboutUs,
-        name: 'about-us'
-    },
-    {
-        path: '/contests',
-        component: Contests,
-        name: 'contest-page'
-    },
-    {
-        path: '/courses',
-        component: Courses,
-        name: 'courses'
-    },
-    {
-        path: '/challenges',
-        component: Challenges,
-        name: 'challenges'
-    },
-    {
-        path: '/problems',
-        component: Problems,
-        name: 'problems'
-    },
-    {
-        path: '/career',
-        component: Career,
-        name: 'career'
-    },
-    {
-        path: '/profile/:id',
-        component: Profile,
-        name: 'profile',
-        props: true
-    },
-    {
-        path: '/contest/:c_id',
-        component: ContestDetail,
-        name: 'contest-detail'
-    },
-    {
-        path: '/contest/participate/:c_id',
-        component: ContestPanel,
-        name: 'contest-participate'
-    },
-    {
-        path: '/demo/texteditor',
-        component: TextEditor,
-        name: 'text-editor'
-    },
-    {
-        path: '/MyCv',
-        component: MyCVPanel,
-        name: 'MyCv'
-    },
-    {
-        path: '/contest',
-        name: 'contest',
+        path: '/u',
+        component: UserLayout,
         children: [
             {
-                path: ':id/result/',
-                component: ContestResult,
+                path: '/problem/:id',
+                component: CodePanel,
+                name: 'problem'
             },
             {
-                path: ':id/ranking/',
-                component: ContestRanking
+                path: '/',
+                component: Landing,
+                name: 'landing'
+            },
+            {
+                path: '/landing',
+                component: Landing,
+                name: 'landing-problems'
+            },
+            {
+                path: '/login',
+                component: Login,
+                name: 'login'
+            },
+            {
+                path: '/register',
+                component: Register,
+                name: 'register'
+            },
+            {
+                path: '/about-us',
+                component: AboutUs,
+                name: 'about-us'
+            },
+            {
+                path: '/contests',
+                component: Contests,
+                name: 'contest-page'
+            },
+            {
+                path: '/courses',
+                component: Courses,
+                name: 'courses'
+            },
+            {
+                path: '/challenges',
+                component: Challenges,
+                name: 'challenges'
+            },
+            {
+                path: '/problems',
+                component: Problems,
+                name: 'problems'
+            },
+            {
+                path: '/career',
+                component: Career,
+                name: 'career'
+            },
+            {
+                path: '/profile/:id',
+                component: Profile,
+                name: 'profile',
+                props: true
+            },
+            {
+                path: '/contest/:c_id',
+                component: ContestDetail,
+                name: 'contest-detail'
+            },
+            {
+                path: '/contest/participate/:c_id',
+                component: ContestPanel,
+                name: 'contest-participate'
+            },
+            {
+                path: '/demo/texteditor',
+                component: TextEditor,
+                name: 'text-editor'
+            },
+            {
+                path: '/MyCv',
+                component: MyCVPanel,
+                name: 'MyCv'
+            },
+            {
+                path: '/contest',
+                name: 'contest',
+                children: [
+                    {
+                        path: ':id/result/',
+                        component: ContestResult,
+                    },
+                    {
+                        path: ':id/ranking/',
+                        component: ContestRanking
+                    }
+                ]
+            },
+            {
+                path: '/ProfileCV',
+                component: ProfileCV,
+                name: 'code-playground-cv'
+            },
+            {
+                path: '/CvBuilder/:id',
+                component: CvBuilder,
+                name: 'cvbuilder'
+            },
+            {
+                path: '/forgot-password',
+                component: ForgotPassword,
+                name: 'forgot-password'
+            },
+            {
+                path: '/reset-password/:resetToken',
+                component: ResetPassword,
+                name: 'reset-password'
+            },
+            {
+                path: '/cv/show/:id',
+                component: CvShowPDF,
+                name: 'cv-show'
+            },
+            {
+                path: '/Job-manager',
+                component: JobManager,
+                name: 'job-manager'
+            },
+            {
+                path: '/Job-applied',
+                component: JobApplied,
+                name: 'job-applied'
+            },
+            {
+                path: '/:pathMatch(.*)*',
+                component: NotFound,
+                name: 'notfound'
+            },
+            {
+                path: '/Job-detail/:id',
+                component: DetailJobs,
+                name: 'job-detail'
+            },
+            {
+                path: '/View-Company/:id',
+                component: ViewCompany,
+                name: 'view-company'
+            },
+            {
+                path: '/Info-Recruitment',
+                component: RecruitmentManagement,
+                name: 'info-recruitment'
+            },
+            {
+                path: '/Jobs-Management',
+                component: JobsManagement,
+                name: 'jobs-management'
+            },
+            {
+                path: '/Add-Job',
+                component: AddJob,
+                name: 'add-job'
+            },
+            {
+                path: '/Detail-Job/:id',
+                component: DetailJobM,
+                name: 'detail-job'
+            },
+            {
+                path: '/View-User/:id',
+                component: ViewUser,
+                name: 'view-user'
+            },
+            {
+                path: '/verify-email',
+                component: UserEmailVerification,
+                name: 'verify-email'
+            },
+            {
+                path: '/contributor',
+                component: Dashboard,
+                name: 'contributor-dashboard'
+            },
+            {
+                path:'/contest-managent',
+                component: ContestManagement,
+                name: 'contest-management'
+            },
+            {
+                path:'/participation-contest/:id',
+                component: ParticipationContest,
+                name: 'participation-contest'
+            },
+            {
+                name: 'job-it',
+                path: '/job-it/:keyword',
+                component: JobIT
+            },
+            {
+                name: 'job-it-all',
+                path: '/job-it/',
+                component: JobIT
+            },
+            {
+                path: '/post/:slug',
+                component: PostPage,
+                name: 'post-page'
             }
         ]
     },
     {
-        path: '/ProfileCV',
-        component: ProfileCV,
-        name: 'code-playground-cv'
-    },
-    {
-        path: '/CvBuilder/:id',
-        component: CvBuilder,
-        name: 'cvbuilder'
-    },
-    {
-        path: '/forgot-password',
-        component: ForgotPassword,
-        name: 'forgot-password'
-    },
-    {
-        path: '/reset-password/:resetToken',
-        component: ResetPassword,
-        name: 'reset-password'
-    },
-    {
-        path: '/cv/show/:id',
-        component: CvShowPDF,
-        name: 'cv-show'
-    },
-    {
-        path: '/Job-manager',
-        component: JobManager,
-        name: 'job-manager'
-    },
-    {
-        path: '/Job-applied',
-        component: JobApplied,
-        name: 'job-applied'
-    },
-    {
-        path: '/:pathMatch(.*)*',
-        component: NotFound,
-        name: 'notfound'
-    },
-    {
-        path: '/Job-detail/:id',
-        component: DetailJobs,
-        name: 'job-detail'
-    },
-    {
-        path: '/View-Company/:id',
-        component: ViewCompany,
-        name: 'view-company'
-    },
-    {
-        path: '/Info-Recruitment',
-        component: RecruitmentManagement,
-        name: 'info-recruitment'
-    },
-    {
-        path: '/Jobs-Management',
-        component: JobsManagement,
-        name: 'jobs-management'
-    },
-    {
-        path: '/Add-Job',
-        component: AddJob,
-        name: 'add-job'
-    },
-    {
-        path: '/Detail-Job/:id',
-        component: DetailJobM,
-        name: 'detail-job'
-    },
-    {
-        path: '/View-User/:id',
-        component: ViewUser,
-        name: 'view-user'
-    },
-    {
-        path: '/verify-email',
-        component: UserEmailVerification,
-        name: 'verify-email'
-    },
-    {
-        path: '/contributor',
-        component: Dashboard,
-        name: 'contributor-dashboard'
-    },
-    {
-        path:'/contest-managent',
-        component: ContestManagement,
-        name: 'contest-management'
-    },
-    {
-        path:'/participation-contest/:id',
-        component: ParticipationContest,
-        name: 'participation-contest'
-    },
-    {
-        path: '/admin',
-        component: AdminDashboard,
-        name: 'admin-dashboard',
+        path: '/a',
+        component: AdminLayout,
         children: [
             {
-                name: 'homeAdmin',
-                path: 'home',
-                component: AdminHome
+                path: '/admin',
+                component: AdminDashboard,
+                name: 'admin-dashboard',
+                children: [
+                    {
+                        name: 'homeAdmin',
+                        path: 'home',
+                        component: AdminHome
+                    },
+                    {
+                        name: 'profileAdmin',
+                        path: 'profile',
+                        component: AdminProfile
+                    },
+                    {
+                        name: 'user-management',
+                        path: 'user',
+                        component: AdminUserM
+                    },
+                    {
+                        name: 'subscribe-company-management',
+                        path: 'subscribe/company',
+                        component: SubscribeCompanyM
+                    },
+                    {
+                        name: 'subscribe-contributor-management',
+                        path: 'subscribe/contributor',
+                        component: SubscribeContributorM
+                    }, {
+                        name: 'applications-management',
+                        path: 'applications',
+                        component: ApplicationsM
+                    },{
+                        name : 'problems-management',
+                        path: 'problems',
+                        component: ProblemsM
+                    },{
+                        name : 'contests-management',
+                        path:'contests',
+                        component: ConstestsM
+                    }
+                ]
             },
-            {
-                name: 'profileAdmin',
-                path: 'profile',
-                component: AdminProfile
-            },
-            {
-                name: 'user-management',
-                path: 'user',
-                component: AdminUserM
-            },
-            {
-                name: 'subscribe-company-management',
-                path: 'subscribe/company',
-                component: SubscribeCompanyM
-            },
-            {
-                name: 'subscribe-contributor-management',
-                path: 'subscribe/contributor',
-                component: SubscribeContributorM
-            }, {
-                name: 'applications-management',
-                path: 'applications',
-                component: ApplicationsM
-            },{
-                name : 'problems-management',
-                path: 'problems',
-                component: ProblemsM
-            },{
-                name : 'contests-management',
-                path:'contests',
-                component: ConstestsM
-            }
         ]
     },
-    {
-        name: 'job-it',
-        path: '/job-it/:keyword',
-        component: JobIT
-    },
-    {
-        name: 'job-it-all',
-        path: '/job-it/',
-        component: JobIT
-    },
-    {
-        path: '/post/:slug',
-        component: PostPage,
-        name: 'post-page'
-    }
 ]
 
 export default createRouter({
