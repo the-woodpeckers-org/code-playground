@@ -6,7 +6,8 @@
 
         <label class="flex item-center gap-2 text-gray-400 text-xl font-semibold p-3">
           <label for="">*Number job:</label>
-          <span class="text-blue-600 font-semibold">{{ this.jobList.length }}/{{ this.maxPost }}</span>
+          <span class="text-blue-600 font-semibold">    {{ this.jobList?.length ?? 0 }}/{{ this.maxPost }}
+          </span>
         </label>
         <label class="input input-bordered flex items-center gap-2">
           <input type="text" class="grow" placeholder="Search" v-model="searchQuery" @input="updateSuggestions" />
@@ -89,7 +90,7 @@ export default {
       filteredSuggestions: [],
       isLoading: false,
       isSendRequest: false,
-      maxPost: null,
+      maxPost: 5,
       isMax: false,
     };
   },
@@ -98,7 +99,7 @@ export default {
   },
   methods: {
     addJob() {
-      if (this.maxPost && this.jobList.length >= this.maxPost) {
+      if (this.maxPost && this.jobList && this.jobList.length >= this.maxPost) {
         this.isMax = true;
         return;
       }
@@ -106,8 +107,10 @@ export default {
     },
     async fetchData() {
       await HTTP.get("/api/getJobsU").then((response) => {
+        console.log(response.data);
         this.jobList = response.data.data;
         this.filteredSuggestions = this.jobList;
+
         if (response.data.maxPost) {
           this.maxPost = response.data.maxPost;
         }

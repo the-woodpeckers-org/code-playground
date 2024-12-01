@@ -11,21 +11,22 @@ class SubscriptionAttribute extends Model
     //
     use HasFactory;
     protected $fillable = [
-        'user_id',
         'subscription_name',
         'start_date',
+        'order_id',
         'end_date',
     ];
     /**
      * Get the user that owns the profile_user.
      */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+
     public function scopeActive(Builder $query)
     {
         return $query->where('end_date', '>', now());
     }
     
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

@@ -12,6 +12,7 @@ use App\Mail\MailResponseCV;
 use App\Utils\Constants\Subscription;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Order;
 use App\Utils\Constants\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -23,10 +24,18 @@ class JobRecruitmentService
         $user = $request->user();
         try{
             $jobs = JobRecruitment::where('user_id', $user->id)->get();
-            $subUser = SubscriptionAttribute::where('user_id', $user->id)->first();  
+            $order_user = Order::where('user_id', $user->id)->orderBy('id', 'desc')->first();
             $maxPost = null;
-            if($subUser->subscription_name == Subscription::FREEMIUM){
-                $maxPost = 5;
+            $subUser = null;
+            if($order_user)
+            {
+                $subUser = SubscriptionAttribute::where('order_id', $order_user->id)->first();   
+                if($subUser->subscription_name == Subscription::PREMIUM){
+                    $maxPost = Subscription::PREMIUMPOST;
+                }
+            }
+            else{
+                $maxPost = Subscription::FREEPOST;
             }
             return response()->json([
                 'status' => '200',
@@ -107,14 +116,20 @@ class JobRecruitmentService
         $user = $request->user();
         try {
              $countTemp = $user->getJobPosted()->count();
-             if(SubscriptionAttribute::where('user_id', $user->id)->first()->subscription_name == Subscription::FREEMIUM){
-                if($countTemp >= 5){
+             $order = $user->getOrderAttribute();
+
+            if($order && SubscriptionAttribute::where('order_id', $order->id)->first()->subscription_name == Subscription::PREMIUM){
+                $countTemp = Subscription::PREMIUMPOST;
+            }
+            else{
+                if($countTemp >= Subscription::FREEPOST){
                     return response()->json([
                         'status' => '400',
-                        'message' => 'You have reached the maximum number of job posts'
+                        'message' => 'You have reached the maximum number of posts'
                     ]);
                 }
-             }
+            }
+
             $company = JobRecruitment::create([
                 'user_id' => $user->id,
                 'title' =>  $request->input('job.title'),

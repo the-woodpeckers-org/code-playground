@@ -35,7 +35,7 @@ class User extends Authenticatable
     protected $appends = [
         'profileUser',
         'Cv',
-        'Subscription',
+        'Order',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -121,10 +121,9 @@ class User extends Authenticatable
         return Cv::where('user_id', $this->id)->where('isPrimary', '=', 1)->first();
     }
 
-    public function getSubscriptionAttribute()
+    public function getOrderAttribute()
     {
-        return SubscriptionAttribute::where('user_id', $this->id)->first();
+        return Order::where('user_id', $this->id)->first();
     }
-    
     
 }

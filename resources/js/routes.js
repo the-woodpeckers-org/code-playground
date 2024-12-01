@@ -49,6 +49,8 @@ const ConstestsM = () => import("@/components/pages/Admin/ContestsM.vue");
 const ContestManagement = () => import("@/components/pages/Recruitment/ContestManagement.vue");
 const ParticipationContest = () => import("@/components/pages/Recruitment/ParticipationContest.vue");
 const UpgradePlan = () => import("@/components/pages/Recruitment/UpgradePlan.vue");
+const  Checkout =()=> import("@/components/pages/Recruitment/Checkout.vue");
+
 const routes = [
     {
         path: '/u',
@@ -213,6 +215,11 @@ const routes = [
                 path: '/UpgradePlan',
                 component: UpgradePlan,
                 name: 'upgrade-plan'
+            },
+            {
+                path:'/checkout',
+                component: Checkout,
+                name: 'checkout'
             },
             {
                 path: '/Add-Job',
