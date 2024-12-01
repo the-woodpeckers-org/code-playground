@@ -26,7 +26,7 @@ export default {
         },
         async getContests(index) {
             let _this = this;
-            await HTTP.get('api//contributor/contest/?page=' + index)
+            await HTTP.get('api/contributor/contest/?page=' + index)
                 .then((response) => {
                     _this.contests = response.data.data;
                     _this.links = response.data.links;

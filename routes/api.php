@@ -120,7 +120,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //crud contributor contests
     Route::get('/contributor/contest/', [ContestController::class, 'getAllByContributor'])->name('contest.getAll');
-    
+
     Route::get('/auth/get', [AuthController::class, 'getAuthenticatedUser'])->name('auth.getAuthenticatedUser');
 
     Route::get('/contest/result', [ParticipationController::class, 'getResult'])->name('contest.getResult');
@@ -135,16 +135,21 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/approvedContest', [ContestMController::class, 'approvedContest'])->name('approvedContest');
     Route::post('/rejectContest', [ContestMController::class, 'rejectContest'])->name('rejectContest');
     Route::post('/changeRequiredContest', [ContestMController::class, 'changeRequiredContest'])->name('changeRequiredContest');
-    
+
 
     // contest Management Cruitment
     Route::get('/getContestsU',[ContestController::class, 'getContestForManage'])->name('contest.getContestForManage');
     Route::get('/getParticipantsContestU/{id}',[ParticipationController::class, 'getParticipantsContestU'])->name('contest.getParticipantsContestU');
-    
+
     // Notification
-    Route::get('/getNotification', [NotificationController::class, 'getNotification'])->name('getNotification');            
+    Route::get('/getNotification', [NotificationController::class, 'getNotification'])->name('getNotification');
     Route::post('/inviteApply',[NotificationController::class, 'sendInviteApplyNotification'])->name('sendInviteApplyNotification');
     Route::post('/isReadNotification',[NotificationController::class, 'isReadNotification'])->name('isReadNotification');
+
+    Route::post('/contest', [ContestController::class, 'createContest'])->name('contest.create');
+    Route::put('/contest', [ContestController::class, 'editContest'])->name('contest.update');
+    Route::delete('/contest', [ContestController::class, 'deleteContest'])->name('contest.delete');
+    Route::get('/contributor/contest/single', [ContestController::class, 'getContestByContributor'])->name('contest.get');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');
