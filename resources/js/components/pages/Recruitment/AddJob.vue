@@ -96,7 +96,7 @@
         <span>If you want unlimited posts, consider upgrading your plan.</span>
       </div>
       <div class="mt-6">
-        <button class="btn btn-primary" @click="upgradePlan">Upgrade Plan</button>
+        <router-link to="/UpgradePlan" class="btn btn-primary" >Upgrade Plan</router-link> 
       </div>
     </div>
   </dialog>
