@@ -183,7 +183,7 @@ export default {
                 rte_1: null,
             },
             position_number_max: null,
-            position_number_approved_count: null,
+            position_number_approved_count: 0,
             notificationNumberApproved: false,
             id_temp:null,
             isUpdated: false,
@@ -240,6 +240,7 @@ export default {
         async updateJob() {
             const data = {
                 job: {
+                    position_number: this.jobForm.position_number,
                     title: this.jobForm.title,
                     location: this.jobForm.location,
                     skill: JSON.stringify(this.selectedSkills),
@@ -248,7 +249,6 @@ export default {
                     deadline: this.jobForm.deadline,
                     description: this.jobForm.rte_1.getHTMLCode(),
                     id: this.$route.params.id
-
                 }
             };
 
@@ -263,11 +263,12 @@ export default {
             await HTTP.get(`/api/getCVsApplied/${this.$route.params.id}`).then(response => {
                 this.applications = response.data.applications;
                 for (let index = 0; index < this.applications.length; index++) {
-                    const element = this.applications[index];  // Corrected this line
-                    if (element.status === "Approved") {
+                    const element = this.applications[index]; 
+                    if (element.status === "approved") {
                         this.position_number_approved_count += 1;
                     }
                 }
+
             }).catch(error => {
                 console.error(error);
             });
@@ -284,22 +285,21 @@ export default {
                         setTimeout(() => {
                            this.isUpdated = false;
                            this.isSendRequest = false;
-                           window.location.reload();
                     }, 2000);
                 }).catch(error => {
                     console.error(error);
                 });
-            // alert("Refuse CV "+ id);
         },
         checkMaxApproved()
         {
-            return this.position_number_approved_count+1 < this.position_number_max;
+            return this.position_number_approved_count + 1 == this.position_number_max;
         },
         async approveCV(id) {
+            
+            this.isLoading= true;
             const flag = this.checkMaxApproved();
             if(flag)
             {
-                this.isLoading= true;
                 await HTTP.post('/api/approvedCV', { job_id: this.jobForm.id, cv_id: id })
                     .then(response => {
                         this.isUpdated= true;
@@ -308,7 +308,6 @@ export default {
                         setTimeout(() => {
                             this.isUpdated = false;
                             this.isSendRequest = false;
-                            window.location.reload();
                         }, 2000);
                     }).catch(error => {
                         console.error(error);
@@ -321,7 +320,9 @@ export default {
         },
         async approveCVUpdate()
         {
+            this.notificationNumberApproved= false;
             this.isLoading= true;
+            
             const numberUpdate = this.position_number_max + 1;
             await HTTP.post('/api/approvedCVUpdate', { job_id: this.jobForm.id, cv_id: this.id_temp, numberUpdate: numberUpdate})
                     .then(response => {
@@ -329,10 +330,9 @@ export default {
                         this.isLoading=false;
                         this.fetchDataListCV();
                         this.isUpdated= true;
-                        setTimeout(() => {
+                           setTimeout(() => {
                            this.isUpdated = false;
                             this.isSendRequest = false;
-                            window.location.reload();
                     }, 2000);
                     }).catch(error => {
                         console.error(error);
@@ -341,6 +341,7 @@ export default {
         cancelNotification()
         {
             this.notificationNumberApproved = false;
+            this.isLoading=false;
         }
     }
 };

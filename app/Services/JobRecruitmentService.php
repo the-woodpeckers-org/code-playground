@@ -52,22 +52,21 @@ class JobRecruitmentService
     public function updateJob(Request $request)
     {
         try {
-            $id = $request->input('job.id');
+         
             $job = JobRecruitment::find($request->input('job.id'));
-
             $job->title = $request->input('job.title');
             $job->description = $request->input('job.description');
             $job->skill = $request->input('job.skill');
             $job->description = $request->input('job.description');
             $job->location = $request->input('job.location');
-            $job->negotiable = $request->input('job.negotiable');
-            if ($request->input('job.negotiable') == 'true') {
-                $job->negotiable = true;
-                $job->salary = 0;
+            $job->position_number = $request->input('job.position_number');
+            $job->negotiable = filter_var($request->input('job.negotiable'), FILTER_VALIDATE_BOOLEAN);
+            if ($job->negotiable) {
+                $job->salary = 0; 
             } else {
-                $job->negotiable = false;
                 $job->salary = $request->input('job.salary');
             }
+            
             $job->deadline = $request->input('job.deadline');
             $job->save();
             return response()->json([
