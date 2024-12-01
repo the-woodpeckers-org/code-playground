@@ -11,9 +11,7 @@
             <h3 class="text-lg font-bold">Notification</h3>
             <p class="py-4">
                 <span class="font-semibold">Type:</span> {{ data.type }}
-                <p></p>
                 <span class="font-semibold">Message:</span> {{ data.message }}
-                <p></p>
                 <span class="font-semibold">Form: </span> {{ data.fid }}
             </p>
         </div>

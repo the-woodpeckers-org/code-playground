@@ -41,8 +41,8 @@ export default {
                 setTimeout(() => {
                     _this.$router.push('/');
                     window.location.reload();
+                    _this.isLoggingIn = false;
                 }, 2000);
-                _this.isLoggingIn = false;
             }).catch(function (error) {
                 console.log(error)
                 if (error.response.data.errors) {
