@@ -155,6 +155,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     // checkout register premium
+    Route::get('/orders', [OrderController::class, 'getOrders'])->name('getOrders');
     Route::post('/checkout', [OrderController::class, 'registerPremium'])->name('registerPremium');
 });
 

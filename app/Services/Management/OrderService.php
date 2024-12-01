@@ -50,4 +50,21 @@ class OrderService
             ]);
         }
     }
+
+    public function getOrders(Request $request)
+    {
+        $user = $request->user();
+        try {
+            $orders = Order::where('user_id', $user->id)->get();
+            return response()->json([
+                'status' => '200',
+                'data' => $orders,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => '400',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
