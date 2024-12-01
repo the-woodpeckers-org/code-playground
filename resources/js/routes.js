@@ -50,7 +50,7 @@ const ContestManagement = () => import("@/components/pages/Recruitment/ContestMa
 const ParticipationContest = () => import("@/components/pages/Recruitment/ParticipationContest.vue");
 const UpgradePlan = () => import("@/components/pages/Recruitment/UpgradePlan.vue");
 const  Checkout =()=> import("@/components/pages/Recruitment/Checkout.vue");
-
+const OrderHistory = () => import("@/components/pages/Recruitment/OrderHistory.vue");
 const routes = [
     {
         path: '/u',
@@ -220,6 +220,11 @@ const routes = [
                 path:'/checkout',
                 component: Checkout,
                 name: 'checkout'
+            },
+            {
+                path:'/order-history',
+                component: OrderHistory,
+                name: 'order-history'
             },
             {
                 path: '/Add-Job',

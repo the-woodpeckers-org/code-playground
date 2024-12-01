@@ -17,4 +17,8 @@ class OrderController
     {
         return $this->service->registerPremium($request);
     }
+    public function getOrders(Request $request)
+    {
+        return $this->service->getOrders($request);
+    }
 }
