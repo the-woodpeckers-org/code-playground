@@ -15,35 +15,38 @@
         <div class="flex-1 gap-10">
             <router-link class="text-xl" to="/">
                 <img src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726071143/CP-Photoroom_1_vl6kzc.png"
-                    class="h-12">
+                     class="h-12">
             </router-link>
             <div class="hidden lg:flex space-x-4">
                 <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
-                    class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
                     Contests
                 </router-link>
                 <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
-                    class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden" to="/courses">
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden"
+                             to="/courses">
                     Courses
                 </router-link>
                 <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
-                    class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden" to="/challenges">
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden"
+                             to="/challenges">
                     Challenges
                 </router-link>
                 <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
-                    class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
                     Problems
                 </router-link>
                 <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
-                    class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
                     Career
                 </router-link>
                 <router-link to="/Info-Recruitment" v-if="getAuth() && getAuth().role == Role.Company"
-                    class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl">
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl">
                     Recruitment Profile
                 </router-link>
                 <router-link v-if="getAuth() && (getAuth().role == Role.Contributor || getAuth().role == Role.Company)"
-                    class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor">
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl"
+                             to="/contributor">
                     Contributor
                 </router-link>
             </div>
@@ -51,8 +54,8 @@
         <div class="lg:hidden items-center">
             <button @click="OpenMenu" class="text-white focus:outline-none hover:bg-gray-600 transition rounded-3xl">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
                 </svg>
             </button>
         </div>
@@ -62,9 +65,10 @@
                     <span class="relative flex h-3 w-3">
                         <!-- Hiệu ứng animate-ping chỉ xuất hiện nếu unRead > 0 -->
                         <span v-if="this.unRead > 0"
-                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75">
+                              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75">
                         </span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500">
+                        <span class="relative inline-flex rounded-full h-3 w-3"
+                              :class="{'bg-sky-500': this.unRead > 0}">
                             <i class="fa-regular fa-bell text-xl"></i>
                         </span>
                         <!-- Hiển thị số lượng thông báo chưa đọc -->
@@ -74,7 +78,7 @@
                     </span>
                 </div>
                 <div tabindex="0"
-                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow">
+                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow">
                     <h2 class="p-3 border-b text-md">Notifications</h2>
                     <div class="grid grid-cols-1 w-full h-2/6 overflow-y-scroll p-2">
                         <Notification v-for="(item, index) in this.notifications" :key="index" :data="item">
@@ -89,17 +93,18 @@
             <div class="dropdown dropdown-end">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
                     <div class="w-10 rounded-full">
-                        <img v-if="$root.auth" alt="Avatar" :src="$root.auth.avatar_url" loading="lazy" />
+                        <img v-if="$root.auth" alt="Avatar" :src="$root.auth.avatar_url" loading="lazy"/>
                         <img v-if="!$root.auth" alt="Avatar"
-                            src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
-                            loading="lazy">
+                             src="https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+                             loading="lazy">
                     </div>
                 </div>
                 <ul tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                     <li v-if="$root.auth">
                         <router-link class="text-base" :to="'/profile/' + $root.auth.id"
-                            :key="$route.fullPath">Profile</router-link>
+                                     :key="$route.fullPath">Profile
+                        </router-link>
                     </li>
                     <li v-if="$root.auth" onclick="confirm_logout_modal.showModal()">
                         <p class="text-base">Logout</p>
@@ -131,7 +136,7 @@
             Career
         </router-link>
         <router-link to="/Info-Recruitment"
-            class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">
+                     class="text-stone-700 text-sm md:text-lg lg:text-xl font-semibold lg:hover:text-2xl">
         </router-link>
         <router-link to="/Info-Recruitment" class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl">
             Info Recruitment Profile
@@ -155,21 +160,21 @@
             </div>
             <div class="flex justify-center">
                 <img src="https://res.cloudinary.com/ddgnrqr3j/image/upload/v1732898177/b0yiiiemh70zwsxua4bf.png"
-                    alt="Image" class="block max-w-full h-auto">
+                     alt="Image" class="block max-w-full h-auto">
             </div>
         </div>
     </dialog>
 
 </template>
 <script setup>
-import { getAuth } from "@/utils/authLocalStorage.js";
-import { Role } from "@/utils/roles.js";
-import { HTTP } from '@/http-common.js'
+import {getAuth} from "@/utils/authLocalStorage.js";
+import {Role} from "@/utils/roles.js";
+import {HTTP} from '@/http-common.js'
 import Notification from "@/components/notifications/Notification.vue";
 </script>
 <script>
-import { getAuth } from "@/utils/authLocalStorage.js";
-import { th } from "date-fns/locale";
+import {getAuth} from "@/utils/authLocalStorage.js";
+import {th} from "date-fns/locale";
 
 export default {
     components: {
@@ -178,7 +183,7 @@ export default {
     async mounted() {
         await this.getNotifications();
         console.log(this.auth);
-        if (this.auth.role == 'company' && this.auth.Subscription.subscription_name=='freemium') {
+        if (this.auth.role == 'company' && this.auth.Subscription.subscription_name == 'freemium') {
             this.$refs.advertise_modal.showModal();
         }
     },
@@ -204,9 +209,6 @@ export default {
         },
         OpenMenu() {
             this.isMenuOpen = !this.isMenuOpen;
-        },
-        show_Notification() {
-            alert("Notification");
         },
         async getNotifications() {
             await HTTP.get('/api/getNotification').then((response) => {
