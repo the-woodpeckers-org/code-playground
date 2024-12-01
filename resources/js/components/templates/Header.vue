@@ -59,6 +59,11 @@
                              >
                       Premium
                 </router-link>
+                <router-link  v-if="getAuth() && this.auth.role == Role.Company"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl"
+                             to="/order-history">
+                     Order History
+                </router-link>
             </div>
         </div>
         <div class="lg:hidden items-center">
@@ -90,7 +95,7 @@
                 <div tabindex="0"
                      class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow">
                     <h2 class="p-2 border-b text-md">Notifications</h2>
-                    <div class="grid grid-cols-1 w-full h-2/6 overflow-y-scroll p-2">
+                    <div class="grid grid-cols-1 w-full h-[400px] overflow-y-scroll p-2">
                         <Notification v-for="(item, index) in this.notifications" :key="index" :data="item">
                         </Notification>
                         <p v-if="this.notifications.length === 0">You have no notifications!</p>
