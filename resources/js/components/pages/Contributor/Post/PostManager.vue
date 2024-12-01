@@ -65,8 +65,8 @@ export default {
                     <th></th>
                     <td>{{ post.title }}</td>
                     <td>{{ getDate(post.created_at) }}</td>
-                    <td>
-                        <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg">Go to</button>
+                    <td class="inline-flex">
+                        <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg">Go&nbsp;to</button>
                         <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="showEdit(post.id)">Edit</button>
                         <button class="bg-red-300 px-3 py-1 mx-1 hover:bg-red-500 rounded-lg"
                                 @click="showConfirmDelete(post.id, post.title)">Delete

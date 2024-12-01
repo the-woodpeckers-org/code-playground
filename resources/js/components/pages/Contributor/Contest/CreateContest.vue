@@ -1,9 +1,13 @@
 <script>
 import Multiselect from 'vue-multiselect';
+import testcase from "@/components/listItems/Testcase.vue";
+import {HTTP} from "@/http-common.js";
+import Toast from "@/components/messages/Toast.vue";
 
 export default {
     name: "CreateContest",
     components: {
+        Toast,
         Multiselect
     },
     data: () => {
@@ -11,6 +15,8 @@ export default {
             // Component attributes
             isCreating: false,
             isEditing: false,
+            isCreated: false,
+            isEdited: false,
             editingId: -1,
             rte: null,
             editor: null,
@@ -19,13 +25,23 @@ export default {
             description: '',
             start_date: '28/11/2024 05:00 AM',
             end_date: '28/11/2024 05:00 AM',
-            tags: '',
+            tags: [],
             imgUrl: '',
             // Contest problems
             problems: [
                 {
                     id: '000000',
-                    existed: false
+                    title: '',
+                    description: '',
+                    difficulty: 'Easy',
+                    languages: [],
+                    testcases: [
+                        {
+                            id: '000000',
+                            stdin: '',
+                            expected_result: '',
+                        },
+                    ],
                 }
             ],
             // Contest status
@@ -35,6 +51,9 @@ export default {
 
     },
     methods: {
+        testcase() {
+            return testcase
+        },
         // refs calling
         showCreate() {
             this.resetData();
@@ -47,7 +66,7 @@ export default {
             this.isCreating = false;
             this.isEditing = true;
             this.editingId = id;
-            this.getContestData();
+            this.getContestData(id);
         },
         closeCreate() {
             this.isCreating = false;
@@ -56,11 +75,48 @@ export default {
             this.isEditing = false;
             this.editingId = -1;
         },
-        getContestData() {
-
+        getContestData(id) {
+            let _this = this;
+            HTTP.get('api/contributor/contest/single?id=' + id)
+                .then((response) => {
+                    console.log(response);
+                    _this.title = response.data.title;
+                    _this.description = response.data.description;
+                    _this.start_date = response.data.start_date;
+                    _this.end_date = response.data.end_date;
+                    _this.problems = response.data.problems;
+                    for (let i = 0; i < response.data.problems.length; ++i) {
+                        let array = [];
+                        for (let j = 0; j < response.data.problems[i].languages.length; ++j) {
+                            array.push(response.data.problems[i].languages[j].name);
+                            _this.problems[i].languages = array;
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         createContest() {
-
+            let _this = this;
+            const data = {
+                title: this.title,
+                description: this.description,
+                imgUrl: '',
+                start_date: this.start_date,
+                end_date: this.end_date,
+                tags: this.tags,
+                problems: this.problems
+            }
+            console.log(data);
+            HTTP.post('api/contest', data)
+                .then((response) => {
+                    _this.isCreated = true;
+                    _this.resetData();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         updateContest() {
 
@@ -70,10 +126,22 @@ export default {
             this.description = '';
             this.start_date = '28-11-2024';
             this.end_date = '28-11-2024';
-            this.tags = '';
+            this.tags = [];
             this.imgUrl = '';
             this.problems = [
-                {}
+                {
+                    title: '',
+                    description: '',
+                    difficulty: 'Easy',
+                    languages: [],
+                    testcases: [
+                        {
+                            id: '000000',
+                            stdin: '',
+                            expected_output: '',
+                        },
+                    ],
+                }
             ];
         },
         removeProblem(id) {
@@ -88,7 +156,20 @@ export default {
                 document.getElementById(id + 'cb1').checked = !document.getElementById(id + 'cb2').checked;
             this.problems[this.problems.findIndex(obj => obj.id == id)].existed = document.getElementById(id + 'cb1').checked ? true : false;
             console.log(this.problems[this.problems.findIndex(obj => obj.id == id)]);
-        }
+        },
+        addTestcase(id) {
+            this.problems[id].testcases.push({
+                id: Math.random().toString(7),
+                stdin: '',
+                expected_output: ''
+            });
+        },
+        removeTestcase(id, testcaseId) {
+            this.problems[id].testcases = this.problems[id].testcases.filter((item) => {
+                return item.id !== testcaseId;
+            })
+        },
+
     }
 }
 </script>
@@ -127,7 +208,7 @@ export default {
                     <p>Maximum problems: {{problems.length}}/5</p>
                 </div>
                 <div class="col-span-full flex flex-col gap-3 relative ">
-                    <div v-for="problem in problems" class="w-full min-h-20 border border-gray-400 rounded-xl collapse lobster">
+                    <div v-for="(problem, index) in problems" class="w-full min-h-20 border border-gray-400 rounded-xl collapse lobster">
                         <input type="checkbox">
                         <div class="collapse-title text-xl font-medium">Problem</div>
                         <div class="collapse-content">
@@ -139,10 +220,38 @@ export default {
                                 <input @change="checkBoxChange(problem.id, 'cb2')" :id="problem.id + 'cb2'" type="checkbox" class="checkbox" checked>
                                 <label>Create new problem</label>
                             </div>
+                            <div>
+                                <label>Title</label>
+                                <input v-model="problem.title" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                <label>Difficulty</label>
+                                <select v-model="problem.difficulty" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                    <option value="Easy">Easy</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Hard">Hard</option>
+                                </select>
+                                <label>Languages</label>
+                                <Multiselect v-model="problem.languages" :options="['C', 'C++', 'Python', 'PHP', 'JavaScript']" :multiple="true"
+                                             class="h-8 w-full"></Multiselect>
+                                <label>Description</label>
+                                <textarea v-model="problem.description" class="w-full border h-40 rounded-lg border-gray-400 px-3"></textarea>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="border border-gray-300 rounded-lg p-1 h-32 relative lobster" v-for="testcase in problem.testcases">
+                                        <label>stdin</label>
+                                        <input v-model="testcase.stdin" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                        <label>expected_output</label>
+                                        <input v-model="testcase.expected_output" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                        <p v-if="problem.testcases.length > 1" class="absolute bg-red-400 px-1.5 rounded-full top-1 end-1 text-white hover:bg-red-600 cursor-pointer" @click="removeTestcase(index, testcase.id)">X</p>
+                                    </div>
+                                    <div @click="addTestcase(index)" class="border border-gray-300 rounded-lg p-1 h-32 hover:bg-base-300 flex cursor-pointer">
+                                        <span class="text-5xl m-auto"><i class="fa-solid fa-plus"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                         <button v-if="problems.length > 1" class="absolute top-1 end-1 bg-red-500 rounded-xl px-1.5 text-white z-10 hover:bg-red-700" @click="removeProblem(problem.id)">X</button>
                     </div>
-                    <div v-if="problems.length < 5" @click="problems.push({id: Math.random()})"
+                    <div v-if="problems.length < 5" @click="problems.push({id: Math.random().toString(7), title: '', description: '', difficulty: '', languages: [], testcases: [ { id: Math.random().toString(7), stdin: '', expected_output: ''}], existed: false})"
                          class="w-full h-20 border border-gray-400 rounded-xl hover:bg-base-300 transition cursor-pointer flex">
                         <span class="text-5xl m-auto"><i class="fa-solid fa-plus"></i></span>
                     </div>
@@ -150,7 +259,7 @@ export default {
             </div>
             <div class="w-full modal-action">
                 <form method="dialog">
-                    <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="closeCreate()">
+                    <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="createContest()">
                         Create
                     </button>
                     <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg" @click="closeCreate()">
@@ -170,8 +279,9 @@ export default {
                 </div>
                 <div>
                     <label>Tags</label>
-                    <Multiselect v-model="tags" :options="['Hackathon', 'Speed', 'Holy fuck']" :multiple="true"
-                                 class="h-8 w-full"></Multiselect>
+                    <Multiselect v-model="tags"
+                                 :options="['Hackathon', 'Speed', 'Cyanide', 'Aspire', 'HiTec', 'CodeForce']"
+                                 :multiple="true" class="h-8 w-full"></Multiselect>
                 </div>
                 <div class="col-span-full">
                     <label>Description</label>
@@ -180,14 +290,70 @@ export default {
                 </div>
                 <div>
                     <label>Start date</label>
-                    <input type="datetime-local" class="rounded-lg border border-gray-400 h-8 w-full">
+                    <input v-model="start_date" type="datetime-local"
+                           class="rounded-lg border border-gray-400 h-8 w-full">
                     <label class="mt-3">End date</label>
-                    <input type="datetime-local" class="rounded-lg border border-gray-400 h-8 w-full">
+                    <input v-model="end_date" type="datetime-local"
+                           class="rounded-lg border border-gray-400 h-8 w-full">
+                </div>
+                <div class="col-span-full">
+                    <div class="divider"></div>
+                    <p class="font-semibold text-lg">Problems</p>
+                    <p>Maximum problems: {{problems.length}}/5</p>
+                </div>
+                <div class="col-span-full flex flex-col gap-3 relative ">
+                    <div v-for="(problem, index) in problems" class="w-full min-h-20 border border-gray-400 rounded-xl collapse lobster">
+                        <input type="checkbox">
+                        <div class="collapse-title text-xl font-medium">Problem</div>
+                        <div class="collapse-content">
+                            <div class="flex gap-x-2">
+                                <input @change="checkBoxChange(problem.id, 'cb1')" :id="problem.id + 'cb1'" type="checkbox" class="checkbox">
+                                <label>Choose existed problem</label>
+                            </div>
+                            <div class="flex gap-x-2 mt-2">
+                                <input @change="checkBoxChange(problem.id, 'cb2')" :id="problem.id + 'cb2'" type="checkbox" class="checkbox" checked>
+                                <label>Create new problem</label>
+                            </div>
+                            <div>
+                                <label>Title</label>
+                                <input v-model="problem.title" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                <label>Difficulty</label>
+                                <select v-model="problem.difficulty" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                    <option value="Easy">Easy</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Hard">Hard</option>
+                                </select>
+                                <label>Languages</label>
+                                <Multiselect v-model="problem.languages" :options="['C', 'C++', 'Python', 'PHP', 'JavaScript']" :multiple="true"
+                                             class="h-8 w-full"></Multiselect>
+                                <label>Description</label>
+                                <textarea v-model="problem.description" class="w-full border h-40 rounded-lg border-gray-400 px-3"></textarea>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="border border-gray-300 rounded-lg p-1 h-32 relative lobster" v-for="testcase in problem.testcases">
+                                        <label>stdin</label>
+                                        <input v-model="testcase.stdin" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                        <label>expected_result</label>
+                                        <input v-model="testcase.expected_output" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                        <p v-if="problem.testcases.length > 1" class="absolute bg-red-400 px-1.5 rounded-full top-1 end-1 text-white hover:bg-red-600 cursor-pointer" @click="removeTestcase(index, testcase.id)">X</p>
+                                    </div>
+                                    <div @click="addTestcase(index)" class="border border-gray-300 rounded-lg p-1 h-32 hover:bg-base-300 flex cursor-pointer">
+                                        <span class="text-5xl m-auto"><i class="fa-solid fa-plus"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <button v-if="problems.length > 1" class="absolute top-1 end-1 bg-red-500 rounded-xl px-1.5 text-white z-10 hover:bg-red-700" @click="removeProblem(problem.id)">X</button>
+                    </div>
+                    <div v-if="problems.length < 5" @click="problems.push({id: Math.random().toString(7), title: '', description: '', difficulty: '', languages: [], testcases: [ { id: Math.random().toString(7), stdin: '', expected_output: ''}], existed: false})"
+                         class="w-full h-20 border border-gray-400 rounded-xl hover:bg-base-300 transition cursor-pointer flex">
+                        <span class="text-5xl m-auto"><i class="fa-solid fa-plus"></i></span>
+                    </div>
                 </div>
             </div>
             <div class="w-full modal-action">
                 <form method="dialog">
-                    <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="closeEdit()">
+                    <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="updateContest()">
                         Create
                     </button>
                     <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg" @click="closeEdit()">
@@ -197,6 +363,7 @@ export default {
             </div>
         </div>
     </dialog>
+    <Toast v-if="isCreated" :toastData="{ type: 'success', message: 'Create contest successfully!'}"></Toast>
 </template>
 
 <style scoped>
