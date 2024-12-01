@@ -17,6 +17,8 @@ use App\Models\Testcase;
 use App\Models\User;
 use App\Models\SubscriptionAttribute;
 use App\Utils\Constants\Role;
+use App\Models\Order;   
+use App\Utils\Constants\Subscription;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -744,10 +746,16 @@ class DatabaseSeeder extends Seeder
         $company1->status = 'approved';
         $company1->save();
 
+        $order_company1 = new Order();
+        $order_company1->user_id = $company1->id;
+        $order_company1->total = Subscription::PRICE;
+        $order_company1->save();
+
         SubscriptionAttribute::create([
-            'user_id' => $company1->id,
-            'subscription_name' => 'freemium'
+            'order_id' => $order_company1->id,
+            'subscription_name' => Subscription::PREMIUM
         ]);
+        
         $profile_company1 = new ProfileCompany();
         $profile_company1->user_id = $company1->id;
         $profile_company1->description = 'Google is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware.';
@@ -769,10 +777,19 @@ class DatabaseSeeder extends Seeder
         $company2->status = 'approved';
         $company2->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company2->save();
+
+        $order_company2 = new Order();
+        $order_company2->user_id = $company2->id;
+        $order_company2->total = Subscription::PRICE;
+        $order_company2->save();
+        
         SubscriptionAttribute::create([
-            'user_id' => $company2->id,
-            'subscription_name' => 'freemium'
+            'order_id' => $order_company2->id,
+            'subscription_name' => Subscription::PREMIUM
         ]);
+
+
+
         $profile_company2 = new ProfileCompany();
         $profile_company2->user_id = $company2->id;
         $profile_company2->description = 'Facebook is an American online social media and social networking service company based in Menlo Park, California.';
@@ -793,10 +810,17 @@ class DatabaseSeeder extends Seeder
         $company3->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company3->save();
 
+        $order_company3 = new Order();
+        $order_company3->user_id = $company3->id;
+        $order_company3->total = Subscription::PRICE;
+        $order_company3->save();
+
+
         SubscriptionAttribute::create([
-            'user_id' => $company3->id,
-            'subscription_name' => 'freemium'
+            'order_id' => $order_company3->id,
+            'subscription_name' => Subscription::PREMIUM
         ]);
+
         $profile_company3 = new ProfileCompany();
         $profile_company3->user_id = $company3->id;
         $profile_company3->description = 'Amazon.com, Inc. is an American multinational technology company which focuses on e-commerce, cloud computing, digital streaming, and artificial intelligence.';
@@ -817,9 +841,15 @@ class DatabaseSeeder extends Seeder
         $company4->status = 'approved';
         $company4->save();
 
+        $order_company4 = new Order();
+        $order_company4->user_id = $company4->id;
+        $order_company4->total = Subscription::PRICE;
+        $order_company4->save();
+
+
         SubscriptionAttribute::create([
-            'user_id' => $company4->id,
-            'subscription_name' => 'freemium'
+            'order_id' => $order_company4->id,
+            'subscription_name' => Subscription::PREMIUM
         ]);
 
         $profile_company4 = new ProfileCompany();
@@ -842,9 +872,15 @@ class DatabaseSeeder extends Seeder
         $company5->status = 'approved';
         $company5->save();
 
+        $order_company5 = new Order();
+        $order_company5->user_id = $company5->id;
+        $order_company5->total = Subscription::PRICE;
+        $order_company5->save();
+
+
         SubscriptionAttribute::create([
-            'user_id' => $company5->id,
-            'subscription_name' => 'freemium'
+            'order_id' => $order_company5->id,
+            'subscription_name' => Subscription::PREMIUM
         ]);
 
         $profile_company5 = new ProfileCompany();

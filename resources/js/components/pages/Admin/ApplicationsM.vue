@@ -63,6 +63,7 @@ export default {
         async getApplications() {
             await HTTP.get('/api/getListSubscribeJobRecruitment').then(response => {
                 this.applications = response.data.data;
+                console.log(this.applications);
             }).catch(error => {
                 console.log(error);
             });

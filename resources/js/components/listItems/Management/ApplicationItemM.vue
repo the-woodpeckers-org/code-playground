@@ -1,16 +1,19 @@
 <template>
-    <tr class="text-pretty text-md md:text-sm lg:text-lg border-b border-gray-500">
-        <td>{{ detailJob.user.name }}</td>
-        <td>{{ detailJob.title }}</td>
-        <td> <a @click="showDetailModal"
-                class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300">
-                <i class="fa-regular fa-eye"></i>
-            </a></td>
-        <td>{{ detailJob.status }}</td>
-        <td @click="toggleOptions">
-            <i class="fa-solid fa-ellipsis-vertical hover:text-red-500"></i>
-        </td>
-    </tr>
+  <tr :class="{'bg-gradient-to-tr from-cyan-300 to-purple-300': detailJob.user.Order.length>0 , 'text-pretty': true, 'text-md': true, 'md:text-sm': true, 'lg:text-lg': true, 'border-b': true, 'border-gray-500': true}">
+    <td>{{ detailJob.user.name }}</td>
+    <td>{{ detailJob.title }}</td>
+    <td> 
+        <a @click="showDetailModal"
+           class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300">
+           <i class="fa-regular fa-eye"></i>
+        </a>
+    </td>
+    <td>{{ detailJob.status }}</td>
+    <td @click="toggleOptions">
+        <i class="fa-solid fa-ellipsis-vertical hover:text-red-500"></i>
+    </td>
+</tr>
+
     <tr v-if="showOptions" class="bg-gray-50">
         <td colspan="5">
             <ul class="text-sm">
@@ -245,7 +248,8 @@ export default {
     name: "ApplicationItemM",
     props: {
         id: String,
-        detailJob: {}
+        detailJob: {},
+
     },
     methods: {
         toggleOptions() {
@@ -279,4 +283,3 @@ export default {
 };
 </script>
 
-<style></style>

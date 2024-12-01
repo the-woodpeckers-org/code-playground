@@ -66,47 +66,52 @@
             <div v-if="job.isEnded" class="flex w-full flex-wrap grap-4 md:w-[32.38%]">
                 <div
                     class=" w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14">
-                    <h2 class="flex justify-center p-3">This job is ended. See you next time!</h2>  
+                    <h2 class="flex justify-center p-3">This job is ended. See you next time!</h2>
                 </div>
             </div>
-            <div v-else class="flex w-full flex-wrap gap-4 md:w-[32.38%]" id="tabMnf2" v-if="!isApplied">
-                <button id="applyCV"
-                    class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
-                    data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
-                    data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1"
-                    onclick="applyShow.showModal()">Apply
-                    now
-                </button>
-                <button id="createTopdevCV" type="button"
-                    class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full"
-                    @click="createCV"><span>Create CV to apply</span></button>
-                <section class="w-full bg-white">
-                    <h2 class="p-4 text-lg font-bold text-gray-500">General information</h2>
-                    <div class="flex flex-col self-stretch border-t border-gray-200 p-4">
-                        <div class="flex flex-wrap">
-                            <div v-html="this.profileCompany.general_information"></div>
-                        </div>
+            <div v-else class=" md:w-[32.38%]" id="tabMnf2">
+                <div v-if="!isApplied" class="flex w-full flex-wrap gap-4">
+                    <button id="applyCV"
+                        class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
+                        data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
+                        data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1"
+                        onclick="applyShow.showModal()">Apply
+                        now
+                    </button>
+                    <button id="createTopdevCV" type="button"
+                        class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full"
+                        @click="createCV"><span>Create CV to apply</span></button>
+                    <section class="w-full bg-white">
+                        <h2 class="p-4 text-lg font-bold text-gray-500">General information</h2>
+                        <div class="flex flex-col self-stretch border-t border-gray-200 p-4">
+                            <div class="flex flex-wrap">
+                                <div v-html="this.profileCompany.general_information"></div>
+                            </div>
 
-                    </div>
-                </section>
-            </div>
-            <div class="flex w-full flex-wrap gap-4 md:w-[32.38%]" id="tabMnf2" v-else>
-                <button id="applyCV"
-                    class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
-                    data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
-                    data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1">You was applied
-                </button>
-                <button id="createTopdevCV" type="button"
-                    class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full hover:bg-red-500 hover:text-white"
-                    form="" onclick="ConfirmCancelApply.showModal()"><span class="">Cancel applied</span></button>
-                <section class="w-full bg-white">
-                    <h2 class="p-4 text-lg font-bold text-gray-500">General information</h2>
-                    <div class="flex flex-col self-stretch border-t border-gray-200 p-4">
-                        <div class="flex flex-wrap">
-                            <div v-html="this.profileCompany.general_information"></div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+
+                </div>
+                <div v-else class="flex w-full flex-wrap gap-4">
+                    <button id="applyCV"
+                        class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
+                        data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
+                        data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1">You was
+                        applied
+                    </button>
+
+                    <button id="createTopdevCV" type="button"
+                        class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full hover:bg-red-500 hover:text-white"
+                        form="" onclick="ConfirmCancelApply.showModal()"><span class="">Cancel applied</span></button>
+                    <section class="w-full bg-white">
+                        <h2 class="p-4 text-lg font-bold text-gray-500">General information</h2>
+                        <div class="flex flex-col self-stretch border-t border-gray-200 p-4">
+                            <div class="flex flex-wrap">
+                                <div v-html="this.profileCompany.general_information"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
 
@@ -117,7 +122,6 @@
             <p class="py-4 text-base">You are applying at the position: {{ this.job.location }}</p>
             <form @submit.prevent="ApplyCV">
                 <div class="lg:flex lg:flex-col">
-
                     <div class="grid sm:grid-cols-1 md:grid lg:grid-cols-6 gap-4">
                         <div class="col-span-1">
                             <h2 class="font-semibold">Information</h2>
@@ -182,6 +186,26 @@
         </div>
     </dialog>
 
+    <dialog v-if="isSendRequest" id="login_modal" class="modal modal-open">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+            <p class="py-4 font-semibold">Send request successfully!</p>
+        </div>
+    </dialog>
+    <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="isLoading">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span class="loading loading-spinner loading-lg">
+                </span>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import { HTTP } from "@/http-common.js";
@@ -203,7 +227,8 @@ export default {
             id_CV: '',
             isApplied: false,
             userCompany: {},
-
+            isLoading: false,
+            isSendRequest: false
         }
     },
     name: "DetailJobs",
@@ -259,6 +284,7 @@ export default {
             });
         },
         async ApplyCV() {
+            applyShow.close();
             let _this = this;
             this.id_CV = document.querySelector('select[name="cv"]').value;
             const job = {
@@ -266,30 +292,38 @@ export default {
                 cv_id: this.id_CV,
                 letter: this.letter
             }
-            console.log(job);
+            this.isLoading = true;
             await HTTP.post('/api/applyCV', job).then(response => {
                 console.log(response.data)
                 HTTP.get(`/api/isApplied/${this.$route.params.id}`).then(response => {
-                    console.log(response.data)
                     _this.isApplied = response.data.isApplied;
-                    console.log(this.isApplied)
+                    _this.isLoading = false;
+                    _this.isSendRequest = true;
+                    setTimeout(() => {
+                        _this.isSendRequest = false;
+                    }, 2000);
                 }).catch(error => {
                     console.log(error)
                 });
             }).catch(error => {
                 console.log(error)
             });
-            applyShow.close();
+            ConfirmCancelApply.close();
         },
 
         async cancelApply() {
             let _this = this;
+            this.isLoading = true;
             await HTTP.get(`/api/cancelApply/${this.$route.params.id}`).then(response => {
                 console.log(response.data)
                 HTTP.get(`/api/isApplied/${this.$route.params.id}`).then(response => {
-                    console.log(response.data)
                     _this.isApplied = response.data.isApplied;
-                    console.log(this.isApplied)
+                    _this.isLoading = false;
+                    _this.isSendRequest = true;
+                    setTimeout(() => {
+                        _this.isSendRequest = false;
+                    }, 2000);
+
                 }).catch(error => {
                     console.log(error)
                 });

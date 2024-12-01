@@ -8,4 +8,5 @@ class Status
     const APPROVED  = "approved";
     const REJECTED  = "rejected";
     const ACTIVE = "active";
+    const PAID ="paid";
 }
