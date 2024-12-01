@@ -79,10 +79,11 @@
                 </div>
                 <div tabindex="0"
                      class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow">
-                    <h2 class="p-3 border-b text-md">Notifications</h2>
+                    <h2 class="p-2 border-b text-md">Notifications</h2>
                     <div class="grid grid-cols-1 w-full h-2/6 overflow-y-scroll p-2">
                         <Notification v-for="(item, index) in this.notifications" :key="index" :data="item">
                         </Notification>
+                        <p v-if="this.notifications.length === 0">You have no notifications!</p>
                     </div>
                 </div>
             </div>
