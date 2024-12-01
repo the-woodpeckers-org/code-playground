@@ -3,6 +3,11 @@
     <NavigatorRecruitment></NavigatorRecruitment>
     <div class="container bg-base-100 p-3">
       <div class="container">
+        <label class="flex item-center gap-2 text-gray-400 text-xl font-semibold p-3">
+          <label for="">*Number job:</label>
+          <span class="text-blue-600 font-semibold">    {{ this.jobList?.length ?? 0 }}/{{ this.maxPost }}
+          </span>
+        </label>
         <label class="input input-bordered flex items-center gap-2">
           <input type="text" class="grow" placeholder="Search" v-model="searchQuery" @input="updateSuggestions" />
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-4 w-4 opacity-70">
@@ -46,20 +51,19 @@
   </div>
 
   <dialog v-if="isMax" class="modal modal-open">
-  <div class="modal-box text-center overflow-hidden">
-    <h3 class="text-lg font-bold"></h3>
-    <div class="w-full text-center text-xl text-green-600 animate-jump-in">
-      <span>You have reached the maximum number of posts</span>
+    <div class="modal-box text-center overflow-hidden">
+      <h3 class="text-lg font-bold"></h3>
+      <div class="w-full text-center text-xl text-green-600 animate-jump-in">
+        <span>You have reached the maximum number of posts</span>
+      </div>
+      <div class="w-full text-center text-lg text-gray-700 mt-4">
+        <span>If you want unlimited posts, consider upgrading your plan.</span>
+      </div>
+      <div class="mt-6">
+        <button class="btn btn-primary" @click="upgradePlan">Upgrade Plan</button>
+      </div>
     </div>
-    <div class="w-full text-center text-lg text-gray-700 mt-4">
-      <span>If you want unlimited posts, consider upgrading your plan.</span>
-    </div>
-    <div class="mt-6">
-      <button class="btn btn-primary" @click="upgradePlan">Upgrade Plan</button>
-    </div>
-  </div>
-</dialog>
-
+  </dialog>
 </template>
 
 <script setup>
@@ -85,8 +89,9 @@ export default {
       filteredSuggestions: [],
       isLoading: false,
       isSendRequest: false,
-      maxPost: null,
-      isMax:false,
+      maxPost: 5,
+      isMax: false,
+      registeredSub: false,
     };
   },
   async mounted() {
@@ -94,7 +99,7 @@ export default {
   },
   methods: {
     addJob() {
-      if(this.maxPost && this.jobList.length >= this.maxPost) {
+      if (this.maxPost && this.jobList && this.jobList.length >= this.maxPost) {
         this.isMax = true;
         return;
       }
@@ -102,10 +107,16 @@ export default {
     },
     async fetchData() {
       await HTTP.get("/api/getJobsU").then((response) => {
+        console.log(response.data);
         this.jobList = response.data.data;
         this.filteredSuggestions = this.jobList;
+
         if (response.data.maxPost) {
           this.maxPost = response.data.maxPost;
+        }
+        if(response.data.registeredSub)
+        {
+          this.registeredSub = true;
         }
       });
     },
@@ -122,6 +133,9 @@ export default {
           item.title.toLowerCase().includes(query)
         );
       }
+    },
+    upgradePlan() {
+      this.router.push({ name: "upgrade-plan" });
     },
   },
 };

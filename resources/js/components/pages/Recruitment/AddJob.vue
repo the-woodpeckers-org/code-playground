@@ -76,6 +76,7 @@
             </div>
         </form>
     </div>
+    
     <div v-else class="text-center">
         <div class="h-10">
         </div>
@@ -84,6 +85,21 @@
         <p class="text-3xl my-6">Please wait for review!</p>
         <p class="text-xl my-6">Check the mail regularly, as we will send the results through it</p>
     </div>
+
+    <dialog v-if="isMax" class="modal modal-open">
+    <div class="modal-box text-center overflow-hidden">
+      <h3 class="text-lg font-bold"></h3>
+      <div class="w-full text-center text-xl text-green-600 animate-jump-in">
+        <span>You have reached the maximum number of posts</span>
+      </div>
+      <div class="w-full text-center text-lg text-gray-700 mt-4">
+        <span>If you want unlimited posts, consider upgrading your plan.</span>
+      </div>
+      <div class="mt-6">
+        <router-link to="/UpgradePlan" class="btn btn-primary" >Upgrade Plan</router-link> 
+      </div>
+    </div>
+  </dialog>
 </template>
 
 <script>
@@ -104,6 +120,7 @@ export default {
                 rte_1: null,
             },
             result: null,
+            isMax: false,
         };
     },
     mounted() {
@@ -129,6 +146,10 @@ export default {
                 console.log(response.data);
                 if (response.data.status === '200') {
                     this.result = response.data.message;
+                    return;
+                }
+                if(response.data.status === '5900') {
+                    this.isMax = true;
                     return;
                 }
             }).catch(error => {

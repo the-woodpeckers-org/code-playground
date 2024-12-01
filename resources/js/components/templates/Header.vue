@@ -49,6 +49,16 @@
                              to="/contributor">
                     Contributor
                 </router-link>
+                <router-link v-if="getAuth() && this.auth.role == Role.Company && this.auth.Order.length == 0"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl"
+                             to="/UpgradePlan">
+                   Upgrade Plan
+                </router-link>
+                <router-link v-if="getAuth() && this.auth.role == Role.Company && this.auth.Order.length>0"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl animate-pulse"
+                             >
+                      Premium
+                </router-link>
             </div>
         </div>
         <div class="lg:hidden items-center">
@@ -160,8 +170,10 @@
                 <i class="fa-solid fa-x"></i>
             </div>
             <div class="flex justify-center">
-                <img src="https://res.cloudinary.com/ddgnrqr3j/image/upload/v1732898177/b0yiiiemh70zwsxua4bf.png"
-                     alt="Image" class="block max-w-full h-auto">
+                <router-link  to="/UpgradePlan">
+                    <img src="https://res.cloudinary.com/ddgnrqr3j/image/upload/v1732898177/b0yiiiemh70zwsxua4bf.png"
+                        alt="Image" class="block max-w-full h-auto">
+                 </router-link>
             </div>
         </div>
     </dialog>
@@ -174,8 +186,7 @@ import {HTTP} from '@/http-common.js'
 import Notification from "@/components/notifications/Notification.vue";
 </script>
 <script>
-import {getAuth} from "@/utils/authLocalStorage.js";
-import {th} from "date-fns/locale";
+import { getAuth } from "@/utils/authLocalStorage.js";
 
 export default {
     components: {
@@ -184,7 +195,8 @@ export default {
     async mounted() {
         await this.getNotifications();
         console.log(this.auth);
-        if (this.auth.role == 'company' && this.auth.Subscription.subscription_name == 'freemium') {
+        if(this.auth.role== Role.Company && this.auth.Order.length == 0)
+        {
             this.$refs.advertise_modal.showModal();
         }
     },
@@ -195,6 +207,7 @@ export default {
             isLoggedOut: false,
             notifications: [],
             unRead: 0,
+            isRemind: false,
         }
     },
     methods: {
@@ -225,7 +238,7 @@ export default {
         },
         closeAdvertise() {
             this.$refs.advertise_modal.close();
-        }
+        },
     },
 
 }

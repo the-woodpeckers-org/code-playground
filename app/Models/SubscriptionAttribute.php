@@ -5,27 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-
+use Carbon\Carbon;
 class SubscriptionAttribute extends Model
 {
     //
     use HasFactory;
     protected $fillable = [
-        'user_id',
         'subscription_name',
         'start_date',
-        'end_date',
+        'order_id',
     ];
     /**
      * Get the user that owns the profile_user.
      */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+
     public function scopeActive(Builder $query)
     {
-        return $query->where('end_date', '>', now());
+        return $query->where('end_date', '>', Carbon::now());
     }
-    
 }

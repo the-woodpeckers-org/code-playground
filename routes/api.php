@@ -20,6 +20,8 @@ use App\Http\Controllers\Api\Management\JobRecruitmentMController;
 use App\Http\Controllers\Api\Management\ProblemMController;
 use App\Http\Controllers\Api\Management\ContestMController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\Management\OrderController;  
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -150,6 +152,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/contest', [ContestController::class, 'editContest'])->name('contest.update');
     Route::delete('/contest', [ContestController::class, 'deleteContest'])->name('contest.delete');
     Route::get('/contributor/contest/single', [ContestController::class, 'getContestByContributor'])->name('contest.get');
+
+
+    // checkout register premium
+    Route::post('/checkout', [OrderController::class, 'registerPremium'])->name('registerPremium');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');

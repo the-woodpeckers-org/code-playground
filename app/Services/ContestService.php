@@ -52,7 +52,7 @@ class ContestService
                 'created_by' => $contest->user,
                 'created_at' => $contest->created_at,
                 'imgUrl' => $contest->imgUrl,
-                'patition' => $contest->participation,
+                'participation' => $contest->participation,
                 'change_required' => $contest->change_required,
             ];
             array_push($detailContests, $detailContest);

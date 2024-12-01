@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Application;
 use App\Models\JobRecruitment;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -35,7 +36,8 @@ class User extends Authenticatable
     protected $appends = [
         'profileUser',
         'Cv',
-        'Subscription',
+        'Order',
+        'IsRemind',
     ];
     /**
      * The attributes that should be hidden for serialization.
@@ -80,7 +82,7 @@ class User extends Authenticatable
         return [
             'language_stats' => LanguageStat::where('user_id', $this->id)->join('languages', 'languages.id', '=', 'language_stats.language_id')->get(),
             'category_stats' => CategoryStat::where('user_id', $this->id)->join('categories', 'categories.id', '=', 'category_stats.category_id')->get(),
-            ];
+        ];
     }
 
     public function getJobApplied()
@@ -121,10 +123,34 @@ class User extends Authenticatable
         return Cv::where('user_id', $this->id)->where('isPrimary', '=', 1)->first();
     }
 
-    public function getSubscriptionAttribute()
+    public function getOrderAttribute()
     {
-        return SubscriptionAttribute::where('user_id', $this->id)->first();
+        return Order::where('user_id', $this->id)->get();
     }
-    
-    
+
+    // Kiểm tra xem công ty này đã từng đăng ký dịch vụ premium chưa
+    // để thực hiện việc nhắc nhở đăng ký gia hạn
+    // Nếu có ít nhất 1 đơn hàng nào đó đã từng đăng ký dịch vụ premium
+    // và còn hạn sử dụng ít hơn 5 ngày so với thời điểm hiện tại
+    // thì trả về true, ngược lại trả về false
+    public function getIsRemindAttribute()
+    {
+        $orders = Order::where('user_id', $this->id)->get();
+        if ($orders->isEmpty()) {
+            return false;
+        } else {
+            foreach ($orders as $order) {
+                $subscription = SubscriptionAttribute::where('order_id', $order->id)
+                    ->where('end_date', '>', Carbon::now()) 
+                    ->first();
+                if ($subscription) {
+                    $daysRemaining = Carbon::now()->diffInDays($subscription->end_date);
+                    if ($daysRemaining <= 5 && $daysRemaining > 0) {
+                        return true; 
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

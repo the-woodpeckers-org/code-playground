@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 import UserLayout from "@/components/templates/UserLayout/UserLayout.vue";
 import AdminLayout from "@/components/templates/AdminLayout/AdminLayout.vue";
 const ContestRanking = () => import("@/components/pages/Contest/ContestRanking.vue");
@@ -48,6 +48,9 @@ const ProblemsM = () => import("@/components/pages/Admin/ProblemsM.vue");
 const ConstestsM = () => import("@/components/pages/Admin/ContestsM.vue");
 const ContestManagement = () => import("@/components/pages/Recruitment/ContestManagement.vue");
 const ParticipationContest = () => import("@/components/pages/Recruitment/ParticipationContest.vue");
+const UpgradePlan = () => import("@/components/pages/Recruitment/UpgradePlan.vue");
+const  Checkout =()=> import("@/components/pages/Recruitment/Checkout.vue");
+
 const routes = [
     {
         path: '/u',
@@ -209,6 +212,16 @@ const routes = [
                 name: 'jobs-management'
             },
             {
+                path: '/UpgradePlan',
+                component: UpgradePlan,
+                name: 'upgrade-plan'
+            },
+            {
+                path:'/checkout',
+                component: Checkout,
+                name: 'checkout'
+            },
+            {
                 path: '/Add-Job',
                 component: AddJob,
                 name: 'add-job'
@@ -234,12 +247,12 @@ const routes = [
                 name: 'contributor-dashboard'
             },
             {
-                path:'/contest-managent',
+                path: '/contest-managent',
                 component: ContestManagement,
                 name: 'contest-management'
             },
             {
-                path:'/participation-contest/:id',
+                path: '/participation-contest/:id',
                 component: ParticipationContest,
                 name: 'participation-contest'
             },
@@ -297,13 +310,13 @@ const routes = [
                         name: 'applications-management',
                         path: 'applications',
                         component: ApplicationsM
-                    },{
-                        name : 'problems-management',
+                    }, {
+                        name: 'problems-management',
                         path: 'problems',
                         component: ProblemsM
-                    },{
-                        name : 'contests-management',
-                        path:'contests',
+                    }, {
+                        name: 'contests-management',
+                        path: 'contests',
                         component: ConstestsM
                     }
                 ]
@@ -316,6 +329,6 @@ export default createRouter({
     history: createWebHistory(),
     routes,
     scrollBehavior() {
-        document.getElementById('app').scrollIntoView({behavior: 'smooth'});
+        document.getElementById('app').scrollIntoView({ behavior: 'smooth' });
     }
 })
