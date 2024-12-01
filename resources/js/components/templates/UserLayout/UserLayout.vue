@@ -1,9 +1,9 @@
 <script>
 import Header from "@/components/templates/Header.vue";
-
+import Footer from "@/components/templates/Footer.vue";
 export default {
     name: "UserLayout",
-    components: {Header}
+    components: {Header, Footer}
 }
 </script>
 
