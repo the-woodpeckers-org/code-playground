@@ -12,6 +12,7 @@ use App\mail\MailSendRequestChange;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailResponseReview;
 use App\Models\Notification;
+use Carbon\Carbon;
 use Mockery\Matcher\Not;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
@@ -19,31 +20,55 @@ class JobRecruitmentMService
 {
   public function getListSubscribeJobRecruitment()
   {
-    $jobs = JobRecruitment::all()->where('status','!=', Status::APPROVED);
-    $detailJobs = [];
-    foreach ($jobs as $job) {
-      $detailJobs[] = [
-        'id' => $job->id,
-        'user'=> $job->user,
-        'title' => $job->title,
-        'description' => $job->description,
-        'status' => $job->status,
-        'skill' => $job->skill,
-        'location' => $job->location,
-        'salary' => $job->salary,
-        'negotiable' => $job->negotiable,
-        'position_number' => $job->position_number, 
-        'deadline' => $job->deadline,
-        'change_required' => $job->change_required,
-        'created_at' => $job->created_at,
-        'updated_at' => $job->updated_at
-      ];
-    }
-    return response()->json([
-      'status' => '200',
-      'data' => $detailJobs,
-      'message' => 'Get list job recruitment successfully'
-    ]);
+      $jobs = JobRecruitment::all()->where('status', '!=', Status::APPROVED);
+      $detailJobs = [];
+  
+      foreach ($jobs as $job) {
+          $user = $job->user;
+          $activeSubscription = $user->Order->map(function ($order) {
+              return $order->Subscription; 
+          })->filter(function ($subscription) {
+              return $subscription && $subscription->end_date > Carbon::now(); 
+          })->first();
+          // code sort job by subscription name
+          $subscriptionName = $activeSubscription ? $activeSubscription->subscription_name : null;
+          $detailJobs[] = [
+              'id' => $job->id,
+              'user' => $user,
+              'title' => $job->title,
+              'description' => $job->description,
+              'status' => $job->status,
+              'skill' => $job->skill,
+              'location' => $job->location,
+              'salary' => $job->salary,
+              'negotiable' => $job->negotiable,
+              'position_number' => $job->position_number,
+              'deadline' => $job->deadline,
+              'change_required' => $job->change_required,
+              'created_at' => $job->created_at,
+              'updated_at' => $job->updated_at,
+              'subscription_name' => $subscriptionName, // Add subscription name for sorting
+          ];
+      }
+  
+      usort($detailJobs, function ($a, $b) {
+          if ($a['subscription_name'] === null && $b['subscription_name'] === null) {
+              return 0;
+          }
+          if ($a['subscription_name'] === null) {
+              return 1; 
+          }
+          if ($b['subscription_name'] === null) {
+              return -1; 
+          }
+          return strcmp($a['subscription_name'], $b['subscription_name']);
+      });
+  
+      return response()->json([
+          'status' => '200',
+          'data' => $detailJobs,
+          'message' => 'Get list job recruitment successfully'
+      ]);
   }
 
   public function approvedJob($id)

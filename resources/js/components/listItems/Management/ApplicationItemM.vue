@@ -1,24 +1,28 @@
 <template>
-  <tr :class="{'bg-gradient-to-tr from-cyan-300 to-purple-300': detailJob.user.Order.length>0 , 'text-pretty': true, 'text-md': true, 'md:text-sm': true, 'lg:text-lg': true, 'border-b': true, 'border-gray-500': true}">
-    <td>{{ detailJob.user.name }}</td>
-    <td>{{ detailJob.title }}</td>
-    <td> 
-        <a @click="showDetailModal"
-           class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300">
-           <i class="fa-regular fa-eye"></i>
-        </a>
-    </td>
-    <td>{{ detailJob.status }}</td>
-    <td @click="toggleOptions">
-        <i class="fa-solid fa-ellipsis-vertical hover:text-red-500"></i>
-    </td>
-</tr>
+    <tr
+        :class="{ 'text-pretty': true, 'text-md': true, 'md:text-sm': true, 'lg:text-lg': true, 'border-b': true, 'border-gray-500': true }">
+        <td :class="{ 'text-[#ff289e6b] text-md font-bold': detailJob.user.Order.length > 0 }">{{ detailJob.user.name }}
+        </td>
+        <td>{{ detailJob.title }}</td>
+        <td>
+            <a @click="showDetailModal"
+                class="text-sm md:text-xl lg:text-2xl hover:text-blue-600 hover:scale-110 transition duration-300">
+                <i class="fa-regular fa-eye"></i>
+            </a>
+        </td>
+        <td>{{ detailJob.status }}</td>
+        <td @click="toggleOptions">
+            <i class="fa-solid fa-ellipsis-vertical hover:text-red-500"></i>
+        </td>
+    </tr>
+
 
     <tr v-if="showOptions" class="bg-gray-50">
         <td colspan="5">
             <ul class="text-sm">
                 <li @click="showModalConfirmStatusReject" class="px-4 py-2 hover:bg-red-100 cursor-pointer">Reject</li>
-                <li @click="showModalConfirmStatusApproved" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Approved</li>
+                <li @click="showModalConfirmStatusApproved" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Approved
+                </li>
                 <li @click="request_change_ShowModal" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Request
                     change</li>
             </ul>
@@ -91,7 +95,8 @@
                         <div v-if="detailJob.negotiable" class="mb-6">
                             <div class="mb-6">
                                 <label class="block text-gray-600 font-semibold mb-2">Negotiable</label>
-                                 <input type="checkbox" class="checkbox checkbox-accent" :checked="detailJob.negotiable" disabled/>
+                                <input type="checkbox" class="checkbox checkbox-accent" :checked="detailJob.negotiable"
+                                    disabled />
                             </div>
                         </div>
                         <div class="mb-6" v-else>
@@ -177,7 +182,8 @@
                         <div v-if="detailJob.negotiable" class="mb-6">
                             <div class="mb-6">
                                 <label class="block text-gray-600 font-semibold mb-2">Negotiable</label>
-                                 <input type="checkbox" class="checkbox checkbox-accent" :checked="detailJob.negotiable" disabled />
+                                <input type="checkbox" class="checkbox checkbox-accent" :checked="detailJob.negotiable"
+                                    disabled />
                             </div>
                         </div>
                         <div class="mb-6" v-else>
@@ -186,7 +192,7 @@
                                     class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                     disabled="" v-model="detailJob.salary"></div>
                         </div>
-                      
+
                         <div class="mb-6">
                             <label class="block text-gray-600 font-semibold mb-2">Email</label>
                             <div class="relative w-full"><input
@@ -195,7 +201,8 @@
                         </div>
                         <div class="mb-6">
                             <label class="block text-gray-600 font-semibold mb-2">Request Change</label>
-                            <textarea class="relative w-full block border" v-model="detailJob.change_required"></textarea>
+                            <textarea class="relative w-full block border"
+                                v-model="detailJob.change_required"></textarea>
                         </div>
                         <div class="flex justify-center space-x-6 mt-8 ">
                             <button type="button" class="btn btn-secondary" @click="closeProfile">Cancel</button>
@@ -213,7 +220,8 @@
             <p class="py-4 text-base">Are you sure you want approved it?</p>
             <div class="modal-action">
                 <form method="dialog">
-                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="$emit('approved', id)">Yes</button>
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
+                        @click="$emit('approved', id)">Yes</button>
                     <button class="btn btn-sm m-1 border">No</button>
                 </form>
             </div>
@@ -226,7 +234,8 @@
             <p class="py-4 text-base">Are you sure you want reject it?</p>
             <div class="modal-action">
                 <form method="dialog">
-                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500" @click="$emit('reject', id)">Yes</button>
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
+                        @click="$emit('reject', id)">Yes</button>
                     <button class="btn btn-sm m-1 border">No</button>
                 </form>
             </div>
@@ -237,7 +246,7 @@
 
 <script>
 export default {
-    emits: ['reject', 'approved','request_changed_required'],
+    emits: ['reject', 'approved', 'request_changed_required'],
     data() {
         return {
             showOptions: false,
@@ -282,4 +291,3 @@ export default {
     },
 };
 </script>
-
