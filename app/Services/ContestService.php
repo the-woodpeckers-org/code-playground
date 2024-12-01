@@ -12,6 +12,7 @@ use App\Models\ProblemTag;
 use App\Models\Testcase;
 use Illuminate\Http\Request;
 use App\Utils\Constants\Status;
+use Illuminate\Support\Carbon;
 
 class ContestService
 {
@@ -27,7 +28,7 @@ class ContestService
 
     public function getForLanding()
     {
-        return Contest::orderBy("created_at", "desc")->where('status', '=', Status::ACTIVE)->limit(3)->get();
+        return Contest::orderBy("created_at", "desc")->where('status', '=', Status::ACTIVE)->where('end_date', '>', Carbon::now())->limit(3)->get();
     }
 
     public function getAllByContributor(Request $request)
