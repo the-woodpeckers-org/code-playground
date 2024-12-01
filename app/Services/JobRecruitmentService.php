@@ -107,7 +107,14 @@ class JobRecruitmentService
         $user = $request->user();
         try {
              $countTemp = $user->getJobPosted()->count();
-
+             if(SubscriptionAttribute::where('user_id', $user->id)->first()->subscription_name == Subscription::FREEMIUM){
+                if($countTemp >= 5){
+                    return response()->json([
+                        'status' => '400',
+                        'message' => 'You have reached the maximum number of job posts'
+                    ]);
+                }
+             }
             $company = JobRecruitment::create([
                 'user_id' => $user->id,
                 'title' =>  $request->input('job.title'),

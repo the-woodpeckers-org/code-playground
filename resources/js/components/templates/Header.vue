@@ -154,8 +154,10 @@
                 <i class="fa-solid fa-x"></i>
             </div>
             <div class="flex justify-center">
-                <img src="https://res.cloudinary.com/ddgnrqr3j/image/upload/v1732898177/b0yiiiemh70zwsxua4bf.png"
-                    alt="Image" class="block max-w-full h-auto">
+                <a href="/UpgradePlan">
+                    <img src="https://res.cloudinary.com/ddgnrqr3j/image/upload/v1732898177/b0yiiiemh70zwsxua4bf.png"
+                        alt="Image" class="block max-w-full h-auto">
+                </a>
             </div>
         </div>
     </dialog>
@@ -169,7 +171,6 @@ import Notification from "@/components/notifications/Notification.vue";
 </script>
 <script>
 import { getAuth } from "@/utils/authLocalStorage.js";
-import { th } from "date-fns/locale";
 
 export default {
     components: {
@@ -205,9 +206,6 @@ export default {
         OpenMenu() {
             this.isMenuOpen = !this.isMenuOpen;
         },
-        show_Notification() {
-            alert("Notification");
-        },
         async getNotifications() {
             await HTTP.get('/api/getNotification').then((response) => {
                 this.notifications = response.data.notifications;
@@ -222,7 +220,7 @@ export default {
         },
         closeAdvertise() {
             this.$refs.advertise_modal.close();
-        }
+        },
     },
 
 }
