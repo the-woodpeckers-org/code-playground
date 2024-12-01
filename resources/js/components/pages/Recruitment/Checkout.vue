@@ -11,7 +11,7 @@
         </p>
       </div>
 
-      <form class="mt-8 space-y-6" action="#" method="POST">
+      <!-- <form class="mt-8 space-y-6" action="#" method="POST">
         <input type="hidden" name="remember" value="true">
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
@@ -52,14 +52,53 @@
             Complete Purchase
           </button>
         </div>
-      </form>
+      </form> -->
+      <button @click="Upgrade" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-full text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+              <svg class="h-5 w-5 text-blue-500 group-hover:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+              </svg>
+            </span>
+            Complete Purchase
+          </button>
     </div>
   </div>
+  <dialog class="modal modal-open" v-if="isUpdated">
+    <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+            <p class="py-4 font-semibold">Upgrade Premium successfully!</p>
+        </div>
+  </dialog>
 </template>
 
 <script>
+import {HTTP} from '@/http-common.js'
 export default {
-  name: 'UpgradePremiumCheckout'
+  name: 'UpgradePremiumCheckout',
+    data: function () {
+        return {
+            isUpdated: false
+        }
+    },
+  methods: {
+    async Upgrade()
+    {
+      await HTTP.post('/api/checkout').then(response => {
+        console.log(response);
+        if(response.data.status == 'success')
+        {
+          this.isUpdated= true;
+        }
+      }).catch(error => {
+        console.log(error);
+      });   
+    }
+  }
 }
 </script>
 

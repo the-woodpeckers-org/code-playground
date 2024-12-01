@@ -14,7 +14,6 @@ class SubscriptionAttribute extends Model
         'subscription_name',
         'start_date',
         'order_id',
-        'end_date',
     ];
     /**
      * Get the user that owns the profile_user.
