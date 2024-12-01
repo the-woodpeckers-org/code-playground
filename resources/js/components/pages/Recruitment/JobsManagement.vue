@@ -3,7 +3,6 @@
     <NavigatorRecruitment></NavigatorRecruitment>
     <div class="container bg-base-100 p-3">
       <div class="container">
-
         <label class="flex item-center gap-2 text-gray-400 text-xl font-semibold p-3">
           <label for="">*Number job:</label>
           <span class="text-blue-600 font-semibold">    {{ this.jobList?.length ?? 0 }}/{{ this.maxPost }}
@@ -92,6 +91,7 @@ export default {
       isSendRequest: false,
       maxPost: 5,
       isMax: false,
+      registeredSub: false,
     };
   },
   async mounted() {
@@ -113,6 +113,10 @@ export default {
 
         if (response.data.maxPost) {
           this.maxPost = response.data.maxPost;
+        }
+        if(response.data.registeredSub)
+        {
+          this.registeredSub = true;
         }
       });
     },

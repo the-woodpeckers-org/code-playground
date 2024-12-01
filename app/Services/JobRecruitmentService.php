@@ -22,51 +22,49 @@ class JobRecruitmentService
     public function getJobsU(Request $request)
     {
         $user = $request->user();
-        try{
+        try {
             $jobs = JobRecruitment::where('user_id', $user->id)->get();
             $order_user = Order::where('user_id', $user->id)->orderBy('id', 'desc')->first();
             $maxPost = null;
             $subUser = null;
-            if($order_user)
-            {
-                $subUser = SubscriptionAttribute::where('order_id', $order_user->id)->first();   
-                if($subUser->subscription_name == Subscription::PREMIUM){
+            if ($order_user) {
+                $subUser = SubscriptionAttribute::where('order_id', $order_user->id)->where('end_date', '>', Carbon::now())->first();
+                if ($subUser && $subUser->subscription_name == Subscription::PREMIUM) {
                     $maxPost = Subscription::PREMIUMPOST;
                 }
-            }
-            else{
+            } else {
                 $maxPost = Subscription::FREEPOST;
             }
+
             return response()->json([
                 'status' => '200',
                 'data' => $jobs,
                 'maxPost' => $maxPost,
-                'subUser' => $subUser
+                'subUser' => $subUser,
             ]);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => '400',
                 'message' => $e->getMessage()
             ]);
         }
-       
     }
     public function updateJob(Request $request)
     {
-        try{
+        try {
             $id = $request->input('job.id');
-           $job = JobRecruitment::find($request->input('job.id'));
-           
+            $job = JobRecruitment::find($request->input('job.id'));
+
             $job->title = $request->input('job.title');
             $job->description = $request->input('job.description');
             $job->skill = $request->input('job.skill');
             $job->description = $request->input('job.description');
-            $job->location =$request->input('job.location');
+            $job->location = $request->input('job.location');
             $job->negotiable = $request->input('job.negotiable');
-            if($request->input('job.negotiable') == 'true'){
+            if ($request->input('job.negotiable') == 'true') {
                 $job->negotiable = true;
-                $job->salary = 0 ;
-            }else{
+                $job->salary = 0;
+            } else {
                 $job->negotiable = false;
                 $job->salary = $request->input('job.salary');
             }
@@ -76,7 +74,7 @@ class JobRecruitmentService
                 'status' => '200',
                 'data' => $job
             ]);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => '400',
                 'message' => $e->getMessage()
@@ -85,14 +83,14 @@ class JobRecruitmentService
     }
     public function deleteJob($id)
     {
-        try{
+        try {
             $job = JobRecruitment::find($id);
             $job->delete();
             return response()->json([
                 'status' => '200',
                 'message' => 'Job deleted'
             ]);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => '400',
                 'message' => $e->getMessage()
@@ -115,21 +113,25 @@ class JobRecruitmentService
     {
         $user = $request->user();
         try {
-             $countTemp = $user->getJobPosted()->count();
-             $order = $user->getOrderAttribute();
+            $countTemp = $user->getJobPosted()->count();
+            $countMax = null;            
+            $order = Order::where('user_id', $user->id)->orderBy('id', 'desc')->first();
+            if ($order) {
 
-            if($order && SubscriptionAttribute::where('order_id', $order->id)->first()->subscription_name == Subscription::PREMIUM){
-                $countTemp = Subscription::PREMIUMPOST;
-            }
-            else{
-                if($countTemp >= Subscription::FREEPOST){
+                if (SubscriptionAttribute::where('order_id', $order->id)->first()) {
+                    $countMax = Subscription::PREMIUMPOST;
+                }
+            } else {
+                $countMax = Subscription::FREEPOST;
+                if ($countTemp >= $countMax) {
                     return response()->json([
-                        'status' => '400',
-                        'message' => 'You have reached the maximum number of posts'
+                        'status' => '5900',
+                        'message' => 'You have reached the maximum number of job posts',
+                        'order' => $order
                     ]);
                 }
             }
-
+            
             $company = JobRecruitment::create([
                 'user_id' => $user->id,
                 'title' =>  $request->input('job.title'),
@@ -141,11 +143,10 @@ class JobRecruitmentService
                 'position_number' =>  $request->input('job.position_number'),
                 'deadline' =>  $request->input('job.deadline'),
             ]);
-            if($request->input('job.negotiable') == 'true'){
+            if ($request->input('job.negotiable') == 'true') {
                 $company->negotiable = true;
-                $company->salary = 0 ;
-            }
-            else{
+                $company->salary = 0;
+            } else {
                 $company->negotiable = false;
                 $company->salary = $request->input('job.salary');
             }
@@ -154,7 +155,8 @@ class JobRecruitmentService
                 'status' => '200',
                 'message' => 'Create job successfully',
                 'data' => $company,
-                'countTemp' => $countTemp
+                'countTemp' => $countMax,
+                'order' => $order
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -165,14 +167,14 @@ class JobRecruitmentService
     }
     public function getCVsApplied($id)
     {
-       $applications = Application::where('job_id', $id)->get();
-       $cvs = $applications->pluck('cv')->flatten();
-       $user_cv =$applications->pluck('cv')->flatten()->pluck('user')->flatten();
-       return response()->json([
-           'status' => '200',
-           'applications' => $applications,
-           'user_cvs' => $user_cv
-       ]);
+        $applications = Application::where('job_id', $id)->get();
+        $cvs = $applications->pluck('cv')->flatten();
+        $user_cv = $applications->pluck('cv')->flatten()->pluck('user')->flatten();
+        return response()->json([
+            'status' => '200',
+            'applications' => $applications,
+            'user_cvs' => $user_cv
+        ]);
     }
     public function refuseCV(Request $request)
     {
@@ -184,9 +186,9 @@ class JobRecruitmentService
         Mail::to($application->cv->user->email)->send(new MailResponseCV($application->cv->user, $application->job->user->getCompany()->first()->user, $application->job, Status::REJECTED));
         Notification::create([
             'user_id' => $application->cv->user->id,
-            'message' => 'Your CV has been refused by '.$application->job->user->getCompany()->first()->user->name .' with Job '.$application->job->title,
+            'message' => 'Your CV has been refused by ' . $application->job->user->getCompany()->first()->user->name . ' with Job ' . $application->job->title,
             'type' => 'Refuse CV',
-            'fid'=> $application->job->user->getCompany()->first()->user->id,
+            'fid' => $application->job->user->getCompany()->first()->user->id,
             'is_read' => false
         ]);
         return response()->json([
@@ -202,9 +204,9 @@ class JobRecruitmentService
         Mail::to($application->cv->user->email)->send(new MailResponseCV($application->cv->user, $application->job->user->getCompany()->first()->user, $application->job, Status::APPROVED));
         Notification::create([
             'user_id' => $application->cv->user->id,
-            'message' => 'Your CV has been approved by '.$application->job->user->getCompany()->first()->user->name .' with Job '.$application->job->title,
+            'message' => 'Your CV has been approved by ' . $application->job->user->getCompany()->first()->user->name . ' with Job ' . $application->job->title,
             'type' => 'Approved CV',
-            'fid'=> $application->job->user->getCompany()->first()->user->id,
+            'fid' => $application->job->user->getCompany()->first()->user->id,
             'is_read' => false
         ]);
         return response()->json([
@@ -216,7 +218,7 @@ class JobRecruitmentService
     public function approvedCVUpdate(Request $request)
     {
         $application = Application::where('job_id', $request->input('job_id'))->where('cv_id', $request->input('cv_id'))->first();
-        $job = JobRecruitment::where('id','=',$request->input('job_id'))->first();
+        $job = JobRecruitment::where('id', '=', $request->input('job_id'))->first();
         $job->position_number = $request->input('numberUpdate');
         $job->save();
         $application->status = Status::APPROVED;
@@ -225,9 +227,9 @@ class JobRecruitmentService
         Mail::to($application->cv->user->email)->send(new MailResponseCV($application->cv->user, $application->job->user->getCompany()->first()->user, $application->job, Status::APPROVED));
         Notification::create([
             'user_id' => $application->cv->user->id,
-            'message' => 'Your CV has been approved by '.$application->job->user->getCompany()->first()->user->name .' with Job '.$application->job->title,
+            'message' => 'Your CV has been approved by ' . $application->job->user->getCompany()->first()->user->name . ' with Job ' . $application->job->title,
             'type' => 'Approved CV',
-            'fid'=> $application->job->user->getCompany()->first()->user->id,
+            'fid' => $application->job->user->getCompany()->first()->user->id,
             'is_read' => false
         ]);
         return response()->json([
@@ -235,6 +237,4 @@ class JobRecruitmentService
             'message' => 'Approved CV successfully'
         ]);
     }
-
-    
 }

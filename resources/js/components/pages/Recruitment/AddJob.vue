@@ -148,8 +148,9 @@ export default {
                     this.result = response.data.message;
                     return;
                 }
-                if(response.data.status === '400') {
+                if(response.data.status === '5900') {
                     this.isMax = true;
+                    return;
                 }
             }).catch(error => {
                 console.error(error);

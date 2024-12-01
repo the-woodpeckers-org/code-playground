@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-
+use Carbon\Carbon;
 class SubscriptionAttribute extends Model
 {
     //
@@ -22,11 +22,6 @@ class SubscriptionAttribute extends Model
 
     public function scopeActive(Builder $query)
     {
-        return $query->where('end_date', '>', now());
-    }
-    
-    public function order()
-    {
-        return $this->belongsTo(Order::class);
+        return $query->where('end_date', '>', Carbon::now());
     }
 }

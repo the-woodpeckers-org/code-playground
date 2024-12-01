@@ -49,11 +49,16 @@
                              to="/contributor">
                     Contributor
                 </router-link>
-                <!-- <router-link v-if="getAuth() && (this.auth.role == 'company' && this.auth.Subscription.subscription_name == 'freemium')"
+                <router-link v-if="getAuth() && this.auth.role == Role.Company && this.auth.Order.length == 0"
                              class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl"
                              to="/UpgradePlan">
                    Upgrade Plan
-                </router-link> -->
+                </router-link>
+                <router-link v-if="getAuth() && this.auth.role == Role.Company && this.auth.Order.length>0"
+                             class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl animate-pulse"
+                             >
+                      Premium
+                </router-link>
             </div>
         </div>
         <div class="lg:hidden items-center">
@@ -189,9 +194,10 @@ export default {
     async mounted() {
         await this.getNotifications();
         console.log(this.auth);
-        // if (this.auth.role == 'company' && this.auth.Subscription.subscription_name == 'freemium') {
-        //     this.$refs.advertise_modal.showModal();
-        // }
+        if(this.auth.role== Role.Company && this.auth.Order.length == 0)
+        {
+            this.$refs.advertise_modal.showModal();
+        }
     },
     data: function () {
         return {
@@ -200,6 +206,7 @@ export default {
             isLoggedOut: false,
             notifications: [],
             unRead: 0,
+            isRemind: false,
         }
     },
     methods: {

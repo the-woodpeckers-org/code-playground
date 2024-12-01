@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Carbon\Carbon;
 class Order extends Model
 {
     //
@@ -18,6 +18,8 @@ class Order extends Model
 
     public function getSubscriptionAttribute()
     {
-        return $this->hasOne(SubscriptionAttribute::class, 'order_id', 'id')->where('end_date', '<', now());
+        return SubscriptionAttribute::where('order_id', $this->id)->where('end_date', '>', Carbon::now())->first();
     }
+
+
 }
