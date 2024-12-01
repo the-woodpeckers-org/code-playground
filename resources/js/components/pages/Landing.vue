@@ -39,6 +39,7 @@ export default {
                 }),
             HTTP.get('api/contest/landing')
                 .then(response => {
+                    console.log(response);
                     _this.contests = response.data;
                 })
                 .catch(error => {

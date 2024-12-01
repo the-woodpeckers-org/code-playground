@@ -20,7 +20,8 @@ class Contest extends Model
         'start_date',
         'end_date',
         'status',
-        'change_required'
+        'change_required',
+        'created_by'
     ];
 
     protected $appends = [
