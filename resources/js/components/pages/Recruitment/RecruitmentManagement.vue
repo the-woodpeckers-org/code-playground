@@ -2,12 +2,26 @@
     <NavigatorRecruitment></NavigatorRecruitment>
     <div class="mt-6 bg-white shadow-lg rounded-lg container mx-auto p-8">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
             <div class="flex flex-col items-center space-y-4">
-                <img alt="Avatar" class="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
-                    :src="userCompany.avatar_url"
-                    loading="lazy" />
-                <input type="file" class="file-input file-input-bordered w-full max-w-xs" />
+                <div class="flex justify-center">
+                    <img alt="Avatar" class="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
+                        :src="userCompany.avatar_url" loading="lazy" />
+                </div>
+                <div class="text-center">
+                    <input accept="image/png, image/gif, image/jpeg" type="file" id="fileInput"
+                        @change="handleFileChange" class="
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-full file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-violet-50 file:text-violet-700
+                                  hover:file:bg-violet-100">
+                </div>
+                <div class="text-center">
+                    <button type="button" @click="uploadImage"
+                            class="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                        Update avatar
+                    </button>
+                </div>
             </div>
 
             <div class="flex flex-col space-y-4">
@@ -17,7 +31,7 @@
                         v-model="userCompany.name" />
                 </label>
                 <label class="flex flex-col text-sm font-medium text-gray-700">
-                   Code company
+                    Code company
                     <input type="number" class="input input-bordered mt-1 p-2 rounded-md" placeholder="Company code"
                         v-model="profileCompany.codeCompany" />
                 </label>
@@ -37,8 +51,7 @@
             <div class="flex flex-col space-y-4">
 
                 <LocationPicker v-if="profileCompany && profileCompany.address" :province="_address[0]"
-                    :district="_address[1] " :ward="_address[2] "
-                    @address-updated="handleAddressUpdated" />
+                    :district="_address[1]" :ward="_address[2]" @address-updated="handleAddressUpdated" />
                 <LocationPicker v-else @address-updated="handleAddressUpdated" />
 
                 <label class="flex flex-col text-sm font-medium text-gray-700">
@@ -110,6 +123,27 @@
     <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!_loading">
         <span class="loading loading-dots loading-lg"></span>
     </div>
+
+    <dialog v-if="isSendRequest" id="login_modal" class="modal modal-open">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span>
+                    <i class="fa-solid fa-check"></i>
+                </span>
+            </div>
+            <p class="py-4 font-semibold">Send request successfully!</p>
+        </div>
+    </dialog>
+    <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="isLoading">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span class="loading loading-spinner loading-lg">
+                </span>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -131,15 +165,14 @@ export default {
             _loading: false,
             rte_1: null,
             rte_2: null,
+            selectedFile: null,
+            isLoading: false,
+            isSendRequest:false,
         };
     },
     async mounted() {
         await this.fetchData();
-        this.rte_1 = new RichTextEditor('#text-editor-1');
-        this.rte_2 = new RichTextEditor('#text-editor-2');
-        this.rte_1.setHTMLCode(this.profileCompany.general_information);
-        this.rte_2.setHTMLCode(this.profileCompany.description);
-        this._loading = true;
+
     },
     methods: {
         addSkill(event) {
@@ -149,7 +182,7 @@ export default {
                 this.availableSkills = this.availableSkills.filter(s => s !== skill);
             }
             event.target.value = "Select a skill";
-            console.log(this.selectedSkills);
+           
         },
         removeSkill(skill) {
             this.selectedSkills = this.selectedSkills.filter(s => s !== skill);
@@ -180,8 +213,12 @@ export default {
             }).catch(error => {
                 console.log(error);
             });
+            this.rte_1 = new RichTextEditor('#text-editor-1');
+            this.rte_2 = new RichTextEditor('#text-editor-2');
+            this.rte_1.setHTMLCode(this.profileCompany.general_information);
+            this.rte_2.setHTMLCode(this.profileCompany.description);
+            this._loading = true;
         },
-
         async updateProfile() {
             const data = {
                 profileCompany: {
@@ -193,13 +230,45 @@ export default {
                 }
             };
             console.log(data);
-            await HTTP.post('/api/updateProfileCompany',data)
-            .then(response => {
-                console.log(response.data);
-                alert("Save successfully");
-            }).catch(error => {
-                console.log(error);
-            });
+            await HTTP.post('/api/updateProfileCompany', data)
+                .then(response => {
+                    console.log(response.data);
+                    alert("Save successfully");
+                }).catch(error => {
+                    console.log(error);
+                });
+        },
+        handleFileChange(event) {
+            const maxAllowedSize = 5 * 1024 * 1024;
+            if (event.target.files[0].size > maxAllowedSize) {
+                return;
+            } else {
+                this.selectedFile = event.target.files[0];
+            }
+        },
+        async uploadImage() {
+            let _this = this;
+            this.isLoading = true;
+            const formData = new FormData();
+            formData.append('file', this.selectedFile);
+            try {
+                await HTTP.post('/api/avatar-upload', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }).then((response) => {
+                    this.isLoading = false;
+                    this.isSendRequest=true;
+                    this.fetchData();
+                    setTimeout(() => {
+                        this.isSendRequest=false;
+                        
+                    }, 2000);
+                });
+       
+            } catch (error) {
+                console.error('Error uploading:', error);
+            }
         }
     },
 }

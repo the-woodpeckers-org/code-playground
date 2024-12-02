@@ -1,4 +1,6 @@
 <template>
+    <LoginRequiredDialog></LoginRequiredDialog>
+    <authAdminDialog></authAdminDialog>
     <div>
       <h3 class="text-2xl font-bold text-left py-2">Home Page</h3>
       <div class="overflow-x-auto relative  sm:rounded-lg">
@@ -97,8 +99,8 @@
   </template>
   
   <script>
-  export default {
-  
+
+export default {
   }
   </script>
   

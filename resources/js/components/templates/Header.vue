@@ -72,7 +72,6 @@
             <div class="dropdown dropdown-end mb-4">
                 <div tabindex="0" role="button">
                     <span class="relative flex h-3 w-3">
-                        <!-- Hiệu ứng animate-ping chỉ xuất hiện nếu unRead > 0 -->
                         <span v-if="this.unRead > 0"
                             class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75">
                         </span>
@@ -80,7 +79,6 @@
                             :class="{ 'bg-sky-500': this.unRead > 0 }">
                             <i class="fa-regular fa-bell text-xl"></i>
                         </span>
-                        <!-- Hiển thị số lượng thông báo chưa đọc -->
                         <span class="mx-3 text-blue-600" v-if="this.unRead > 0">
                             {{ this.unRead }}
                         </span>
@@ -89,7 +87,7 @@
                 <div tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow">
                     <h2 class="p-2 border-b text-md">Notifications</h2>
-                    <div class="grid grid-cols-1 w-full h-2/6 overflow-y-scroll p-2">
+                    <div class="grid grid-cols-1 w-full h-[400px] overflow-y-scroll p-2">
                         <Notification v-if="$root.auth" v-for="(item, index) in this.notifications" :key="index" :data="item">
                         </Notification>
                         <p v-if="this.notifications.length === 0">You have no notifications!</p>
@@ -193,9 +191,9 @@ export default {
     async mounted() {
         if (this.auth) {
             await this.getNotifications();
-        }
-        if (this.auth.role == Role.Company && this.auth.Order.length == 0) {
-            this.$refs.advertise_modal.showModal();
+            if ( this.auth.role == Role.Company && this.auth.Order.length == 0) {
+                this.$refs.advertise_modal.showModal();
+            }
         }
     },
     data: function () {

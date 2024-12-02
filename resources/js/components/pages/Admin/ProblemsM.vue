@@ -1,4 +1,5 @@
 <template>
+
     <div class="p-2 bg-gray-100 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-left py-4">Problems Management</h3>
         <div class="overflow-x-auto">
