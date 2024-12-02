@@ -26,105 +26,6 @@
             </ul>
         </td>
     </tr>
-    <!-- <dialog ref="showDetail" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl">
-            <div class="flex flex-col-reverse">
-                <div
-                    class="flex items-start justify-between rounded-t dark:border-gray-600 border-b p-5 rounded-tl-xl md:rounded">
-                    <h3 id=":r9:" class="text-xl font-medium text-gray-900 dark:text-white">
-                        <p class="font-bold text-black">{{ contest.created_by.name }}</p>
-                        <p class="text-base font-normal text-gray-400"> {{ contest.title }} </p>
-                        <p class="text-base font-normal text-gray-400"> {{ contest.created_by.email }} </p>
-
-                    </h3>
-                </div>
-                <div class="flex justify-end p-0">
-                    <button class="btn rounded-full bg-blue-200 text-white hover:bg-red-100 hover:text-black"
-                        @click="closeDetail">X</button>
-                </div>
-            </div>
-            <div class="p-6 flex-1 overflow-auto">
-                <form id="basic-information-form">
-                    <div class="space-y-6">
-                        <h2 class="text-sm font-bold uppercase text-gray-400 md:text-md lg:text-2xl">contest</h2>
-                        <div class="mb-6">
-                            <label class="block text-gray-600 font-semibold mb-2">Title</label>
-                            <div class="relative w-full"><input
-                                    class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                    disabled="" v-model="contest.title">
-                            </div>
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-gray-600 font-semibold mb-2">Difficulty</label>
-                            <div class="relative w-full"><input
-                                    class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                    disabled="" v-model="contest.difficulty">
-                            </div>
-                        </div>
-
-                        <div class="mb-6">
-                            <label class="block text-gray-600 font-semibold mb-2">Description</label>
-                            <div class="relative w-full">
-                                <div class="block w-full border disabled:opacity-50 bg-white placeholder:text-gray-300 border-gray-500 text-black focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                    v-html="contest?.description"></div>
-                            </div>
-                        </div>
-                        <div class="mb-6">
-                            <label class="text-sm font-bold text-gray-700 mb-2 block">Programming Languages<span
-                                    class="font-normal text-primary">*</span></label>
-                            <div class="border border-gray-200 shadow-sm rounded-lg p-6 bg-gray-50 mt-2">
-                                <div class="flex flex-wrap gap-3 mb-4" id="skill-selected">
-                                    <div v-for="(skill, index) in this.contest.languages" :key="index"
-                                        class="flex items-center bg-blue-100 text-blue-700 px-3 py-1 rounded-lg shadow-sm space-x-2">
-                                        <span>{{ skill.name }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-6">
-                            <label class="block text-gray-600 font-semibold mb-2">Categories
-                            </label>
-                            <div class="border border-gray-200 shadow-sm rounded-lg p-6 bg-gray-50 mt-2">
-                                <div class="flex flex-wrap gap-3 mb-4" id="skill-selected">
-                                    <div v-for="(skill, index) in this.contest.categories" :key="index"
-                                        class="flex items-center bg-blue-100 text-blue-700 px-3 py-1 rounded-lg shadow-sm space-x-2">
-                                        <span>{{ skill.name }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-6">
-                            <label class="block text-gray-600 font-semibold mb-2">Testcases</label>
-                            <div class="flex flex-wrap gap-3 mb-4" id="skill-selected">
-                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                                    <div v-for="(testcase, index) in this.contest.testcases"
-                                        class="bg-base-200 p-3 rounded-lg h-52 lobster">
-                                        <br>
-                                        <label>Input (stdin format) <span class="font-bold">[NOT TESTED]</span></label>
-                                        <input v-model="this.contest.testcases[index].stdin"
-                                            class="rounded-lg border border-gray-400 h-8 w-full" readonly>
-                                        <label>Expected output <span class="font-bold">[NOT TESTED]</span></label>
-                                        <input v-model="this.contest.testcases[index].expected_output"
-                                            class="rounded-lg border border-gray-400 h-8 w-full" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-6" v-if="this.openRequest">
-                            <label class="block text-gray-600 font-semibold mb-2">Request Change</label>
-                            <textarea class="relative w-full p-2 border" v-model="this.contest.change_required"></textarea>
-                        </div>
-                        <div class="flex justify-center space-x-6 mt-8 ">
-                            <button type="button" class="btn btn-secondary" @click="closeDetail">Cancel</button>
-                            <button type="button" class="btn btn-primary" @click="openRequest=true" v-if="!openRequest">Request</button>
-                            <button v-if="openRequest" type="button" class="btn btn-primary" @click="sendRequest">Send Request</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </dialog> -->
 
     <dialog class="modal" ref="confirm_status_approved_modal">
         <div class="modal-box bg-base-100">
@@ -151,6 +52,103 @@
             </div>
         </div>
     </dialog>
+
+
+    <dialog ref="showDetail" class="modal">
+        <div class="modal-box w-11/12 max-w-7xl" style="min-height: 600px">
+            <h3 class="text-lg font-bold">Create new contest</h3>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                <div>
+                    <label>Title</label>
+                    <input v-model="this.contest.title" class="rounded-lg border border-gray-400 h-10 w-full px-3">
+                </div>
+                <div>
+                    <label>Tags</label>
+                    <Multiselect v-model="this.contest.tags"
+                                 :options="['Hackathon', 'Speed', 'Cyanide', 'Aspire', 'HiTec', 'CodeForce']"
+                                 :multiple="true" class="h-8 w-full"></Multiselect>
+                </div>
+                <!-- <div class="col-span-full">
+                    <label>Description</label>
+                    <textarea v-model="this.contest.problem.description"
+                              class="rounded-lg border border-gray-400 w-full h-40 px-3"></textarea>
+                </div>
+                <div>
+                    <label>Start date</label>
+                    <input v-model="start_date" type="datetime-local"
+                           class="rounded-lg border border-gray-400 h-8 w-full">
+                    <label class="mt-3">End date</label>
+                    <input v-model="end_date" type="datetime-local"
+                           class="rounded-lg border border-gray-400 h-8 w-full">
+                </div>
+                <div class="col-span-full">
+                    <div class="divider"></div>
+                    <p class="font-semibold text-lg">Problems</p>
+                    <p>Maximum problems: {{problems.length}}/5</p>
+                </div>
+                <div class="col-span-full flex flex-col gap-3 relative ">
+                    <div v-for="(problem, index) in problems" class="w-full min-h-20 border border-gray-400 rounded-xl collapse lobster">
+                        <input type="checkbox">
+                        <div class="collapse-title text-xl font-medium">Problem</div>
+                        <div class="collapse-content">
+                            <div class="flex gap-x-2">
+                                <input @change="checkBoxChange(problem.id, 'cb1')" :id="problem.id + 'cb1'" type="checkbox" class="checkbox">
+                                <label>Choose existed problem</label>
+                            </div>
+                            <div class="flex gap-x-2 mt-2">
+                                <input @change="checkBoxChange(problem.id, 'cb2')" :id="problem.id + 'cb2'" type="checkbox" class="checkbox" checked>
+                                <label>Create new problem</label>
+                            </div>
+                            <div>
+                                <label>Title</label>
+                                <input v-model="problem.title" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                <label>Difficulty</label>
+                                <select v-model="problem.difficulty" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                    <option value="Easy">Easy</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Hard">Hard</option>
+                                </select>
+                                <label>Languages</label>
+                                <Multiselect v-model="problem.languages" :options="['C', 'C++', 'Python', 'PHP', 'JavaScript']" :multiple="true"
+                                             class="h-8 w-full"></Multiselect>
+                                <label>Description</label>
+                                <textarea v-model="problem.description" class="w-full border h-40 rounded-lg border-gray-400 px-3"></textarea>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div class="border border-gray-300 rounded-lg p-1 h-32 relative lobster" v-for="testcase in problem.testcases">
+                                        <label>stdin</label>
+                                        <input v-model="testcase.stdin" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                        <label>expected_result</label>
+                                        <input v-model="testcase.expected_output" class="w-full border h-8 rounded-lg border-gray-400 px-3">
+                                        <p v-if="problem.testcases.length > 1" class="absolute bg-red-400 px-1.5 rounded-full top-1 end-1 text-white hover:bg-red-600 cursor-pointer" @click="removeTestcase(index, testcase.id)">X</p>
+                                    </div>
+                                    <div @click="addTestcase(index)" class="border border-gray-300 rounded-lg p-1 h-32 hover:bg-base-300 flex cursor-pointer">
+                                        <span class="text-5xl m-auto"><i class="fa-solid fa-plus"></i></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <button v-if="problems.length > 1" class="absolute top-1 end-1 bg-red-500 rounded-xl px-1.5 text-white z-10 hover:bg-red-700" @click="removeProblem(problem.id)">X</button>
+                    </div>
+                    <div v-if="problems.length < 5" @click="problems.push({id: Math.random().toString(7), title: '', description: '', difficulty: '', languages: [], testcases: [ { id: Math.random().toString(7), stdin: '', expected_output: ''}], existed: false})"
+                         class="w-full h-20 border border-gray-400 rounded-xl hover:bg-base-300 transition cursor-pointer flex">
+                        <span class="text-5xl m-auto"><i class="fa-solid fa-plus"></i></span>
+                    </div> -->
+                <!-- </div> -->
+            </div>
+            <div class="w-full modal-action">
+                <form method="dialog">
+                    <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="updateContest()">
+                        Create
+                    </button>
+                    <button class="bg-yellow-300 px-3 py-1 mx-1 hover:bg-yellow-500 rounded-lg" @click="closeEdit()">
+                        Cancel
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+    
 </template>
 
 <script>
@@ -194,7 +192,7 @@ export default {
         }
     },
     created() {
-      
+        console.log(this.contest);
     }
 }
 </script>
