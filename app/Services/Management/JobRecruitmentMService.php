@@ -77,7 +77,7 @@ class JobRecruitmentMService
     if ($job) {
       $job->status = Status::APPROVED;
         // SEND MAIL
-      Mail::to($job->user->email)->send(new MailResponseReview($job->user, $job,null, null, Status::ACTIVE));
+      Mail::to($job->user->email)->send(new MailResponseReview($job->user, $job,null, null, Status::APPROVED));
       Notification::create([
         'user_id' => $job->user->id,
         'message' => 'Your '.$job->title.'has been approved by admin',

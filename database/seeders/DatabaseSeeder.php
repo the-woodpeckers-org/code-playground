@@ -38,6 +38,7 @@ class DatabaseSeeder extends Seeder
             'role' => Role::Admin
         ];
         User::create($admin);
+
         $user = [
             'name' => 'Vũ Thanh Dương',
             'email' => 'duongdeptrai102x@gmail.com',
@@ -88,9 +89,21 @@ class DatabaseSeeder extends Seeder
             'birthday' => '2003-01-01',
             'avatar_url' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAGvRhdg1vaZyhkn5zzE7p35e70SUgv0TVCw&s'
         ];
-
-
         User::create($user);
+
+        
+        $profile = new ProfileCompany();
+        $profile->user_id = 5;
+        $profile->description = 'hehe';
+        $profile->general_information = "We are a software company";
+        $profile->email = "tuyendung@gmail.com";
+        $profile->phone = "0123456789";
+        $profile->address = "Ho Chi Minh City";
+        $profile->skill = "PHP, Laravel, ReactJS";
+        $profile->codeCompany = "123";
+        $profile->save();
+        
+
         $problems = [
             [
                 'title' => 'Sum of two numbers',
@@ -182,7 +195,7 @@ class DatabaseSeeder extends Seeder
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(7),
                 'created_by' => 1,
-                'status' => Status::ACTIVE
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'ZoBoi Hackathon Aishh',
@@ -191,7 +204,7 @@ class DatabaseSeeder extends Seeder
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(7),
                 'created_by' => 1,
-                'status' => Status::ACTIVE
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'CMS Hackathon numberthon',
@@ -200,7 +213,7 @@ class DatabaseSeeder extends Seeder
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(7),
                 'created_by' => 1,
-                'status' => Status::ACTIVE
+                'status' => Status::APPROVED
             ]
         ];
 
@@ -466,16 +479,6 @@ class DatabaseSeeder extends Seeder
 
 
 
-        $profile = new ProfileCompany();
-        $profile->user_id = 3;
-        $profile->description = 'hehe';
-        $profile->general_information = "We are a software company";
-        $profile->email = "tuyendung@gmail.com";
-        $profile->phone = "0123456789";
-        $profile->address = "Ho Chi Minh City";
-        $profile->skill = "PHP, Laravel, ReactJS";
-        $profile->codeCompany = "123";
-        $profile->save();
 
         $languages = [
             [

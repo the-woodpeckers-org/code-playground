@@ -1,6 +1,5 @@
 <template>
-        <LoginRequiredDialog></LoginRequiredDialog>
-        <authAdminDialog></authAdminDialog>
+
     <div class="p-2 bg-gray-100 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-left py-4">Applcations Management</h3>
         <div class="overflow-x-auto">
@@ -46,18 +45,14 @@
 <script>
 import { HTTP } from "@/http-common.js";
 import ApplicationItemM from "@/components/listItems/Management/ApplicationItemM.vue";
-import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
-import authAdminDialog from "@/components/authentication/authAdminDialog.vue";
+
 
 export default {
     name: "ApplicationsM",
     components: {
         ApplicationItemM,
     },
-    components: {
-        LoginRequiredDialog,
-        authAdminDialog,
-    },
+
     data() {
         return {
             applications: [],

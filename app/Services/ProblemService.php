@@ -16,6 +16,7 @@ use App\Models\ProblemLanguage;
 use App\Models\ProblemTag;
 use App\Models\Testcase;
 use App\Models\User;
+use App\Utils\Constants\Status;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -28,7 +29,7 @@ class ProblemService
         $result = Problem::query();
         $result->select();
         $result->where('contest_id', '=', null);
-        $result->where('status', 'active');
+        $result->where('status', Status::APPROVED);
         $result->orderBy('created_at', 'desc');
         $result->addSelect(['problems.*']);
         return $result->paginate(8);
@@ -53,7 +54,7 @@ class ProblemService
         $result = Problem::query();
         $result->select();
         $result->where('contest_id', '=', null);
-        $result->where('status', 'active');
+        $result->where('status', Status::APPROVED);
 
         if ($request->user()) {
             $userId = $request->user()->id;
@@ -177,7 +178,7 @@ class ProblemService
                 'difficulty' => $request->input('difficulty'),
                 'acceptance_rate' => 0,
                 'created_by' => $request->user()->id,
-                'status' => 'pending',
+                'status' => Status::PENDING,
                 'change_required' => ''
             ]);
             $problem->save();
