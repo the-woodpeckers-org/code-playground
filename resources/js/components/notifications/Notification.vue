@@ -1,5 +1,5 @@
 <template>
-    <div class="p-2 my-2 border rounded-md shadow-sm hover:bg-gray-100 transition duration-200 hover:cursor-pointer"
+    <div class="h-fit p-2 my-2 border rounded-md shadow-sm hover:bg-gray-100 transition duration-200 hover:cursor-pointer"
         @click="viewDetailNotification">
         <h2 class="font-bold text-md text-gray-800">{{ data.type }}</h2>
         <p class="text-gray-600 text-ellipsis line-clamp-1">{{ data.message }}</p>

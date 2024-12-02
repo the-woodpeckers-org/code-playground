@@ -63,6 +63,15 @@
           </button>
     </div>
   </div>
+  <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="isLoading">
+        <div class="modal-box text-center overflow-hidden">
+            <h3 class="text-lg font-bold"></h3>
+            <div class="w-full text-center text-5xl text-green-600 animate-jump-in">
+                <span class="loading loading-spinner loading-lg">
+                </span>
+            </div>
+        </div>
+    </div>
   <dialog class="modal modal-open" v-if="isUpdated">
     <div class="modal-box text-center overflow-hidden">
             <h3 class="text-lg font-bold"></h3>
@@ -82,18 +91,21 @@ export default {
   name: 'UpgradePremiumCheckout',
     data: function () {
         return {
-            isUpdated: false
+            isUpdated: false,
+            isLoading: false
         }
     },
   methods: {
     async Upgrade()
     {
+      this.isLoading = true;
       await HTTP.post('/api/checkout').then(response => {
-        console.log(response);
-        if(response.data.status == 'success')
-        {
-            this.isUpdated= true;
-        }
+      this.isLoading = false;
+      this.isUpdated= true;
+      setTimeout(() => {
+        this.isUpdated = false;
+        this.$router.push('/');
+      }, 3000);
       }).catch(error => {
         console.log(error);
       });   

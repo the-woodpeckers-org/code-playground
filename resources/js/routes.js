@@ -24,7 +24,6 @@ const Career = () => import("@/components/pages/Career.vue");
 const Profile = () => import("@/components/pages/Profile.vue");
 const ContestDetail = () => import('@/components/pages/ContestDetail.vue');
 const ContestPanel = () => import('@/components/pages/ContestPanel.vue');
-const TextEditor = () => import("@/components/texteditors/TextEditor.vue");
 const CvBuilder = () => import("@/components/pages/CvBuilder.vue");
 const CvShowPDF = () => import("@/components/pages/CvShowPDF.vue");
 const JobManager = () => import("@/components/pages/JobManagement.vue");
