@@ -29,7 +29,7 @@ class ProblemMService
     
         $skip = ($page - 1) * $perPage;
     
-        $problems = Problem::skip($skip)->take($perPage)->where('status','!=',Status::ACTIVE)->get();
+        $problems = Problem::skip($skip)->take($perPage)->where('status','!=',Status::APPROVED)->get();
         $detailProblems = $problems->map(function ($problem) {
             return [
                 'id' => $problem->id,
@@ -46,7 +46,7 @@ class ProblemMService
                 'change_required' => $problem->change_required,
             ];
         });
-        $total = Problem::all()->where('status','!=',Status::ACTIVE)->count();
+        $total = Problem::all()->where('status','!=',Status::APPROVED)->count();
         
         return response()->json([
             'status' => '200',
@@ -68,9 +68,9 @@ class ProblemMService
     {
         $problem = Problem::find($request->input('problem_id'));
         if ($problem) {
-            $problem->status = Status::ACTIVE;
+            $problem->status = Status::APPROVED;
             $currentUser = $problem->user;
-            Mail::to($currentUser->email)->send(new MailResponseReview($currentUser,null, $problem, null, Status::ACTIVE));
+            Mail::to($currentUser->email)->send(new MailResponseReview($currentUser,null, $problem, null, Status::APPROVED));
             Notification::create([
                 'user_id' => $currentUser->id,
                 'message' => 'Your problem '.$problem->title.' has been approved by admin',

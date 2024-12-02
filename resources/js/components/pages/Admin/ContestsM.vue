@@ -1,6 +1,5 @@
 <template >
-        <LoginRequiredDialog></LoginRequiredDialog>
-        <authAdminDialog></authAdminDialog>
+
     <div class="p-2 bg-gray-100 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-left py-4">Contests Management</h3>
         <div class="overflow-x-auto">
@@ -55,13 +54,11 @@
 <script>
 import {HTTP} from "@/http-common.js";
 import ContestItemM from "@/components/listItems/Management/ContestItemM.vue";
-import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
-import authAdminDialog from "@/components/authentication/authAdminDialog.vue";
+
 export default {
     name: "ContestsM",
     components: {
-        ContestItemM, LoginRequiredDialog,
-        authAdminDialog,
+        ContestItemM
     },
     data() {
         return {

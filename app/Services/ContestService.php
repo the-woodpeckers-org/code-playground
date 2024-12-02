@@ -28,7 +28,7 @@ class ContestService
 
     public function getForLanding()
     {
-        return Contest::orderBy("created_at", "desc")->where('status', '=', Status::ACTIVE)->where('end_date','>', Carbon::now())->limit(3)->get();
+        return Contest::orderBy("created_at", "desc")->where('status', '=', Status::APPROVED)->where('end_date','>', Carbon::now())->limit(3)->get();
     }
 
     public function getAllByContributor(Request $request)

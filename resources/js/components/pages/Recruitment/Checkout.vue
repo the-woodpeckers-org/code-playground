@@ -92,7 +92,7 @@ export default {
         console.log(response);
         if(response.data.status == 'success')
         {
-          this.isUpdated= true;
+            this.isUpdated= true;
         }
       }).catch(error => {
         console.log(error);
