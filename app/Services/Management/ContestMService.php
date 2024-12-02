@@ -34,7 +34,8 @@ class ContestMService
                 'created_at' => $contest->created_at,
                 'imgUrl' => $contest->imgUrl,
                 'change_required' => $contest->change_required,
-
+                'tags'=>$contest->tags,
+                'languages'=>$contest->languages,
             ];
             array_push($detailContests, $detailContest);
         }
@@ -104,7 +105,8 @@ class ContestMService
         }
         $contest->change_required = $request->input('change_required');
         $contest->save();
-        Mail::to($contest->user->email)->send(new MailSendRequestChange($contest->user->mail, $request->input('change_required')));
+       $current_user = $contest->user;
+        Mail::to($current_user->email)->send(new MailSendRequestChange($current_user, $request->input('change_required')));
         Notification::create([
             'user_id' => $contest->user->id,
             'message' => 'Your'. $contest->title .' has been required change by admin',

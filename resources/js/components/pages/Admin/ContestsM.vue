@@ -110,6 +110,7 @@ export default {
                  contest_id: contest_id,
                  change_required: change_required,
              }).then(response => {
+                console.log(response.data);
                  this.isLoading = false;
                  this.isSendRequest = true;
                  this.fetchContests();
@@ -118,6 +119,7 @@ export default {
                      this.isendRequest = false;
                  }, 2000);
          });
+
         },
     },
 }
