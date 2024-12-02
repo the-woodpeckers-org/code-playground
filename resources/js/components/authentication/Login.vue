@@ -1,3 +1,6 @@
+<script setup>
+import { Role } from "@/utils/roles.js";
+</script>
 <script>
 import {HTTP} from "@/http-common.js";
 import {getAuth, setAccessToken, setAuth} from "@/utils/authLocalStorage.js";
@@ -39,8 +42,12 @@ export default {
                 console.log(localStorage.getItem('accessToken'))
                 _this.isLoggedIn = true;
                 setTimeout(() => {
-                    _this.$router.push('/');
-                    window.location.reload();
+                    if(_this.$root.auth.role == Role.Admin) {
+                        _this.$router.push('/admin');
+                    } else {
+                        _this.$router.push('/');
+                        window.location.reload();
+                    }
                     _this.isLoggingIn = false;
                 }, 2000);
             }).catch(function (error) {

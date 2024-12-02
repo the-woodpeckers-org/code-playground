@@ -1,4 +1,6 @@
 <template>
+    <LoginRequiredDialog></LoginRequiredDialog>
+    <authAdminDialog></authAdminDialog>
     <div class="flex">
         <div class="w-[400px] h-full bg-gray-200 text-white" v-show="showSide" style="min-width:300px">
             <div class="h-[50px] bg-gray-900 flex justify-start  items-center ">
@@ -131,7 +133,7 @@
                     <!-- User login -->
                     <div class="w-[200px] ">
                         <div class="flex items-center justify-start space-x-4" @click="toggleDrop">
-                            <img :src="$root.auth.avatar_url" class="w-10 h-10 rounded-full border-2 border-gray-50"
+                            <img v-if="$root.auth" :src="$root.auth.avatar_url" class="w-10 h-10 rounded-full border-2 border-gray-50"
                                 alt="">
                             <div class="font-semibold dark:text-white text-left">
                                 <div v-if="$root.auth">{{ $root.auth.name }}</div>
@@ -170,8 +172,13 @@
 </template>
 <script>
 import { getAuth } from "@/utils/authLocalStorage.js";
-import { Role } from "@/utils/roles.js";
+import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
+import authAdminDialog from "@/components/authentication/authAdminDialog.vue";
+
 export default {
+    components: {
+        LoginRequiredDialog,authAdminDialog
+    },
     data() {
         return {
             showDropDown: false,

@@ -1,4 +1,6 @@
 <template>
+        <LoginRequiredDialog></LoginRequiredDialog>
+        <authAdminDialog></authAdminDialog>
     <div class="p-2 bg-gray-100 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-left py-4">Company Review</h3>
         <div class="flex flex-wrap gap-2">

@@ -20,6 +20,7 @@ use App\Utils\Constants\Role;
 use App\Models\Order;   
 use App\Utils\Constants\Subscription;
 use Carbon\Carbon;
+use App\Utils\Constants\Status;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -30,6 +31,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $admin = [
+            'name' => 'Admin',
+            'email' => 'codeplayground@gmail.com',
+            'password' => Hash::make('123'),
+            'role' => Role::Admin
+        ];
+        User::create($admin);
         $user = [
             'name' => 'Vũ Thanh Dương',
             'email' => 'duongdeptrai102x@gmail.com',
@@ -38,24 +46,35 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '0360100250',
             'gender' => 'None',
             'birthday' => '2003-01-11',
-            'avatar_url' => 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg',
+            'avatar_url' => 'https://res.cloudinary.com/dazvvxymm/image/upload/v1726166331/dumemay_o6j36t.jpg',
             'role' => Role::Contributor
         ];
-
         User::create($user);
-
         $user = [
             'name' => 'Bảo Vinh Phan',
             'email' => 'pv198357@gmail.com',
             'password' => Hash::make('123'),
             'address' => 'Ho Chi Minh City',
-            'phone_number' => '0360100250',
+            'phone_number' => '0344052691',
             'gender' => 'Male',
             'birthday' => '2003-01-01',
-            'avatar_url' => 'https://res-console.cloudinary.com/dazvvxymm/thumbnails/v1/image/upload/v1726165796/aW1hZ2VfMV9lNnp3dHY=/drilldown',
+            'avatar_url' => 'https://res.cloudinary.com/dazvvxymm/image/upload/v1726165796/image_1_e6zwtv.png',
             'role' => Role::User
         ];
         User::create($user);
+        $user = [
+            'name' => 'Kim Phượng Phạm',
+            'email' => 'karinapham03@gmail.com',
+            'password' => Hash::make('123'),
+            'address' => 'Ho Chi Minh City',
+            'phone_number' => '0388146321',
+            'gender' => 'Female',
+            'birthday' => '2003-01-01',
+            'avatar_url' => 'https://res.cloudinary.com/dazvvxymm/image/upload/v1726165795/IMG_20240912_215515_qsgvrn.jpg',
+            'role' => Role::User
+        ];
+        User::create($user);
+
 
         $user = [
             'name' => 'Riot Games Inc',
@@ -79,7 +98,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of three numbers',
@@ -87,7 +106,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Medium',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of four numbers',
@@ -95,7 +114,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Hard',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
         ];
 
@@ -162,7 +181,8 @@ class DatabaseSeeder extends Seeder
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRW7S24aqeMJVm-ofv0JGjUFakDXJeV6WpJfQ&s',
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(7),
-                'created_by' => 1
+                'created_by' => 1,
+                'status' => Status::ACTIVE
             ],
             [
                 'title' => 'ZoBoi Hackathon Aishh',
@@ -170,7 +190,8 @@ class DatabaseSeeder extends Seeder
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThHzVwYwhZph2gph0cCeoP-d6nj3aB-ZogMA&s',
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(7),
-                'created_by' => 1
+                'created_by' => 1,
+                'status' => Status::ACTIVE
             ],
             [
                 'title' => 'CMS Hackathon numberthon',
@@ -178,7 +199,8 @@ class DatabaseSeeder extends Seeder
                 'imgUrl' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI6FdZ-KcBkNiy0cBtPZaYWKtmTajsmOtehQ&s',
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(7),
-                'created_by' => 1
+                'created_by' => 1,
+                'status' => Status::ACTIVE
             ]
         ];
 
@@ -195,7 +217,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of three numbers',
@@ -204,7 +226,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Medium',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of four numbers',
@@ -213,7 +235,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Hard',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -222,7 +244,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of three numbers',
@@ -231,7 +253,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Medium',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of four numbers',
@@ -240,7 +262,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Hard',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -249,7 +271,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of three numbers',
@@ -258,7 +280,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Medium',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
             [
                 'title' => 'Sum of four numbers',
@@ -267,7 +289,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Hard',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => 'approved'
             ],
         ];
 
@@ -442,14 +464,6 @@ class DatabaseSeeder extends Seeder
         $job_rece->deadline = Carbon::createFromFormat('Y-m-d', '2024-11-30'); // Sử dụng Carbon để tạo đối tượng ngày
         $job_rece->save();
 
-
-        $application = new Application();
-        $application->user_id = 1;
-        $application->job_id = $job_rece->id;
-        $application->cv_id = 1;
-        $application->status = 'pending';
-        $application->applied_at = Carbon::now();
-        $application->save();
 
 
         $profile = new ProfileCompany();
@@ -743,7 +757,7 @@ class DatabaseSeeder extends Seeder
         $company1->password = Hash::make('123');
         $company1->role = Role::Company;
         $company1->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
-        $company1->status = 'approved';
+        $company1->status = Status::APPROVED;
         $company1->save();
 
         $order_company1 = new Order();
@@ -753,7 +767,9 @@ class DatabaseSeeder extends Seeder
 
         SubscriptionAttribute::create([
             'order_id' => $order_company1->id,
-            'subscription_name' => Subscription::PREMIUM
+            'subscription_name' => Subscription::PREMIUM,
+            'start_date' => Carbon::now(),
+            'end_date'=> Carbon::now()->addDays(30)
         ]);
         
         $profile_company1 = new ProfileCompany();
@@ -774,7 +790,7 @@ class DatabaseSeeder extends Seeder
         $company2->email = 'facebook@gmail.com';
         $company2->password = Hash::make('123');
         $company2->role = Role::Company;
-        $company2->status = 'approved';
+        $company2->status = Status::APPROVED;
         $company2->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company2->save();
 
@@ -806,7 +822,7 @@ class DatabaseSeeder extends Seeder
         $company3->email = 'amazon@gmail.com';
         $company3->password = Hash::make('123');
         $company3->role = Role::Company;
-        $company3->status = 'approved';
+        $company3->status = Status::APPROVED;
         $company3->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
         $company3->save();
 
@@ -838,7 +854,7 @@ class DatabaseSeeder extends Seeder
         $company4->password = Hash::make('123');
         $company4->role = Role::Company;
         $company4->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
-        $company4->status = 'approved';
+        $company4->status = Status::APPROVED;
         $company4->save();
 
         $order_company4 = new Order();
@@ -869,7 +885,7 @@ class DatabaseSeeder extends Seeder
         $company5->password = Hash::make('123');
         $company5->role = Role::Company;
         $company5->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
-        $company5->status = 'approved';
+        $company5->status = Status::APPROVED;
         $company5->save();
 
         $order_company5 = new Order();
@@ -901,7 +917,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -909,7 +925,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -917,7 +933,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -925,7 +941,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -933,7 +949,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -941,7 +957,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -949,7 +965,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -957,7 +973,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'Sum of two numbers',
@@ -965,7 +981,7 @@ class DatabaseSeeder extends Seeder
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
                 'created_by' => 1,
-                'status' => 'active'
+                'status' => Status::APPROVED
             ]
         ];
         foreach ($problems2 as $problem) {
