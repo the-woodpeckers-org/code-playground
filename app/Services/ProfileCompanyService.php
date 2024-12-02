@@ -121,12 +121,15 @@ class ProfileCompanyService
         });
         foreach ($companies as $company) {
             $profile = ProfileCompany::where('user_id', '=', $company->id)->first();
-            $listJobs = JobRecruitment::where('user_id', '=', $company->id)->where('status','=',Status::APPROVED)->get();
-            $detailCompanies[] = [
-                'profileCompany' => $profile,
-                'userCompany' => $company,
-                'jobRecruitments' => $listJobs
-            ];
+            if($profile)
+            {
+                $listJobs = JobRecruitment::where('user_id', '=', $company->id)->where('status','=',Status::APPROVED)->get();
+                $detailCompanies[] = [
+                    'profileCompany' => $profile,
+                    'userCompany' => $company,
+                    'jobRecruitments' => $listJobs
+                ];
+            }
         }
         return response()->json([
             'status' => 200,

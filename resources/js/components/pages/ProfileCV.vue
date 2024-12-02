@@ -62,7 +62,9 @@ export default {
                 if (response.data.user == null) {
                     this.User = this.getAuth();
                 }
-                this.cv = response.data.cv;
+                if(response.data.cv){
+                    this.cv = response.data.cv;
+                }
                 this.User = response.data.user;
                 //     console.log(response.data.user);
                 if (this.User.address != null) {
@@ -164,12 +166,7 @@ export default {
     async mounted() {
         await this.onLoad();
         this.rateCalculate();
-        console.log("cv ne", this.cv.content);
     },
-    updated() {
-        console.log(this.User);
-        console.log(this.address);
-    }
 
 }
 </script>

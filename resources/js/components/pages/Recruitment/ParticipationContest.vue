@@ -80,8 +80,8 @@ export default {
                 console.log(response.data);
                 this.contest = response.data.contest;
                 this.participants = response.data.participation.data;
+                this.isContestEnded = response.data.isEnded;
                 if (this.participants.length > 0) {
-                    this.isContestEnded = this.participants[0].contest?.isEnded;
                     this.participants = [...this.participants.sort(this.isContestEnded ? this.sortByFinished : this.sortByParticipatedAt)];
                 }
             } catch (error) {

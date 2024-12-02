@@ -182,7 +182,7 @@ class DatabaseSeeder extends Seeder
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(7),
                 'created_by' => 1,
-                'status' => Status::ACTIVE
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'ZoBoi Hackathon Aishh',
@@ -191,7 +191,7 @@ class DatabaseSeeder extends Seeder
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(7),
                 'created_by' => 1,
-                'status' => Status::ACTIVE
+                'status' => Status::APPROVED
             ],
             [
                 'title' => 'CMS Hackathon numberthon',
@@ -200,7 +200,7 @@ class DatabaseSeeder extends Seeder
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(7),
                 'created_by' => 1,
-                'status' => Status::ACTIVE
+                'status' => Status::APPROVED
             ]
         ];
 
@@ -476,6 +476,20 @@ class DatabaseSeeder extends Seeder
         $profile->skill = "PHP, Laravel, ReactJS";
         $profile->codeCompany = "123";
         $profile->save();
+
+        $profilecopanyy = new ProfileCompany();
+        $profilecopanyy->user_id = 4;
+        $profilecopanyy->description = 'hehe';
+        $profilecopanyy->general_information = "We are a software company";
+        $profilecopanyy->email = "tuyendung@gmail.com";
+        $profilecopanyy->phone = "0123456789";
+        $profilecopanyy->address = "Ho Chi Minh City";
+        $profilecopanyy->skill = "PHP, Laravel, ReactJS";
+        $profilecopanyy->codeCompany = "123";
+        $profilecopanyy->save();
+        
+        
+
 
         $languages = [
             [

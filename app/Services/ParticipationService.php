@@ -85,10 +85,12 @@ class ParticipationService
     {
         $participation = Participation::where('contest_id', $id);
         $contest = Contest::where('id', $id)->first();
+        
         return response()->json(
             [
                 'participation' => $participation->paginate(8),
-                'contest' => $contest
+                'contest' => $contest,
+                'isEnded'=> $contest->end_date < Carbon::now()
             ]
         );
     }
