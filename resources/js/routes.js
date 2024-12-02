@@ -67,11 +67,6 @@ const routes = [
                 name: 'landing'
             },
             {
-                path: '/landing',
-                component: Landing,
-                name: 'landing-problems'
-            },
-            {
                 path: '/login',
                 component: Login,
                 name: 'login'
@@ -95,11 +90,6 @@ const routes = [
                 path: '/courses',
                 component: Courses,
                 name: 'courses'
-            },
-            {
-                path: '/challenges',
-                component: Challenges,
-                name: 'challenges'
             },
             {
                 path: '/problems',
@@ -126,11 +116,6 @@ const routes = [
                 path: '/contest/participate/:c_id',
                 component: ContestPanel,
                 name: 'contest-participate'
-            },
-            {
-                path: '/demo/texteditor',
-                component: TextEditor,
-                name: 'text-editor'
             },
             {
                 path: '/MyCv',
