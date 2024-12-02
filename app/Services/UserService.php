@@ -52,7 +52,7 @@ class UserService
         return User::withCount(['attempts' => function ($query) {
             $query->where('attempts.created_at', '>', Carbon::now()->addDays(-7));
         }])
-            ->where('role', '!=', Role::Company)
+            ->where('role', '!=', Role::Company)->where('role', '!=', Role::Admin)
             ->orderBy('attempts_count', 'desc')
             ->take(10)
             ->get();

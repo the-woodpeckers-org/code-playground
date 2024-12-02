@@ -38,8 +38,6 @@ class DatabaseSeeder extends Seeder
             'role' => Role::Admin
         ];
         User::create($admin);
-
-
         $user = [
             'name' => 'Vũ Thanh Dương',
             'email' => 'duongdeptrai102x@gmail.com',
@@ -51,9 +49,7 @@ class DatabaseSeeder extends Seeder
             'avatar_url' => 'https://res.cloudinary.com/dazvvxymm/image/upload/v1726166331/dumemay_o6j36t.jpg',
             'role' => Role::Contributor
         ];
-
         User::create($user);
-
         $user = [
             'name' => 'Bảo Vinh Phan',
             'email' => 'pv198357@gmail.com',
@@ -66,7 +62,6 @@ class DatabaseSeeder extends Seeder
             'role' => Role::User
         ];
         User::create($user);
-
         $user = [
             'name' => 'Kim Phượng Phạm',
             'email' => 'karinapham03@gmail.com',
