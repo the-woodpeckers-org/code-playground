@@ -3,24 +3,9 @@
     <div class="p-2 bg-gray-100 rounded-lg shadow-md">
         <h3 class="text-2xl font-bold text-left py-4">User Management</h3>
         <div class="flex flex-wrap gap-2">
-            <div class="flex items-center w-full sm:w-1/2 md:w-1/2">
-                <label class="form-control w-full max-w-xs">
-                    <div class="label">
-                        <span class="label-text">Filter by the role</span>
-                    </div>
-                    <select class="select select-bordered" v-model="selectedRole" @change="filterUsers">
-                        <option value="" disabled selected>Pick one</option>
-                        <option value="User">User</option>
-                        <option value="contributor">Contributor</option>
-                        <option value="company">Company</option>
-                        <option value="All">All</option>
-                    </select>
-                </label>
-            </div>
         </div>
         <div class="mt-3"></div>
         <div class="overflow-x-auto">
-
 
             <table class="table">
                 <thead>
@@ -34,7 +19,7 @@
                 </thead>
                 <tbody>
                     <UserItemM v-for="item in filteredUsers" :key="item.id" :user="item.name" :email="item.email"
-                        :phone="item.phone_number" :role="item.role"></UserItemM>
+                        :phone="item.phone_number" :role="item.role" @remove="remove" :id="item.id"></UserItemM>
                 </tbody>
             </table>
         </div>
@@ -59,11 +44,15 @@ export default {
         };
     },
     methods: {
+        remove(id) {
+            console.log("Remove user with id:", id);
+        },
         async getUsers() {
             try {
                 const response = await HTTP.get('/api/getAllUser');
                 this.listUser = response.data.data;
-                this.filteredUsers = this.listUser;
+                 this.filteredUsers = this.listUser;
+
             } catch (e) {
                 console.error("Error fetching users:", e);
             }
