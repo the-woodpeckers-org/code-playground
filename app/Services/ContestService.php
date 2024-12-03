@@ -110,7 +110,7 @@ class ContestService
                 $new_testcase->fill([
                     'problem_id' => $new_problem->id,
                     'stdin' => $testcase['stdin'],
-                    'expected_output' => $testcase['expected_result'],
+                    'expected_output' => $testcase['expected_output'],
                 ]);
                 $new_testcase->save();
             }
