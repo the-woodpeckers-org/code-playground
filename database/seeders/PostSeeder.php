@@ -245,7 +245,7 @@ danh sách 100 học sinh đứng đầu.</p>
 <p>– Kết thúc phần thi Bứt phá, BTC sẽ lựa chọn 100 học sinh đứng đầu BXH/hạng mục/khu vực lọt vào Vòng chung kết.</p>
 <br /></p>
 HEREA,
-                'created_by' => 1,
+                'created_by' => 2,
                 'thumbnail' => 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1732649038/chhans7lhjjnlwozf9ow.png'
             ],
             [
@@ -308,7 +308,7 @@ năng hữu ích và thể hiện trí thông minh không thua kém, thậm chí
 trội so với ChatGPT.</p></div>
 <br /></p>
 HEREA,
-                'created_by' => 1,
+                'created_by' => 2,
                 'thumbnail' => 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1732649313/vcrgjdnlcdrxxvaap9bc.jpg'
             ],
             [
@@ -373,7 +373,7 @@ Trường ĐH FPT với các chuyên ngành Thiết kế Vi mạch bán dẫn, C
  thông tin, Thiết kế mỹ thuật số.</p>
 <br /></div>
 HEREA,
-                'created_by' => 1,
+                'created_by' => 2,
                 'thumbnail' => 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1732649458/iqmhd0yp1wqew1unzlzm.png'
             ],
         ];
