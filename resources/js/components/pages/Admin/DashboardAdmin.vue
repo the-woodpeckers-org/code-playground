@@ -11,15 +11,9 @@
             <div class="h-[calc(100vh-50px)] bg-gray-800 py-[20px] min-w-min">
                 <div class="flex flex-col justify-between h-full px-[20px] space-y-[10px]">
                     <div class=" flex flex-col justify-between space-y-[10px]">
-                        <router-link to="/admin/profile"
+                        <router-link to="/admin/statistics"
                             class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
-                            <svg aria-hidden="true" class="mr-2 w-[25px] h-[25px] fill-current" fill="currentColor"
-                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z">
-                                </path>
-                            </svg>
-                            Profile
+                            <i class="fa-solid fa-chart-simple text-xl mr-3"></i><span>Statistics</span>
                         </router-link>
                         <router-link to="/admin/user"
                             class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
@@ -59,6 +53,10 @@
                                 </router-link>
                             </div>
                         </div>
+                        <router-link to="/admin/contests"
+                            class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
+                            <i class="fa-solid fa-trophy text-xl mr-3"></i><span>Contests</span>
+                        </router-link>
                         <router-link to="/admin/applications"
                             class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
                             <i class="fa-solid fa-bag-shopping text-xl mr-3"></i><span>Applications</span>
@@ -67,10 +65,7 @@
                             class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
                             <i class="fa-solid fa-book text-xl mr-3"></i><span>Problems</span>
                         </router-link>
-                        <router-link to="/admin/contests"
-                            class="inline-flex relative items-center py-[10px] px-[10px] w-full text-sm font-medium rounded-md border-gray-200 hover:bg-gray-300  hover:text-gray-800 transition duration-400 ease-in-out">
-                            <i class="fa-solid fa-book text-xl mr-3"></i><span>Contests</span>
-                        </router-link>
+                     
                     </div>
                     <div class="h-[50px]">
                         <div>

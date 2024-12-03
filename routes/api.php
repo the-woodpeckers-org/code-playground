@@ -21,7 +21,7 @@ use App\Http\Controllers\Api\Management\ProblemMController;
 use App\Http\Controllers\Api\Management\ContestMController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\Management\OrderController;  
-
+use App\Http\Controllers\Api\StatisticsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -157,6 +157,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // checkout register premium
     Route::get('/orders', [OrderController::class, 'getOrders'])->name('getOrders');
     Route::post('/checkout', [OrderController::class, 'registerPremium'])->name('registerPremium');
+
+     Route::get('/statistics',[StatisticsController::class, 'statistics'])->name('statistics');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');

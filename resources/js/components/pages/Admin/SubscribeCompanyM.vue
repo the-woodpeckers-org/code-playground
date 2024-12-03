@@ -4,18 +4,7 @@
         <h3 class="text-2xl font-bold text-left py-4">Company Review</h3>
         <div class="flex flex-wrap gap-2">
             <div class="flex items-center w-full sm:w-1/2 md:w-1/2">
-                <label class="form-control w-full max-w-xs">
-                    <div class="label">
-                        <span class="label-text">Filter by the role</span>
-                    </div>
-                    <select class="select select-bordered">
-                        <option value="" disabled selected>Pick one</option>
-                        <option value="User">User</option>
-                        <option value="User">Contributor</option>
-                        <option value="1">Employer</option>
-                        <option value="All">All</option>
-                    </select>
-                </label>
+                
             </div>
         </div>
         <div class="mt-3"></div>

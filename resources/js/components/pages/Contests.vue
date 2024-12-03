@@ -5,14 +5,15 @@ import Ranking from "@/components/listItems/Ranking.vue";
 export default {
     name: "ContestPage",
     components: {
-        Contest,Ranking
+        Contest, Ranking
     },
     data() {
         return {
             contests: [],
             pastContests: [],
             myContests: [],
-            activeTab: 0, 
+            contestFuture: [],
+            activeTab: 0,
             tabs: ["Past Contests", "My Contests"]
         }
     },
@@ -56,25 +57,28 @@ export default {
     <div class="mt-3">
         <h2 class="text-2xl text-gray-950 font-semibold">The contests is taking place</h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            <Contest v-for="contest in contests" :key="contest.id" :contest="contest"></Contest>
+            <Contest v-for="contest in contests" :key="contest.id" :title="contest.title" :contestId="contest.id"
+                :p_Days="contest.remainingTime.days" :p_Hours="contest.remainingTime.hours"
+                :p_Minutes="contest.remainingTime.minutes" :p_Seconds="contest.remainingTime.seconds"
+                :imgUrl="contest.imgUrl"></Contest>
         </div>
     </div>
     <div class="mt-3">
         <h2 class="text-2xl text-gray-950 font-semibold">Featured Contests</h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            <Contest v-for="contest in contests" :key="contest.id" :contest="contest"></Contest>
+            <Contest v-for="contest in contests" :key="contest.id" :title="contest.title" :contestId="contest.id"
+                :p_Days="contest.remainingTime.days" :p_Hours="contest.remainingTime.hours"
+                :p_Minutes="contest.remainingTime.minutes" :p_Seconds="contest.remainingTime.seconds"
+                :imgUrl="contest.imgUrl"></Contest>
         </div>
     </div>
     <div class="w-full mt-2 p-3">
         <div class="grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-2">
             <div class="col-span-8 bg-base-100">
                 <div class="flex mb-4 p-3">
-                    <button
-                        v-for="(tab, index) in tabs"
-                        :key="index"
+                    <button v-for="(tab, index) in tabs" :key="index"
                         :class="['tab-btn bg-slate-700', activeTab === index ? 'tab-active' : '']"
-                        @click="activeTab = index"
-                    >
+                        @click="activeTab = index">
                         {{ tab }}
                     </button>
                 </div>
@@ -83,10 +87,10 @@ export default {
                     <h3 class="text-lg font-semibold">Past Contests</h3>
                     <p class="text-gray-600">View the contests that have already ended.</p>
                     <div class="grid grid-cols-1">
-                        
+
                     </div>
                 </div>
-                
+
                 <div v-show="activeTab === 1" class="p-2">
                     <h3 class="text-lg font-semibold">My Contests</h3>
                     <p class="text-gray-600">View contests that you are currently participating in.</p>
@@ -117,8 +121,10 @@ export default {
 }
 
 .tab-active {
-    background-color: rgb(51, 165, 227);;
+    background-color: rgb(51, 165, 227);
+    ;
     color: white;
-    border-color: rgb(51, 165, 227);;
+    border-color: rgb(51, 165, 227);
+    ;
 }
 </style>

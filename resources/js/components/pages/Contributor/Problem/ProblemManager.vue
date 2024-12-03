@@ -91,6 +91,7 @@ export default {
                     <th>Difficulty</th>
                     <th>Acceptance Rate</th>
                     <th>Action</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -105,6 +106,7 @@ export default {
                                 @click="showConfirmDelete(problem.id, problem.title)">Delete
                         </button>
                     </td>
+                    <td>{{ problem.status }}</td>
                 </tr>
                 </tbody>
             </table>
