@@ -79,7 +79,6 @@ export default {
             let _this = this;
             HTTP.get('api/contributor/contest/single?id=' + id)
                 .then((response) => {
-                    console.log(response);
                     _this.title = response.data.title;
                     _this.description = response.data.description;
                     _this.start_date = response.data.start_date;
@@ -92,6 +91,7 @@ export default {
                             _this.problems[i].languages = array;
                         }
                     }
+                    _this.tags = response.data.tags.split(',');
                 })
                 .catch((err) => {
                     console.log(err);
@@ -112,6 +112,7 @@ export default {
             HTTP.post('api/contest', data)
                 .then((response) => {
                     _this.isCreated = true;
+                    _this.closeCreate();
                     _this.resetData();
                 })
                 .catch((err) => {

@@ -17,7 +17,7 @@ use App\Models\Testcase;
 use App\Models\User;
 use App\Models\SubscriptionAttribute;
 use App\Utils\Constants\Role;
-use App\Models\Order;   
+use App\Models\Order;
 use App\Utils\Constants\Subscription;
 use Carbon\Carbon;
 use App\Utils\Constants\Status;
@@ -91,7 +91,7 @@ class DatabaseSeeder extends Seeder
         ];
         User::create($user);
 
-        
+
         $profile = new ProfileCompany();
         $profile->user_id = 5;
         $profile->description = 'hehe';
@@ -102,7 +102,7 @@ class DatabaseSeeder extends Seeder
         $profile->skill = "PHP, Laravel, ReactJS";
         $profile->codeCompany = "123";
         $profile->save();
-        
+
 
         $problems = [
             [
@@ -110,7 +110,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => 'approved'
             ],
             [
@@ -118,7 +118,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Medium',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => 'approved'
             ],
             [
@@ -126,7 +126,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Hard',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => 'approved'
             ],
         ];
@@ -774,7 +774,7 @@ class DatabaseSeeder extends Seeder
             'start_date' => Carbon::now(),
             'end_date'=> Carbon::now()->addDays(30)
         ]);
-        
+
         $profile_company1 = new ProfileCompany();
         $profile_company1->user_id = $company1->id;
         $profile_company1->description = 'Google is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, a search engine, cloud computing, software, and hardware.';
@@ -786,7 +786,7 @@ class DatabaseSeeder extends Seeder
         $profile_company1->codeCompany = '123';
         $profile_company1->save();
 
-        
+
 
         $company2 = new User();
         $company2->name = 'Facebook';
@@ -801,7 +801,7 @@ class DatabaseSeeder extends Seeder
         $order_company2->user_id = $company2->id;
         $order_company2->total = Subscription::PRICE;
         $order_company2->save();
-        
+
         SubscriptionAttribute::create([
             'order_id' => $order_company2->id,
             'subscription_name' => Subscription::PREMIUM
@@ -919,7 +919,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => Status::APPROVED
             ],
             [
@@ -927,7 +927,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => Status::APPROVED
             ],
             [
@@ -935,7 +935,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => Status::APPROVED
             ],
             [
@@ -943,7 +943,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => Status::APPROVED
             ],
             [
@@ -951,7 +951,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => Status::APPROVED
             ],
             [
@@ -959,7 +959,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => Status::APPROVED
             ],
             [
@@ -967,7 +967,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => Status::APPROVED
             ],
             [
@@ -975,7 +975,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => Status::APPROVED
             ],
             [
@@ -983,7 +983,7 @@ class DatabaseSeeder extends Seeder
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
-                'created_by' => 1,
+                'created_by' => 2,
                 'status' => Status::APPROVED
             ]
         ];
