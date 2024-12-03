@@ -35,6 +35,7 @@
                          :contestId="contest.id"
                          :title="contest.title"
                          :imgUrl="contest.imgUrl"
+                         :status="contest.status"
             ></ContestM>
       </div>
     </div>

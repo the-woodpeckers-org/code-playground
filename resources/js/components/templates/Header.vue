@@ -85,9 +85,9 @@
                     </span>
                 </div>
                 <div tabindex="0"
-                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow">
+                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow h-[400px]">
                     <h2 class="p-2 border-b text-md">Notifications</h2>
-                    <div class="grid grid-cols-1 w-full h-[400px] overflow-y-scroll p-2">
+                    <div class="grid grid-cols-1 w-full h-[200px] overflow-y-scroll">
                         <Notification v-if="$root.auth" v-for="(item, index) in this.notifications" :key="index"
                             :data="item">
                         </Notification>

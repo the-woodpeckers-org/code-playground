@@ -32,7 +32,7 @@ export default {
             <img :src="imgUrl" loading="lazy"/>
         </figure>
         <div class="card-body">
-            <h2 class="card-title">{{title}}</h2>
+            <h2 class="card-title text-ellipsis line-clamp-2">{{title}}</h2>
             <p class="text-center">
                 <span class="text-center font-mono">end after</span>
                 <br>

@@ -76,6 +76,7 @@ export default {
                     <th>End date</th>
                     <th>Total participants</th>
                     <th>Actions</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -91,6 +92,7 @@ export default {
                                 @click="showConfirmDelete(contest.id, contest.title)">Delete
                         </button>
                     </td>
+                    <td>{{ contest.status }}</td>
                 </tr>
                 </tbody>
             </table>
