@@ -88,7 +88,8 @@
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow">
                     <h2 class="p-2 border-b text-md">Notifications</h2>
                     <div class="grid grid-cols-1 w-full h-[400px] overflow-y-scroll p-2">
-                        <Notification v-if="$root.auth" v-for="(item, index) in this.notifications" :key="index" :data="item">
+                        <Notification v-if="$root.auth" v-for="(item, index) in this.notifications" :key="index"
+                            :data="item">
                         </Notification>
                         <p v-if="this.notifications.length === 0">You have no notifications!</p>
                     </div>
@@ -171,6 +172,10 @@
                         alt="Image" class="block max-w-full h-auto">
                 </router-link>
             </div>
+            <div class="">
+                <label for="">Do not show again</label>
+                <input type="checkbox" @click="handleDoNotShowAgain">
+            </div>
         </div>
     </dialog>
 
@@ -191,8 +196,8 @@ export default {
     async mounted() {
         if (this.auth) {
             await this.getNotifications();
-            if ( this.auth.role == Role.Company && this.auth.Order.length == 0) {
-                this.$refs.advertise_modal.showModal();
+            if (this.auth.role == Role.Company && this.auth.Order.length == 0) {
+                this.checkAdvertiseStatus();
             }
         }
     },
@@ -235,8 +240,23 @@ export default {
         closeAdvertise() {
             this.$refs.advertise_modal.close();
         },
-    },
-
+        handleDoNotShowAgain(event) {
+            const isChecked = event.target.checked;
+            if (isChecked) {
+                localStorage.setItem("doNotShowAdvertise", "true");
+            } else {
+                localStorage.removeItem("doNotShowAdvertise");
+            }
+        },
+        checkAdvertiseStatus() {
+            const doNotShowAdvertise = localStorage.getItem("doNotShowAdvertise");
+            if (doNotShowAdvertise === "true") {
+                closeAdvertise();
+            } else {
+                this.$refs.advertise_modal.showModal();
+            }
+        }
+    }
 }
 
 </script>
