@@ -106,8 +106,8 @@ export default {
                         <div v-else class="text-center p-4 mt-6">
                             <p class="text-gray-950 text-xl">You need to login to view this section.</p>
                         </div>
-                    </div>
-                </div>
+                    </div>  
+                </div>n
             </div>
 
             <div class="col-span-4 bg-base-100">

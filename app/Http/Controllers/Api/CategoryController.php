@@ -18,4 +18,9 @@ class CategoryController
     {
         return $this->service->getAllCategories($request);
     }
+
+    public function getProblemTags(Request $request)
+    {
+        return $this->service->getProblemTags($request);
+    }
 }

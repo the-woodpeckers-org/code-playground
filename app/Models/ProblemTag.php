@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProblemTag extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'problem_id',
         'category_id'
     ];
-    use HasFactory;
+    protected $table = 'problem_tags';
 }
