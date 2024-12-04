@@ -27,7 +27,8 @@ class Contest extends Model
     protected $appends = [
         'remainingTime',
         'isEnded',
-        'participantCount'
+        'participantCount',
+        'startTime'
     ];
 
     public function getParticipantCountAttribute()
@@ -64,6 +65,29 @@ class Contest extends Model
             'seconds' => $diff->s
         ];
     }
+    public function getStartTimeAttribute()
+    {
+        
+        if (Carbon::now() > $this->start_date) {
+            return [
+                'days' => 0,
+                'hours' => 0,
+                'minutes' => 0,
+                'seconds' => 0
+            ];
+        };
+        $to = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', Carbon::now());
+        $from = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $this->start_date);
+
+        $diff = $from->diff($to);
+        return [
+            'days' => $diff->d,
+            'hours' => $diff->h,
+            'minutes' => $diff->i,
+            'seconds' => $diff->s
+        ];
+    }
+
 
     public function problems()
     {

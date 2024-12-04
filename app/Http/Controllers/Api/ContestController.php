@@ -60,4 +60,13 @@ class ContestController
     {
         return $this->service->getContestByContributor($request);
     }
+
+    public function combinationContest(Request $request)
+    {
+        return $this->service->combinationContest($request);
+    }
+    public function contestParticipationU(Request $request)
+    {
+        return $this->service->contestParticipationU($request); 
+    }
 }
