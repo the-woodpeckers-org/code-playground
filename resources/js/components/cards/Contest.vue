@@ -21,6 +21,9 @@ export default {
         },
         p_Seconds: {
             default: 0
+        },
+        statusContest:{
+            default: 'running'
         }
     }
 }
@@ -33,8 +36,13 @@ export default {
         </figure>
         <div class="card-body">
             <h2 class="card-title text-ellipsis line-clamp-2">{{title}}</h2>
-            <p class="text-center">
-                <span class="text-center font-mono">end after</span>
+            <p class="text-center" v-if="statusContest==='running'">
+                <span  class="text-center font-mono">end after</span>
+                <br>
+                <Countdown :days="p_Days" :hours="p_Hours" :minutes="p_Minutes" :seconds="p_Seconds"></Countdown>
+            </p>
+            <p class="text-center" v-else>
+                <span  class="text-center font-mono">start after</span>
                 <br>
                 <Countdown :days="p_Days" :hours="p_Hours" :minutes="p_Minutes" :seconds="p_Seconds"></Countdown>
             </p>

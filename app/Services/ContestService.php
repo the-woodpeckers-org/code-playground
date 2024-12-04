@@ -6,6 +6,7 @@ use App\Http\Requests\CreateContestFormRequest;
 use App\Http\Requests\EditContestFormRequest;
 use App\Models\Contest;
 use App\Models\Language;
+use App\Models\Participation;
 use App\Models\Problem;
 use App\Models\ProblemLanguage;
 use App\Models\ProblemTag;
@@ -132,6 +133,26 @@ class ContestService
     {
         return Contest::where('id', $request->input('id'))
             ->with('problems')->first();
+    }
+
+    public function combinationContest(Request $request)
+    {
+        $contestPast = Contest::where('end_date', '<', Carbon::now())->where('status', '=', Status::APPROVED)->get();
+        $contestFuture = Contest::where('start_date', '>', Carbon::now())->where('status', '=', Status::APPROVED)->get();
+        $contestRunning = Contest::where('start_date', '<', Carbon::now())->where('end_date', '>', Carbon::now())->where('status', '=', Status::APPROVED)->get();
+        $data = [
+            'contestPast' => $contestPast,
+            'contestFuture' => $contestFuture,
+            'contestRunning' => $contestRunning,
+        ];
+     return response()->json(['status' => 'success','data'=>$data]);
+    }
+    public function contestParticipationU(Request $request)
+    {
+        $user = $request->user();
+        $participations = Participation::where('user_id', $user->id)->get();
+        return response()->json(['status' => 'success', 'data' => $participations]);
+
     }
 
 }

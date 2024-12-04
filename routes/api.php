@@ -159,6 +159,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/checkout', [OrderController::class, 'registerPremium'])->name('registerPremium');
 
      Route::get('/statistics',[StatisticsController::class, 'statistics'])->name('statistics');
+
+     Route::get('/contestParticipationU',[ContestController::class, 'contestParticipationU'])->name('contestParticipationU');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');
@@ -178,3 +180,5 @@ Route::get('/contest/landing', [ContestController::class, 'getLanding'])->name('
 Route::get('/contest/', [ContestController::class, 'getAll'])->name('contest.getAll');
 
 Route::get('/listCompanyHiring', [ProfileCompanyController::class, 'listCompanyHiring'])->name('listCompanyHiring');
+Route::get('/combinationContest',[ContestController::class, 'combinationContest'])->name('combinationContest');
+Route::get('/getProblemTags',[CategoryController::class, 'getProblemTags'])->name('getProblemTags');
