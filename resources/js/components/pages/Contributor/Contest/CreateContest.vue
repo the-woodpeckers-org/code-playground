@@ -94,7 +94,6 @@ export default {
                     _this.tags = response.data.tags.split(',');
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
         },
         createContest() {
@@ -108,7 +107,6 @@ export default {
                 tags: this.tags,
                 problems: this.problems
             }
-            console.log(data);
             HTTP.post('api/contest', data)
                 .then((response) => {
                     _this.isCreated = true;
@@ -116,7 +114,6 @@ export default {
                     _this.resetData();
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
         },
         updateContest() {
@@ -145,7 +142,7 @@ export default {
                 }
             ];
         },
-        removeProblem(id) {
+        removeProblem(id) {lear
             this.problems = this.problems.filter(item => {
                 return item.id !== id;
             });
@@ -156,7 +153,6 @@ export default {
             if (cb === 'cb2')
                 document.getElementById(id + 'cb1').checked = !document.getElementById(id + 'cb2').checked;
             this.problems[this.problems.findIndex(obj => obj.id == id)].existed = document.getElementById(id + 'cb1').checked ? true : false;
-            console.log(this.problems[this.problems.findIndex(obj => obj.id == id)]);
         },
         addTestcase(id) {
             this.problems[id].testcases.push({
