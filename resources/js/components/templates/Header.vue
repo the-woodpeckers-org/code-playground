@@ -18,43 +18,43 @@
                     class="h-12">
             </router-link>
             <div class="hidden lg:flex space-x-4">
-                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                <router-link v-if="!$root.auth || ($root.auth.role == Role.User || $root.auth.role == Role.Contributor)"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
                     Contests
                 </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                <router-link v-if="!$root.auth || ($root.auth.role == Role.User || $root.auth.role == Role.Contributor)"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden" to="/courses">
                     Courses
                 </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                <router-link v-if="!$root.auth || ($root.auth.role == Role.User || $root.auth.role == Role.Contributor)"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl hidden" to="/challenges">
                     Challenges
                 </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                <router-link v-if="!$root.auth || ($root.auth.role == Role.User || $root.auth.role == Role.Contributor)"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/problems">
                     Problems
                 </router-link>
-                <router-link v-if="!getAuth() || (getAuth().role == Role.User || getAuth().role == Role.Contributor)"
+                <router-link v-if="!$root.auth || ($root.auth.role == Role.User || $root.auth.role == Role.Contributor)"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/career">
                     Career
                 </router-link>
-                <router-link to="/Info-Recruitment" v-if="getAuth() && getAuth().role == Role.Company"
+                <router-link to="/Info-Recruitment" v-if="$root.auth && $root.auth.role == Role.Company"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl">
                     Recruitment Profile
                 </router-link>
-                <router-link v-if="getAuth() && (getAuth().role == Role.Contributor || getAuth().role == Role.Company)"
+                <router-link v-if="$root.auth && ($root.auth.role == Role.Contributor || $root.auth.role == Role.Company)"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor">
                     Contributor
                 </router-link>
-                <router-link v-if="getAuth() && this.auth.role == Role.Company && this.auth.Order.length == 0"
+                <router-link v-if="$root.auth && $root.auth.role == Role.Company && $root.auth.Order.length == 0"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/UpgradePlan">
                     Upgrade Plan
                 </router-link>
-                <router-link v-if="getAuth() && this.auth.role == Role.Company && this.auth.Order.length > 0"
+                <router-link v-if="$root.auth && $root.auth.role == Role.Company && $root.auth.Order.length > 0"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl animate-pulse">
                     Premium
                 </router-link>
-                <router-link v-if="getAuth() && this.auth.role == Role.Company"
+                <router-link v-if="$root.auth && $root.auth.role == Role.Company"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/order-history">
                     Order History
                 </router-link>
@@ -72,15 +72,15 @@
             <div class="dropdown dropdown-end mb-4">
                 <div tabindex="0" role="button">
                     <span class="relative flex h-3 w-3">
-                        <span v-if="this.unRead > 0"
+                        <span v-if="unRead > 0"
                             class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75">
                         </span>
                         <span class="relative inline-flex rounded-full h-3 w-3"
-                            :class="{ 'bg-sky-500': this.unRead > 0 }">
+                            :class="{ 'bg-sky-500': unRead > 0 }">
                             <i class="fa-regular fa-bell text-xl"></i>
                         </span>
-                        <span class="mx-3 text-blue-600" v-if="this.unRead > 0">
-                            {{ this.unRead }}
+                        <span class="mx-3 text-blue-600" v-if="unRead > 0">
+                            {{ unRead }}
                         </span>
                     </span>
                 </div>
@@ -88,10 +88,10 @@
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow h-[400px]">
                     <h2 class="p-2 border-b text-md">Notifications</h2>
                     <div class="grid grid-cols-1 w-full h-[200px] overflow-y-scroll">
-                        <Notification v-if="$root.auth" v-for="(item, index) in this.notifications" :key="index"
+                        <Notification v-if="$root.auth" v-for="(item, index) in notifications" :key="index"
                             :data="item">
                         </Notification>
-                        <p v-if="this.notifications.length === 0">You have no notifications!</p>
+                        <p v-if="notifications.length === 0">You have no notifications!</p>
                     </div>
                 </div>
             </div>
@@ -187,16 +187,16 @@ import { HTTP } from '@/http-common.js'
 import Notification from "@/components/notifications/Notification.vue";
 </script>
 <script>
-import { getAuth } from "@/utils/authLocalStorage.js";
+import {HTTP} from "@/http-common.js";
 
 export default {
     components: {
         Notification,
     },
     async mounted() {
-        if (this.auth) {
+        if (this.$root.auth) {
             await this.getNotifications();
-            if (this.auth.role == Role.Company && this.auth.Order.length == 0) {
+            if (this.$root.auth == Role.Company && this.$root.auth.Order.length == 0) {
                 this.checkAdvertiseStatus();
             }
         }
@@ -204,7 +204,6 @@ export default {
     data: function () {
         return {
             isMenuOpen: false,
-            auth: getAuth(),
             isLoggedOut: false,
             notifications: [],
             unRead: 0,
@@ -251,7 +250,7 @@ export default {
         checkAdvertiseStatus() {
             const doNotShowAdvertise = localStorage.getItem("doNotShowAdvertise");
             if (doNotShowAdvertise === "true") {
-                closeAdvertise();
+                this.closeAdvertise();
             } else {
                 this.$refs.advertise_modal.showModal();
             }

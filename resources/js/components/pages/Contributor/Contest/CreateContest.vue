@@ -142,7 +142,7 @@ export default {
                 }
             ];
         },
-        removeProblem(id) {
+        removeProblem(id) {lear
             this.problems = this.problems.filter(item => {
                 return item.id !== id;
             });
