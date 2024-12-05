@@ -87,7 +87,7 @@
                 <div tabindex="0"
                     class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-72 p-2 shadow h-[400px]">
                     <h2 class="p-2 border-b text-md">Notifications</h2>
-                    <div class="grid grid-cols-1 w-full h-[200px] overflow-y-scroll">
+                    <div class="grid grid-cols-1 w-full h-min-10 overflow-y-scroll">
                         <Notification v-if="$root.auth" v-for="(item, index) in notifications" :key="index"
                             :data="item">
                         </Notification>
@@ -181,18 +181,12 @@
 
 </template>
 <script setup>
-import { getAuth } from "@/utils/authLocalStorage.js";
 import { Role } from "@/utils/roles.js";
-import { HTTP } from '@/http-common.js'
 import Notification from "@/components/notifications/Notification.vue";
 </script>
 <script>
 import {HTTP} from "@/http-common.js";
-
 export default {
-    components: {
-        Notification,
-    },
     async mounted() {
         if (this.$root.auth) {
             await this.getNotifications();
@@ -225,8 +219,10 @@ export default {
             this.isMenuOpen = !this.isMenuOpen;
         },
         async getNotifications() {
+            let _this = this;
             await HTTP.get('/api/getNotification').then((response) => {
                 this.notifications = response.data.notifications;
+                console.log(_this.notifications);
                 this.notifications.forEach((item) => {
                     if (!item.is_read) {
                         this.unRead += 1;
