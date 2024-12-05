@@ -1,5 +1,5 @@
 <script>
-import { HTTP } from "@/http-common.js";
+import {HTTP} from "@/http-common.js";
 import CardSkeleton from "@/components/loading/CardSkeleton.vue";
 import Problem from "@/components/listItems/Problem.vue";
 import {getAuth} from "@/utils/authLocalStorage.js";
@@ -17,26 +17,24 @@ export default {
         CardSkeleton,
     },
     async mounted() {
-      await  this.getProblems();
-      await this.getCategories();
+        await this.getProblems();
+        await this.getCategories();
     },
     methods: {
-     async getProblems() {
-        let _this = this
-        let _url = '/api/problem'
-        if (getAuth()) {
-            _url = '/api/problem/u'
-        }
-        await 
-            HTTP.get(_url)
-                .then(function (response) {
-                    _this.problems = response.data.data
-                    console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error)
-                }),
-             _this.loading = true
+        async getProblems() {
+            let _this = this
+            let _url = '/api/problem'
+            if (getAuth()) {
+                _url = '/api/problem/u'
+            }
+            await
+                HTTP.get(_url)
+                    .then(function (response) {
+                        _this.problems = response.data.data
+                    })
+                    .catch(function (error) {
+                    }),
+                _this.loading = true
         },
         async getCategories() {
             await HTTP
@@ -45,7 +43,6 @@ export default {
                     this.categories = response.data.data;
                 })
                 .catch((error) => {
-                    console.log(error);
                 });
         },
     },
@@ -55,8 +52,8 @@ export default {
 <template>
     <div class="text-center">
         <div class="grid grid-cols-1 md:flex md:flex-row  md:flex-wrap  md:justify-center">
-            <div class="m-3" v-for="(item, index) in this.categories" :key="index">
-                <router-link >
+            <div class="m-3" v-for="(item, index) in categories" :key="index">
+                <router-link to="/">
                     <button class="btn bg-gray-300 text-gray-900 h-8">
                         {{ item.category_name }}
                         <div class="badge">{{ item.count }}</div>
@@ -76,7 +73,7 @@ export default {
             </div>
         </div>
         <ProblemSkeleton v-if="!loading" v-for="index in 16" :key="index"></ProblemSkeleton>
-        <Problem v-if="loading" v-for="problem in this.problems" :problem="problem"></Problem>
+        <Problem v-if="loading" v-for="problem in problems" :problem="problem"></Problem>
     </div>
 </template>
 

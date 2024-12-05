@@ -29,10 +29,11 @@ export default {
     },
     methods: {
         async viewDetailNotification() {
+            let _this = this;
             this.$refs.viewDetail.showModal();
             await HTTP.post('/api/isReadNotification',{notification_id: this.data.id}).then(response => {
                 console.log(response.data);
-                data.is_read = true;
+                _this.data.is_read = true;
             });
         }
     },

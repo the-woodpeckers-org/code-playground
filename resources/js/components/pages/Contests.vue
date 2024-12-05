@@ -99,14 +99,14 @@ export default {
                     <h3 class="text-lg font-semibold">My Contests</h3>
                     <p class="text-gray-600">View contests that you are currently participating in.</p>
                     <div class="grid grid-cols-1">
-                        <div v-if="this.auth" class="text-center">
+                        <div v-if="auth" class="text-center">
                             <Contest v-for="contest in pastContests" :key="contest.id" :title="contest.title" :contestId="contest.id"
                             :p_Days="contest.startTime.days" :p_Hours="contest.startTime.hours" :p_Minutes="contest.startTime.minutes" :p_Seconds="contest.startTime.seconds" :imgUrl="contest.imgUrl"></Contest>
                         </div>
                         <div v-else class="text-center p-4 mt-6">
                             <p class="text-gray-950 text-xl">You need to login to view this section.</p>
                         </div>
-                    </div>  
+                    </div>
                 </div>n
             </div>
 

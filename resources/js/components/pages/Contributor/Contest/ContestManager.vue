@@ -31,10 +31,8 @@ export default {
                     _this.contests = response.data.data;
                     _this.links = response.data.links;
                     _this.currentPage = response.data.current_page;
-                    console.log(response);
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
         },
         showEdit(id) {
