@@ -42,7 +42,8 @@
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl">
                     Recruitment Profile
                 </router-link>
-                <router-link v-if="$root.auth && ($root.auth.role == Role.Contributor || $root.auth.role == Role.Company)"
+                <router-link
+                    v-if="$root.auth && ($root.auth.role == Role.Contributor || $root.auth.role == Role.Company)"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor">
                     Contributor
                 </router-link>
@@ -75,8 +76,7 @@
                         <span v-if="unRead > 0"
                             class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75">
                         </span>
-                        <span class="relative inline-flex rounded-full h-3 w-3"
-                            :class="{ 'bg-sky-500': unRead > 0 }">
+                        <span class="relative inline-flex rounded-full h-3 w-3" :class="{ 'bg-sky-500': unRead > 0 }">
                             <i class="fa-regular fa-bell text-xl"></i>
                         </span>
                         <span class="mx-3 text-blue-600" v-if="unRead > 0">
@@ -185,17 +185,17 @@ import { Role } from "@/utils/roles.js";
 import Notification from "@/components/notifications/Notification.vue";
 </script>
 <script>
-import {HTTP} from "@/http-common.js";
+import { HTTP } from "@/http-common.js";
 export default {
     async mounted() {
         if (this.$root.auth) {
             await this.getNotifications();
-            if (this.$root.auth == Role.Company && this.$root.auth.Order.length == 0) {
+            if (this.$root.auth.role === Role.Company && this.$root.auth.Order.length == 0) {
                 this.checkAdvertiseStatus();
             }
         }
     },
-    data: function () {
+    data() {
         return {
             isMenuOpen: false,
             isLoggedOut: false,
@@ -208,6 +208,7 @@ export default {
         logout() {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("user");
+            sessionStorage.removeItem("doNotShowAdvertise");
             this.$root.auth = null;
             this.isLoggedOut = true;
             setTimeout(() => {
@@ -222,7 +223,6 @@ export default {
             let _this = this;
             await HTTP.get('/api/getNotification').then((response) => {
                 this.notifications = response.data.notifications;
-                console.log(_this.notifications);
                 this.notifications.forEach((item) => {
                     if (!item.is_read) {
                         this.unRead += 1;
@@ -238,20 +238,20 @@ export default {
         handleDoNotShowAgain(event) {
             const isChecked = event.target.checked;
             if (isChecked) {
-                localStorage.setItem("doNotShowAdvertise", "true");
+                sessionStorage.setItem("doNotShowAdvertise", "true");
             } else {
-                localStorage.removeItem("doNotShowAdvertise");
+                sessionStorage.removeItem("doNotShowAdvertise");
             }
         },
         checkAdvertiseStatus() {
-            const doNotShowAdvertise = localStorage.getItem("doNotShowAdvertise");
-            if (doNotShowAdvertise === "true") {
-                this.closeAdvertise();
-            } else {
-                this.$refs.advertise_modal.showModal();
-            }
-        }
-    }
+             const doNotShowAdvertise = sessionStorage.getItem("doNotShowAdvertise");
+                if (doNotShowAdvertise === "true") {
+                    this.closeAdvertise();
+                } else {
+                    this.$refs.advertise_modal.showModal();
+                }
+        },
+    },
 }
 
 </script>
