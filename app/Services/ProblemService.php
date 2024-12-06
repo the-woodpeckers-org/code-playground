@@ -49,6 +49,44 @@ class ProblemService
         return Problem::where('created_by', $contributor->id)->where('contest_id', null)->paginate(8);
     }
 
+    public function getSearchProblems(Request $request)
+    {
+        $result = Problem::query();
+        $result->select();
+        $result->where('contest_id', '=', null);
+        $result->where('status', Status::APPROVED);
+        $result->orderBy('created_at', 'desc');
+        if ($request->user()) {
+            $userId = $request->user()->id;
+            $result->leftJoin('attempts', function ($query) use ($userId) {
+                $query->on('attempts.problem_id', '=', 'problems.id')
+                    ->where('attempts.user_id', $userId);
+            });
+            $result->addSelect(['attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
+            $result->orderBy('problems.created_at', 'desc');
+        } else {
+            $result = Problem::query();
+        }
+        $result->addSelect(['problems.*']);
+        if ($request->input('searchString')) {
+            $result->where(function ($query) use ($request) {
+                $query->where('problems.title', 'like', '%' . $request->input('searchString') . '%');
+            });
+        }
+        if ($request->input('difficulty')) {
+            $result->where(function ($query) use ($request) {
+                $query->where('problems.difficulty', $request->input('difficulty'));
+            });
+        }
+        if ($request->input('category')) {
+            $result->with('tags');
+            $result->whereHas('categories', function ($query) use ($request) {
+                $query->where('category_id', $request->input('category'));
+            });
+        }
+        return $result->paginate(8);
+    }
+
     public function getAllU(Request $request)
     {
         $result = Problem::query();

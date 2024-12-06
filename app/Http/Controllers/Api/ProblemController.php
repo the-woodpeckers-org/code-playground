@@ -33,6 +33,11 @@ class ProblemController
         return response()->json($result);
     }
 
+    public function getSearchProblems(Request $request)
+    {
+        return response()->json($this->service->getSearchProblems($request));
+    }
+
     public function getProblemsU(Request $request)
     {
         $result = $this->service->getAllU($request);
