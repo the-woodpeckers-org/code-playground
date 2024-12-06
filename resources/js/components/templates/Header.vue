@@ -222,14 +222,12 @@ export default {
             let _this = this;
             await HTTP.get('/api/getNotification').then((response) => {
                 this.notifications = response.data.notifications;
-                console.log(_this.notifications);
                 this.notifications.forEach((item) => {
                     if (!item.is_read) {
                         this.unRead += 1;
                     }
                 });
             }).catch((err) => {
-                console.log(err);
             });
         },
         closeAdvertise() {
