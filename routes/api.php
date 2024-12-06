@@ -20,7 +20,7 @@ use App\Http\Controllers\Api\Management\JobRecruitmentMController;
 use App\Http\Controllers\Api\Management\ProblemMController;
 use App\Http\Controllers\Api\Management\ContestMController;
 use App\Http\Controllers\Api\NotificationController;
-use App\Http\Controllers\Api\Management\OrderController;  
+use App\Http\Controllers\Api\Management\OrderController;
 use App\Http\Controllers\Api\StatisticsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -182,3 +182,4 @@ Route::get('/contest/', [ContestController::class, 'getAll'])->name('contest.get
 Route::get('/listCompanyHiring', [ProfileCompanyController::class, 'listCompanyHiring'])->name('listCompanyHiring');
 Route::get('/combinationContest',[ContestController::class, 'combinationContest'])->name('combinationContest');
 Route::get('/getProblemTags',[CategoryController::class, 'getProblemTags'])->name('getProblemTags');
+Route::get('/problem/search', [ProblemController::class, 'getSearchProblems'])->name('getSearchProblems');
