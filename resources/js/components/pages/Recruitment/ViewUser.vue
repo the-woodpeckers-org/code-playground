@@ -165,7 +165,7 @@ export default {
         async getUser() {
             await HTTP.get(`/api/getUserCVToView/${this.$route.params.id}`)
                 .then(response => {
-                    console.log(response.data);
+                    console.log("dada",response.data);
                     this.User = response.data.user;
                     this.Profile = response.data.profile;
                     if (this.User.address != null) {

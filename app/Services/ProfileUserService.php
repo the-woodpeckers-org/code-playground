@@ -96,22 +96,23 @@ class ProfileUserService
             'message' => 'Success',
         ]);
     }
-    public function getUserCVToView($id)
+    public function getUserCVToView($id, Request $request)
     {
         try {
-            $user_view = User::find($id);
+            $profile_user = ProfileUser::where('id', '=', $id)->first();
+            $user_view = User::find($profile_user->user_id);
             $user = Auth::user();
             $company = ProfileCompany::where('user_id', '=', $user->id)->first();
             if ($user_view != null) {
                 $cv = $user_view->getCVPrimary()->first();
-                $userProfile = ProfileUser::where('user_id', '=', $id)->first();
-                $hidden = HiddenCompany::where('profile_user_id', '=', $userProfile->id)->where('profile_company_id', '=', $company->id)->first();
+            
+                $hidden = HiddenCompany::where('profile_user_id', '=', $profile_user->id)->where('profile_company_id', '=', $company->id)->first();
                 if ($hidden != null) {
                     return response()->json([
                         'status' => '200',
                         'user' => $user_view,
                         'cv' => $cv,
-                        'profile' => $userProfile,
+                        'profile' => $profile_user,
                         'hidden' => true
                     ]);
                 }
@@ -119,7 +120,7 @@ class ProfileUserService
                     'status' => '200',
                     'user' => $user_view,
                     'cv' => $cv,
-                    'profile' => $userProfile,
+                    'profile' => $profile_user,
                     'company' => $user
                 ]);
             } else {
