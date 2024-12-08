@@ -53,7 +53,6 @@ export default {
             if (_this.difficulty != '') {
                 _url += 'difficulty=' + _this.difficulty + '&';
             }
-            console.log(_url);
             await
                 HTTP.get(_url + 'page=' + index)
                     .then(function (response) {
