@@ -73,7 +73,7 @@ export default {
                 </div>
             </router-link>
 
-            <router-link to="">
+            <router-link to="/">
                 <div
                     class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-lime-300 to-violet-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
                     <i class="fa-solid fa-keyboard text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
@@ -81,7 +81,7 @@ export default {
                     <p>Earn an internship allowance throughout the program.</p>
                 </div>
             </router-link>
-            <router-link to="">
+            <router-link to="/">
                 <div
                     class="border rounded-xl h-40 w-96 my-2 mx-3 p-3 bg-gradient-to-tr from-cyan-300 to-lime-300 bg-size-200 transition-all hover:bg-pos-100 bg-pos-0 transition-all hover:scale-105 duration-300">
                     <i class="fa-solid fa-comments text-3xl text-orange-500 border bg-base-200 p-1 rounded-xl shadow-xl"></i>
@@ -100,7 +100,7 @@ export default {
                 :slot="item.jobRecruitments.length"
             ></Company>
         </div>
-        <h1 class="text-xl font-semibold my-3">Available jobs based on your skills</h1>
+        <h1 class="text-xl font-semibold my-3">Available jobs</h1>
         <div class="flex flex-row flex-wrap justify-center">
             <Job v-for="(item, index) in this.listJob " :key="index" :imgUrl="item.company.avatar_url"
                  :title="item.title" :companyName="item.company.name" :salary="item.salary" :url="'/Job-detail/'+item.id"></Job>
