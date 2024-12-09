@@ -131,6 +131,10 @@ const routes = [
                         component: ContestResult,
                     },
                     {
+                        path: ':id/:user_id/result/',
+                        component: ContestResult
+                    },
+                    {
                         path: ':id/ranking/',
                         component: ContestRanking
                     }

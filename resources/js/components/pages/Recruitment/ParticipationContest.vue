@@ -5,7 +5,7 @@
         </router-link>
         <div>
             <h1 class="text-2xl font-semibold text-center mb-3 text-black">{{ contest.title }}</h1>
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4" >
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
                 <div class="w-full lg:col-span-8 bg-base-100" style="min-height: 300px;">
                     <h2 class="font-semibold text-md text-xl p-3">List of contest participants</h2>
                     <div class="overflow-x-auto">
@@ -13,14 +13,16 @@
                             <h2 class="text-xl p-4">Contest is going on</h2>
                             <table class="table border">
                                 <thead class="bg-gray-500 text-gray-50 text-md lg:text-lg">
+                                <tr>
                                     <th class="py-2 px-2">User name</th>
                                     <th class="py-2 px-2">Finished problems</th>
                                     <th class="py-2 px-2">Profile CV</th>
                                     <th class="py-2 px-2">Participated at</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <Participant v-for="(item, index) in participants" :key="index" :participant="item"
-                                        @click="viewProfile"></Participant>
+                                <Participant v-for="(item, index) in participants" :key="index" :participant="item"
+                                             @click="viewProfile"></Participant>
                                 </tbody>
                             </table>
                         </div>
@@ -29,14 +31,16 @@
                             </h2>
                             <table class="table border">
                                 <thead class="bg-gray-500 text-gray-50 text-md lg:text-lg">
+                                <tr>
                                     <th class="py-2 px-2">User name</th>
                                     <th class="py-2 px-2">Finished problems</th>
                                     <th class="py-2 px-2">Profile CV</th>
                                     <th class="py-2 px-2">Finished at</th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <Participant v-for="(item, index) in participants" :key="index" :participant="item"
-                                        @click="viewProfile"></Participant>
+                                <Participant v-for="(item, index) in participants" :key="index" :participant="item"
+                                             @click="viewProfile"></Participant>
                                 </tbody>
                             </table>
                         </div>
@@ -44,31 +48,33 @@
                 </div>
                 <div class="w-full lg:col-span-4 bg-base-100">
                     <h2 class="p-3 font-semibold text-md text-xl font-mono">Profile user</h2>
-                    <div v-if="isClicked"> 
+                    <div v-if="isClicked">
                         <Profile :participant="this.participant.user"></Profile>
                     </div>
                     <div v-else v-if="this.participants.length > 0"
-                        class="lg:mt-32 border rounded-lg md:rounded lg:animate-bounce bg-blue-300 p-4 font-mono font-semibold">
-                        <- Select a row to view profile user </div>
+                         class="lg:mt-32 border rounded-lg md:rounded lg:animate-bounce bg-blue-300 p-4 font-mono font-semibold">
+                        <- Select a row to view profile user
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
-import { HTTP } from "@/http-common.js";
+import {HTTP} from "@/http-common.js";
 import Participant from "@/components/listItems/Management/Participant.vue";
 import Profile from "@/components/sideDialogs/Profile.vue";
+
 export default {
     name: "ParticipationContest",
-    components: { Participant, Profile },
+    components: {Participant, Profile},
     data() {
         return {
             participants: [],
             isClicked: false,
             isContestEnded: false,
-            contest :{},
+            contest: {},
             participant: {},
         };
     },
@@ -102,7 +108,6 @@ export default {
         viewProfile(participant) {
             this.isClicked = true;
             this.participant = participant;
-            console.log(participant.user);
         },
     },
     async mounted() {

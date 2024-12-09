@@ -66,7 +66,7 @@ export default {
       if (foundProvince) {
         this.selectedProvince = foundProvince.code;
         this.fetchDistricts();
-        
+
       }
     },
     district(newDistrictName) {
@@ -84,7 +84,7 @@ export default {
       );
       if (foundWard) {
         this.selectedWard = foundWard.code;
-        
+
       }
     },
   },
@@ -119,8 +119,8 @@ export default {
             `https://vn-public-apis.fpo.vn/wards/getByDistrict?districtCode=${this.selectedDistrict}&limit=-1`
           );
           this.wards = response.data.data.data;
-          this.selectedWard = ''; 
-          
+          this.selectedWard = '';
+
         } catch (error) {
           console.error('Error fetching wards:', error);
         }
@@ -144,14 +144,12 @@ export default {
 
 <template>
     <div class="flex flex-col space-y-4">
-      <label for="province">Province:
-      <select class="select select-secondary w-full" id="province" v-model="selectedProvince" @change="fetchDistricts">
-        <option value="">Chọn tỉnh</option>
+      <select class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded" id="province" v-model="selectedProvince" @change="fetchDistricts">
+        <option value="">Select</option>
         <option v-for="province in provinces" :key="province.code" :value="province.code">
           {{ province.name }}
         </option>
       </select>
-    </label>
     </div>
     <div class="flex flex-col space-y-4" v-if="districts.length">
       <label for="district">Districts

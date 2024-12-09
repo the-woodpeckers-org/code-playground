@@ -1,5 +1,5 @@
 <template>
- <div v-if="this.orders.length == 0" class="text-center flex flex-col items-center justify-center min-h-screen">
+ <div v-if="orders.length == 0" class="text-center flex flex-col items-center justify-center min-h-screen">
     <div class="h-10"></div>
     <i class="fa-solid fa-cart-shopping text-6xl text-gray-500 mb-6"></i>
     <h1 class="text-2xl font-semibold text-gray-700">There's nothing here :(</h1>
@@ -35,12 +35,10 @@ export default {
         async getOrders() {
             await HTTP.get('/api/orders').then(response => {
                 this.orders = response.data.data;
-                console.log(this.orders);
-            }).catch(error => {
-                console.log(error);
+s            }).catch(error => {
             });
         },
     }
 }
 </script>
-<style></style>
+<style scoped></style>

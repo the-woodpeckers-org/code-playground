@@ -23,6 +23,7 @@ export default {
             let _this = this;
             HTTP.get('api/contest/result?contest_id=' + this.$route.params.id)
                 .then((response) => {
+                    console.log(response.data)
                     _this.participation = response.data.participation;
                     if (_this.participation) {
                         _this.contest = response.data.participation.contest;
@@ -31,7 +32,6 @@ export default {
                     }
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
             this.getParticipation(1);
         },
