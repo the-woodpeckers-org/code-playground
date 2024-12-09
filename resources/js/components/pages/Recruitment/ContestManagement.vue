@@ -1,7 +1,7 @@
 <template>
 <div>
     <NavigatorRecruitment></NavigatorRecruitment>
-    <div class="container bg-base-100 p-3">
+    <div class="container bg-base-100 p-3 min-h-[680px]">
       <div class="container">
         <label class="input input-bordered flex items-center gap-2">
           <input
@@ -25,7 +25,7 @@
           </svg>
         </label>
       </div>
-      <div class="grid grid-cols-1 lg:grid-cols-4 gap-2">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-2 mt-6">
         <CardSkeleton v-if="!loading" v-for="i in 4"></CardSkeleton>
                 <ContestM v-if="loading" v-for="contest in this.contests"
                          :p_Days="contest.remainingTime.days"

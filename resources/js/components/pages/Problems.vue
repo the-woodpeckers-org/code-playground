@@ -81,7 +81,7 @@ export default {
         <div class="w-full mb-6">
             <p class="font-semibold text-xl">Search by name</p>
             <div class="w-full flex justify-between gap-3">
-                <input v-model="searchString" class="w-10/12 h-10 border border-gray-300 rounded-md">
+                <input v-model="searchString" class="w-10/12 h-10 border border-gray-300 rounded-md px-2">
                 <button class="w-2/12 bg-white border border-gray-300 font-semibold rounded-md h-10" @click="onSearchStringChanged(searchString)">Search</button>
             </div>
         </div>
