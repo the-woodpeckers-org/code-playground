@@ -759,7 +759,7 @@ class DatabaseSeeder extends Seeder
         $company1->email = 'google@gmail.com';
         $company1->password = Hash::make('123');
         $company1->role = Role::Company;
-        $company1->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
+        $company1->avatar_url = 'https://th.bing.com/th/id/R.47306b427aac955aaf28171dc7060207?rik=Omx2JGW8i%2fsEWQ&riu=http%3a%2f%2fsearchengineland.com%2ffigz%2fwp-content%2fseloads%2f2015%2f09%2fgoogle-g-logo-2015-1920.png&ehk=TvTPuXjMUW7Gc8NxD3LeSuPQgQ7V8Ns4IhwKZZK8Tag%3d&risl=&pid=ImgRaw&r=0';
         $company1->status = Status::APPROVED;
         $company1->save();
 
@@ -794,7 +794,7 @@ class DatabaseSeeder extends Seeder
         $company2->password = Hash::make('123');
         $company2->role = Role::Company;
         $company2->status = Status::APPROVED;
-        $company2->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
+        $company2->avatar_url = 'https://clipartspub.com/images/facebook-logo-clipart-vector-8.png';
         $company2->save();
 
         $order_company2 = new Order();
@@ -826,7 +826,7 @@ class DatabaseSeeder extends Seeder
         $company3->password = Hash::make('123');
         $company3->role = Role::Company;
         $company3->status = Status::APPROVED;
-        $company3->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
+        $company3->avatar_url = 'https://th.bing.com/th/id/OIP.ByVQt3Dos9lc_qA4vT9PTAHaCO?rs=1&pid=ImgDetMain';
         $company3->save();
 
         $order_company3 = new Order();
@@ -856,7 +856,7 @@ class DatabaseSeeder extends Seeder
         $company4->email = 'apple@gmail.com';
         $company4->password = Hash::make('123');
         $company4->role = Role::Company;
-        $company4->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
+        $company4->avatar_url = 'https://logos-world.net/wp-content/uploads/2020/04/Apple-Emblem.png';
         $company4->status = Status::APPROVED;
         $company4->save();
 
@@ -887,7 +887,7 @@ class DatabaseSeeder extends Seeder
         $company5->email = 'microsoft@gmail.com';
         $company5->password = Hash::make('123');
         $company5->role = Role::Company;
-        $company5->avatar_url = 'https://res.cloudinary.com/ddgnrqr3j/image/upload/v1731599349/toqqujiuzub394udt0c3.jpg';
+        $company5->avatar_url = 'https://blogs.microsoft.com/wp-content/uploads/2012/08/8867.Microsoft_5F00_Logo_2D00_for_2D00_screen.jpg';
         $company5->status = Status::APPROVED;
         $company5->save();
 
@@ -1106,6 +1106,8 @@ class DatabaseSeeder extends Seeder
             foreach ($problem_tags2 as $tag) {
                 ProblemTag::create($tag);
             }
+
+            
         }
     }
 }
