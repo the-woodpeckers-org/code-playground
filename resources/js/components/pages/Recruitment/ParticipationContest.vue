@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link :to="'/Contest-managent'">
+        <router-link :to="'/Contest-management'">
             <button class="underline text-gray-500 mb-5 text-md text-xl">Back to management</button>
         </router-link>
         <div>
@@ -14,14 +14,14 @@
                             <table class="table border">
                                 <thead class="bg-gray-500 text-gray-50 text-md lg:text-lg">
                                 <tr>
-                                    <th class="py-2 px-2">User name</th>
+                                    <th class="py-2 px-2">Username</th>
                                     <th class="py-2 px-2">Finished problems</th>
                                     <th class="py-2 px-2">Profile CV</th>
                                     <th class="py-2 px-2">Participated at</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <Participant v-for="(item, index) in participants" :key="index" :participant="item"
+                                <Participant v-for="(item, index) in participants" :key="index" :participant="item" :contestId="contest.id"
                                              @click="viewProfile"></Participant>
                                 </tbody>
                             </table>

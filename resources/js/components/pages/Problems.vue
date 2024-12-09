@@ -100,8 +100,7 @@ export default {
             </div>
         </div>
         <p class="font-semibold text-xl">Difficulty</p>
-        <div class="flex flex-row flex-wrap">
-            <div class="m-1">
+        <div class="flex flex-row flex-wrap p-1 gap-2">
                 <button class="btn bg-green-400 text-gray-900 h-8" @click="onDifficultyChanged('Easy')">
                     Easy
                 </button>
@@ -114,7 +113,6 @@ export default {
                 <button class="btn bg-gray-300 text-gray-900 h-8" @click="onDifficultyChanged('')">
                     All
                 </button>
-            </div>
         </div>
         <div class="mt-3"></div>
         <div class="my-6">
