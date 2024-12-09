@@ -43,7 +43,7 @@ export default {
         <h1 class="text-2xl font-bold border-b">Career</h1>
         <h1 class="text-xl font-semibold my-3">Search for job...</h1>
         <div class="w-full">
-            <Search :allItems="this.listJob"></Search>
+            <Search :allItems="listJob"></Search>
         </div>
         <h1 class="my-3">Suggested keywords: </h1>
         <div class="flex flex-row flex-wrap">
@@ -92,17 +92,17 @@ export default {
         </div>
         <h1 class="text-xl font-semibold my-3">Top Hiring Companies</h1>
         <div class="flex flex-row flex-wrap justify-center">
-            <Company v-for="(item, index) in this.listCompany" :key="index"
+            <Company v-for="(item, index) in listCompany" :key="index"
                 :imgUrl="item.userCompany.avatar_url"
                 :title="item.userCompany.name"
-                :description="item.profileCompany.description"
+                :description="item.profileCompany.general_information"
                 :url="'/View-Company/' + item.profileCompany.id"
                 :slot="item.jobRecruitments.length"
             ></Company>
         </div>
         <h1 class="text-xl font-semibold my-3">Available jobs</h1>
         <div class="flex flex-row flex-wrap justify-center">
-            <Job v-for="(item, index) in this.listJob " :key="index" :imgUrl="item.company.avatar_url"
+            <Job v-for="(item, index) in listJob " :key="index" :imgUrl="item.company.avatar_url"
                  :title="item.title" :companyName="item.company.name" :salary="item.salary" :url="'/Job-detail/'+item.id"></Job>
         </div>
     </div>

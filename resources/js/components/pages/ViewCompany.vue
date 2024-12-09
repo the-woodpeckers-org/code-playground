@@ -30,7 +30,7 @@ export default {
                     _this.userCompany = response.data.data.userCompany;
                     _this.jobRecruitments = response.data.data.jobRecruitments;
                     _this.address = _this.profileCompany.address;
-                    _this.skills = _this.profileCompany.skill.split(', ');
+                    _this.skills = JSON.parse(_this.profileCompany.skill);
                 })
                 .catch(e => {
                     console.log(e);
