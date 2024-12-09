@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link :to="'/Contest-managent'">
+        <router-link :to="'/Contest-management'">
             <button class="underline text-gray-500 mb-5 text-md text-xl">Back to management</button>
         </router-link>
         <div>

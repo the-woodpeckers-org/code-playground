@@ -241,7 +241,7 @@ const routes = [
                 name: 'contributor-dashboard'
             },
             {
-                path: '/contest-managent',
+                path: '/contest-management',
                 component: ContestManagement,
                 name: 'contest-management'
             },
