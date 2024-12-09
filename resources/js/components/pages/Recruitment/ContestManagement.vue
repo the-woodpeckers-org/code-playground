@@ -62,9 +62,8 @@ export default {
          async fetchContests()
          {
             await HTTP.get(`/api/getContestsU`).then((response) => {
-                console.log('dm',response.data.contests.data);
                 this.contests = response.data.contests.data;
-            }); 
+            });
             this.loading = true
          }
     },
@@ -74,5 +73,5 @@ export default {
 }
 </script>
 <style>
-    
+
 </style>

@@ -15,9 +15,9 @@ export default {
             User: getAuth(),
             Profile: {},
             isLoading: false,
-            listItemcvs: Array,
+            listItemCvs: Array,
             settingSelectedCv: null,
-            settingActivce: null,
+            settingActive: null,
             list_company_hidden: [],
             CompanyHidden: {},
             remove_id: null,
@@ -57,11 +57,11 @@ export default {
         },
         async getCvU() {
             let _this = this
-        
+
             await
                 HTTP.get('/api/cvsU')
                     .then(response => {
-                        _this.listItemcvs = response.data.data;
+                        _this.listItemCvs = response.data.data;
                     })
                     .catch(error => {
                         console.error(error);
@@ -141,8 +141,8 @@ export default {
             });
     }
     },
-   
-    
+
+
 }
 </script>
 <template>
@@ -201,7 +201,7 @@ export default {
                                 <span class="block pb-2 font-bold border-b text-neutral-900">Your list CV:</span>
                                 <div class="pt-4">
                                     <div class="flex flex-col gap-2">
-                                        <div v-for="(index, idx) in listItemcvs" :key="index.id"
+                                        <div v-for="(index, idx) in listItemCvs" :key="index.id"
                                             class="flex items-center gap-2">
                                             <input type="radio" :id="'radio-' + index.id" name="settingSelectedCv"
                                                 :value="index.id"
@@ -269,10 +269,10 @@ export default {
                                 src="https://c.topdevvn.com/v4/_next/static/media/not-found.9042aac4.webp">
                             <div class="p-4 text-gray-500">
                                 <h5 class="mt-4 text-xl font-bold">No recruiters have viewed your profile yet.</h5>
-                          
+
                             </div>
                         </div>
-                      
+
 
                     </div>
                 </div>
@@ -326,10 +326,10 @@ export default {
                 </div>
             </div>
         </dialog>
-        
+
         <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="!isLoading">
             <span class="loading loading-dots loading-lg"></span>
-          </div> 
+          </div>
     </div>
 
 </template>
