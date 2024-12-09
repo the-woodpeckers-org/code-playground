@@ -25,7 +25,9 @@ export default {
             isCompiling: false,
             isSubmitting: false,
             isCompileError: false,
-            isBelongsToContest: false
+            isBelongsToContest: false,
+            discussions: [],
+            isDiscussionsOpened: false
         }
     },
     methods: {
@@ -97,6 +99,8 @@ export default {
                     _this.testcases = response.data.testcases;
                     _this.languages = response.data.languages;
                     _this.categories = response.data.categories;
+                    _this.discussions = response.data.discussions;
+                    console.log(response);
                     _this.loading = true;
                     if (response.data.passed_at) {
                         _this.isPassed = true
@@ -149,6 +153,12 @@ export default {
                         <div class="border bg-base-200 border-gray-400 px-1 mx-1 mt-1" v-for="category in categories">
                             {{ category.name }}
                         </div>
+                    </div>
+                    <div>
+                        <button @click="isDiscussionsOpened = true" type="button"
+                                class="rounded-md bg-teal-200 p-1 my-2 border border-gray-300 font-semibold">Community
+                            solutions
+                        </button>
                     </div>
                     <div class="w-full border-b-2"></div>
                     <p class="rte text-base mx-1" v-if="loading"><span v-html="description"></span></p>
@@ -214,6 +224,27 @@ export default {
             </div>
         </form>
     </div>
+    <dialog id="discussionModal" class="modal" :class="{'modal-open' : isDiscussionsOpened}">
+        <div class="modal-box w-11/12 max-w-5xl">
+            <h3 class="text-lg font-bold">Community solutions</h3>
+            <div class="w-full flex flex-col flex-wrap gap-3 my-3">
+                <div v-for="item in discussions" class="rounded-xl bg-base-100 border border-gray-400 px-3">
+                    <p class="text-lg font-semibold">{{ item.title }} - by {{ item.user.name }} -
+                        {{ item.created_at }}</p>
+                    <p class="text-lg">
+                        {{ item.content }}
+                    </p>
+                </div>
+                <div v-if="discussions.length == 0">
+                    <p class="text-center text-xl">There's nothing here :(, for now. But you can post your solution
+                        here!</p>
+                </div>
+            </div>
+            <div class="modal-action">
+                <button class="btn" @click="isDiscussionsOpened = false">Close</button>
+            </div>
+        </div>
+    </dialog>
     <div class="w-full mt-2 h-12">
 
     </div>

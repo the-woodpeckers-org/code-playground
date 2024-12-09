@@ -28,7 +28,8 @@ class Problem extends Model
     protected $appends = [
         'testcases',
         'languages',
-        'categories'
+        'categories',
+        'discussions',
     ];
 
     public function getCategoriesAttribute() {
@@ -41,6 +42,10 @@ class Problem extends Model
 
     public function getTestcasesAttribute() {
         return Testcase::where('problem_id', $this->id)->get();
+    }
+
+    public function getDiscussionsAttribute() {
+        return Discussion::where('problem_id', $this->id)->get();
     }
 
     public function testcases()
@@ -74,5 +79,5 @@ class Problem extends Model
     {
         return $this->belongsTo(Contest::class, 'contest_id', 'id');
     }
- 
+
 }
