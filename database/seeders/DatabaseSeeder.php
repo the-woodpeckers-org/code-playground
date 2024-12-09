@@ -1111,7 +1111,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PostSeeder::class,
             UserCompanySeeder1::class,
-            JobSeeder2::class
+            JobSeeder2::class,
+            ContestSeeder3::class,
         ]);
     }
 }

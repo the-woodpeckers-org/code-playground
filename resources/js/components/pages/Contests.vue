@@ -52,10 +52,8 @@ export default {
             <div class="max-w-md">
                 <h1 class="mb-5 text-5xl font-extrabold text-gray-50">Hello there</h1>
                 <p class="mb-5 font-semibold text-balance text-gray-50">
-                    Code Playground is a platform for developers to showcase their skills and get hired by top tech
-                    companies.
+                    Code Playground is providing the best competitions to compete. Break your limits!
                 </p>
-                <button class="btn btn-primary">Get Started</button>
             </div>
         </div>
     </div>
@@ -73,46 +71,6 @@ export default {
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             <Contest v-for="contest in contestFuture" :key="contest.id" :title="contest.title" :contestId="contest.id"
                 :p_Days="contest.startTime.days" :p_Hours="contest.startTime.hours" :p_Minutes="contest.startTime.minutes" :p_Seconds="contest.startTime.seconds" :imgUrl="contest.imgUrl" :statusContest="'future'"></Contest>
-        </div>
-    </div>
-    <div class="w-full mt-2 p-3">
-        <div class="grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12 gap-2">
-            <div class="col-span-8 bg-base-100">
-                <div class="flex mb-4 p-3">
-                    <button v-for="(tab, index) in tabs" :key="index"
-                        :class="['tab-btn bg-slate-700', activeTab === index ? 'tab-active' : '']"
-                        @click="activeTab = index">
-                        {{ tab }}
-                    </button>
-                </div>
-
-                <div v-show="activeTab === 0" class="p-2">
-                    <h3 class="text-lg font-semibold">Past Contests</h3>
-                    <p class="text-gray-600">View the contests that have already ended.</p>
-                    <div class="grid grid-cols-1">
-                        <Contest v-for="contest in pastContests" :key="contest.id" :title="contest.title" :contestId="contest.id"
-                :p_Days="contest.startTime.days" :p_Hours="contest.startTime.hours" :p_Minutes="contest.startTime.minutes" :p_Seconds="contest.startTime.seconds" :imgUrl="contest.imgUrl" :statusContest="'end'"></Contest>
-                    </div>
-                </div>
-
-                <div v-show="activeTab === 1" class="p-2">
-                    <h3 class="text-lg font-semibold">My Contests</h3>
-                    <p class="text-gray-600">View contests that you are currently participating in.</p>
-                    <div class="grid grid-cols-1">
-                        <div v-if="auth" class="text-center">
-                            <Contest v-for="contest in pastContests" :key="contest.id" :title="contest.title" :contestId="contest.id"
-                            :p_Days="contest.startTime.days" :p_Hours="contest.startTime.hours" :p_Minutes="contest.startTime.minutes" :p_Seconds="contest.startTime.seconds" :imgUrl="contest.imgUrl"></Contest>
-                        </div>
-                        <div v-else class="text-center p-4 mt-6">
-                            <p class="text-gray-950 text-xl">You need to login to view this section.</p>
-                        </div>
-                    </div>
-                </div>n
-            </div>
-
-            <div class="col-span-4 bg-base-100">
-                <Ranking></Ranking>
-            </div>
         </div>
     </div>
 </template>
