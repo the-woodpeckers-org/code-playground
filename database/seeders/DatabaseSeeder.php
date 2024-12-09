@@ -94,12 +94,12 @@ class DatabaseSeeder extends Seeder
 
         $profile = new ProfileCompany();
         $profile->user_id = 5;
-        $profile->description = 'hehe';
+        $profile->description = 'Riot Games. Developer of League of Legends, VALORANT, Teamfight Tactics, Legends of Runeterra, and Wild Rift. Creators of Arcane. Home of LOL and VALORANT';
         $profile->general_information = "We are a software company";
         $profile->email = "tuyendung@gmail.com";
         $profile->phone = "0123456789";
         $profile->address = "Ho Chi Minh City";
-        $profile->skill = "PHP, Laravel, ReactJS";
+        $profile->skill = '["PHP", "Laravel", "ReactJS"]';
         $profile->codeCompany = "123";
         $profile->save();
 
@@ -759,7 +759,7 @@ class DatabaseSeeder extends Seeder
         $company1->email = 'google@gmail.com';
         $company1->password = Hash::make('123');
         $company1->role = Role::Company;
-        $company1->avatar_url = 'https://th.bing.com/th/id/R.47306b427aac955aaf28171dc7060207?rik=Omx2JGW8i%2fsEWQ&riu=http%3a%2f%2fsearchengineland.com%2ffigz%2fwp-content%2fseloads%2f2015%2f09%2fgoogle-g-logo-2015-1920.png&ehk=TvTPuXjMUW7Gc8NxD3LeSuPQgQ7V8Ns4IhwKZZK8Tag%3d&risl=&pid=ImgRaw&r=0';
+        $company1->avatar_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png';
         $company1->status = Status::APPROVED;
         $company1->save();
 
@@ -794,7 +794,7 @@ class DatabaseSeeder extends Seeder
         $company2->password = Hash::make('123');
         $company2->role = Role::Company;
         $company2->status = Status::APPROVED;
-        $company2->avatar_url = 'https://clipartspub.com/images/facebook-logo-clipart-vector-8.png';
+        $company2->avatar_url = 'https://www.wavetransit.com/wp-content/uploads/2021/08/Facebook-logo.png';
         $company2->save();
 
         $order_company2 = new Order();
@@ -826,7 +826,7 @@ class DatabaseSeeder extends Seeder
         $company3->password = Hash::make('123');
         $company3->role = Role::Company;
         $company3->status = Status::APPROVED;
-        $company3->avatar_url = 'https://th.bing.com/th/id/OIP.ByVQt3Dos9lc_qA4vT9PTAHaCO?rs=1&pid=ImgDetMain';
+        $company3->avatar_url = 'https://rubee.com.vn/wp-content/uploads/2021/05/amazone-logo.jpg';
         $company3->save();
 
         $order_company3 = new Order();
@@ -856,7 +856,7 @@ class DatabaseSeeder extends Seeder
         $company4->email = 'apple@gmail.com';
         $company4->password = Hash::make('123');
         $company4->role = Role::Company;
-        $company4->avatar_url = 'https://logos-world.net/wp-content/uploads/2020/04/Apple-Emblem.png';
+        $company4->avatar_url = 'https://techvietnam.com.vn/wp-content/uploads/2023/07/Apple-Logo.png';
         $company4->status = Status::APPROVED;
         $company4->save();
 
@@ -887,7 +887,7 @@ class DatabaseSeeder extends Seeder
         $company5->email = 'microsoft@gmail.com';
         $company5->password = Hash::make('123');
         $company5->role = Role::Company;
-        $company5->avatar_url = 'https://blogs.microsoft.com/wp-content/uploads/2012/08/8867.Microsoft_5F00_Logo_2D00_for_2D00_screen.jpg';
+        $company5->avatar_url = 'https://cdn.pixabay.com/photo/2021/08/10/15/36/microsoft-6536268_1280.png';
         $company5->status = Status::APPROVED;
         $company5->save();
 
@@ -915,7 +915,7 @@ class DatabaseSeeder extends Seeder
 
         $problems2 = [
             [
-                'title' => 'Sum of two numbers',
+                'title' => 'Sum of two integer',
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
@@ -923,7 +923,7 @@ class DatabaseSeeder extends Seeder
                 'status' => Status::APPROVED
             ],
             [
-                'title' => 'Sum of two numbers',
+                'title' => 'A integer number plus a integer number',
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
@@ -931,7 +931,23 @@ class DatabaseSeeder extends Seeder
                 'status' => Status::APPROVED
             ],
             [
-                'title' => 'Sum of two numbers',
+                'title' => 'Get the total value of the first value and the second value',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Hard',
+                'acceptance_rate' => 0,
+                'created_by' => 2,
+                'status' => Status::APPROVED
+            ],
+            [
+                'title' => 'Calculate the value of A and B',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Medium',
+                'acceptance_rate' => 0,
+                'created_by' => 2,
+                'status' => Status::APPROVED
+            ],
+            [
+                'title' => 'Mathematical Summation',
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
@@ -939,7 +955,15 @@ class DatabaseSeeder extends Seeder
                 'status' => Status::APPROVED
             ],
             [
-                'title' => 'Sum of two numbers',
+                'title' => 'Adding It Up',
+                'description' => 'Use your super brain to solve this!!!',
+                'difficulty' => 'Medium',
+                'acceptance_rate' => 0,
+                'created_by' => 2,
+                'status' => Status::APPROVED
+            ],
+            [
+                'title' => 'Determining the Aggregate',
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
@@ -947,7 +971,7 @@ class DatabaseSeeder extends Seeder
                 'status' => Status::APPROVED
             ],
             [
-                'title' => 'Sum of two numbers',
+                'title' => 'Uniting Digits',
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
@@ -955,31 +979,7 @@ class DatabaseSeeder extends Seeder
                 'status' => Status::APPROVED
             ],
             [
-                'title' => 'Sum of two numbers',
-                'description' => 'Use your super brain to solve this!!!',
-                'difficulty' => 'Easy',
-                'acceptance_rate' => 0,
-                'created_by' => 2,
-                'status' => Status::APPROVED
-            ],
-            [
-                'title' => 'Sum of two numbers',
-                'description' => 'Use your super brain to solve this!!!',
-                'difficulty' => 'Easy',
-                'acceptance_rate' => 0,
-                'created_by' => 2,
-                'status' => Status::APPROVED
-            ],
-            [
-                'title' => 'Sum of two numbers',
-                'description' => 'Use your super brain to solve this!!!',
-                'difficulty' => 'Easy',
-                'acceptance_rate' => 0,
-                'created_by' => 2,
-                'status' => Status::APPROVED
-            ],
-            [
-                'title' => 'Sum of two numbers',
+                'title' => 'Concatenating Values',
                 'description' => 'Use your super brain to solve this!!!',
                 'difficulty' => 'Easy',
                 'acceptance_rate' => 0,
@@ -1106,8 +1106,13 @@ class DatabaseSeeder extends Seeder
             foreach ($problem_tags2 as $tag) {
                 ProblemTag::create($tag);
             }
-
-            
         }
+
+        $this->call([
+            PostSeeder::class,
+            UserCompanySeeder1::class,
+            JobSeeder2::class,
+            ContestSeeder3::class,
+        ]);
     }
 }

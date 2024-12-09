@@ -53,8 +53,6 @@ class ProblemService
     {
         $result = Problem::query();
         $result->select();
-        $result->where('contest_id', '=', null);
-        $result->where('status', Status::APPROVED);
         $result->orderBy('created_at', 'desc');
         if ($request->user()) {
             $userId = $request->user()->id;
@@ -84,6 +82,8 @@ class ProblemService
                 $query->where('category_id', $request->input('category'));
             });
         }
+        $result->where('contest_id', '=', null);
+        $result->where('status', Status::APPROVED);
         return $result->paginate(8);
     }
 
