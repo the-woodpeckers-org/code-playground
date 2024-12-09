@@ -39,7 +39,6 @@ class ProblemService
     {
         $result = Problem::query();
         $result->where('id', $request['id']);
-
         return $result->first();
     }
 
