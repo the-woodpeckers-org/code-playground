@@ -39,7 +39,7 @@ export default {
                 }),
             HTTP.get('api/contest/landing')
                 .then(response => {
-                    console.log("rs",response);
+                    console.log("rs", response);
                     _this.contests = response.data;
                 })
                 .catch(error => {
@@ -89,8 +89,14 @@ export default {
                 <span>Acceptance</span>
                 <span>Tags</span>
             </div>
+
         </div>
         <ProblemSkeleton v-if="!loading" v-for="index in 16" :key="index"></ProblemSkeleton>
         <Problem v-if="loading" v-for="problem in this.problems" :problem="problem"></Problem>
+        <div class="w-full text-center col-span-full my-6">
+            <span><router-link
+                class="btn rounded-3xl bg-primary hover:bg-cyan-700 text-white text-lg" to="/problems"><i
+                class="fa-solid fa-arrow-right"></i>SEE MORE</router-link></span>
+        </div>
     </div>
 </template>
