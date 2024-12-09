@@ -95,7 +95,7 @@ export default {
             <Company v-for="(item, index) in this.listCompany" :key="index"
                 :imgUrl="item.userCompany.avatar_url"
                 :title="item.userCompany.name"
-                :description="item.profileCompany.description"
+                :description="item.profileCompany.general_information"
                 :url="'/View-Company/' + item.profileCompany.id"
                 :slot="item.jobRecruitments.length"
             ></Company>
