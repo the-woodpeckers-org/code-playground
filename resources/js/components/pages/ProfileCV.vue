@@ -198,7 +198,7 @@ export default {
                                 <div class="h-40 w-40 relative overflow-hidden rounded-full bg-gray-200">
                                     <img class="h-40 w-40 rounded-full"
                                         :src="this.User.avatar_url ? this.User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
-                                   
+
                                 </div>
                             </div>
                             <div class="grid grow grid-cols-2 gap-5">
@@ -217,7 +217,7 @@ export default {
                                 <div class="form-group col-span-2 md:col-span-1"><label for="birthday"
                                         class="text-sm font-bold text-gray-500">Dob </label>
                                     <div class="relative w-full text-gray-700"><input
-                                            class="relative transition-all duration-300 py-2.5 pl-4 pr-14 w-full border-gray-300 dark:bg-slate-800 dark:text-white/80 dark:border-slate-600 rounded-lg tracking-wide font-light text-sm placeholder-gray-400 bg-white focus:ring disabled:opacity-40 disabled:cursor-not-allowed focus:border-blue-500 focus:ring-blue-500/20"
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                             placeholder="DD/MM/YYYY" id="birthday" autocomplete="off"
                                             role="presentation" type="date" v-model="this.User.birthday"><button
                                             type="button"
@@ -256,7 +256,7 @@ export default {
                                     <div class="flex">
                                         <div class="relative w-full"><input
                                                 class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                                id="position" placeholder="Ví dụ: Back- end developer"
+                                                id="position" placeholder="Example: Back-end developer"
                                                 v-model="this.Profile.job_position"></div>
                                     </div>
                                 </div>
@@ -268,7 +268,7 @@ export default {
                                     <div class="flex">
                                         <div class="relative w-full"><input
                                                 class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                                min="0" placeholder="Ví dụ: 2" type="number"
+                                                min="0" placeholder="Example: 2 years" type="number"
                                                 v-model="this.Profile.experience"
                                                 onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                                         </div>
@@ -301,12 +301,12 @@ export default {
                                 <div class="flex">
                                     <div class="relative w-full"><input
                                             class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            placeholder="Please fill the name street!" v-model="address.name">
+                                            placeholder="" v-model="address.name">
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2 md:col-span-1"><label for=""
-                                    class="text-sm font-bold text-gray-500">City/Provicent<span
+                                    class="text-sm font-bold text-gray-500">City/Province<span
                                         class="font-normal text-primary">*</span></label>
                                 <LocationPicker v-if="User && User.address" :province="User.address[0] || null"
                                     :district="User.address[1] || null" :ward="User.address[2] || null"
@@ -339,7 +339,7 @@ export default {
                                             <div class="flex flex-wrap gap-2 w-2/3" id="skill-selected">
                                                 <kbd v-for="(skill, index) in selectedSkills" :key="index" class="kbd">
                                                     {{ skill }}
-                                                    <button @click="removeSkill(skill)" class="ml-2 text-red-500">
+                                                    <button type="button" @click="removeSkill(skill)" class="ml-2 text-red-500">
                                                         <i class="fa-solid fa-x"></i>
                                                     </button>
                                                 </kbd>

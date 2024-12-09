@@ -27,9 +27,13 @@ export default {
             this.codeEditor.session.setMode('ace/mode/c_cpp')
             this.codeEditor.setReadOnly(true);
             let _this = this;
-            HTTP.get('api/contest/result?contest_id=' + this.$route.params.id)
+            let _url = 'api/contest/result?contest_id=' + this.$route.params.id;
+            if (this.$route.params.user_id) {
+                _url = _url + '&user_id=' + this.$route.params.user_id;
+            }
+            console.log(_url);
+            HTTP.get(_url)
                 .then((response) => {
-                    console.log(response);
                     _this.participation = response.data.participation;
                     _this.contest = response.data.participation.contest;
                     _this.attempts = response.data.attempts;
@@ -64,14 +68,17 @@ export default {
 <template>
     <div class="w-full">
         <div class="bg-base-200 p-3 shadow-xl rounded-lg">
-            <p class="text-xl font-semibold">Your result at {{ contest.title }}</p>
+            <p class="text-xl font-semibold"><span v-if="!$route.params.user_id">Your result at</span><span v-if="$route.params.user_id">{{ participation.user.name }}'s result at</span> {{ contest.title }}</p>
             <p>Start date: {{ contest.start_date }}</p>
             <p>End date: {{ contest.end_date }}</p>
             <div class="divider"></div>
-            <p>You have finished at: <span class="font-semibold">{{ finished_at }}</span></p>
+            <p><span v-if="!$route.params.user_id">You have finished at: </span>
+                <span v-if="$route.params.user_id">{{ participation.user.name }} have finished at: </span>
+                <span class="font-semibold">{{ finished_at }}</span></p>
             <p>Finished time: {{format(participation.finishedTime?.days, participation.finishedTime?.hours, participation.finishedTime?.minutes, participation.finishedTime?.seconds)}}</p>
             <p>Problems solved: <span class="font-semibold">{{ participation.finished_problems + '/' + total_problems }}</span></p>
-            <p>Your code: </p>
+            <p v-if="!$route.params.user_id">Your code: </p>
+            <p v-if="$route.params.user_id">{{ participation.user.name }}'s code: </p>
             <div role="tablist" class="tabs tabs-lifted m-0">
                 <template v-for="(attempt, index) in attempts">
                     <input type="radio" name="my_tabs_2" role="tab" class="tab" :ariaLabel="'Problem ' + (index + 1)" :checked="index === 0" @click="setCode(index)"/>
