@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import UserLayout from "@/components/templates/UserLayout/UserLayout.vue";
 import AdminLayout from "@/components/templates/AdminLayout/AdminLayout.vue";
+import ChangePassword from "@/components/pages/Password/ChangePassword.vue";
 const ContestRanking = () => import("@/components/pages/Contest/ContestRanking.vue");
 const Dashboard = () => import("@/components/pages/Contributor/Dashboard.vue");
 const PostPage = () => import("@/components/pages/Post/PostPage.vue");
@@ -264,6 +265,10 @@ const routes = [
                 path: '/post/:slug',
                 component: PostPage,
                 name: 'post-page'
+            },
+            {
+                path: '/change-password',
+                component: ChangePassword
             }
         ]
     },
