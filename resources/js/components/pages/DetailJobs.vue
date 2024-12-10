@@ -206,6 +206,19 @@
             </div>
         </div>
     </div>
+
+    <dialog  v-if="isFailed" class="modal model-open" id="failed">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">Failed to apply cv</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 border">Yes</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+    
 </template>
 <script>
 import { HTTP } from "@/http-common.js";
@@ -228,7 +241,8 @@ export default {
             isApplied: false,
             userCompany: {},
             isLoading: false,
-            isSendRequest: false
+            isSendRequest: false,
+            isFailed: false
         }
     },
     name: "DetailJobs",
@@ -287,6 +301,11 @@ export default {
             applyShow.close();
             let _this = this;
             this.id_CV = document.querySelector('select[name="cv"]').value;
+            if(this.id_CV == '') {
+                alert('Please choose CV');
+                return;
+            }
+
             const job = {
                 job_id: this.$route.params.id,
                 cv_id: this.id_CV,
@@ -294,7 +313,6 @@ export default {
             }
             this.isLoading = true;
             await HTTP.post('/api/applyCV', job).then(response => {
-                console.log(response.data)
                 HTTP.get(`/api/isApplied/${this.$route.params.id}`).then(response => {
                     _this.isApplied = response.data.isApplied;
                     _this.isLoading = false;
@@ -303,10 +321,11 @@ export default {
                         _this.isSendRequest = false;
                     }, 2000);
                 }).catch(error => {
-                    console.log(error)
+                    _this.isLoading = false;
                 });
             }).catch(error => {
-                console.log(error)
+                _this.isLoading = false;
+                _this.isFailed = true;
             });
             ConfirmCancelApply.close();
         },
