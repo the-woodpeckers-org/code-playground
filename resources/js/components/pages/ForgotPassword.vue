@@ -8,6 +8,7 @@ export default {
             input_email: String,
             isSucceed: Boolean,
             errorMessage: String,
+            isSendingEmail: false,
         }
     },
     mounted() {
@@ -17,6 +18,7 @@ export default {
     },
     methods: {
         async sendRequest() {
+            this.isSendingEmail = true;
             await HTTP.post('api/forgot-password',
                 {
                     email: this.input_email
@@ -24,6 +26,7 @@ export default {
                 .then((response) => {
                     if (response.data.passwordResetToken) {
                         this.isSucceed = true;
+                        this.isSendingEmail = false;
                     }
                 })
                 .catch((error) => {
@@ -67,8 +70,11 @@ export default {
                        placeholder="example@email.com">
                 <div class="text-center w-full my-3">
                     <button type="button"
-                            class="rounded bg-amber-300 hover:bg-amber-600 p-2 border-amber-500 border transition"
-                            @click="sendRequest">Reset password
+                            class="rounded bg-amber-300 hover:bg-amber-600 p-2 border-amber-500 border transition w-40"
+                            @click="sendRequest"
+                            :disabled="isSendingEmail">
+                        <span v-if="!isSendingEmail">Reset password</span>
+                        <span v-if="isSendingEmail" class="loading loading-dots loading-xs"></span>
                     </button>
                 </div>
             </div>

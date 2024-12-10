@@ -440,7 +440,7 @@ export default {
                                class="w-full h-8 border border-gray-500 rounded-lg bg-base-100">
                         <label>Password</label>
                         <div class="text-center my-2">
-                            <a href="#" class="link font-semibold">Change your password</a>
+                            <router-link to="/change-password" class="link font-semibold">Change your password</router-link>
                         </div>
                     </div>
 
