@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Authentication;
 
 use App\Http\Controllers\Api\Controller;
+use App\Http\Requests\ChangePasswordFormRequest;
 use App\Http\Requests\ForgotPasswordFormRequest;
 use App\Http\Requests\LoginFormRequest;
 use App\Http\Requests\RegisterFormRequest;
@@ -47,6 +48,11 @@ class AuthController
     public function resetPassword(ResetPasswordFormRequest $request)
     {
         return response()->json($this->service->resetPassword($request));
+    }
+
+    public function changePassword(ChangePasswordFormRequest $request)
+    {
+        return $this->service->changePassword($request);
     }
 
     public function sendVerificationEmail(Request $request)

@@ -161,6 +161,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
      Route::get('/statistics',[StatisticsController::class, 'statistics'])->name('statistics');
 
      Route::get('/contestParticipationU',[ContestController::class, 'contestParticipationU'])->name('contestParticipationU');
+
+     Route::post('/change-password', [AuthController::class, 'changePassword'])->name('changePassword');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');
