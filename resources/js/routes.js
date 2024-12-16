@@ -53,6 +53,7 @@ const UpgradePlan = () => import("@/components/pages/Recruitment/UpgradePlan.vue
 const  Checkout =()=> import("@/components/pages/Recruitment/Checkout.vue");
 const OrderHistory = () => import("@/components/pages/Recruitment/OrderHistory.vue");
 const Statistics = () => import("@/components/pages/Admin/StatisticsM.vue");
+const vnpayReturn =  ()=> import("@/components/pages/Recruitment/VnpayReturn.vue");
 const routes = [
     {
         path: '/u',
@@ -210,7 +211,12 @@ const routes = [
             {
                 path:'/checkout',
                 component: Checkout,
-                name: 'checkout'
+                name: 'checkout',
+            },
+            {
+                path:'/checkout/vnpay-return',
+                component: vnpayReturn,
+                name: 'vnpay-return',
             },
             {
                 path:'/order-history',

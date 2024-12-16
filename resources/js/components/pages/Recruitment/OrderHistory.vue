@@ -1,5 +1,5 @@
 <template>
- <div v-if="orders.length == 0" class="text-center flex flex-col items-center justify-center min-h-screen">
+ <div v-if="orders.length == 0 " class="text-center flex flex-col items-center justify-center min-h-screen">
     <div class="h-10"></div>
     <i class="fa-solid fa-cart-shopping text-6xl text-gray-500 mb-6"></i>
     <h1 class="text-2xl font-semibold text-gray-700">There's nothing here :(</h1>
@@ -7,8 +7,8 @@
 
   <div v-else class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
-      <h1 class="text-3xl font-extrabold text-gray-900 mb-8">Order History</h1>
-      <div class="space-y-8">
+      <h1  class="text-3xl font-extrabold text-gray-900 mb-8">Order History</h1>
+      <div  class="space-y-8">
         <Order v-for="(order, index) in orders" :key="index" :data="order" />
       </div>
     </div>
@@ -25,7 +25,8 @@ export default {
     data: function () {
         return {
             orders: [],
-            loading: false
+            loading: false,
+            subscriptionsHistory: []
         }
     },
     async mounted() {
@@ -33,9 +34,18 @@ export default {
     },
     methods: {
         async getOrders() {
+            console.log("Heh");
             await HTTP.get('/api/orders').then(response => {
-                this.orders = response.data.data;
-s            }).catch(error => {
+          
+                if(response.data.data){;
+                    this.orders = response.data.data;       
+                    console.log(response.data.data);
+                }
+                else{
+                    this.orders = [];
+                    this.Subscriptions = [];
+                }
+          }).catch(error => {
             });
         },
     }
