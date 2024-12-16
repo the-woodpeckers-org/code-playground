@@ -13,12 +13,17 @@ class OrderController
         $this->service = $service;
     }
    
-    public function registerPremium(Request $request)
-    {
-        return $this->service->registerPremium($request);
-    }
+
     public function getOrders(Request $request)
     {
         return $this->service->getOrders($request);
+    }
+    public function vnpay_payment(Request $request)
+    {
+        return $this->service->vnpay_payment($request);
+    }
+    public function vnpayReturn(Request $request)
+    {
+        return $this->service->vnpayReturn($request);
     }
 }

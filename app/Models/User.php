@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Application;
 use App\Models\JobRecruitment;
+use App\Utils\Constants\Status;
 use Carbon\Carbon;
 
 class User extends Authenticatable
@@ -125,7 +126,7 @@ class User extends Authenticatable
 
     public function getOrderAttribute()
     {
-        return Order::where('user_id', $this->id)->get();
+        return Order::where('user_id', $this->id)->where('status','=',Status::PAID)->get();
     }
 
     // Kiểm tra xem công ty này đã từng đăng ký dịch vụ premium chưa

@@ -156,8 +156,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // checkout register premium
     Route::get('/orders', [OrderController::class, 'getOrders'])->name('getOrders');
-    Route::post('/checkout', [OrderController::class, 'registerPremium'])->name('registerPremium');
-
+    Route::post('/vnpay_payment',[OrderController::class,'vnpay_payment'])->name('vnpay_payment');
+    Route::get('/vnpayReturn',[OrderController::class,'vnpayReturn'])->name('vnpayReturn');
      Route::get('/statistics',[StatisticsController::class, 'statistics'])->name('statistics');
 
      Route::get('/contestParticipationU',[ContestController::class, 'contestParticipationU'])->name('contestParticipationU');

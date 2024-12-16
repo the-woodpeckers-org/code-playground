@@ -14,12 +14,15 @@ class Order extends Model
 
     protected $appends = [
         'Subscription',
+        'SubscriptionHistory',
     ];
 
     public function getSubscriptionAttribute()
     {
         return SubscriptionAttribute::where('order_id', $this->id)->where('end_date', '>', Carbon::now())->first();
     }
-
-
+    public function getSubscriptionHistoryAttribute()
+    {
+        return SubscriptionAttribute::where('order_id', $this->id)->first();
+    }
 }
