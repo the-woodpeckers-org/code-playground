@@ -197,7 +197,7 @@ export default {
                             <div class="w-full md:w-auto">
                                 <div class="h-40 w-40 relative overflow-hidden rounded-full bg-gray-200">
                                     <img class="h-40 w-40 rounded-full"
-                                        :src="this.User.avatar_url ? this.User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
+                                        :src="User.avatar_url ? User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
 
                                 </div>
                             </div>
@@ -219,7 +219,7 @@ export default {
                                     <div class="relative w-full text-gray-700"><input
                                             class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                             placeholder="DD/MM/YYYY" id="birthday" autocomplete="off"
-                                            role="presentation" type="date" v-model="this.User.birthday"><button
+                                            role="presentation" type="date" v-model="User.birthday"><button
                                             type="button"
                                             class="absolute right-0 h-full px-3 text-gray-400 focus:outline-none disabled:opacity-40 disabled:cursor-not-allowed"><svg
                                                 class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -257,7 +257,7 @@ export default {
                                         <div class="relative w-full"><input
                                                 class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                 id="position" placeholder="Example: Back-end developer"
-                                                v-model="this.Profile.job_position"></div>
+                                                v-model="Profile.job_position"></div>
                                     </div>
                                 </div>
                             </div>
@@ -269,7 +269,7 @@ export default {
                                         <div class="relative w-full"><input
                                                 class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                 min="0" placeholder="Example: 2 years" type="number"
-                                                v-model="this.Profile.experience"
+                                                v-model="Profile.experience"
                                                 onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
                                         </div>
                                     </div>
@@ -280,7 +280,7 @@ export default {
                                 <div class="flex">
                                     <div class="relative w-full"><input
                                             class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            disabled="" v-model="this.User.email" readonly
+                                            disabled="" v-model="User.email" readonly
                                             placeholder="Please setting email in the profile"></div>
                                 </div>
                             </div>
@@ -318,7 +318,7 @@ export default {
                                 <div class="flex">
                                     <div class="relative w-full"><input
                                             class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            placeholder="https://www.linkedin.com/username" v-model="this.socials[0]">
+                                            placeholder="https://www.linkedin.com/username" v-model="socials[0]">
                                     </div>
                                 </div>
                             </div>
@@ -327,7 +327,7 @@ export default {
                                 <div class="flex">
                                     <div class="relative w-full"><input
                                             class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
-                                            placeholder="https://github.com/username" v-model="this.socials[1]"></div>
+                                            placeholder="https://github.com/username" v-model="socials[1]"></div>
                                 </div>
                             </div>
                             <div class="form-group col-span-2"><label for=""
@@ -388,22 +388,22 @@ export default {
                                     <div class="avatar">
                                         <div class="w-16 md:w-20 lg:w-20 rounded-full h-auto">
                                             <img
-                                                :src="this.User.avatar_url ? this.User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
+                                                :src="User.avatar_url ? User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
 
                                         </div>
                                     </div>
                                 </div>
-                                <div class="stat-value sm:text-sm md:text-lg lg:text-2xl">{{ this.rate }}%</div>
-                                <div class="stat-title sm:text-base md:text-md lg:text-md">{{ this.User.name }}</div>
+                                <div class="stat-value sm:text-sm md:text-lg lg:text-2xl">{{ rate }}%</div>
+                                <div class="stat-title sm:text-base md:text-md lg:text-md">{{ User.name }}</div>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-3 p-3 bg-base-100" v-if="this.isMissingInfo.length">
+                    <div class="mt-3 p-3 bg-base-100" v-if="isMissingInfo.length">
                         <label class="text-balance text-sm lg:text-md">You are missing the following
                             information:</label>
                         <ul class="grid grid-1 ml-2 border-none">
                             <span class="bg-primary rounded-full w-max mt-2 text-white animate-bounce"
-                                v-for="(item, index) in this.isMissingInfo" :key="index"><a class="p-2">{{ item.label }}
+                                v-for="(item, index) in isMissingInfo" :key="index"><a class="p-2">{{ item.label }}
                                     +{{ item.weight }}</a></span>
                         </ul>
                     </div>
@@ -436,7 +436,7 @@ export default {
                                 <div class="h-40 w-40 rounded-full bg-gray-500">
                                     <img alt="Avatar" loading="lazy" width="160" height="160" decoding="async"
                                         data-nimg="1" class="h-40 w-40 rounded-full" style="color: transparent"
-                                        :src="this.User.avatar_url ? this.User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
+                                        :src="User.avatar_url ? User.avatar_url : 'https://static.vecteezy.com/system/resources/previews/009/734/564/original/default-avatar-profile-icon-of-social-media-user-vector.jpg'" />
 
 
                                 </div>
@@ -445,26 +445,26 @@ export default {
                                 <div class="flex flex-col">
                                     <div class="flex items-center gap-1.5">
                                         <h4 class="overflow-hidden text-2xl font-bold text-black" v-if="User"> {{
-                                            this.User.name }}
+                                           User.name }}
                                         </h4>
                                         <span
                                             class="ml-2 rounded-full bg-blue-50 px-3 py-[2px] text-sm font-bold text-blue-500">{{
-                                                this.rate }}%</span>
+                                               rate }}%</span>
                                     </div>
                                     <div class="flex">
                                         <div class="flex items-center"><span
                                                 class="overflow-hidden text-xl font-bold text-neutral-600">{{
-                                                    this.Profile.job_position || 'Add job position' }}</span>
+                                                   Profile.job_position || 'Add job position' }}</span>
                                             <div class="w-[30px] items-center justify-center text-center">-</div>
                                         </div>
                                         <div class="flex-none text-xl text-gray-500">Number a experience: {{
-                                            this.Profile.experience || '0' }}</div>
+                                           Profile.experience || '0' }}</div>
                                     </div>
                                     <div class="mt-4 text-lg text-gray-600">
                                         <div class="flex w-100 truncate">
-                                            <span v-if="this.User.address">{{ this.address.province + "," || " " }} {{
-                                                this.address.district + "," || " " }} {{ this.address.ward || " " }}
-                                                <span v-if="this.address.name">{{ ", " + this.address.name
+                                            <span v-if="User.address">{{address.province + "," || " " }} {{
+                                               address.district + "," || " " }} {{address.ward || " " }}
+                                                <span v-if="address.name">{{ ", " +address.name
                                                     }}</span></span>
                                             <span v-else> Add address</span>
 
@@ -474,15 +474,15 @@ export default {
                                                 <a class="underline">{{ User.email || 'Thêm mail' }}</a>
                                             </div>
                                             <div class="w-[30px] text-center">-</div>
-                                            <div>{{ this.User.phone_number }}</div>
+                                            <div>{{User.phone_number }}</div>
                                             <div class="w-[30px] text-center">-</div>
-                                            <div><span class="whitespace-nowrap text-gray-700">{{ this.User.birthday ||
+                                            <div><span class="whitespace-nowrap text-gray-700">{{User.birthday ||
                                                 "Add DOB" }}</span></div>
                                         </div>
                                         <div class="mt-1 flex gap-4"><span class="text-gray-700"
-                                                v-for="(item, index) in this.selectedSkills" :key="index">{{ item
+                                                v-for="(item, index) in selectedSkills" :key="index">{{ item
                                                     || "Add Skill" }} <span
-                                                    v-if="index < this.selectedSkills.length - 1">,</span></span></div>
+                                                    v-if="index <selectedSkills.length - 1">,</span></span></div>
                                         <div class="mt-1 flex flex-col gap-4">
                                             <a v-for="(item, index) in socials" :key="index"
                                                 class="text-gray-700 underline" :href="item" target="_blank"
@@ -509,7 +509,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div v-if="!this.cv">
+        <div v-if="!cv">
             <div class="bg-base-100 w-full text-center mt-6 p-6 rounded-lg shadow-md">
                 <p class="text-2xl text-sky-800 font-semibold mb-3">
                     Go create a CV and set it as your primary CV
