@@ -63,7 +63,6 @@ class ProblemMService
         ]);
     }
     
-
     public function approvedProblem(Request $request)
     {
         $problem = Problem::find($request->input('problem_id'));

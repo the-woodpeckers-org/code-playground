@@ -20,8 +20,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <CvItemApplied v-for="(item, index) in this.applications" :key="index"
-                            :id_user="item.cv.user.id" :name="item.cv.user.name" :time="item.created_at"
+                        <CvItemApplied v-for="(item, index) in applications" :key="index"
+                            :profile_user_id="item.cv.user.profileUser.id" :name="item.cv.user.name" :time="item.created_at"
                             :linkCV="`/cv/show/${item.cv.id}`" @refuseCV="refuseCV" :status="item.status"
                             :id_cv="item.cv.id" @approveCV="approveCV"></CvItemApplied>
                     </tbody>
@@ -197,6 +197,7 @@ export default {
         this.jobForm.rte_1.setHTMLCode(this.jobForm.description);
         await this.fetchDataListCV();
         console.log(this.position_number_approved_count);
+        console.log(this.applications);
     },
     methods: {
         async handleSubmit() {

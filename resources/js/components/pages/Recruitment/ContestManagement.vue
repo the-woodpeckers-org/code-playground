@@ -37,6 +37,10 @@
                          :imgUrl="contest.imgUrl"
                          :status="contest.status"
             ></ContestM>
+            <div @click="addTest"
+          class="card bg-base-100 shadow-xl my-1 text-sm hover:bg-gray-200 hover:scale-105 duration-300 transition flex justify-center items-center">
+          <i class="fas fa-plus text-6xl text-gray-600"></i>
+        </div>
       </div>
     </div>
   </div>
@@ -65,6 +69,10 @@ export default {
                 this.contests = response.data.contests.data;
             });
             this.loading = true
+         },
+         addTest()
+         {
+              this.$router.push('/contributor');
          }
     },
    async mounted() {
