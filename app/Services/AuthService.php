@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\ChangePasswordFormRequest;
 use App\Http\Requests\ForgotPasswordFormRequest;
 use App\Http\Requests\LoginFormRequest;
 use App\Http\Requests\RegisterFormRequest;
@@ -13,19 +14,16 @@ use App\Models\Password_Reset_Tokens;
 use App\Models\User;
 use App\Models\ProfileCompany;
 use App\Mail\MailThankYou;
-use App\Models\SubscriptionAttribute;
 use App\Utils\Constants\Status;
 use App\Utils\Token;
 use App\Utils\Constants\Role;
-use App\Utils\Constants\Subscription;
 use Carbon\Carbon;
-use Faker\Provider\ar_EG\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AuthService
 {
@@ -69,6 +67,19 @@ class AuthService
         return 'ok bro';
     }
 
+    public function changePassword(ChangePasswordFormRequest $request)
+    {
+        $user = User::find($request->user()->id);
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $user->update([
+                'password' => Hash::make($request->input('new_password')),
+            ]);
+            return response()->json(['message' => 'Change password successfully'], 200);
+        }
+        return response()->json(['current_password' => Hash::check($request->input('password'), $user->password)], 422);
+    }
+
     public function forgotPassword(ForgotPasswordFormRequest $request): array
     {
         $user = User::where('email', $request->input('email'))->first();
@@ -93,7 +104,7 @@ class AuthService
         if ($existToken) {
             return ['message' => 'Password reset token is valid', 'isValid' => true];
         }
-        throw new BadRequestHttpException($request->input('token') . ' ');
+        return throw new BadRequestHttpException($request->input('token') . ' ');
     }
 
     public function resetPassword(ResetPasswordFormRequest $request): array
@@ -164,18 +175,18 @@ class AuthService
             $user->address = $request->input('company_address');
             $user->role = Role::Company;
             $user->phone_number = $request->input('phone_number');
-            $user->status= Status::PENDING;
+            $user->status = Status::PENDING;
             $user->save();
 
             $company = new ProfileCompany();
             $company->user_id = $user->id;
-            $company->description= ' ';
-            $company->phone	 = $request->input('phone_number');
+            $company->description = ' ';
+            $company->phone = $request->input('phone_number');
             $company->general_information = ' ';
             $company->address = $request->input('company_address');
             $company->codeCompany = $request->input('company_code');
             $company->email = $request->input('email');
-            $company->skill =' ';
+            $company->skill = ' ';
             $company->save();
 
 
@@ -187,9 +198,8 @@ class AuthService
             }
             $mailTy = new MailThankYou($user);
             Mail::to($user->email)->send($mailTy);
-            return ['message' => 'Company register successfully!','status'=> '200'];
-        }
-        catch(\Exception $exception){
+            return ['message' => 'Company register successfully!', 'status' => '200'];
+        } catch (\Exception $exception) {
             throw new BadRequestHttpException($exception->getMessage());
         }
     }
