@@ -131,7 +131,7 @@ class OrderService
 
                 $sub = new SubscriptionAttribute();
                 $sub->order_id = $order->id;
-                $sub->subscription_name = 'Premium';
+                $sub->subscription_name = Subscription::PREMIUM;
                 $sub->start_date = now();
                 $sub->end_date = now()->addDays(30);
                 $sub->save();

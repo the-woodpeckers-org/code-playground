@@ -29,7 +29,7 @@ class JobRecruitmentService
             $subUser = null;
             if ($order_user) {
                 $subUser = SubscriptionAttribute::where('order_id', $order_user->id)->where('end_date', '>', Carbon::now())->first();
-                if ($subUser && $subUser->subscription_name == Subscription::PREMIUM) {
+                if ($subUser && $subUser->subscription_name === Subscription::PREMIUM) {
                     $maxPost = Subscription::PREMIUMPOST;
                 }
             } else {
@@ -41,6 +41,7 @@ class JobRecruitmentService
                 'data' => $jobs,
                 'maxPost' => $maxPost,
                 'subUser' => $subUser,
+                
             ]);
         } catch (\Exception $e) {
             return response()->json([

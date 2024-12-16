@@ -107,7 +107,7 @@ export default {
     },
     async fetchData() {
       await HTTP.get("/api/getJobsU").then((response) => {
-        console.log(response.data);
+        console.log("jobs",response.data);
         this.jobList = response.data.data;
         this.filteredSuggestions = this.jobList;
 

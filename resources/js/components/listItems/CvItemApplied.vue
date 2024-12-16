@@ -1,7 +1,7 @@
 <template>
     <tr class="h-auto">
         <td>{{ formattedTime }}</td>
-        <td> <a :href="`/View-User/${id_user}`" target="_blank">{{ name }}</a></td>
+        <td> <a :href="`/View-User/${profile_user_id}`" target="_blank">{{ name }}</a></td>
         <td><a :href="linkCV" target="_blank">{{ linkCV }}</a></td>
         <td>{{ status }}</td>
         <td @click="toggleOptions">
@@ -41,7 +41,7 @@ export default {
             type: String,
             default: 0
         },
-        id_user: {
+        profile_user_id: {
             type: String,
             default: 0
         },
