@@ -41,7 +41,7 @@ export default {
                 this.availableSkills = this.availableSkills.filter(s => s !== skill);
             }
             event.target.value = "Select a skill";
-            console.log(this.selectedSkills);
+
         },
         removeSkill(skill) {
             this.selectedSkills = this.selectedSkills.filter(s => s !== skill);
@@ -62,7 +62,7 @@ export default {
                 if (response.data.user == null) {
                     this.User = this.getAuth();
                 }
-                if(response.data.cv){
+                if (response.data.cv) {
                     this.cv = response.data.cv;
                 }
                 this.User = response.data.user;
@@ -74,6 +74,10 @@ export default {
                     this.address.ward = this.User.address[2];
                     this.address.name = this.User.address[3];
                     this.imagePreview = this.User.avatar_url;
+
+                }
+                else {
+                    this.User.address = null;
                 }
                 this.Profile = response.data.profile;
                 if (this.Profile === "null") {
@@ -338,7 +342,8 @@ export default {
                                             <div class="flex flex-wrap gap-2 w-2/3" id="skill-selected">
                                                 <kbd v-for="(skill, index) in selectedSkills" :key="index" class="kbd">
                                                     {{ skill }}
-                                                    <button type="button" @click="removeSkill(skill)" class="ml-2 text-red-500">
+                                                    <button type="button" @click="removeSkill(skill)"
+                                                        class="ml-2 text-red-500">
                                                         <i class="fa-solid fa-x"></i>
                                                     </button>
                                                 </kbd>
@@ -444,27 +449,29 @@ export default {
                                 <div class="flex flex-col">
                                     <div class="flex items-center gap-1.5">
                                         <h4 class="overflow-hidden text-2xl font-bold text-black" v-if="User"> {{
-                                           User.name }}
+                                            User.name }}
                                         </h4>
                                         <span
                                             class="ml-2 rounded-full bg-blue-50 px-3 py-[2px] text-sm font-bold text-blue-500">{{
-                                               rate }}%</span>
+                                                rate }}%</span>
                                     </div>
                                     <div class="flex">
                                         <div class="flex items-center"><span
                                                 class="overflow-hidden text-xl font-bold text-neutral-600">{{
-                                                   Profile.job_position || 'Add job position' }}</span>
+                                                    Profile.job_position || 'Add job position' }}</span>
                                             <div class="w-[30px] items-center justify-center text-center">-</div>
                                         </div>
                                         <div class="flex-none text-xl text-gray-500">Number a experience: {{
-                                           Profile.experience || '0' }}</div>
+                                            Profile.experience || '0' }}</div>
                                     </div>
                                     <div class="mt-4 text-lg text-gray-600">
                                         <div class="flex w-100 truncate">
-                                            <span v-if="User.address">{{address.province + "," || " " }} {{
-                                               address.district + "," || " " }} {{address.ward || " " }}
-                                                <span v-if="address.name">{{ ", " +address.name
-                                                    }}</span></span>
+                                            <span v-if="this.User.address">
+                                                {{ (address.province ?? " ") + "," }}
+                                                {{ (address.district ?? " ") + "," }}
+                                                {{ address.ward ?? " " }}
+                                                <span v-if="address.name">{{ ", " + address.name }}</span>
+                                            </span>
                                             <span v-else> Add address</span>
 
                                         </div>
@@ -473,15 +480,15 @@ export default {
                                                 <a class="underline">{{ User.email || 'Thêm mail' }}</a>
                                             </div>
                                             <div class="w-[30px] text-center">-</div>
-                                            <div>{{User.phone_number }}</div>
+                                            <div>{{ User.phone_number }}</div>
                                             <div class="w-[30px] text-center">-</div>
-                                            <div><span class="whitespace-nowrap text-gray-700">{{User.birthday ||
+                                            <div><span class="whitespace-nowrap text-gray-700">{{ User.birthday ||
                                                 "Add DOB" }}</span></div>
                                         </div>
                                         <div class="mt-1 flex gap-4"><span class="text-gray-700"
                                                 v-for="(item, index) in selectedSkills" :key="index">{{ item
                                                     || "Add Skill" }} <span
-                                                    v-if="index <selectedSkills.length - 1">,</span></span></div>
+                                                    v-if="index < selectedSkills.length - 1">,</span></span></div>
                                         <div class="mt-1 flex flex-col gap-4">
                                             <a v-for="(item, index) in socials" :key="index"
                                                 class="text-gray-700 underline" :href="item" target="_blank"
@@ -508,7 +515,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div v-if="!cv">
+        <div v-if="!User.Cv">
             <div class="bg-base-100 w-full text-center mt-6 p-6 rounded-lg shadow-md">
                 <p class="text-2xl text-sky-800 font-semibold mb-3">
                     Go create a CV and set it as your primary CV

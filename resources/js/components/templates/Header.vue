@@ -47,13 +47,13 @@
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor">
                     Contributor
                 </router-link>
-                <router-link v-if="$root.auth && $root.auth.role == Role.Company && $root.auth.Order.length == 0"
+                <router-link v-if="$root.auth && $root.auth.role == Role.Company && !isPremium"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/UpgradePlan">
                     Upgrade Plan
                 </router-link>
-                <router-link v-if="$root.auth && $root.auth.role == Role.Company && $root.auth.Order.length > 0"
+                <router-link v-if="$root.auth && $root.auth.role == Role.Company &&isPremium"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl animate-pulse">
-                    Premium
+                    Premium 
                 </router-link>
                 <router-link v-if="$root.auth && $root.auth.role == Role.Company"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/order-history">
@@ -193,6 +193,13 @@ export default {
             if (this.$root.auth.role === Role.Company && this.$root.auth.Order.length == 0) {
                 this.checkAdvertiseStatus();
             }
+            if(this.$root.auth.role === Role.Company ){
+                   this.$root.auth.Order.forEach(item => {
+                    if (item.Subscription !== null) {
+                        this.isPremium = true; 
+                    }
+                });
+            }
         }
     },
     data() {
@@ -202,6 +209,7 @@ export default {
             notifications: [],
             unRead: 0,
             isRemind: false,
+            isPremium: false,
         }
     },
     methods: {

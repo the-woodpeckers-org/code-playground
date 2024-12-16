@@ -5,9 +5,11 @@
             <div class="flex items-center justify-between">
                 <span class="font-semibold text-[#5f7d8c] text-xl">Premium Upgrade</span>
                 <span class="text-xl text-[#3d4c61] opacity-90 flex gap-2">
-                    <span class="font-extrabold"> {{ data.Subscription.start_date }}</span>
+                    <span class="font-extrabold"> {{ data.SubscriptionHistory
+                        .start_date }}</span>
                     <strong>to</strong>
-                    <span class="font-extrabold"> {{ data.Subscription.end_date }}</span>
+                    <span class="font-extrabold"> {{ data.SubscriptionHistory
+                        .end_date }}</span>
                 </span>
             </div>
         </div>
