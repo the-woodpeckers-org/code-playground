@@ -31,7 +31,6 @@ class ProblemService
         $result->where('contest_id', '=', null);
         $result->where('status', Status::APPROVED);
         $result->orderBy('created_at', 'desc');
-        $result->addSelect(['problems.*']);
         return $result->paginate(8);
     }
 
@@ -52,18 +51,7 @@ class ProblemService
     {
         $result = Problem::query();
         $result->select();
-        $result->orderBy('created_at', 'desc');
-        if ($request->user()) {
-            $userId = $request->user()->id;
-            $result->leftJoin('attempts', function ($query) use ($userId) {
-                $query->on('attempts.problem_id', '=', 'problems.id')
-                    ->where('attempts.user_id', $userId);
-            });
-            $result->addSelect(['attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
-            $result->orderBy('problems.created_at', 'desc');
-        } else {
-            $result = Problem::query();
-        }
+
         $result->addSelect(['problems.*']);
         if ($request->input('searchString')) {
             $result->where(function ($query) use ($request) {
@@ -81,6 +69,15 @@ class ProblemService
                 $query->where('category_id', $request->input('category'));
             });
         }
+        if ($request->user()) {
+            $userId = $request->user()->id;
+            $result->leftJoin('attempts', function ($query) use ($userId) {
+                $query->on('attempts.problem_id', '=', 'problems.id')
+                    ->where('attempts.user_id', $userId);
+            });
+            $result->addSelect(['attempts.id as attempt_id', 'attempts.code as code', 'attempts.passed_at as passed_at']);
+        }
+        $result->orderBy('problems.created_at', 'desc');
         $result->where('contest_id', '=', null);
         $result->where('status', Status::APPROVED);
         return $result->paginate(8);
@@ -92,7 +89,6 @@ class ProblemService
         $result->select();
         $result->where('contest_id', '=', null);
         $result->where('status', Status::APPROVED);
-
         if ($request->user()) {
             $userId = $request->user()->id;
             $result->leftJoin('attempts', function ($query) use ($userId) {

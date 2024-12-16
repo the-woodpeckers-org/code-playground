@@ -104,7 +104,7 @@ class AuthService
         if ($existToken) {
             return ['message' => 'Password reset token is valid', 'isValid' => true];
         }
-        throw new BadRequestHttpException($request->input('token') . ' ');
+        return throw new BadRequestHttpException($request->input('token') . ' ');
     }
 
     public function resetPassword(ResetPasswordFormRequest $request): array
