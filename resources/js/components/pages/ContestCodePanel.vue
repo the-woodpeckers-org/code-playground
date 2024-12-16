@@ -133,6 +133,12 @@ export default {
     },
     mounted() {
         this.onload()
+    },
+    beforeRouteEnter() {
+        this.onload()
+    },
+    beforeRouteUpdate() {
+        this.onload()
     }
 }
 </script>

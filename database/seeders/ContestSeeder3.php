@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Contest;
 use App\Models\Problem;
+use App\Models\ProblemLanguage;
+use App\Models\Testcase;
 use App\Utils\Constants\Status;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -110,6 +112,134 @@ class ContestSeeder3 extends Seeder
 
         foreach ($problems as $problem) {
             Problem::create($problem);
+        }
+
+        $testcases = [
+            [
+                'problem_id' => 24,
+                'stdin' => '4 5',
+                'expected_output' => '9'
+            ],
+            [
+                'problem_id' => 24,
+                'stdin' => '10 5',
+                'expected_output' => '15'
+            ],
+            [
+                'problem_id' => 26,
+                'stdin' => '7 1',
+                'expected_output' => '8'
+            ],
+            [
+                'problem_id' => 27,
+                'stdin' => '4 5 1',
+                'expected_output' => '10'
+            ],
+            [
+                'problem_id' => 27,
+                'stdin' => '10 5 5',
+                'expected_output' => '20'
+            ],
+            [
+                'problem_id' => 22,
+                'stdin' => '7 1 7',
+                'expected_output' => '15'
+            ],
+            [
+                'problem_id' => 23,
+                'stdin' => '0 0 0 1',
+                'expected_output' => '1'
+            ],
+            [
+                'problem_id' => 23,
+                'stdin' => '100 10 1 1',
+                'expected_output' => '112'
+            ],
+            [
+                'problem_id' => 25,
+                'stdin' => '25 25 25 25',
+                'expected_output' => '100'
+            ],
+            [
+                'problem_id' => 24,
+                'stdin' => '4 5',
+                'expected_output' => '9'
+            ],
+            [
+                'problem_id' => 26,
+                'stdin' => '10 5',
+                'expected_output' => '15'
+            ],
+            [
+                'problem_id' => 24,
+                'stdin' => '7 1',
+                'expected_output' => '8'
+            ],
+            [
+                'problem_id' => 27,
+                'stdin' => '4 5 1',
+                'expected_output' => '10'
+            ],
+            [
+                'problem_id' => 27,
+                'stdin' => '10 5 5',
+                'expected_output' => '20'
+            ],
+            [
+                'problem_id' => 22,
+                'stdin' => '7 1 7',
+                'expected_output' => '15'
+            ],
+            [
+                'problem_id' => 9,
+                'stdin' => '0 0 0 1',
+                'expected_output' => '1'
+            ],
+            [
+                'problem_id' => 23,
+                'stdin' => '100 10 1 1',
+                'expected_output' => '112'
+            ],
+            [
+                'problem_id' => 25,
+                'stdin' => '25 25 25 25',
+                'expected_output' => '100'
+            ],
+        ];
+
+        foreach ($testcases as $testcase) {
+            Testcase::create($testcase);
+        }
+
+        $problem_languages = [
+            [
+                'problem_id' => '22',
+                'language_id' => '2',
+            ],
+            [
+                'problem_id' => '23',
+                'language_id' => '2',
+            ],
+            [
+                'problem_id' => '24',
+                'language_id' => '2',
+            ],
+            [
+                'problem_id' => '25',
+                'language_id' => '2',
+            ],
+            [
+                'problem_id' => '26',
+                'language_id' => '2',
+            ],
+            [
+                'problem_id' => '27',
+                'language_id' => '2',
+            ]
+        ];
+
+        foreach ($problem_languages as $language) {
+            ProblemLanguage::create($language);
         }
     }
 }

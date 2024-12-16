@@ -43,7 +43,6 @@ export default {
             }).then(function (response) {
                 _this.isCompiling = false
                 if (response.data.succeed == false) {
-                    console.log(response)
                     _this.isCompileError = true
                     document.getElementById('error-msg').innerText = response.data.output;
                 } else {
@@ -56,11 +55,8 @@ export default {
                         document.getElementById('submit-btn').disabled = true
                     }
                 }
-                console.log(response)
             }).catch(function (error) {
-                console.log(error)
                 _this.isCompiling = false
-                alert(error)
             })
         },
         async submit() {
@@ -75,10 +71,8 @@ export default {
             }).then(function (response) {
                 _this.isSubmitted = true
                 _this.isSubmitting = false
-                console.log(response)
             }).catch(function (error) {
                 _this.isSubmitting = false
-                console.log(error)
             })
         },
         onload() {
@@ -100,7 +94,6 @@ export default {
                     _this.languages = response.data.languages;
                     _this.categories = response.data.categories;
                     _this.discussions = response.data.discussions;
-                    console.log(response);
                     _this.loading = true;
                     if (response.data.passed_at) {
                         _this.isPassed = true
@@ -246,6 +239,5 @@ export default {
         </div>
     </dialog>
     <div class="w-full mt-2 h-12">
-
     </div>
 </template>
