@@ -269,7 +269,6 @@ export default {
                         this.position_number_approved_count += 1;
                     }
                 }
-
             }).catch(error => {
                 console.error(error);
             });
