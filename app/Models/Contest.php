@@ -30,12 +30,21 @@ class Contest extends Model
         'participantCount',
         'startTime',
         'problemCount',
-        'hostedBy'
+        'hostedBy',
+        'isStarted'
     ];
 
     public function getParticipantCountAttribute()
     {
         return Participation::where('contest_id', $this->id)->where('finished_at', '!=', 'null')->count();
+    }
+
+    public function getIsStartedAttribute()
+    {
+        if (Carbon::now() <= $this->start_date) {
+            return true;
+        }
+        return false;
     }
 
     public function getProblemCountAttribute()
