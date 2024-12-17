@@ -19,6 +19,7 @@ export default {
         return {
             isDeleteModalVisible: false, // Trạng thái hiển thị modal xác nhận xóa
             isloadCV:false,
+            deleteFailed: null,
         };
     },
     computed: {
@@ -37,7 +38,13 @@ export default {
             await HTTP.get(`/api/deleteCV/${this.id}`)
                 .then(response => {
                     console.log(response.data.status);
-                    this.$emit('delete', this.id);
+                    if (response.data.status === '200')
+                    {
+                      this.$emit('delete', this.id);
+                    }
+                else{
+                    this.deleteFailed= response.data.message;
+                }
                 })
                 .catch(error => {
                     console.error(error);
@@ -145,4 +152,14 @@ export default {
     <div class="fixed inset-0 bg-white bg-opacity-80 flex justify-center items-center z-50" v-if="this.isloadCV">
                 <span class="loading loading-dots loading-lg"></span>
             </div>
+    <dialog class="modal modal-open" v-if="deleteFailed" id="deleteFailedModal">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">{{ deleteFailed }}</p>
+            <div class="modal-action">
+                <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
+                    @click="deleteFailed = null">OK</button>
+            </div>
+        </div>
+    </dialog>
 </template>

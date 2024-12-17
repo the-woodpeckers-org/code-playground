@@ -2,7 +2,7 @@
     <tr class="h-auto">
         <td>{{ formattedTime }}</td>
         <td> <a :href="`/View-User/${profile_user_id}`" target="_blank">{{ name }}</a></td>
-        <td><a :href="linkCV" target="_blank">{{ linkCV }}</a></td>
+        <td><a :href="linkCV" target="_blank">View CV</a></td>
         <td>{{ status }}</td>
         <td @click="toggleOptions">
             <i class="fa-solid fa-ellipsis-vertical hover:text-red-500"></i>

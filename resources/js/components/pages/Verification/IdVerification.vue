@@ -120,7 +120,7 @@ export default {
       previewImage: null,
       verificationResult: null,
       loading: false,
-      apiKey: 'xtGfasUmgcFqtOxsk2imP9gkkPRyzJyb',
+      apiKey: 'O7Tiuyvfm9xQaAAtTDlRve5CuBLNvOX8',
       isUpdated: false,
       isFailed: false,
     };
