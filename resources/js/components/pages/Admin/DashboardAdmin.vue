@@ -103,7 +103,7 @@
                     <!-- User login -->
                     <div class="w-[200px] ">
                         <div class="flex items-center justify-start space-x-4" @click="toggleDrop">
-                            <img v-if="$root.auth" :src="$root.auth.avatar_url" class="w-10 h-10 rounded-full border-2 border-gray-50"
+                            <img v-if="$root.auth" src="https://res.cloudinary.com/dazvvxymm/image/upload/v1726073233/OIG3.8-Photoroom_we02zq.png" class="w-10 h-10 rounded-full border-2 border-gray-50"
                                 alt="">
                             <div class="font-semibold dark:text-white text-left">
                                 <div v-if="$root.auth">{{ $root.auth.name }}</div>
@@ -116,12 +116,6 @@
                             class="absolute right-[10px] z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                             <div class="py-1 text-left" role="none">
-                                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                                    id="menu-item-0">Account settings</a>
-                                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                                    id="menu-item-1">Support</a>
-                                <a href="#" class="text-gray-700 block px-4 py-2 text-sm" role="menuitem" tabindex="-1"
-                                    id="menu-item-2">License</a>
                                 <form method="POST" action="#" role="none">
                                     <button type="button" class="text-gray-700 block w-full px-4 py-2 text-left text-sm"
                                         role="menuitem" tabindex="-1" id="menu-item-3" @click="logout">Sign out</button>

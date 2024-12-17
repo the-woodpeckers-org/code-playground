@@ -163,6 +163,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
      Route::get('/contestParticipationU',[ContestController::class, 'contestParticipationU'])->name('contestParticipationU');
 
      Route::post('/change-password', [AuthController::class, 'changePassword'])->name('changePassword');
+
+     // authen card id
+    Route::post('/verificationCardID', [AuthController::class, 'verificationCardID'])->name('verificationCardID');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');

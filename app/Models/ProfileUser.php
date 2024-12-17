@@ -15,6 +15,7 @@ class ProfileUser extends Model
         'experience',
         'social',
         'skill',
+        'id_number',
     ];
     /**
      * Get the user that owns the profile_user.

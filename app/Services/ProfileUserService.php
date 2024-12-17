@@ -38,6 +38,7 @@ class ProfileUserService
                     'profile' => $profile_user,
                     'cv' => $cvPrimary,
                     'hiddenCompanies' => $companies
+                    
                 ]);
             } else {
                 return response()->json([
