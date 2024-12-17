@@ -41,7 +41,7 @@ export default {
         </div>
 
         <p class="text-center mt-2">
-            <router-link to=""
+            <router-link to="/posts"
                          class="p-2 bg-primary hover:bg-cyan-700 transition text-white rounded-3xl">Read more
             </router-link>
         </p>
