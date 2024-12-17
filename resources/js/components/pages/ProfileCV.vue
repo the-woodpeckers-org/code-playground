@@ -213,16 +213,16 @@ export default {
                                     <div class="relative">
                                         <div class="flex">
                                             <div class="relative w-full"><input
-                                                    class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                    class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-400 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                     id="display_name" placeholder="Nguyễn Văn A"
-                                                    value="PHAN NGOC BAO VINH" readonly></div>
+                                                    v-model="User.name" readonly></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group col-span-2 md:col-span-1"><label for="birthday"
                                         class="text-sm font-bold text-gray-500">Dob </label>
                                     <div class="relative w-full text-gray-700"><input
-                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-400 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                             placeholder="DD/MM/YYYY" id="birthday" autocomplete="off"
                                             role="presentation" type="date" v-model="User.birthday"><button
                                             type="button"
@@ -259,7 +259,7 @@ export default {
                                 <div class="relative">
                                     <div class="flex">
                                         <div class="relative w-full"><input
-                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-400 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                 id="position" placeholder="Example: Back-end developer"
                                                 v-model="Profile.job_position"></div>
                                     </div>
@@ -271,7 +271,7 @@ export default {
                                 <div class="relative">
                                     <div class="flex">
                                         <div class="relative w-full"><input
-                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-400 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                 min="0" placeholder="Example: 2 years" type="number"
                                                 v-model="Profile.experience"
                                                 onkeydown="javascript: return ['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : !isNaN(Number(event.key)) && event.code!=='Space'">
@@ -283,7 +283,7 @@ export default {
                                     class="text-sm font-bold text-gray-500">Email </label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-400 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                             disabled="" v-model="User.email" readonly
                                             placeholder="Please setting email in the profile"></div>
                                 </div>
@@ -294,7 +294,7 @@ export default {
                                 <div class="relative">
                                     <div class="flex">
                                         <div class="relative w-full"><input
-                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                                class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-400 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                                 placeholder="Please setting phone number in the profile"
                                                 v-model="User.phone_number" readonly></div>
                                     </div>
@@ -304,7 +304,7 @@ export default {
                                     class="text-sm font-bold text-gray-500">Address </label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-400 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                             placeholder="" v-model="address.name">
                                     </div>
                                 </div>
@@ -321,7 +321,7 @@ export default {
                                     class="text-sm font-bold text-gray-500">Social </label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-400 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                             placeholder="https://www.linkedin.com/username" v-model="socials[0]">
                                     </div>
                                 </div>
@@ -330,7 +330,7 @@ export default {
                                     class="hidden text-sm font-bold text-gray-500 md:block">&nbsp;</label>
                                 <div class="flex">
                                     <div class="relative w-full"><input
-                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-700 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
+                                            class="block w-full border disabled:cursor-not-allowed disabled:opacity-50 bg-white placeholder:text-gray-400 border-gray-300 text-gray-500 focus:ring-0 focus:border-gray-300 p-2.5 text-sm rounded"
                                             placeholder="https://github.com/username" v-model="socials[1]"></div>
                                 </div>
                             </div>
