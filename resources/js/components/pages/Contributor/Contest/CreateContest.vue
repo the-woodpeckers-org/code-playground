@@ -152,7 +152,7 @@ export default {
             };
             HTTP.put('api/contest', data)
                 .then((res) => {
-                    _this.isUpdated = true;
+                    _this.isEdited = true;
                     _this.closeEdit();
                     _this.resetData();
                     this.$emit('toggle-fetch');
@@ -343,8 +343,8 @@ export default {
     <dialog v-if="isEditing" class="modal" :class="{'modal-open': isEditing}">
         <div class="modal-box w-11/12 max-w-7xl" style="min-height: 600px">
             <h3 class="text-lg font-bold">Update contest</h3>
-            <p v-if="editStatus !== 0" class="p-2 bg-yellow-300 rounded-md border my-3"><span v-if="editStatus === 1">You cannot update this contest because it's a ongoing contest!</span>
-                <span v-if="editStatus === 2">You cannot update this contest because it's a ended contest!</span></p>
+            <p v-if="editStatus !== 0" class="p-2 bg-yellow-300 rounded-md border my-3"><span v-if="editStatus === 1">You cannot update this contest because it's a ended contest!</span>
+                <span v-if="editStatus === 2">You cannot update this contest because it's a ongoing contest!</span></p>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
                 <div>
                     <label>Title</label>
@@ -470,6 +470,7 @@ export default {
         </div>
     </dialog>
     <Toast v-if="isCreated" :toastData="{ type: 'success', message: 'Create contest successfully!'}"></Toast>
+    <Toast v-if="isEdited" :toastData="{ type: 'success', message: 'Updated contest successfully!'}"></Toast>
 </template>
 
 <style scoped>
