@@ -59,6 +59,7 @@ export default {
         async onLoad() {
             try {
                 const response = await HTTP.get('/api/getProfileCV');
+
                 if (response.data.user == null) {
                     this.User = this.getAuth();
                 }
@@ -66,7 +67,7 @@ export default {
                     this.cv = response.data.cv;
                 }
                 this.User = response.data.user;
-                //     console.log(response.data.user);
+                   console.log("hehe",response.data.user);
                 if (this.User.address != null) {
                     this.User.address = JSON.parse(this.User.address.replace(/'/g, '"'));
                     this.address.province = this.User.address[0];
@@ -399,6 +400,11 @@ export default {
                                 </div>
                                 <div class="stat-value sm:text-sm md:text-lg lg:text-2xl">{{ rate }}%</div>
                                 <div class="stat-title sm:text-base md:text-md lg:text-md">{{ User.name }}</div>
+
+                               <div v-if="!User.profileUser||!User.profileUser.id_number" class="border-none mt-4">
+                                <span class="bg-amber-400 rounded-full w-max mt-2 text-white animate-bounce p-2">
+                                    <a class="text-md text-black font-semibold cursor-pointer" href="/id-verify">Verified account</a></span>
+                                </div>
                             </div>
                         </div>
                     </div>

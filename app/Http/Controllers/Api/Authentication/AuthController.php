@@ -73,4 +73,8 @@ class AuthController
     {
         return response()->json($this->service->registerCompany($request));
     }
+    public function verificationCardID(Request $request)
+    {
+        return $this->service->verificationCardID($request);
+    }
 }

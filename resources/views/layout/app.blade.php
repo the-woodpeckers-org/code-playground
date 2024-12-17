@@ -14,8 +14,9 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
-    <link href="{{asset('css/styles.css')}}">
 
+    <link href="{{asset('css/styles.css')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>document.documentElement.classList.add('js')</script>
     @vite('resources/css/app.css')
 </head>

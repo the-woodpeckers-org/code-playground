@@ -12,6 +12,7 @@ use App\Mail\MailVerifyEmailNotify;
 use App\Models\EmailVerifyToken;
 use App\Models\Password_Reset_Tokens;
 use App\Models\User;
+use App\Models\ProfileUser;
 use App\Models\ProfileCompany;
 use App\Mail\MailThankYou;
 use App\Utils\Constants\Status;
@@ -24,7 +25,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
-
 class AuthService
 {
     public function login(LoginFormRequest $request): array
@@ -202,5 +202,26 @@ class AuthService
         } catch (\Exception $exception) {
             throw new BadRequestHttpException($exception->getMessage());
         }
+    }
+
+    public function verificationCardID(Request $request)
+    {
+        $checkUni = ProfileUser::where('id_number', $request->input('cardID'))->first();
+        // kiểm tra tồn tại trong hệ thống
+        if ($checkUni!=null) {
+            return response()->json(
+                ['message' => 'Card ID already exists'
+        ], 200);
+        }
+        else{
+            $currentUser = User::find($request->user()->id);
+            $profileUserCurrent = ProfileUser::where('user_id', $currentUser->id)->first();
+            $profileUserCurrent->id_number = $request->input('cardID');
+            $profileUserCurrent->save();
+            return response()->json(
+                ['message' => 'Success'
+        ], 200);
+        }
+       
     }
 }
