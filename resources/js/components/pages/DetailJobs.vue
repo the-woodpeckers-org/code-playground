@@ -75,7 +75,7 @@
                         class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
                         data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
                         data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1"
-                        onclick="applyShow.showModal()">Apply
+                       @click="applyShow">Apply
                         now
                     </button>
                     <button id="createTopdevCV" type="button"
@@ -116,7 +116,7 @@
         </div>
 
     </div>
-    <dialog class="modal" id="applyShow">
+    <dialog class="modal" ref="applyShowModal">
         <div class="w-[75%] md:max-w-screen-md lg:max-w-screen-lg bg-base-100 p-3 rounded">
             <h3 class="text-lg font-semibold">Notifications</h3>
             <p class="py-4 text-base">You are applying at the position: {{ this.job.location }}</p>
@@ -207,7 +207,7 @@
         </div>
     </div>
 
-    <dialog  v-if="isFailed" class="modal model-open" id="failed">
+    <dialog v-if="isFailed" class="modal model-open" id="failed">
         <div class="modal-box bg-base-100">
             <h3 class="text-lg font-semibold">Warning</h3>
             <p class="py-4 text-base">Failed to apply cv</p>
@@ -218,6 +218,17 @@
             </div>
         </div>
     </dialog>
+    
+    <dialog class="modal model-open" ref="warningCardIDModal" id="warningCardID">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold text-warning">Warning</h3>
+            <p class="py-4 text-base">You need authentication <strong>Card ID</strong> first!</p>
+            <div class="modal-action">
+              <a class="btn btn-sm m-1 border" href="/id-verify">Yes</a>
+            </div>
+        </div>
+    </dialog>
+
     
 </template>
 <script>
@@ -242,7 +253,7 @@ export default {
             userCompany: {},
             isLoading: false,
             isSendRequest: false,
-            isFailed: false
+            isFailed: false,
         }
     },
     name: "DetailJobs",
@@ -301,6 +312,11 @@ export default {
             applyShow.close();
             let _this = this;
             this.id_CV = document.querySelector('select[name="cv"]').value;
+            if(!this.auth.profileUser.id_number)
+            {
+                this.isWarningCardID = true;
+                return;
+            }
             if(this.id_CV == '') {
                 alert('Please choose CV');
                 return;
@@ -353,9 +369,15 @@ export default {
         },
         createCV() {
             this.$router.push('/Mycv');
-        }
+        },
+        applyShow() {
+            if(this.auth.profileUser.id_number==null)
+            {
+                this.$refs.warningCardIDModal.showModal();
+                return;
+            }
+            this.$refs.applyShowModal.showModal();
+        },
     },
-
-
 }
 </script>
