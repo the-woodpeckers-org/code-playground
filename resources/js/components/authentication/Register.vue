@@ -134,32 +134,32 @@ import { getAuth } from "@/utils/authLocalStorage.js";
             <form v-if="!getAuth()">
                 <div class="w-full my-3 grid grid-cols-6">
                     <span class="col-span-1"></span>
-                    <div class="col-span-4">
+                    <div class="col-span-6">
                         <label class="font-bold my-auto">Email</label>
-                        <input v-model="input_email" type="email" class="border rounded p-1 w-full my-auto mb-2"
+                        <input v-model="input_email" type="email" class="border rounded px-4 py-2 w-full my-auto mb-2"
                             placeholder="example@email.com">
                         <p v-if="errors.email" class="py-2 px-1 bg-red-500 rounded-lg text-white"><i
                                 class="fa-solid fa-triangle-exclamation"></i> {{ errors.email[0] }}</p>
                         <label class="font-bold my-auto">First name</label>
-                        <input v-model="input_firstName" type="text" class="border rounded p-1 w-full my-auto mb-2"
+                        <input v-model="input_firstName" type="text" class="border rounded px-4 py-2 w-full my-auto mb-2"
                             placeholder="John">
                         <label class="font-bold my-auto">Last name</label>
-                        <input v-model="input_lastName" type="text" class="border rounded p-1 w-full my-auto mb-2"
+                        <input v-model="input_lastName" type="text" class="border rounded px-4 py-2 w-full my-auto mb-2"
                             placeholder="Doe">
                         <p v-if="errors.name" class="py-2 px-1 bg-red-500 rounded-lg text-white"><i
                                 class="fa-solid fa-triangle-exclamation"></i> {{ errors.name[0] }}</p>
                         <label class="font-bold my-auto">Phone number</label>
-                        <input v-model="input_phoneNumber" type="tel" class="border rounded p-1 w-full my-auto mb-2"
+                        <input v-model="input_phoneNumber" type="tel" class="border rounded px-4 py-2 w-full my-auto mb-2"
                             placeholder="+8412345678">
                         <p v-if="errors.phone_number" class="py-2 px-1 bg-red-500 rounded-lg text-white"><i
                                 class="fa-solid fa-triangle-exclamation"></i> {{ errors.phone_number[0] }}</p>
                         <label class="font-bold my-auto">Address</label>
-                        <input v-model="input_address" type="text" class="border rounded p-1 w-full my-auto mb-2"
+                        <input v-model="input_address" type="text" class="border rounded px-4 py-2 w-full my-auto mb-2"
                             placeholder="36 La Xuan Oai st., Thu Duc City, HCM City">
                         <p v-if="errors.address" class="py-2 px-1 bg-red-500 rounded-lg text-white"><i
                                 class="fa-solid fa-triangle-exclamation"></i> {{ errors.address[0] }}</p>
                         <label class="font-bold my-auto">Birthday</label>
-                        <input v-model="input_birthday" type="date" class="border rounded p-1 w-full my-auto mb-2">
+                        <input v-model="input_birthday" type="date" class="border rounded px-4 py-2 w-full my-auto mb-2">
                         <p v-if="errors.birthday" class="py-2 px-1 bg-red-500 rounded-lg text-white"><i
                                 class="fa-solid fa-triangle-exclamation"></i> {{ errors.birthday[0] }}</p>
                         <label class="font-bold my-auto">Gender</label>
@@ -215,7 +215,7 @@ import { getAuth } from "@/utils/authLocalStorage.js";
             class="tab-content bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border border-gray-300 rounded-lg p-8 shadow-lg">
 
             <form v-if="!$root.auth">
-                <div class="space-y-6">
+                <div class="space-y-4">
                     <div>
                         <label class="block font-semibold text-gray-800 mb-2">Email</label>
                         <input v-model="input_email" type="email"
