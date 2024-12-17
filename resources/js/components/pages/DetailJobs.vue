@@ -229,7 +229,21 @@
         </div>
     </dialog>
 
-    
+    <dialog class="modal" ref="modal_is_notification_compelte_cv">
+            <div class="modal-box bg-base-100">
+                <h3 class="text-lg font-semibold">Warning</h3>
+                <p class="py-4 text-base">
+                    You need complete your CV before come here
+                </p>
+                <div class="modal-action">
+                    <form method="dialog">
+                        <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
+                            @click="this.$router.push('/ProfileCV');">Yes</button>
+                    </form>
+                </div>
+            </div>
+        </dialog>
+
 </template>
 <script>
 import { HTTP } from "@/http-common.js";
@@ -371,6 +385,12 @@ export default {
             this.$router.push('/Mycv');
         },
         applyShow() {
+            if(!this.$root.auth.profileUser)
+            {
+                this.$refs.modal_is_notification_compelte_cv.showModal();
+                return;
+            }
+
             if(this.auth.profileUser.id_number==null)
             {
                 this.$refs.warningCardIDModal.showModal();

@@ -204,7 +204,7 @@ export default {
                         this.isPremium = true;
                     }
                 });
-            }
+            }         
         }
     },
     data() {
