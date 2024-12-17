@@ -2,12 +2,13 @@
 import {HTTP} from "@/http-common.js";
 import CreateContest from "@/components/pages/Contributor/Contest/CreateContest.vue";
 import {ref} from "vue";
+import Toast from "@/components/messages/Toast.vue";
 
 const contestChild = ref("null");
 
 export default {
     name: "ContestManager",
-    components: {CreateContest},
+    components: {Toast, CreateContest},
     data: () => {
         return {
             currentPage: '1',
@@ -40,17 +41,18 @@ export default {
             this.$refs.contestChild.showEdit(id);
         },
         showConfirmDelete(id, title) {
+            this.isDeletedSomeRecord = false;
             this.deletingId = id;
             this.deletingTitle = title;
         },
         confirmDelete() {
             HTTP.delete('api/contest?id=' + this.deletingId)
                 .then((res) => {
+                    this.isDeletedSomeRecord = true;
                     this.confirmNo();
                     this.fetchData();
                 })
                 .catch((err) => {
-                    console.log(err);
                 });
         },
         confirmNo() {
@@ -128,7 +130,7 @@ export default {
             </div>
         </div>
     </dialog>
-    <Toast v-if="isDeletedSomeRecord" :toastData="{type: 'success', message: 'Delete problem successfully'}"></Toast>
+    <Toast v-if="isDeletedSomeRecord" :toastData="{type: 'success', message: 'Delete contest successfully'}"></Toast>
 </template>
 
 <style scoped>
