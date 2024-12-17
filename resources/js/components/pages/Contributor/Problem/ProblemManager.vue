@@ -89,7 +89,6 @@ export default {
                     <th></th>
                     <th>Title</th>
                     <th>Difficulty</th>
-                    <th>Acceptance Rate</th>
                     <th>Action</th>
                     <th>Status</th>
                 </tr>
@@ -99,7 +98,6 @@ export default {
                     <th></th>
                     <td>{{ problem.title }}</td>
                     <td>{{ problem.difficulty }}</td>
-                    <td>{{ problem.acceptance_rate }}</td>
                     <td>
                         <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="showEdit(problem.id)">Edit</button>
                         <button class="bg-red-300 px-3 py-1 mx-1 hover:bg-red-500 rounded-lg"

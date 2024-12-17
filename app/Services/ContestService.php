@@ -4,9 +4,11 @@ namespace App\Services;
 
 use App\Http\Requests\CreateContestFormRequest;
 use App\Http\Requests\EditContestFormRequest;
+use App\Models\Attempt;
 use App\Models\Contest;
 use App\Models\Language;
 use App\Models\Participation;
+use App\Models\Participation_Attempts;
 use App\Models\Problem;
 use App\Models\ProblemLanguage;
 use App\Models\ProblemTag;
@@ -34,7 +36,7 @@ class ContestService
 
     public function getAllByContributor(Request $request)
     {
-        return Contest::where('created_by', $request->user()->id)->paginate(8);
+        return Contest::where('created_by', $request->user()->id)->orderBy('created_at', 'desc')->paginate(8);
     }
 
     public function getContestForManage(Request $request)
@@ -116,17 +118,85 @@ class ContestService
                 $new_testcase->save();
             }
         }
-        return ['message' => 'success', 'data' => $request->input('problems')];
+        return ['message' => 'success'];
     }
 
     public function editContest(EditContestFormRequest $request)
     {
+        $data = $request->all();
+        $contest = Contest::find($request->input('id'));
+        $tags = '';
+        foreach ($request->input('tags') as $tag) {
+            $tags .= $tag . ',';
+        }
+        $contest->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'start_date' => $request->input('start_date'),
+            'end_date' => $request->input('end_date'),
+            'tags' => $tags,
+            'status' => Status::PENDING,
+            'created_by' => $request->user()->id,
+        ]);
+        // delete section
+        $deleted_problems = Problem::where('contest_id', $contest->id);
+        foreach ($deleted_problems->get() as $problem) {
+            Testcase::where('problem_id', $problem->id)->delete();
+            ProblemLanguage::where('problem_id', $problem->id)->delete();
+            ProblemTag::where('problem_id', $problem->id)->delete();
+            Attempt::where('problem_id', $problem->id)->delete();
+            Participation_Attempts::where('problem_id', $problem->id)->delete();
+        }
+        $deleted_problems->delete();
+        // end delete section
 
+        foreach ($data['problems'] as $problem) {
+            $new_problem = new Problem();
+            $new_problem->fill([
+                'title' => $problem['title'],
+                'description' => $problem['description'],
+                'difficulty' => $problem['difficulty'],
+                'acceptance_rate' => 0,
+                'contest_id' => $contest->id,
+                'created_by' => $request->user()->id
+            ]);
+            $new_problem->save();
+            foreach ($problem['languages'] as $language) {
+                $slanguage = Language::where('name', $language)->first();
+                $p_tag = new ProblemLanguage();
+                $p_tag->fill([
+                    'problem_id' => $new_problem->id,
+                    'language_id' => $slanguage->id,
+                ]);
+                $p_tag->save();
+            }
+            foreach ($problem['testcases'] as $testcase) {
+                $new_testcase = new Testcase();
+                $new_testcase->fill([
+                    'problem_id' => $new_problem->id,
+                    'stdin' => $testcase['stdin'],
+                    'expected_output' => $testcase['expected_output'],
+                ]);
+                $new_testcase->save();
+            }
+        }
+        return ['message' => 'success'];
     }
 
     public function deleteContest(Request $request)
     {
-
+        $contest = Contest::find($request->input('id'));
+        $deleted_problems = Problem::where('contest_id', $contest->id);
+        foreach ($deleted_problems->get() as $problem) {
+            Testcase::where('problem_id', $problem->id)->delete();
+            ProblemLanguage::where('problem_id', $problem->id)->delete();
+            ProblemTag::where('problem_id', $problem->id)->delete();
+            Attempt::where('problem_id', $problem->id)->delete();
+            Participation_Attempts::where('problem_id', $problem->id)->delete();
+        }
+        $deleted_problems->delete();
+        $contest->delete();
+        return ['message' => 'success'];
     }
 
     public function getContestByContributor(Request $request)

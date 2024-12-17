@@ -116,12 +116,10 @@ export default {
         </div>
         <div class="mt-3"></div>
         <div class="my-6">
-            <div class="grid grid-cols-6 mx-3 p-1 rounded-md h-9 border-b">
+            <div class="grid grid-cols-4 mx-3 p-1 rounded-md h-9 border-b">
                 <span>Status</span>
                 <span class="col-span-2">Title</span>
                 <span>Difficulty</span>
-                <span>Acceptance</span>
-                <span>Tags</span>
             </div>
         </div>
         <Problem v-for="problem in problems" :problem="problem"></Problem>
