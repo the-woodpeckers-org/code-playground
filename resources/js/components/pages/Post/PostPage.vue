@@ -37,6 +37,8 @@ export default {
         <p class="rte my-6">
             <span v-html="post.body"></span>
         </p>
+        <div class="divider"></div>
+        <p>See another posts: </p>
     </div>
 </template>
 

@@ -215,7 +215,7 @@ class ContestService
             'contestFuture' => $contestFuture,
             'contestRunning' => $contestRunning,
         ];
-     return response()->json(['status' => 'success','data'=>$data]);
+     return response()->json(['status' => 'success','data'=> $data]);
     }
     public function contestParticipationU(Request $request)
     {

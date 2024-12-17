@@ -16,6 +16,9 @@ export default {
             hours: 0,
             minutes: 0,
             seconds: 0,
+            participantCount: 0,
+            hostedBy: '',
+            problemCount: 0,
             isEnded: null,
             isLoaded: false,
             isFinished: false,
@@ -36,9 +39,12 @@ export default {
                     _this.minutes = response.data.remainingTime.minutes;
                     _this.seconds = response.data.remainingTime.seconds;
                     _this.isEnded = response.data.isEnded;
+                    _this.participantCount = response.data.participantCount;
+                    _this.problemCount = response.data.problemCount;
+                    _this.hostedBy = response.data.hostedBy;
+                    console.log(response);
                 })
                 .catch(function (error) {
-                    console.log(error)
                 }),
             HTTP.get('/api/participate/get?contest_id=' + this.$route.params.c_id)
                 .then(response => {
@@ -72,13 +78,13 @@ export default {
             <div>
                 <div class="divider"></div>
                 <div class="border rounded-xl bg-gradient-to-br from-cyan-200 to-purple-200 px-3 py-6">
-                    <p class="text-start"><span class="font-semibold">Host by: </span> {{ 'Viettel Corporation' }}</p>
+                    <p class="text-start"><span class="font-semibold">Host by: </span> {{ hostedBy }}</p>
                     <p class="text-start"><span class="font-semibold">Time remaining: </span>
                         <BaseCountDown v-if="isLoaded" :days="days" :hours="hours" :minutes="minutes"
                             :seconds="seconds"></BaseCountDown>
                     </p>
-                    <p class="text-start"><span class="font-semibold">Participants: </span> {{ '8' }}</p>
-                    <p class="text-start"><span class="font-semibold">Rounds: </span> {{ '3' }}</p>
+                    <p class="text-start"><span class="font-semibold">Participants: </span> {{ participantCount }}</p>
+                    <p class="text-start"><span class="font-semibold">Rounds: </span> {{ problemCount }}</p>
                     <p class="text-start"><span class="font-semibold">Tags: </span></p>
                     <div class="flex flex-row flex-wrap">
                         <p class="border bg-base-100 px-2 m-1">Hackathon</p>

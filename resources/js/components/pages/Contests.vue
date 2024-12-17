@@ -28,7 +28,6 @@ export default {
             let _this = this
             await HTTP.get('/api/combinationContest')
                 .then(response => {
-                    console.log(response.data)
                     _this.pastContests = response.data.data.pastContests
                     _this.contestFuture = response.data.data.contestFuture
                     _this.contestRunning = response.data.data.contestRunning
@@ -37,7 +36,7 @@ export default {
                     window.location.reload();
                 })
             _this.loading = true
-        },
+        }
     }
 
 }
@@ -58,12 +57,21 @@ export default {
         </div>
     </div>
     <div class="mt-3">
-        <h2 class="text-2xl text-gray-950 font-semibold">The contests is taking place</h2>
+        <h2 class="text-2xl text-gray-950 font-semibold my-3">The contests is taking place</h2>
         <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             <Contest v-for="contest in contestRunning" :key="contest.id" :title="contest.title" :contestId="contest.id"
                 :p_Days="contest.remainingTime.days" :p_Hours="contest.remainingTime.hours"
                 :p_Minutes="contest.remainingTime.minutes" :p_Seconds="contest.remainingTime.seconds"
                 :imgUrl="contest.imgUrl"></Contest>
+        </div>
+    </div>
+    <div class="mt-3">
+        <h2 class="text-2xl text-gray-950 font-semibold my-3">Upcoming contests!</h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            <Contest v-for="contest in contestFuture" :key="contest.id" :isFuture="true" :startDate="contest.start_date" :title="contest.title" :contestId="contest.id"
+                     :p_Days="contest.remainingTime.days" :p_Hours="contest.remainingTime.hours"
+                     :p_Minutes="contest.remainingTime.minutes" :p_Seconds="contest.remainingTime.seconds"
+                     :imgUrl="contest.imgUrl"></Contest>
         </div>
     </div>
 </template>

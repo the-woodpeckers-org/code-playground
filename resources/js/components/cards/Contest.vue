@@ -24,6 +24,12 @@ export default {
         },
         statusContest:{
             default: 'running'
+        },
+        isFuture: {
+            default: false
+        },
+        startDate: {
+            default: ''
         }
     }
 }
@@ -36,16 +42,22 @@ export default {
         </figure>
         <div class="card-body">
             <h2 class="card-title text-ellipsis line-clamp-2">{{title}}</h2>
-            <p class="text-center" v-if="statusContest==='running'">
-                <span  class="text-center font-mono">end after</span>
-                <br>
-                <Countdown :days="p_Days" :hours="p_Hours" :minutes="p_Minutes" :seconds="p_Seconds"></Countdown>
-            </p>
-            <p class="text-center" v-else>
-                <span  class="text-center font-mono">start after</span>
-                <br>
-                <Countdown :days="p_Days" :hours="p_Hours" :minutes="p_Minutes" :seconds="p_Seconds"></Countdown>
-            </p>
+            <section v-if="!isFuture">
+                <p class="text-center" v-if="statusContest==='running'">
+                    <span  class="text-center font-mono">end after</span>
+                    <br>
+                    <Countdown :days="p_Days" :hours="p_Hours" :minutes="p_Minutes" :seconds="p_Seconds"></Countdown>
+                </p>
+                <p class="text-center" v-else>
+                    <span  class="text-center font-mono">start after</span>
+                    <br>
+                    <Countdown :days="p_Days" :hours="p_Hours" :minutes="p_Minutes" :seconds="p_Seconds"></Countdown>
+                </p>
+            </section>
+            <section v-if="isFuture">
+                <p class="text-center font-mono">Will start at</p>
+                <p class="text-center font-semibold text-lg font-mono">{{ startDate }}</p>
+            </section>
         </div>
     </router-link>
 </template>
