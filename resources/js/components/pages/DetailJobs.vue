@@ -116,11 +116,11 @@
         </div>
 
     </div>
-    <dialog class="modal" ref="applyShowModal">
+    <dialog class="modal" id="applyShowModal">
         <div class="w-[75%] md:max-w-screen-md lg:max-w-screen-lg bg-base-100 p-3 rounded">
             <h3 class="text-lg font-semibold">Notifications</h3>
             <p class="py-4 text-base">You are applying at the position: {{ this.job.location }}</p>
-            <form @submit.prevent="ApplyCV">
+            <form>
                 <div class="lg:flex lg:flex-col">
                     <div class="grid sm:grid-cols-1 md:grid lg:grid-cols-6 gap-4">
                         <div class="col-span-1">
@@ -168,11 +168,12 @@
                     <button type="button" class="px-4 py-2 bg-red-500 text-white rounded"
                         onclick="document.getElementById('applyShow').close()">Close
                     </button>
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
+                    <button type="button" @click="ApplyCV" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
                 </div>
             </form>
         </div>
     </dialog>
+
     <dialog class="modal" id="ConfirmCancelApply">
         <div class="modal-box bg-base-100">
             <h3 class="text-lg font-semibold">Warning</h3>
@@ -323,7 +324,7 @@ export default {
             });
         },
         async ApplyCV() {
-            applyShow.close();
+            applyShowModal.close();
             let _this = this;
             this.id_CV = document.querySelector('select[name="cv"]').value;
             if(!this.auth.profileUser.id_number)
@@ -396,7 +397,7 @@ export default {
                 this.$refs.warningCardIDModal.showModal();
                 return;
             }
-            this.$refs.applyShowModal.showModal();
+            applyShowModal.showModal();
         },
     },
 }
