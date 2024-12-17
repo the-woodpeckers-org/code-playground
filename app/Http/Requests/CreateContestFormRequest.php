@@ -22,7 +22,12 @@ class CreateContestFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'string|required',
+            'description' => 'string|required',
+            'start_date' => 'date|required',
+            'end_date' => 'date|required|after:start_date',
+            'tags' => 'array|required',
+            'problems' => 'array|required',
         ];
     }
 }

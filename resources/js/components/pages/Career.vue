@@ -91,7 +91,7 @@ export default {
             </router-link>
         </div>
         <h1 class="text-xl font-semibold my-3">Top Hiring Companies</h1>
-        <div class="flex flex-row flex-wrap justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <Company v-for="(item, index) in listCompany" :key="index"
                 :imgUrl="item.userCompany.avatar_url"
                 :title="item.userCompany.name"
@@ -101,7 +101,7 @@ export default {
             ></Company>
         </div>
         <h1 class="text-xl font-semibold my-3">Available jobs</h1>
-        <div class="flex flex-row flex-wrap justify-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             <Job v-for="(item, index) in listJob " :key="index" :imgUrl="item.company.avatar_url"
                  :title="item.title" :companyName="item.company.name" :salary="item.salary" :url="'/Job-detail/'+item.id"></Job>
         </div>

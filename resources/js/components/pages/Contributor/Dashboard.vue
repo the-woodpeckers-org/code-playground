@@ -1,11 +1,10 @@
 <script>
-import CourseManager from "@/components/pages/Contributor/Course/CourseManager.vue";
 import PostManager from "@/components/pages/Contributor/Post/PostManager.vue";
 import ContestManager from "@/components/pages/Contributor/Contest/ContestManager.vue";
 import ProblemManager from "@/components/pages/Contributor/Problem/ProblemManager.vue";
 export default {
     name: "Dashboard",
-    components: {PostManager, CourseManager, ContestManager, ProblemManager}
+    components: {PostManager, ContestManager, ProblemManager}
 }
 </script>
 <script setup>
@@ -23,11 +22,6 @@ import {getAuth} from "@/utils/authLocalStorage.js";
             <input type="radio" name="tab" role="tab" class="tab" aria-label="Contests"/>
             <div role="tabpanel" class="tab-content p-10">
                 <ContestManager></ContestManager>
-            </div>
-
-            <input type="radio" name="tab" role="tab" class="tab hidden" aria-label="Courses"/>
-            <div role="tabpanel" class="tab-content p-10 hidden">
-                <CourseManager></CourseManager>
             </div>
 
             <input type="radio" name="tab" role="tab" class="tab" aria-label="Posts"/>

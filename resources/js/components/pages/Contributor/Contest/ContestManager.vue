@@ -15,6 +15,7 @@ export default {
             links: [],
             deletingTitle: '',
             isDeletedSomeRecord: false,
+            deletingId: '',
         }
     },
     mounted() {
@@ -38,14 +39,22 @@ export default {
         showEdit(id) {
             this.$refs.contestChild.showEdit(id);
         },
-        showConfirmDelete() {
-
+        showConfirmDelete(id, title) {
+            this.deletingId = id;
+            this.deletingTitle = title;
         },
         confirmDelete() {
-
+            HTTP.delete('api/contest?id=' + this.deletingId)
+                .then((res) => {
+                    this.confirmNo();
+                    this.fetchData();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
         confirmNo() {
-
+            this.deletingId = this.deletingTitle = '';
         },
         showCreate() {
             this.$refs.contestChild.showCreate();
@@ -55,12 +64,13 @@ export default {
 </script>
 
 <template>
-    <CreateContest ref="contestChild"></CreateContest>
+    <CreateContest @toggle-fetch="fetchData" ref="contestChild"></CreateContest>
     <div class="w-full">
         <p class="text-center font-bold text-2xl">Contest management</p>
         <p class="text-lg">Your contests on The CodePlayground</p>
         <div class="w-full text-end">
-            <button @click="showCreate" class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">New contest</button>
+            <button @click="showCreate" class="bg-blue-300 px-3 py-1 m-1 hover:bg-blue-500 rounded-lg">New contest
+            </button>
         </div>
         <div class="w-full">
         </div>
@@ -85,7 +95,9 @@ export default {
                     <td>{{ contest.end_date }}</td>
                     <td>{{ contest.participantCount }}</td>
                     <td>
-                        <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg" @click="showEdit(contest.id)">Edit</button>
+                        <button class="bg-blue-300 px-3 py-1 mx-1 hover:bg-blue-500 rounded-lg"
+                                @click="showEdit(contest.id)">Edit
+                        </button>
                         <button class="bg-red-300 px-3 py-1 mx-1 hover:bg-red-500 rounded-lg"
                                 @click="showConfirmDelete(contest.id, contest.title)">Delete
                         </button>
@@ -103,10 +115,10 @@ export default {
             </div>
         </div>
     </div>
-    <dialog id="modal_delete" class="modal">
+    <dialog id="modal_delete" class="modal" :class="{'modal-open' : deletingTitle !== ''}">
         <div class="modal-box">
             <h3 class="text-lg font-bold">Warning!</h3>
-            <p class="pt-4 pb-2">Are you sure you want to delete this problem?</p>
+            <p class="pt-4 pb-2">Are you sure you want to delete this contest?</p>
             <p class="pt-2 pb-4"> {{ deletingTitle }}</p>
             <div class="w-full text-end">
                 <button class="px-3 py-1 bg-blue-300 hover:bg-blue-500 rounded-lg mx-1" @click="confirmDelete">Yes

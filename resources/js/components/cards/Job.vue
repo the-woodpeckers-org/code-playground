@@ -20,7 +20,7 @@ export default {
         },
         salary:{
             type: String,
-            default: 'N/A'       
+            default: 'N/A'
         },
         isEnded:{
             type: Boolean,

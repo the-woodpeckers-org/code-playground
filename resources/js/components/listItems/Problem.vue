@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-6 my-0.5 p-1 border-gray-300 border rounded-md h-9 bg-base-100 font-semibold">
+    <div class="grid grid-cols-4 my-0.5 p-1 border-gray-300 border rounded-md h-9 bg-base-100 font-semibold">
         <div class="ms-1 text-green-700">
             <div v-if="!auth">
                 <div class="tooltip tooltip-right"
@@ -24,8 +24,6 @@
             :class="{ 'text-green-600': problem.difficulty === 'Easy', 'text-yellow-600':problem.difficulty === 'Medium','text-red-600': problem.difficulty === 'Hard'}">{{
                 problem.difficulty
             }}</span></div>
-        <div class="truncate ...">{{ problem.acceptance_rate }}</div>
-        <div class="truncate ...">Type</div>
     </div>
 </template>
 

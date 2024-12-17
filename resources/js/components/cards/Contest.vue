@@ -31,8 +31,8 @@ export default {
 
 <template>
     <router-link class="card bg-base-100 shadow-xl my-1 text-sm hover:bg-gray-200 hover:scale-105 duration-300 transition" :to="'/contest/' + contestId">
-        <figure class="h-40">
-            <img :src="imgUrl" loading="lazy"/>
+        <figure class="h-40 bg-gradient-to-br from-cyan-300 to-purple-300 p-3">
+            <p class="text-6xl font-semibold bg-gradient-to-tl from-green-600 to-blue-600 p-3 inline-block bg-clip-text text-transparent">{{ title }}</p>
         </figure>
         <div class="card-body">
             <h2 class="card-title text-ellipsis line-clamp-2">{{title}}</h2>
