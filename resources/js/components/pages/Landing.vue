@@ -82,14 +82,11 @@ export default {
         </div>
         <div class="my-6">
             <h1 class="text-2xl font-bold">Problem Set</h1>
-            <div class="grid grid-cols-6 mx-3 p-1 rounded-md h-9 border-b">
+            <div class="grid grid-cols-4 mx-3 p-1 rounded-md h-9 border-b">
                 <span>Status</span>
                 <span class="col-span-2">Title</span>
                 <span>Difficulty</span>
-                <span>Acceptance</span>
-                <span>Tags</span>
             </div>
-
         </div>
         <ProblemSkeleton v-if="!loading" v-for="index in 16" :key="index"></ProblemSkeleton>
         <Problem v-if="loading" v-for="problem in this.problems" :problem="problem"></Problem>
