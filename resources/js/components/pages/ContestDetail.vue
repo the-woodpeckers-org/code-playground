@@ -1,12 +1,12 @@
 <script>
 import BaseCountDown from "@/components/countdowns/BaseCountDown.vue";
-import { HTTP } from "@/http-common.js";
+import {HTTP} from "@/http-common.js";
 import LoginRequiredDialog from "@/components/authentication/LoginRequiredDialog.vue";
 import moment from "moment";
 
 export default {
     name: "ContestDetail",
-    components: {LoginRequiredDialog, BaseCountDown },
+    components: {LoginRequiredDialog, BaseCountDown},
     data: function () {
         return {
             id: null,
@@ -16,11 +16,16 @@ export default {
             hours: 0,
             minutes: 0,
             seconds: 0,
+            participantCount: 0,
+            hostedBy: '',
+            problemCount: 0,
             isEnded: null,
             isLoaded: false,
             isFinished: false,
             finishedDate: '',
-            isParticipated: false
+            isParticipated: false,
+            isStarted: false,
+            startDate: '',
         }
     },
     async mounted() {
@@ -36,9 +41,13 @@ export default {
                     _this.minutes = response.data.remainingTime.minutes;
                     _this.seconds = response.data.remainingTime.seconds;
                     _this.isEnded = response.data.isEnded;
+                    _this.participantCount = response.data.participantCount;
+                    _this.problemCount = response.data.problemCount;
+                    _this.hostedBy = response.data.hostedBy;
+                    _this.startDate = response.data.start_date;
+                    console.log(response);
                 })
                 .catch(function (error) {
-                    console.log(error)
                 }),
             HTTP.get('/api/participate/get?contest_id=' + this.$route.params.c_id)
                 .then(response => {
@@ -72,13 +81,18 @@ export default {
             <div>
                 <div class="divider"></div>
                 <div class="border rounded-xl bg-gradient-to-br from-cyan-200 to-purple-200 px-3 py-6">
-                    <p class="text-start"><span class="font-semibold">Host by: </span> {{ 'Viettel Corporation' }}</p>
-                    <p class="text-start"><span class="font-semibold">Time remaining: </span>
+                    <p class="text-start"><span class="font-semibold">Host by: </span> {{ hostedBy }}</p>
+                    <p v-if="isStarted" class="text-start"><span class="font-semibold">Time remaining: </span>
                         <BaseCountDown v-if="isLoaded" :days="days" :hours="hours" :minutes="minutes"
-                            :seconds="seconds"></BaseCountDown>
+                                       :seconds="seconds"></BaseCountDown>
                     </p>
-                    <p class="text-start"><span class="font-semibold">Participants: </span> {{ '8' }}</p>
-                    <p class="text-start"><span class="font-semibold">Rounds: </span> {{ '3' }}</p>
+                    <p v-if="!isStarted" class="text-start">
+                        <span class="font-semibold">
+                            Start at: <span>{{ startDate }}</span>
+                        </span>
+                    </p>
+                    <p class="text-start"><span class="font-semibold">Participants: </span> {{ participantCount }}</p>
+                    <p class="text-start"><span class="font-semibold">Rounds: </span> {{ problemCount }}</p>
                     <p class="text-start"><span class="font-semibold">Tags: </span></p>
                     <div class="flex flex-row flex-wrap">
                         <p class="border bg-base-100 px-2 m-1">Hackathon</p>
@@ -94,23 +108,38 @@ export default {
                         <p class="border bg-base-100 px-2 m-1">Data Structure</p>
                         <p class="border bg-base-100 px-2 m-1">Window Slider</p>
                     </div>
-                    <div v-if="!isEnded && !isFinished && isLoaded" class="flex flex-row flex-wrap justify-center mt-6">
-                        <router-link :to="'/contest/participate/' + this.$route.params.c_id"
-                            class="shadow-xl hover:bg-cyan-700 bg-primary p-2 font-semibold text-lg text-white rounded-xl transition">
-                            <span v-if="isParticipated">Continue</span>
-                            <span v-if="!isParticipated">Set me in!</span>
-                        </router-link>
+                    <div v-if="isStarted">
+                        <div v-if="!isEnded && !isFinished && isLoaded"
+                             class="flex flex-row flex-wrap justify-center mt-6">
+                            <router-link :to="'/contest/participate/' + this.$route.params.c_id"
+                                         class="shadow-xl hover:bg-cyan-700 bg-primary p-2 font-semibold text-lg text-white rounded-xl transition">
+                                <span v-if="isParticipated">Continue</span>
+                                <span v-if="!isParticipated">Set me in!</span>
+                            </router-link>
+                        </div>
+                        <div v-if="isEnded && !isFinished" class="flex flex-row flex-wrap justify-center mt-6">
+                            <p>The contest is ended! See you at other contests!</p>
+                        </div>
+                        <div v-if="isFinished" class="flex flex-row flex-wrap justify-center mt-6">
+                            <p>You have finished this contest!</p>
+                            <p>Finished date: {{ finishedDate }}</p>
+                        </div>
+                        <div class="w-full flex gap-2 justify-center my-3">
+                            <button v-if="isFinished"
+                                    class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition"
+                                    @click="this.$router.push('/contest/' + this.id + '/result')">Your result
+                            </button>
+                            <button v-if="isEnded"
+                                    class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition"
+                                    @click="this.$router.push('/contest/' + this.id + '/ranking')">Ranking
+                            </button>
+                        </div>
                     </div>
-                    <div v-if="isEnded && !isFinished" class="flex flex-row flex-wrap justify-center mt-6">
-                        <p>The contest is ended! See you at other contests!</p>
-                    </div>
-                    <div v-if="isFinished" class="flex flex-row flex-wrap justify-center mt-6">
-                        <p>You have finished this contest!</p>
-                        <p>Finished date: {{ finishedDate }}</p>
-                    </div>
-                    <div class="w-full flex gap-2 justify-center my-3">
-                        <button v-if="isFinished" class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition" @click="this.$router.push('/contest/' + this.id + '/result')">Your result</button>
-                        <button v-if="isEnded" class="bg-blue-400 h-10 font-semibold w-40 shadow-xl rounded-xl hover:bg-blue-600 transition" @click="this.$router.push('/contest/' + this.id + '/ranking')">Ranking</button>
+                    <div v-if="!isStarted">
+                        <div class="flex flex-col flex-wrap justify-center mt-6">
+                            <p class="text-center font-mono">Will start at</p>
+                            <p class="text-center font-semibold text-lg font-mono">{{ startDate }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

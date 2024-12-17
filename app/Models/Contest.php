@@ -28,12 +28,33 @@ class Contest extends Model
         'remainingTime',
         'isEnded',
         'participantCount',
-        'startTime'
+        'startTime',
+        'problemCount',
+        'hostedBy',
+        'isStarted'
     ];
 
     public function getParticipantCountAttribute()
     {
         return Participation::where('contest_id', $this->id)->where('finished_at', '!=', 'null')->count();
+    }
+
+    public function getIsStartedAttribute()
+    {
+        if (Carbon::now() <= $this->start_date) {
+            return true;
+        }
+        return false;
+    }
+
+    public function getProblemCountAttribute()
+    {
+        return Problem::where('contest_id', $this->id)->count();
+    }
+
+    public function getHostedByAttribute()
+    {
+        return User::where('id', $this->created_by)->first()->name;
     }
 
     public function getIsEndedAttribute()
@@ -65,9 +86,10 @@ class Contest extends Model
             'seconds' => $diff->s
         ];
     }
+
     public function getStartTimeAttribute()
     {
-        
+
         if (Carbon::now() > $this->start_date) {
             return [
                 'days' => 0,

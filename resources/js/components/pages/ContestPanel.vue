@@ -58,7 +58,6 @@ export default {
                 _this.isLoaded = true
             })
             .catch(error => {
-                alert(error)
             })
     }
 }
