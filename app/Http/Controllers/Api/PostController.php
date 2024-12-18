@@ -31,9 +31,9 @@ class PostController
         return response()->json($this->service->getLanding());
     }
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return response()->json($this->service->getAll());
+        return response()->json($this->service->getAll($request));
     }
 
     public function getAllByContributor(Request $request)
