@@ -45,6 +45,7 @@ export default {
                     _this.problemCount = response.data.problemCount;
                     _this.hostedBy = response.data.hostedBy;
                     _this.startDate = response.data.start_date;
+                    _this.isStarted = response.data.isStarted;
                     console.log(response);
                 })
                 .catch(function (error) {

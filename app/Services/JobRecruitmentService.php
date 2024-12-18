@@ -6,7 +6,11 @@ use App\Http\Requests\FinishContestFormRequest;
 use App\Models\Cv;
 use App\Models\Application;
 use App\Models\JobRecruitment;
+use App\Models\Language;
+use App\Models\Problem;
+use App\Models\ProblemLanguage;
 use App\Models\SubscriptionAttribute;
+use App\Models\Testcase;
 use App\Models\Users;
 use App\Mail\MailResponseCV;
 use App\Utils\Constants\Subscription;
@@ -41,7 +45,7 @@ class JobRecruitmentService
                 'data' => $jobs,
                 'maxPost' => $maxPost,
                 'subUser' => $subUser,
-                
+
             ]);
         } catch (\Exception $e) {
             return response()->json([
@@ -53,7 +57,7 @@ class JobRecruitmentService
     public function updateJob(Request $request)
     {
         try {
-         
+
             $job = JobRecruitment::find($request->input('job.id'));
             $job->title = $request->input('job.title');
             $job->description = $request->input('job.description');
@@ -63,11 +67,11 @@ class JobRecruitmentService
             $job->position_number = $request->input('job.position_number');
             $job->negotiable = filter_var($request->input('job.negotiable'), FILTER_VALIDATE_BOOLEAN);
             if ($job->negotiable) {
-                $job->salary = 0; 
+                $job->salary = 0;
             } else {
                 $job->salary = $request->input('job.salary');
             }
-            
+
             $job->deadline = $request->input('job.deadline');
             $job->save();
             return response()->json([
@@ -114,7 +118,7 @@ class JobRecruitmentService
         $user = $request->user();
         try {
             $countTemp = $user->getJobPosted()->count();
-            $countMax = null;            
+            $countMax = null;
             $order = Order::where('user_id', $user->id)->orderBy('id', 'desc')->first();
             if ($order) {
 
@@ -131,7 +135,7 @@ class JobRecruitmentService
                     ]);
                 }
             }
-            
+
             $company = JobRecruitment::create([
                 'user_id' => $user->id,
                 'title' =>  $request->input('job.title'),
@@ -151,6 +155,49 @@ class JobRecruitmentService
                 $company->salary = $request->input('job.salary');
             }
             $company->save();
+
+            // EntryTest
+            $problem = new Problem();
+            $problem->fill([
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'difficulty' => $request->input('difficulty'),
+                'acceptance_rate' => 0,
+                'job_id' => $company->id,
+                'created_by' => $request->user()->id,
+                'status' => Status::PENDING,
+                'change_required' => ''
+            ]);
+            $problem->save();
+            foreach ($request->input('categories') as $category) {
+                if (!empty($category['id'])) {
+                    $problemTag = new ProblemTag();
+                    $problemTag->fill([
+                        'problem_id' => $problem->id,
+                        'category_id' => $category['id'],
+                    ]);
+                    $problemTag->save();
+                }
+            }
+            foreach ($request->input('languages') as $language) {
+                $problemLanguage = new ProblemLanguage();
+                $problemLanguage->fill([
+                    'problem_id' => $problem->id,
+                    'language_id' => Language::where('name', $language)->first()->id
+                ]);
+                $problemLanguage->save();
+            }
+            foreach ($request->input('testcases') as $testcase) {
+                $nTestcase = new Testcase();
+                $nTestcase->fill([
+                    'problem_id' => $problem->id,
+                    'stdin' => $testcase['stdin'],
+                    'expected_output' => $testcase['expected_output'],
+                ]);
+                $nTestcase->save();
+            }
+            // end EntryTest
+
             return response()->json([
                 'status' => '200',
                 'message' => 'Create job successfully',
