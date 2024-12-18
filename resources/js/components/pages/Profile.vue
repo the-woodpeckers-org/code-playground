@@ -50,6 +50,14 @@ export default {
         this.getRecentParticipation(1);
     },
     methods: {
+        async requestToBecomeContributor() {
+            await HTTP.put('api/request-become-contributor')
+                .then((res) => {
+                    this.$root.auth.requested_to_contributor = 'pending';
+                })
+                .catch((err) => {
+                });
+        },
         async getUserStatsData() {
             let _this = this;
             let languageStatLabels = [];
@@ -406,6 +414,13 @@ export default {
                 </div>
             </form>
             <div class="max-w-sm mx-auto mt-2 bg-white p-6 rounded-lg shadow-md space-y-4">
+                <div class="w-full" v-if="$root.auth.requested_to_contributor != 'approved' || $root.auth.role != 'contributor'">
+                    <p class="font-semibold my-3">You want to become a contributor?</p>
+                    <div class="w-full flex">
+                        <button @click="requestToBecomeContributor" v-if="$root.auth.requested_to_contributor == null" class="btn btn-md bg-green-400 mx-auto">Request</button>
+                        <button disabled v-if="$root.auth.requested_to_contributor == 'pending'" class="btn btn-md bg-green-400 mx-auto">Pending</button>
+                    </div>
+                </div>
                 <div>
                     <label>Name</label>
                     <input v-model="nameInput" class="w-full h-8 border border-gray-500 rounded-lg bg-base-100"

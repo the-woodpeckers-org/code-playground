@@ -166,6 +166,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
      // authen card id
     Route::post('/verificationCardID', [AuthController::class, 'verificationCardID'])->name('verificationCardID');
+
+    //
+    Route::put('/request-become-contributor', [UserController::class, 'requestToBecomeContributor'])->name('requestToBecomeContributor');
 });
 
 Route::get('/user/problem/recently', [ProblemController::class, 'getRecentAttemptsById'])->name('recentProblem');
