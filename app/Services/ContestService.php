@@ -16,6 +16,7 @@ use App\Models\Testcase;
 use Illuminate\Http\Request;
 use App\Utils\Constants\Status;
 use Illuminate\Support\Carbon;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ContestService
 {
@@ -78,6 +79,9 @@ class ContestService
         foreach ($request->input('tags') as $tag) {
             $tags .= $tag . ',';
         }
+        if ($request->input('start_date') <= Carbon::now()) {
+            throw new BadRequestHttpException('!!!');
+        }
         $contest->fill([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
@@ -128,6 +132,9 @@ class ContestService
         $tags = '';
         foreach ($request->input('tags') as $tag) {
             $tags .= $tag . ',';
+        }
+        if ($request->input('start_date') <= Carbon::now()) {
+            throw new BadRequestHttpException('!!!');
         }
         $contest->update([
             'title' => $request->input('title'),

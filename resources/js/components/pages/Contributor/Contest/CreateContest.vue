@@ -48,6 +48,7 @@ export default {
             ],
             // Contest status
             editStatus: 0,
+            futureError: false
         }
     },
     mounted() {
@@ -132,6 +133,7 @@ export default {
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
+                    this.futureError = true;
                     if (this.checkValidDate(this.start_date, this.end_date) !== 0) {
                         this.errors.end_date.push('Start date nor end date must in the future!')
                         return;
@@ -159,6 +161,7 @@ export default {
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
+                    this.futureError = true;
                     if (this.checkValidDate(this.start_date, this.end_date) !== 0) {
                         this.errors.end_date.push('Start date nor end date must in the future!');
                         return;
@@ -264,6 +267,9 @@ export default {
                     <div v-if="errors && errors.end_date"
                          class="bg-red-500 rounded-md border py-1 px-2 my-1 text-base-200 lobster">
                         <p v-for="err in errors.end_date"> {{ err }} </p>
+                    </div>
+                    <div v-if="futureError" class="bg-red-500 rounded-md border py-1 px-2 my-1 text-base-200 lobster">
+                        <p>Start date must greater than now!</p>
                     </div>
                 </div>
                 <div class="col-span-full">
@@ -383,6 +389,9 @@ export default {
                     <div v-if="errors && errors.end_date"
                          class="bg-red-500 rounded-md border py-1 px-2 my-1 text-base-200 lobster">
                         <p v-for="err in errors.end_date"> {{ err }} </p>
+                    </div>
+                    <div v-if="futureError" class="bg-red-500 rounded-md border py-1 px-2 my-1 text-base-200 lobster">
+                        <p>Start date must greater than now!</p>
                     </div>
                 </div>
                 <div class="col-span-full">

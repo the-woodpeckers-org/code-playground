@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+
 class AuthService
 {
     public function login(LoginFormRequest $request): array
@@ -35,7 +36,7 @@ class AuthService
             if ($user->role === Role::Company && $user->status === Status::PENDING) {
                 throw new BadRequestHttpException('Your account is pending approval.');
             }
-            if($user->status === Status::DEACTIVE){
+            if ($user->status === Status::DEACTIVE) {
                 throw new BadRequestHttpException('Your account is deactive.');
             }
             $token = $user->createToken('token')->plainTextToken;
@@ -73,14 +74,10 @@ class AuthService
     public function changePassword(ChangePasswordFormRequest $request)
     {
         $user = User::find($request->user()->id);
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            $user->update([
-                'password' => Hash::make($request->input('new_password')),
-            ]);
-            return response()->json(['message' => 'Change password successfully'], 200);
-        }
-        return response()->json(['current_password' => Hash::check($request->input('password'), $user->password)], 422);
+        $user->update([
+            'password' => Hash::make($request->input('new_password')),
+        ]);
+        return response()->json(['message' => 'Change password successfully'], 200);
     }
 
     public function forgotPassword(ForgotPasswordFormRequest $request): array
@@ -211,20 +208,19 @@ class AuthService
     {
         $checkUni = ProfileUser::where('id_number', $request->input('cardID'))->first();
         // kiểm tra tồn tại trong hệ thống
-        if ($checkUni!=null) {
+        if ($checkUni != null) {
             return response()->json(
                 ['message' => 'Card ID already exists'
-        ], 200);
-        }
-        else{
+                ], 200);
+        } else {
             $currentUser = User::find($request->user()->id);
             $profileUserCurrent = ProfileUser::where('user_id', $currentUser->id)->first();
             $profileUserCurrent->id_number = $request->input('cardID');
             $profileUserCurrent->save();
             return response()->json(
                 ['message' => 'Success'
-        ], 200);
+                ], 200);
         }
-       
+
     }
 }

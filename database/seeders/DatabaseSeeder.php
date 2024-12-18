@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123'),
             'role' => Role::Admin,
             'email_verified_at' => Carbon::now(),
+            'status' => 'approved'
         ];
         User::create($admin);
 
@@ -50,6 +51,7 @@ class DatabaseSeeder extends Seeder
             'birthday' => '2003-01-11',
             'avatar_url' => 'https://res.cloudinary.com/dazvvxymm/image/upload/v1726166331/dumemay_o6j36t.jpg',
             'role' => Role::Contributor,
+            'status' => 'approved',
             'email_verified_at' => Carbon::now(),
         ];
         User::create($user);
@@ -63,6 +65,7 @@ class DatabaseSeeder extends Seeder
             'birthday' => '2003-01-01',
             'avatar_url' => 'https://res.cloudinary.com/dazvvxymm/image/upload/v1726165796/image_1_e6zwtv.png',
             'role' => Role::User,
+            'status' => 'approved',
             'email_verified_at' => Carbon::now(),
         ];
         User::create($user);
