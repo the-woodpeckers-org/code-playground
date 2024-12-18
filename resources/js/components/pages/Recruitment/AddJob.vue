@@ -16,7 +16,8 @@ export default {
                 ],
                 languages: [],
                 difficulty: 'Easy',
-                description: ''
+                description: '',
+                title: ''
             },
             availableSkills: ['Java', 'Go', 'C', 'C#', 'C++', 'Rust', 'JavaScript', 'Python'],
             selectedSkills: [],
@@ -31,7 +32,7 @@ export default {
             },
             result: null,
             isMax: false,
-            jdTest: 'not_created'
+            jdTest: 'not_required'
         };
     },
     mounted() {
@@ -49,18 +50,24 @@ export default {
                     position_number: this.jobForm.position_number,
                     deadline: this.jobForm.deadline,
                     description: this.jobForm.rte_1.getHTMLCode(),
-                    negotiable: this.jobForm.negotiable
+                    negotiable: this.jobForm.negotiable,
+
+                },
+                problem: {
+                    test_required: this.jdTest,
+                    title: this.problem.title,
+                    description: this.problem.description,
+                    difficulty: this.problem.difficulty,
+                    languages: this.problem.languages,
+                    testcases: this.problem.testcases,
                 }
             };
             await HTTP.post('/api/createJob', data).then(response => {
-                console.log(response.data);
                 if (response.data.status === '200') {
                     this.result = response.data.message;
-                    return;
                 }
                 if (response.data.status === '5900') {
                     this.isMax = true;
-                    return;
                 }
             }).catch(error => {
                 console.error(error);
@@ -200,18 +207,14 @@ export default {
             <div class="mb-6 flex flex-col gap-3">
                 <label class="block text-gray-600 font-semibold mb-2">JD Test</label>
                 <div class="flex gap-x-3 my-auto">
-                    <input v-model="jdTest" value="not_created" type="radio" class="radio">
-                    <label>Not required</label>
-                </div>
-                <div class="flex gap-x-3 my-auto">
                     <input v-model="jdTest" value="not_required" type="radio" class="radio">
-                    <label>Optional</label>
+                    <label>Not required</label>
                 </div>
                 <div class="flex gap-x-3 my-auto">
                     <input v-model="jdTest" value="required" type="radio" class="radio">
                     <label>Required</label>
                 </div>
-                <div class="w-full">
+                <div class="w-full" v-if="jdTest == 'required'">
                     <label>Title</label>
                     <input v-model="problem.title" class="w-full border h-8 rounded-lg border-gray-400 px-3">
                     <label>Difficulty</label>

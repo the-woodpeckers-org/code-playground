@@ -22,7 +22,8 @@ class Problem extends Model
         'contest_id',
         'created_by',
         'status',
-        'change_required'
+        'change_required',
+        'job_id'
     ];
 
     protected $appends = [
