@@ -100,6 +100,10 @@ class JobRecruitmentService
                 Participation_Attempts::where('problem_id', $problem->id)->delete();
                 $problem->delete();
             }
+            $applications = Application::where('job_id', $job->id)->get();
+            foreach ($applications as $application) {
+                $application->delete();
+            }
             $job->delete();
             return response()->json([
                 'status' => '200',
