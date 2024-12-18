@@ -48,7 +48,7 @@
                     Recruitment Profile
                 </router-link>
                 <router-link
-                    v-if="$root.auth && ($root.auth.role == Role.Contributor || $root.auth.role == Role.Company)"
+                    v-if="$root.auth &&$root.auth.status == 'approved' && ($root.auth.role == Role.Contributor || $root.auth.role == Role.Company) "
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contributor">
                     Contributor
                 </router-link>
