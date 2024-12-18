@@ -412,7 +412,7 @@ export default {
                 </div>
             </form>
             <div class="max-w-sm mx-auto mt-2 bg-white p-6 rounded-lg shadow-md space-y-4">
-                <div class="w-full" v-if="$root.auth.requested_to_contributor != 'approved' || $root.auth.role != 'contributor'">
+                <div class="w-full" v-if="$root.auth.requested_to_contributor != 'approved' && $root.auth.role == 'user'">
                     <p class="font-semibold my-3">You want to become a contributor?</p>
                     <div class="w-full flex">
                         <button @click="requestToBecomeContributor" v-if="$root.auth.requested_to_contributor == null" class="btn btn-md bg-green-400 mx-auto">Request</button>
