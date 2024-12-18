@@ -3,7 +3,6 @@
         @click="viewDetailNotification">
         <h2 class="font-bold text-md text-gray-800">{{ data.type }}</h2>
         <p class="text-gray-600 text-ellipsis line-clamp-1">{{ data.message }}</p>
-        <p class="text-sm text-gray-500">ID: {{ data.fid }}</p>
         <p v-if="!data.is_read" class="text-sm font-semibold text-green-600">New</p>
     </div>
     <dialog ref="viewDetail" class="modal">
@@ -12,7 +11,6 @@
             <p class="py-4">
                 <span class="font-semibold">Type:</span> {{ data.type }}
                 <span class="font-semibold">Message:</span> {{ data.message }}
-                <span class="font-semibold">Form: </span> {{ data.fid }}
             </p>
         </div>
         <form method="dialog" class="modal-backdrop">
