@@ -27,7 +27,7 @@ class PostService
 
     public function getAll(Request $request)
     {
-        return Post::paginate(8);
+        return Post::orderBy('created_at', 'desc')->paginate(8);
     }
 
     public function getAllByContributor(Request $request)

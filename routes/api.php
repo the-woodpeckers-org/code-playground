@@ -197,3 +197,4 @@ Route::get('/getProblemTags',[CategoryController::class, 'getProblemTags'])->nam
 Route::get('/problem/search', [ProblemController::class, 'getSearchProblems'])->name('getSearchProblems');
 
 Route::get('/problems/get-attempt', [ProblemController::class, 'getAttempt'])->name('getAttempt');
+Route::get('/posts', [PostController::class, 'getAll'])->name('post.getAll');
