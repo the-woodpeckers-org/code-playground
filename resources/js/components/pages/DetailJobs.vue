@@ -4,10 +4,10 @@
             <div class=" flex w-full flex-col gap-4 md:w-[67.62%]">
                 <div class="flex items-start gap-6 rounded bg-white p-4">
                     <div class="flex w-[21%] flex-initial items-center justify-center bg-white"><a
-                            class="flex min-h-[112px] items-center justify-center" title="DevOps Engineer"><img
-                                alt="TopDev" loading="lazy" width="160" height="112" decoding="async" data-nimg="1"
-                                class="h-full max-h-[112px] w-[160px] bg-white object-contain"
-                                style="color: transparent; " :src="userCompany.avatar_url"></a>
+                        class="flex min-h-[112px] items-center justify-center" title="DevOps Engineer"><img
+                        alt="TopDev" loading="lazy" width="160" height="112" decoding="async" data-nimg="1"
+                        class="h-full max-h-[112px] w-[160px] bg-white object-contain"
+                        style="color: transparent; " :src="userCompany.avatar_url"></a>
                     </div>
                     <div class="w-3/4 flex flex-initial flex-col">
                         <h1 class="text-2xl font-bold text-black text-ellipsis line-clamp-2 ">{{ job.title }}</h1>
@@ -26,22 +26,23 @@
                         <div class="mb-2 max-w-[540px] text-base text-gray-500">
                             <div class="flex last:mb-0">
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 20 20"
-                                    aria-hidden="true" class="mr-2 flex h-6 w-6 items-center text-gray-300" height="1em"
-                                    width="1em" xmlns="http://www.w3.org/2000/svg">
+                                     aria-hidden="true" class="mr-2 flex h-6 w-6 items-center text-gray-300"
+                                     height="1em"
+                                     width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd"
-                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
-                                        clip-rule="evenodd"></path>
+                                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-13a.75.75 0 00-1.5 0v5c0 .414.336.75.75.75h4a.75.75 0 000-1.5h-3.25V5z"
+                                          clip-rule="evenodd"></path>
                                 </svg>
                                 <div class="flex w-11/12 items-center text-base text-gray-500">{{ job.deadline }}</div>
                             </div>
                         </div>
                         <div class="flex max-w-[540px] items-center">
                             <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 20 20"
-                                aria-hidden="true" class="mr-2 h-6 w-6 text-gray-300" height="1em" width="1em"
-                                xmlns="http://www.w3.org/2000/svg">
+                                 aria-hidden="true" class="mr-2 h-6 w-6 text-gray-300" height="1em" width="1em"
+                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
-                                    d="M1 4a1 1 0 011-1h16a1 1 0 011 1v8a1 1 0 01-1 1H2a1 1 0 01-1-1V4zm12 4a3 3 0 11-6 0 3 3 0 016 0zM4 9a1 1 0 100-2 1 1 0 000 2zm13-1a1 1 0 11-2 0 1 1 0 012 0zM1.75 14.5a.75.75 0 000 1.5c4.417 0 8.693.603 12.749 1.73 1.111.309 2.251-.512 2.251-1.696v-.784a.75.75 0 00-1.5 0v.784a.272.272 0 01-.35.25A49.043 49.043 0 001.75 14.5z"
-                                    clip-rule="evenodd"></path>
+                                      d="M1 4a1 1 0 011-1h16a1 1 0 011 1v8a1 1 0 01-1 1H2a1 1 0 01-1-1V4zm12 4a3 3 0 11-6 0 3 3 0 016 0zM4 9a1 1 0 100-2 1 1 0 000 2zm13-1a1 1 0 11-2 0 1 1 0 012 0zM1.75 14.5a.75.75 0 000 1.5c4.417 0 8.693.603 12.749 1.73 1.111.309 2.251-.512 2.251-1.696v-.784a.75.75 0 00-1.5 0v.784a.272.272 0 01-.35.25A49.043 49.043 0 001.75 14.5z"
+                                      clip-rule="evenodd"></path>
                             </svg>
                             <p class="text-primary" v-if="job.negotiable">Negotiable</p>
                             <p class="text-primary" v-else>{{ job.salary }}</p>
@@ -50,13 +51,13 @@
 
                 </div>
                 <div id="tabMnf" role="tablist" class="tabs tabs-bordered grid grid-cols-2 bg-white">
-                    <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Description" />
+                    <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Description"/>
                     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
                         <div v-html="this.job.description"></div>
                     </div>
 
                     <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="About company"
-                        checked="checked" />
+                           checked="checked"/>
                     <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
                         <div v-html="this.profileCompany.description"></div>
                     </div>
@@ -71,16 +72,25 @@
             </div>
             <div v-else class=" md:w-[32.38%]" id="tabMnf2">
                 <div v-if="!isApplied" class="flex w-full flex-wrap gap-4">
+                    <button v-if="entryTest"
+                            class="w-full rounded border-primary bg-primary text-center font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
+                            data-gtm-vis-first-on-screen8747084_30="642"
+                            data-gtm-vis-recent-on-screen8747084_30="409592"
+                            data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1"
+                            @click="takeTest"> Take test
+                    </button>
                     <button id="applyCV"
-                        class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
-                        data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
-                        data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1"
-                       @click="applyShow">Apply
+                            class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
+                            data-gtm-vis-first-on-screen8747084_30="642"
+                            data-gtm-vis-recent-on-screen8747084_30="409592"
+                            data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1"
+                            @click="applyShow"
+                            :disabled="!isPassed && entryTest">Apply
                         now
                     </button>
                     <button id="createTopdevCV" type="button"
-                        class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full"
-                        @click="createCV"><span>Create CV to apply</span></button>
+                            class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full"
+                            @click="createCV"><span>Create CV to apply</span></button>
                     <section class="w-full bg-white">
                         <h2 class="p-4 text-lg font-bold text-gray-500">General information</h2>
                         <div class="flex flex-col self-stretch border-t border-gray-200 p-4">
@@ -94,15 +104,17 @@
                 </div>
                 <div v-else class="flex w-full flex-wrap gap-4">
                     <button id="applyCV"
-                        class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
-                        data-gtm-vis-first-on-screen8747084_30="642" data-gtm-vis-recent-on-screen8747084_30="409592"
-                        data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1">You was
+                            class="w-full rounded border-primary bg-primary font-semibold text-white hover:border-primary-400 hover:bg-primary-400 disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-100 lg:h-14 h-14"
+                            data-gtm-vis-first-on-screen8747084_30="642"
+                            data-gtm-vis-recent-on-screen8747084_30="409592"
+                            data-gtm-vis-total-visible-time8747084_30="100" data-gtm-vis-has-fired8747084_30="1">You was
                         applied
                     </button>
 
                     <button id="createTopdevCV" type="button"
-                        class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full hover:bg-red-500 hover:text-white"
-                        form="" onclick="ConfirmCancelApply.showModal()"><span class="">Cancel applied</span></button>
+                            class="inline-flex items-center justify-center gap-1 border border-solid text-sm transition-all disabled:cursor-not-allowed lg:gap-3 lg:text-base border-primary bg-transparent text-primary hover:bg-primary-100 dark:border-white dark:text-white h-9 rounded px-4 font-semibold lg:h-14 lg:px-8 w-full hover:bg-red-500 hover:text-white"
+                            form="" onclick="ConfirmCancelApply.showModal()"><span class="">Cancel applied</span>
+                    </button>
                     <section class="w-full bg-white">
                         <h2 class="p-4 text-lg font-bold text-gray-500">General information</h2>
                         <div class="flex flex-col self-stretch border-t border-gray-200 p-4">
@@ -131,17 +143,17 @@
                                 <div class="flex flex-col">
                                     <label for="applicantName">Name</label>
                                     <input type="text" class="border border-gray-300 rounded p-2 w-full"
-                                        :value="auth.name" readonly>
+                                           :value="auth.name" readonly>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="phone">Phone Number </label>
                                     <input type="text" class="border border-gray-300 rounded p-2 w-full"
-                                        :value="auth.phone_number" readonly>
+                                           :value="auth.phone_number" readonly>
                                 </div>
                                 <div class="flex flex-col">
                                     <label for="email">Email</label>
                                     <input type="text" class="border border-gray-300 rounded p-2 w-full"
-                                        :value="auth.email" readonly>
+                                           :value="auth.email" readonly>
                                 </div>
                             </div>
                         </div>
@@ -160,15 +172,16 @@
                         </div>
                         <div class="col-span-5">
                             <textarea name="coverLetter" rows="5" class="border border-gray-300 rounded p-2 w-full"
-                                required v-model="letter"></textarea>
+                                      required v-model="letter"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="flex justify-end mt-4 space-x-2">
                     <button type="button" class="px-4 py-2 bg-red-500 text-white rounded"
-                        onclick="document.getElementById('applyShow').close()">Close
+                            @click="close">Close
                     </button>
-                    <button type="button" @click="ApplyCV" class="px-4 py-2 bg-blue-500 text-white rounded">Submit</button>
+                    <button type="button" @click="ApplyCV" class="px-4 py-2 bg-blue-500 text-white rounded">Submit
+                    </button>
                 </div>
             </form>
         </div>
@@ -219,36 +232,37 @@
             </div>
         </div>
     </dialog>
-    
+
     <dialog class="modal model-open" ref="warningCardIDModal" id="warningCardID">
         <div class="modal-box bg-base-100">
             <h3 class="text-lg font-semibold text-warning">Warning</h3>
             <p class="py-4 text-base">You need authentication <strong>Card ID</strong> first!</p>
             <div class="modal-action">
-              <a class="btn btn-sm m-1 border" href="/id-verify">Yes</a>
+                <a class="btn btn-sm m-1 border" href="/id-verify">Yes</a>
             </div>
         </div>
     </dialog>
 
     <dialog class="modal" ref="modal_is_notification_compelte_cv">
-            <div class="modal-box bg-base-100">
-                <h3 class="text-lg font-semibold">Warning</h3>
-                <p class="py-4 text-base">
-                    You need complete your CV before come here
-                </p>
-                <div class="modal-action">
-                    <form method="dialog">
-                        <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
-                            @click="this.$router.push('/ProfileCV');">Yes</button>
-                    </form>
-                </div>
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">
+                You need complete your CV before come here
+            </p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
+                            @click="this.$router.push('/ProfileCV');">Yes
+                    </button>
+                </form>
             </div>
-        </dialog>
+        </div>
+    </dialog>
 
 </template>
 <script>
-import { HTTP } from "@/http-common.js";
-import { getAuth } from "@/utils/authLocalStorage.js";
+import {HTTP} from "@/http-common.js";
+import {getAuth} from "@/utils/authLocalStorage.js";
 import InterviewKit from "@/components/cards/InterviewKit.vue";
 
 export default {
@@ -269,12 +283,17 @@ export default {
             isLoading: false,
             isSendRequest: false,
             isFailed: false,
+            entryTest: null,
+            isPassed: false
         }
     },
     name: "DetailJobs",
     async mounted() {
         this.setUp();
         await this.fetchData();
+        if (this.entryTest) {
+            await this.getAttemptData();
+        }
     },
     update() {
         this.setUp();
@@ -286,18 +305,31 @@ export default {
             let rect = element.getBoundingClientRect();
             firstTop = rect.top;
             document.addEventListener("scroll", (event) => {
-                if (window.scrollY >= firstTop && window.scrollY <= rect.top - 50) {
-                    element.classList.add('lg:fixed');
-                    element.classList.add('lg:top-0');
-                    element.classList.add('lg:w-[58%]');
-                    element.classList.add('lg:scroll-mt-28');
-                } else {
-                    element.classList.remove('lg:fixed');
-                    element.classList.remove('lg:top-0');
-                    element.classList.remove('lg:w-[58%]');
+                    if (window.scrollY >= firstTop && window.scrollY <= rect.top - 50) {
+                        element.classList.add('lg:fixed');
+                        element.classList.add('lg:top-0');
+                        element.classList.add('lg:w-[58%]');
+                        element.classList.add('lg:scroll-mt-28');
+                    } else {
+                        element.classList.remove('lg:fixed');
+                        element.classList.remove('lg:top-0');
+                        element.classList.remove('lg:w-[58%]');
+                    }
                 }
-            }
             );
+        },
+        takeTest() {
+            this.$router.push('/problem/' + this.entryTest.id);
+        },
+        async getAttemptData() {
+            let _this = this;
+            await HTTP.get('api/problems/get-attempt?problem_id=' + this.entryTest.id + '&user_id=' + this.$root.auth.id)
+                .then((res) => {
+                    if (res.data.id) {
+                        this.isPassed = true;
+                    }
+                }).catch((err) => {
+                })
         },
         async fetchData() {
             let _this = this;
@@ -306,6 +338,9 @@ export default {
                 _this.profileCompany = response.data.profileCompany;
                 _this.skills = JSON.parse(this.job.skill.replace(/'/g, '"'))
                 _this.userCompany = response.data.userCompany;
+                if (response.data.data.entryTest) {
+                    _this.entryTest = response.data.data.entryTest;
+                }
                 console.log(response.data);
             }).catch(error => {
                 console.log(error)
@@ -327,12 +362,11 @@ export default {
             applyShowModal.close();
             let _this = this;
             this.id_CV = document.querySelector('select[name="cv"]').value;
-            if(!this.auth.profileUser.id_number)
-            {
+            if (!this.auth.profileUser.id_number) {
                 this.isWarningCardID = true;
                 return;
             }
-            if(this.id_CV == '') {
+            if (this.id_CV == '') {
                 alert('Please choose CV');
                 return;
             }
@@ -344,10 +378,12 @@ export default {
             }
             this.isLoading = true;
             await HTTP.post('/api/applyCV', job).then(response => {
+                console.log(response);
                 HTTP.get(`/api/isApplied/${this.$route.params.id}`).then(response => {
                     _this.isApplied = response.data.isApplied;
                     _this.isLoading = false;
                     _this.isSendRequest = true;
+                    console.log(response);
                     setTimeout(() => {
                         _this.isSendRequest = false;
                     }, 2000);
@@ -386,14 +422,12 @@ export default {
             this.$router.push('/Mycv');
         },
         applyShow() {
-            if(!this.$root.auth.profileUser)
-            {
+            if (!this.$root.auth.profileUser) {
                 this.$refs.modal_is_notification_compelte_cv.showModal();
                 return;
             }
 
-            if(this.auth.profileUser.id_number==null)
-            {
+            if (this.auth.profileUser.id_number == null) {
                 this.$refs.warningCardIDModal.showModal();
                 return;
             }
