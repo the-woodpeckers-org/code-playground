@@ -40,11 +40,11 @@ class UserMService
             ]);
         }
     }
-    
+
     public function getListSubscribe()
     {
         $usersCompany = User::all()->whereNotNull('status')->where('role',Role::Company)->where('status','!=',Status::APPROVED);
-        $contributors = User::all()->whereNotNull('status')->where('role',Role::Contributor)->where('status','!=',Status::APPROVED);
+        $contributors = User::all()->where('requested_to_contributor', '=', 'pending');
         $profileCompanies = $usersCompany->map(function ($user) {
             return $user->getCompany;
         });
@@ -60,7 +60,10 @@ class UserMService
         $user = User::find($id);
         if ($user) {
             $user->status = Status::APPROVED;
-            //send mail
+            if ($user->role == Role::User) {
+                $user->requested_to_contributor = Status::APPROVED;
+                $user->role = Role::Contributor;
+            }
             $mailCon = new MailCongratulation($user);
             Mail::to($user->email)->send($mailCon);
             // đăng ký dịch vụ cho công ty

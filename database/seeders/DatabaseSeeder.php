@@ -35,7 +35,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'codeplayground@gmail.com',
             'password' => Hash::make('123'),
-            'role' => Role::Admin
+            'role' => Role::Admin,
+            'email_verified_at' => Carbon::now(),
         ];
         User::create($admin);
 
@@ -48,7 +49,8 @@ class DatabaseSeeder extends Seeder
             'gender' => 'None',
             'birthday' => '2003-01-11',
             'avatar_url' => 'https://res.cloudinary.com/dazvvxymm/image/upload/v1726166331/dumemay_o6j36t.jpg',
-            'role' => Role::Contributor
+            'role' => Role::Contributor,
+            'email_verified_at' => Carbon::now(),
         ];
         User::create($user);
         $user = [
@@ -60,7 +62,8 @@ class DatabaseSeeder extends Seeder
             'gender' => 'Male',
             'birthday' => '2003-01-01',
             'avatar_url' => 'https://res.cloudinary.com/dazvvxymm/image/upload/v1726165796/image_1_e6zwtv.png',
-            'role' => Role::User
+            'role' => Role::User,
+            'email_verified_at' => Carbon::now(),
         ];
         User::create($user);
         $user = [
@@ -72,7 +75,8 @@ class DatabaseSeeder extends Seeder
             'gender' => 'Female',
             'birthday' => '2003-01-01',
             'avatar_url' => 'https://res.cloudinary.com/dazvvxymm/image/upload/v1726165795/IMG_20240912_215515_qsgvrn.jpg',
-            'role' => Role::User
+            'role' => Role::User,
+            'email_verified_at' => Carbon::now(),
         ];
         User::create($user);
 
@@ -87,7 +91,8 @@ class DatabaseSeeder extends Seeder
             'status' => 'approved',
             'gender' => 'None',
             'birthday' => '2003-01-01',
-            'avatar_url' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAGvRhdg1vaZyhkn5zzE7p35e70SUgv0TVCw&s'
+            'avatar_url' => 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAGvRhdg1vaZyhkn5zzE7p35e70SUgv0TVCw&s',
+            'email_verified_at' => Carbon::now(),
         ];
         User::create($user);
 
@@ -761,6 +766,7 @@ class DatabaseSeeder extends Seeder
         $company1->role = Role::Company;
         $company1->avatar_url = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png';
         $company1->status = Status::APPROVED;
+        $company1->email_verified_at = Carbon::now();
         $company1->save();
 
         $order_company1 = new Order();
@@ -827,6 +833,7 @@ class DatabaseSeeder extends Seeder
         $company3->role = Role::Company;
         $company3->status = Status::APPROVED;
         $company3->avatar_url = 'https://rubee.com.vn/wp-content/uploads/2021/05/amazone-logo.jpg';
+        $company3->email_verified_at = Carbon::now();
         $company3->save();
 
         $order_company3 = new Order();
@@ -857,6 +864,7 @@ class DatabaseSeeder extends Seeder
         $company4->password = Hash::make('123');
         $company4->role = Role::Company;
         $company4->avatar_url = 'https://techvietnam.com.vn/wp-content/uploads/2023/07/Apple-Logo.png';
+        $company4->email_verified_at = Carbon::now();
         $company4->status = Status::APPROVED;
         $company4->save();
 
@@ -889,6 +897,7 @@ class DatabaseSeeder extends Seeder
         $company5->role = Role::Company;
         $company5->avatar_url = 'https://cdn.pixabay.com/photo/2021/08/10/15/36/microsoft-6536268_1280.png';
         $company5->status = Status::APPROVED;
+        $company5->email_verified_at = Carbon::now();
         $company5->save();
 
         $order_company5 = new Order();

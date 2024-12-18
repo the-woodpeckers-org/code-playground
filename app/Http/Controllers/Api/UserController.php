@@ -20,6 +20,11 @@ class UserController
 
     }
 
+    public function requestToBecomeContributor(Request $request)
+    {
+        return response()->json($this->service->requestToBecomeContributor($request));
+    }
+
     public function getUserGuard(Request $request)
     {
         return response()->json($this->service->getUserGuard($request));
