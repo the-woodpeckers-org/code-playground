@@ -18,7 +18,6 @@ export default {
             // user information form input
             nameInput: "",
             emailInput: "",
-            addressInput: "",
             phoneInput: "",
             genderInput: "",
             birthdayInput: "",
@@ -243,7 +242,6 @@ export default {
             this.isUpdated = false;
             HTTP.patch('api/user', {
                 name: _this.nameInput,
-                address: _this.addressInput,
                 phone_number: _this.phoneInput,
                 gender: _this.genderInput,
                 birthday: _this.birthdayInput
@@ -440,8 +438,6 @@ export default {
                                 </router-link>
                             </p>
                         </div>
-                        <label>Address</label>
-                        <input v-model="addressInput" class="w-full h-8 border border-gray-500 rounded-lg bg-base-100">
                         <label>Phone number</label>
                         <input v-model="phoneInput" class="w-full h-8 border border-gray-500 rounded-lg bg-base-100">
                         <label>Gender</label>

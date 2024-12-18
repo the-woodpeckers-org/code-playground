@@ -8,6 +8,10 @@ import {getAuth} from "@/utils/authLocalStorage.js";
 routes.beforeEach(async (to, from) => {
     if (getAuth() && (to.name == 'login' || to.name == 'register')) {
         return '/';
+    } else if (getAuth() && to.name != 'verify-email') {
+        if (getAuth().email_verified_at == null) {
+            return '/verify-email'
+        }
     }
     if (!getAuth() &&
         (
