@@ -19,18 +19,18 @@ class ProfileCompanyService
 {
     public function getCompaniesU()
     {
-        $user = Auth::user(); 
-        $profile_user = ProfileUser::where('user_id', '=', $user->id)->first(); 
+        $user = Auth::user();
+        $profile_user = ProfileUser::where('user_id', '=', $user->id)->first();
         $companies = User::where('role', '=', Role::Company)->where('status', '=', Status::APPROVED)
             ->with('getCompany')
             ->get();
-    
+
         $hiddens = HiddenCompany::where('profile_user_id', '=', $profile_user->id)
-            ->pluck('profile_company_id')  
+            ->pluck('profile_company_id')
             ->toArray();
 
         $filteredCompanies = [];
-    
+
         foreach ($companies as $company) {
             if($company->getCompany)
             {
@@ -39,14 +39,14 @@ class ProfileCompanyService
                 }
             }
         }
-    
+
         return response()->json([
             'status' => 200,
-            'data' => $filteredCompanies, 
-            'test' => $profile_user 
+            'data' => $filteredCompanies,
+            'test' => $profile_user
         ]);
     }
-    
+
     public function getProfileCompany($id)
     {
         $profile = ProfileCompany::find($id);
@@ -111,10 +111,10 @@ class ProfileCompanyService
     }
     public function listCompanyHiring(Request $request)
     {
-    
+
         $companies = User::where('role', '=', Role::Company)->where('status', '=', Status::APPROVED)->get();
         $detailCompanies = [];
-        $jobs = JobRecruitment::where('status', '=', Status::APPROVED)->get();
+        $jobs = JobRecruitment::where('status', '=', Status::APPROVED)->orderBy('created_at', 'desc')->get();
         $jobs = $jobs->map(function ($job) {
             $job->company = $job->user()->first();
             return $job;
