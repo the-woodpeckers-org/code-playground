@@ -105,7 +105,7 @@ class ContestMService
         }
         $contest->change_required = $request->input('change_required');
         $contest->save();
-       $current_user = $contest->user;
+        $current_user = $contest->user;
         Mail::to($current_user->email)->send(new MailSendRequestChange($current_user, $request->input('change_required')));
         Notification::create([
             'user_id' => $contest->user->id,

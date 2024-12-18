@@ -12,7 +12,6 @@
             <p class="py-4">
                 <span class="font-semibold">Type:</span> {{ data.type }}
                 <span class="font-semibold">Message:</span> {{ data.message }}
-                <span class="font-semibold">Form: </span> {{ data.fid }}
             </p>
         </div>
         <form method="dialog" class="modal-backdrop">
