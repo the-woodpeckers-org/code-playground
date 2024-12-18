@@ -32,7 +32,8 @@ class User extends Authenticatable
         'role',
         'status',
         'avatar_url',
-        'email_verified_at'
+        'email_verified_at',
+        'requested_to_contributor',
     ];
     protected $appends = [
         'profileUser',
@@ -142,12 +143,12 @@ class User extends Authenticatable
         } else {
             foreach ($orders as $order) {
                 $subscription = SubscriptionAttribute::where('order_id', $order->id)
-                    ->where('end_date', '>', Carbon::now()) 
+                    ->where('end_date', '>', Carbon::now())
                     ->first();
                 if ($subscription) {
                     $daysRemaining = Carbon::now()->diffInDays($subscription->end_date);
                     if ($daysRemaining <= 5 && $daysRemaining > 0) {
-                        return true; 
+                        return true;
                     }
                 }
             }

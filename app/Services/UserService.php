@@ -26,6 +26,15 @@ class UserService
         }
     }
 
+    public function requestToBecomeContributor(Request $request)
+    {
+        $user = User::find($request->user()->id);
+        $user->update([
+            'requested_to_contributor' => 'pending'
+        ]);
+        return ['message' => 'Success'];
+    }
+
     public function updateUser(UpdateUserFormRequest $request)
     {
         try {
