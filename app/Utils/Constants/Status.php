@@ -9,4 +9,5 @@ class Status
     const REJECTED  = "rejected";
     const ACTIVE = "active";
     const PAID ="paid";
+    const DEACTIVE = "deactive";
 }

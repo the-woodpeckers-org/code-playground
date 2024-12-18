@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\Management;
 
 use App\Services\Management\UserMService;
+use GuzzleHttp\Psr7\Request;
 
 class UserMController
 {
@@ -16,9 +17,9 @@ class UserMController
     {
        return $this->service->getAllUser();
     }
-    public function deleteUser()
+    public function deleteUser($id)
     {
-        
+        return $this->service->deleteUser($id);
     }
     public function updateUser()
     {
@@ -27,10 +28,6 @@ class UserMController
     public function getUser()
     {
         
-    }
-    public function addUser()
-    {
-
     }
     public function getListSubscribe()
     {

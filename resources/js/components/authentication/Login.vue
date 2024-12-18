@@ -17,7 +17,8 @@ export default {
             auth: getAuth(),
             isLoggingIn: false,
             isLoggedIn: false,
-            isPending: false
+            isPending: false,
+            isDeactive: false
         }
     },
     mounted() {
@@ -57,6 +58,15 @@ export default {
                     _this.isPending = true;
                     setTimeout(() => {
                         _this.isPending = false;
+                        window.location.reload();
+                    }, 3000);
+                    return;
+                }
+                if(error.response.data.message==="Your account is deactive.")
+                {
+                    _this.isDeactive = true;
+                    setTimeout(() => {
+                        _this.isDeactive = false;
                         window.location.reload();
                     }, 3000);
                     return;
@@ -154,6 +164,25 @@ export default {
         <button @click="isPending = false"
             class="mt-4 px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300">
             OK 
+        </button>
+    </div>
+</dialog>
+
+
+<dialog v-if="isDeactive" id="deactivate_modal" class="modal modal-open">
+    <div class="modal-box text-center overflow-hidden bg-white shadow-lg rounded-lg">
+        <div class="flex justify-center items-center my-4">
+            <div class="w-16 h-16 flex justify-center items-center bg-red-100 rounded-full">
+                <i class="fa-solid fa-circle-exclamation text-red-500 text-3xl"></i>
+            </div>
+        </div>
+        <h3 class="text-xl font-bold text-gray-800">Account Deactivation</h3>
+        <p class="py-4 font-medium text-gray-600">
+            Your account has been deactivated. Please contact support or try again later.
+        </p>
+        <button @click="isDeactive = false"
+            class="mt-4 px-6 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600 focus:ring-4 focus:ring-red-300">
+            OK
         </button>
     </div>
 </dialog>

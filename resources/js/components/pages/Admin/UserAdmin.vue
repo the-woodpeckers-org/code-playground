@@ -44,8 +44,10 @@ export default {
         };
     },
     methods: {
-        remove(id) {
-            console.log("Remove user with id:", id);
+       async remove(id) {
+            await HTTP.get(`/api/deleteUser/${id}`).then(() => {
+                this.getUsers();
+            });
         },
         async getUsers() {
             try {

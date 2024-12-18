@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use App\Mail\MailCongratulation;
 use App\Utils\Constants\Subscription;
 use App\Mail\MailSorry;
+use App\Models\Application;
+use App\Models\Order;
 use App\Models\SubscriptionAttribute;
 use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
@@ -18,7 +20,7 @@ class UserMService
 {
     public function getAllUser()
     {
-        $users = User::all()->where('role','!=','admin')->where('status','=',Status::APPROVED);
+        $users = User::all()->where('role', '!=', 'admin')->where('status', '=', Status::APPROVED);
         return response()->json([
             'status' => '200',
             'data' => $users
@@ -28,7 +30,8 @@ class UserMService
     {
         $user = User::find($id);
         if ($user) {
-            $user->delete();
+            $user->status = Status::DEACTIVE;
+            $user->save();
             return response()->json([
                 'status' => '200',
                 'message' => 'User deleted successfully'
@@ -40,11 +43,11 @@ class UserMService
             ]);
         }
     }
-    
+
     public function getListSubscribe()
     {
-        $usersCompany = User::all()->whereNotNull('status')->where('role',Role::Company)->where('status','!=',Status::APPROVED);
-        $contributors = User::all()->whereNotNull('status')->where('role',Role::Contributor)->where('status','!=',Status::APPROVED);
+        $usersCompany = User::all()->whereNotNull('status')->where('role', Role::Company)->where('status', '!=', Status::APPROVED);
+        $contributors = User::all()->whereNotNull('status')->where('role', Role::Contributor)->where('status', '!=', Status::APPROVED);
         $profileCompanies = $usersCompany->map(function ($user) {
             return $user->getCompany;
         });
@@ -64,7 +67,7 @@ class UserMService
             $mailCon = new MailCongratulation($user);
             Mail::to($user->email)->send($mailCon);
             // đăng ký dịch vụ cho công ty
-            if($user->role == Role::Company){
+            if ($user->role == Role::Company) {
                 SubscriptionAttribute::create([
                     'user_id' => $user->id,
                     'subscription_name' => Subscription::FREEMIUM,
