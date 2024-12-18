@@ -69,6 +69,11 @@ class ProblemController
         return response()->json($this->service->updateProblem($request));
     }
 
+    public function getAttempt(Request $request)
+    {
+        return response()->json($this->service->getAttempt($request));
+    }
+
     public function deleteProblem(Request $request)
     {
         return response()->json($this->service->deleteProblem($request));

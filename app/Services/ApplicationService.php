@@ -17,27 +17,27 @@ use App\Utils\Constants\Status;
 
 class ApplicationService
 {
-    
+
     public function getJobsApplied(Request $request)
     {
         $user = $request->user();
-        $listJobs = $user->getJobApplied()->with('job.user')->get()->pluck('job'); 
+        $listJobs = $user->getJobApplied()->with('job.user')->get()->pluck('job');
         return response()->json([
             'status' => '200',
             'data' => $listJobs,
         ]);
-    }   
-   
+    }
+
     public function applyCV(Request $request)
     {
-        $user = $request->user();   
-        if($user->role!='user'){
+        $user = $request->user();
+        if ($user->role != 'user' && $user->role != 'contributor') {
             return response()->json([
                 'status' => '400',
                 'message' => 'You are not allowed to apply for a job'
             ]);
         }
-        
+
         $jobId = $request->input('job_id');
         $cv_id = $request->input('cv_id');
         $letter = $request->input('letter');
@@ -48,13 +48,13 @@ class ApplicationService
         $application->job_id = $jobId;
         $application->cv_id = $cv_id;
         $application->letter = $letter;
-        $application ->status = Status::PENDING;
-        Mail::to($user_company->email)->send(new MailApplyCV($user,$user_profile,$user_company,$application->letter));
+        $application->status = Status::PENDING;
+        Mail::to($user_company->email)->send(new MailApplyCV($user, $user_profile, $user_company, $application->letter));
         Notification::create([
             'user_id' => $user_company->id,
-            'message' => 'You have a new application from '.$user->name ,'with Job '.$application->job->title,
+            'message' => 'You have a new application from ' . $user->name, 'with Job ' . $application->job->title,
             'type' => 'Apply job',
-            'fid'=> $user->id,
+            'fid' => $user->id,
             'is_read' => false
         ]);
         $application->save();
@@ -63,21 +63,22 @@ class ApplicationService
             'data' => $application
         ]);
     }
+
     public function getCV_Applied(Request $request)
     {
         $user = $request->user();
         $cvs = $user->getYourCV()->get();
         $applications = Application::whereIn('cv_id', $cvs->pluck('id'))
-        ->with('job.user')
-        ->get();
+            ->with('job.user')
+            ->get();
 
         $jobs = $applications->map(function ($application) {
             return $application->job;
         });
-    return response()->json([
-        'status' => '200',
-        'data' => $applications, 
-    ]);
+        return response()->json([
+            'status' => '200',
+            'data' => $applications,
+        ]);
     }
 
     public function isApplied($id, Request $request)
@@ -85,7 +86,7 @@ class ApplicationService
         $user = $request->user();
         $cv = $user->getYourCV()->get();
         $application = Application::where('job_id', $id)->whereIn('cv_id', $cv->pluck('id'))->first();
-        if($application){
+        if ($application) {
             return response()->json([
                 'status' => '200',
                 'isApplied' => true
@@ -97,12 +98,13 @@ class ApplicationService
             'isApplied' => false
         ]);
     }
-    public function cancelApply($id,Request $request)
+
+    public function cancelApply($id, Request $request)
     {
         $user = $request->user();
         $cv = $user->getYourCV()->get();
         $application = Application::where('job_id', $id)->whereIn('cv_id', $cv->pluck('id'))->first();
-        if($application){
+        if ($application) {
             $application->delete();
             return response()->json([
                 'status' => '200',
@@ -114,5 +116,5 @@ class ApplicationService
             'message' => 'You have not applied for this job'
         ]);
     }
-    
+
 }

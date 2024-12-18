@@ -312,6 +312,13 @@ class ProblemService
         return throw new BadRequestHttpException('Unauthenticated');
     }
 
+    public function getAttempt(Request $request)
+    {
+        return Attempt::where('problem_id', $request->input('problem_id'))
+            ->where('user_id', $request->input('user_id'))
+            ->first();
+    }
+
     public function getRecentAttempts(Request $request)
     {
         if ($request->user()) {
