@@ -92,6 +92,12 @@ class CvService
     public function deleteCV($id)
     {
         $cv = Cv::find($id);
+        if($cv->application()->count() > 0) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'Cannot delete CV because it is being used in applications',
+            ]);
+        }
         $cv->delete();
         return response()->json([
             'status' => 200,
