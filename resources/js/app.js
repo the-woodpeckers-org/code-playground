@@ -13,7 +13,7 @@ routes.beforeEach(async (to, from) => {
             return '/verify-email'
         }
     }
-    if (!getAuth() &&
+    else if (!getAuth() &&
         (
             to.name == 'profile' ||
             to.name == 'MyCv' ||
