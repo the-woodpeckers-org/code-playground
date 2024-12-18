@@ -35,6 +35,9 @@ class AuthService
             if ($user->role === Role::Company && $user->status === Status::PENDING) {
                 throw new BadRequestHttpException('Your account is pending approval.');
             }
+            if($user->status === Status::DEACTIVE){
+                throw new BadRequestHttpException('Your account is deactive.');
+            }
             $token = $user->createToken('token')->plainTextToken;
             return ['user' => $user, 'token' => $token];
         }

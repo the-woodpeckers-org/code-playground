@@ -8,19 +8,33 @@
             <i class="fa-solid fa-ellipsis-vertical hover:text-red-500"></i>
         </td>
     </tr>
+    <dialog class="modal" ref="confirmDialog">
+        <div class="modal-box bg-base-100">
+            <h3 class="text-lg font-semibold">Warning</h3>
+            <p class="py-4 text-base">Are you sure you want delete it?</p>
+            <div class="modal-action">
+                <form method="dialog">
+                    <button class="btn btn-sm m-1 bg-amber-200 hover:bg-amber-500"
+                    @click="$emit('remove', id)" >Yes</button>
+                    <button class="btn btn-sm m-1 border">No</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
     <tr v-if="showOptions" class="bg-gray-50">
         <td colspan="5">
             <ul class="text-sm">
-                <li @click="$emit('remove', id)" class="px-4 py-2 hover:bg-red-100 cursor-pointer">Remove</li>
-                <li @click="$emit('edit', id)" class="px-4 py-2 hover:bg-green-100 cursor-pointer">Edit</li>
+                <button @click="showModalConfirm" class="btn px-4 py-2 hover:bg-red-100 cursor-pointer">Remove</button>
             </ul>
         </td>
     </tr>
+
 </template>
 
 <script>
 export default {
-    emits: ['remove', 'edit'],
+    emits: ['remove'],
     data() {
         return {
             showOptions: false,
@@ -37,6 +51,9 @@ export default {
     methods: {
         toggleOptions() {
             this.showOptions = !this.showOptions;
+        },
+        showModalConfirm() {
+            this.$refs.confirmDialog.showModal();
         },
     },
 };
