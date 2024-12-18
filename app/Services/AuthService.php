@@ -32,7 +32,7 @@ class AuthService
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->status === Status::PENDING) {
+            if ($user->role === Role::Company && $user->status === Status::PENDING) {
                 throw new BadRequestHttpException('Your account is pending approval.');
             }
             $token = $user->createToken('token')->plainTextToken;
