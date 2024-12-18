@@ -41,7 +41,7 @@ class Contest extends Model
 
     public function getIsStartedAttribute()
     {
-        if (Carbon::now() <= $this->start_date) {
+        if (Carbon::now() >= $this->start_date) {
             return true;
         }
         return false;

@@ -29,6 +29,7 @@ class ProblemService
         $result = Problem::query();
         $result->select();
         $result->where('contest_id', '=', null);
+        $result->where('job_id', '=', null);
         $result->where('status', Status::APPROVED);
         $result->orderBy('created_at', 'desc');
         return $result->paginate(8);
@@ -79,6 +80,7 @@ class ProblemService
         }
         $result->orderBy('problems.created_at', 'desc');
         $result->where('contest_id', '=', null);
+        $result->where('job_id', '=', null);
         $result->where('status', Status::APPROVED);
         return $result->paginate(8);
     }
@@ -88,6 +90,7 @@ class ProblemService
         $result = Problem::query();
         $result->select();
         $result->where('contest_id', '=', null);
+        $result->where('job_id', '=', null);
         $result->where('status', Status::APPROVED);
         if ($request->user()) {
             $userId = $request->user()->id;
@@ -323,6 +326,7 @@ class ProblemService
     public function getRecentAttemptsById(Request $request)
     {
         return Attempt::where('user_id', $request->input('user_id'))
+            ->where('job_id', '=', null)
             ->orderBy('passed_at', 'desc')
             ->with('problem')
             ->paginate(8);

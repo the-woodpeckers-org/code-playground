@@ -1,6 +1,6 @@
 <script>
-import Multiselect from "vue-multiselect";
 import {HTTP} from "@/http-common.js";
+import Multiselect from "vue-multiselect";
 export default {
     name: "AddJob",
     components: { Multiselect },
@@ -102,7 +102,6 @@ export default {
     }
 };
 </script>
-
 <style scoped>
 .btn-back {
     @apply text-blue-500 font-semibold hover:text-blue-600 flex items-center transition-colors duration-200;
@@ -230,7 +229,7 @@ export default {
                     <textarea v-model="problem.description"
                               class="w-full border h-40 rounded-lg border-gray-400 px-3"></textarea>
                     <div class="grid grid-cols-2 gap-3">
-                        <div class="border border-gray-300 rounded-lg p-1 h-32 relative lobster"
+                        <div class="border border-gray-300 bg-base-100 rounded-lg p-1 h-32 relative lobster"
                              v-for="testcase in problem.testcases">
                             <label>stdin</label>
                             <input v-model="testcase.stdin" class="w-full border h-8 rounded-lg border-gray-400 px-3">
@@ -242,7 +241,7 @@ export default {
                                @click="removeTestcase(testcase.id)">X</p>
                         </div>
                         <div @click="addTestcase()"
-                             class="border border-gray-300 rounded-lg p-1 h-32 hover:bg-base-300 flex cursor-pointer">
+                             class="border border-gray-300 bg-base-100 rounded-lg p-1 h-32 hover:bg-base-300 flex cursor-pointer">
                             <span class="text-5xl m-auto"><i class="fa-solid fa-plus"></i></span>
                         </div>
                     </div>
@@ -278,3 +277,4 @@ export default {
         </div>
     </dialog>
 </template>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
