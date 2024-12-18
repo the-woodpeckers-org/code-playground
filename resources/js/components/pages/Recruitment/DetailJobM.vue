@@ -16,6 +16,7 @@
                             <th>Name</th>
                             <th>Link cv</th>
                             <th>Status</th>
+                            <th v-if="entryTestId != null">Test result</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -23,7 +24,7 @@
                         <CvItemApplied v-for="(item, index) in applications" :key="index"
                             :profile_user_id="item.cv.user.profileUser.id" :name="item.cv.user.name" :time="item.created_at"
                             :linkCV="`/cv/show/${item.cv.id}`" @refuseCV="refuseCV" :status="item.status"
-                            :id_cv="item.cv.id" @approveCV="approveCV"></CvItemApplied>
+                            :id_cv="item.cv.id" @approveCV="approveCV" :testResult="entryTestId" :userId="item.cv.user.id"></CvItemApplied>
                     </tbody>
                 </table>
             </div>
@@ -125,7 +126,7 @@
             </div>
         </div>
     </dialog>
-    
+
     <dialog v-if="isUpdated" id="" class="modal modal-open">
         <div class="modal-box text-center overflow-hidden">
             <h3 class="text-lg font-bold"></h3>
@@ -189,6 +190,7 @@ export default {
             isUpdated: false,
             isSendRequest: false,
             isLoading: false,
+            entryTestId: null
         };
     },
     async mounted() {
@@ -196,8 +198,6 @@ export default {
         this.jobForm.rte_1 = new RichTextEditor('#text-editor-3');
         this.jobForm.rte_1.setHTMLCode(this.jobForm.description);
         await this.fetchDataListCV();
-        console.log(this.position_number_approved_count);
-        console.log(this.applications);
     },
     methods: {
         async handleSubmit() {
@@ -234,6 +234,10 @@ export default {
                 this.selectedSkills = JSON.parse(this.jobForm.skill);
                 this.availableSkills = this.availableSkills.filter(skill => !this.selectedSkills.includes(skill));
                 this.position_number_max = this.jobForm.position_number;
+                if (response.data.data.entryTest) {
+                    this.entryTestId = response.data.data.entryTest.id;
+                    console.log(this.entryTestId);
+                }
             }).catch(error => {
                 console.error(error);
             });
@@ -264,7 +268,7 @@ export default {
             await HTTP.get(`/api/getCVsApplied/${this.$route.params.id}`).then(response => {
                 this.applications = response.data.applications;
                 for (let index = 0; index < this.applications.length; index++) {
-                    const element = this.applications[index]; 
+                    const element = this.applications[index];
                     if (element.status === "approved") {
                         this.position_number_approved_count += 1;
                     }
@@ -295,7 +299,7 @@ export default {
             return this.position_number_approved_count + 1 == this.position_number_max;
         },
         async approveCV(id) {
-            
+
             this.isLoading= true;
             const flag = this.checkMaxApproved();
             if(flag)
@@ -322,7 +326,7 @@ export default {
         {
             this.notificationNumberApproved= false;
             this.isLoading= true;
-            
+
             const numberUpdate = this.position_number_max + 1;
             await HTTP.post('/api/approvedCVUpdate', { job_id: this.jobForm.id, cv_id: this.id_temp, numberUpdate: numberUpdate})
                     .then(response => {

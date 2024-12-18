@@ -188,3 +188,5 @@ Route::get('/listCompanyHiring', [ProfileCompanyController::class, 'listCompanyH
 Route::get('/combinationContest',[ContestController::class, 'combinationContest'])->name('combinationContest');
 Route::get('/getProblemTags',[CategoryController::class, 'getProblemTags'])->name('getProblemTags');
 Route::get('/problem/search', [ProblemController::class, 'getSearchProblems'])->name('getSearchProblems');
+
+Route::get('/problems/get-attempt', [ProblemController::class, 'getAttempt'])->name('getAttempt');

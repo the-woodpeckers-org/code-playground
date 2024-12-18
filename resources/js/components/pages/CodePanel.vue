@@ -27,7 +27,9 @@ export default {
             isCompileError: false,
             isBelongsToContest: false,
             discussions: [],
-            isDiscussionsOpened: false
+            isDiscussionsOpened: false,
+            isEntryTest: false,
+            entryTestId: '',
         }
     },
     methods: {
@@ -94,6 +96,11 @@ export default {
                     _this.languages = response.data.languages;
                     _this.categories = response.data.categories;
                     _this.discussions = response.data.discussions;
+                    console.log(response);
+                    if (response.data.job_id) {
+                        _this.isEntryTest = true;
+                        _this.entryTestId = response.data.job_id;
+                    }
                     _this.loading = true;
                     if (response.data.passed_at) {
                         _this.isPassed = true
@@ -121,12 +128,16 @@ export default {
     <dialog id="problem_solved_modal" class="modal" :class="{ 'modal-open' : isSubmitted}">
         <div class="modal-box">
             <h3 class="text-lg font-bold"></h3>
-            <p class="py-4"><span class="font-semibold">Congratulations! Problem solved!</span><br>Do you want to solve
+            <p v-if="!isEntryTest" class="py-4"><span class="font-semibold">Congratulations! Problem solved!</span><br>Do you want to solve
                 some other problems?</p>
+            <p v-if="isEntryTest" class="py-4"><span class="font-semibold">Congratulations! Problem solved!</span><br>Do you want to come back to previous job page?</p>
             <div class="modal-action">
                 <form method="dialog">
-                    <router-link type="button" class="btn bg-amber-300 hover:bg-amber-600 btn-sm mx-1 w-16"
+                    <router-link v-if="!isEntryTest" type="button" class="btn bg-amber-300 hover:bg-amber-600 btn-sm mx-1 w-16"
                                  to="/problems">Yes
+                    </router-link>
+                    <router-link v-if="isEntryTest" type="button" class="btn bg-amber-300 hover:bg-amber-600 btn-sm mx-1 w-16"
+                                 :to="'/Job-detail/' + entryTestId">Yes
                     </router-link>
                     <button class="btn btn-sm w-16 bg-gray-300 hover:bg-gray-400" @click="this.isSubmitted = false">No
                     </button>
@@ -148,7 +159,7 @@ export default {
                         </div>
                     </div>
                     <div>
-                        <button @click="isDiscussionsOpened = true" type="button"
+                        <button v-if="!isEntryTest" @click="isDiscussionsOpened = true" type="button"
                                 class="rounded-md bg-teal-200 p-1 my-2 border border-gray-300 font-semibold">Community
                             solutions
                         </button>
