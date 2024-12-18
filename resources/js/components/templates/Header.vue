@@ -18,11 +18,6 @@
                     class="h-12">
             </router-link>
             <div class="hidden lg:flex space-x-4">
-                <router-link
-                    class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl"
-                    to="/posts">
-                    Blogs
-                </router-link>
                 <router-link v-if="!$root.auth || ($root.auth.role == Role.User || $root.auth.role == Role.Contributor)"
                     class="py-2 px-3 hover:bg-gray-600 hover:text-white transition rounded-3xl" to="/contests">
                     Contests
