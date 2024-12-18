@@ -90,13 +90,7 @@ export default {
             this.$emit('approveCV', this.id_cv);
         },
         pusher() {
-            HTTP.get('api/problems/get-attempt?problem_id=' + this.testResult + '&user_id=' + this.userId)
-                .then((res) => {
-                    console.log(res);
-                })
-                .catch((err) => {
-
-                })
+            this.$emit('toggle-result', this.testResult, this.userId);
         }
     }
 }
