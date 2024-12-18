@@ -126,14 +126,6 @@ export default {
                 <p class="my-2 py-2">Don't have an account? <span><router-link class="text-blue-400 font-bold"
                                                                                to="/register">Sign up now!</router-link></span>
                 </p>
-                <p class="border-t my-2 py-2 text-center">Or login with</p>
-                <div class="w-full">
-                    <p class="text-center text-4xl">
-                        <router-link><i class="fa-brands fa-github hover:scale-125 transition mx-2"></i></router-link>
-                        <router-link><i class="fa-brands fa-google hover:scale-125 transition mx-2"></i></router-link>
-                        <router-link><i class="fa-brands fa-facebook hover:scale-125 transition mx-2"></i></router-link>
-                    </p>
-                </div>
             </div>
         </div>
     </form>
@@ -163,7 +155,7 @@ export default {
         </p>
         <button @click="isPending = false"
             class="mt-4 px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300">
-            OK 
+            OK
         </button>
     </div>
 </dialog>

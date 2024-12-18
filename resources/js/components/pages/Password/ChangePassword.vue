@@ -1,14 +1,17 @@
 <script>
 import {HTTP} from "@/http-common.js";
+import Toast from "@/components/messages/Toast.vue";
 
 export default {
     name: "ChangePassword",
+    components: {Toast},
     data: () => {
         return {
             password: '',
             new_password: '',
             confirm_password: '',
-            errors: { }
+            errors: { },
+            isChanged: false,
         }
     },
     methods: {
@@ -21,11 +24,13 @@ export default {
             };
             HTTP.post('api/change-password', data)
                 .then((res) => {
-                    console.log(res);
+                    this.isChanged = true;
+                    setTimeout(() => {
+                        this.$router.go(-1);
+                    }, 1000)
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
-                    console.log(err);
                 })
         }
     }
@@ -54,6 +59,7 @@ export default {
             </form>
         </div>
     </div>
+    <Toast :toastData="{type: 'success', message: 'Change password successfully!'}" v-if="isChanged"></Toast>
 </template>
 
 <style scoped>
