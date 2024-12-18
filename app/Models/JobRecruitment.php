@@ -1,32 +1,36 @@
 <?php
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+
 class JobRecruitment extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',        
-        'title',      
+        'user_id',
+        'title',
         'description',
-        'location',     
-        'skill', 
-        'salary',  
+        'location',
+        'skill',
+        'salary',
         'negotiable',
-        'deadline', 
+        'deadline',
         'status',
         'position_number',
         'change_required',
-        'created_at',     
-        'updated_at',    
+        'created_at',
+        'updated_at',
     ];
 
     protected $appends = [
         'isEnded',
+        'entryTest',
     ];
+
     /**
      * Get the user that owns the JobRecruitment.
      */
@@ -34,7 +38,12 @@ class JobRecruitment extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
+    public function getEntryTestAttribute()
+    {
+        return Problem::where('job_id', $this->id)->first();
+    }
+
     public function getIsEndedAttribute()
     {
         if (Carbon::now() > $this->deadline) {

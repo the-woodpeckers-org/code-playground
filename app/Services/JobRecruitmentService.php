@@ -3,12 +3,15 @@
 namespace App\Services;
 
 use App\Http\Requests\FinishContestFormRequest;
+use App\Models\Attempt;
 use App\Models\Cv;
 use App\Models\Application;
 use App\Models\JobRecruitment;
 use App\Models\Language;
+use App\Models\Participation_Attempts;
 use App\Models\Problem;
 use App\Models\ProblemLanguage;
+use App\Models\ProblemTag;
 use App\Models\SubscriptionAttribute;
 use App\Models\Testcase;
 use App\Models\Users;
@@ -87,19 +90,21 @@ class JobRecruitmentService
     }
     public function deleteJob($id)
     {
-        try {
             $job = JobRecruitment::find($id);
+            $problem = Problem::where('job_id', $job->id)->first();
+            if ($problem) {
+                Testcase::where('problem_id', $problem->id)->delete();
+                ProblemLanguage::where('problem_id', $problem->id)->delete();
+                ProblemTag::where('problem_id', $problem->id)->delete();
+                Attempt::where('problem_id', $problem->id)->delete();
+                Participation_Attempts::where('problem_id', $problem->id)->delete();
+                $problem->delete();
+            }
             $job->delete();
             return response()->json([
                 'status' => '200',
                 'message' => 'Job deleted'
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => '400',
-                'message' => $e->getMessage()
-            ]);
-        }
     }
     public function getDetailJob($id)
     {
@@ -157,44 +162,36 @@ class JobRecruitmentService
             $company->save();
 
             // EntryTest
-            $problem = new Problem();
-            $problem->fill([
-                'title' => $request->input('title'),
-                'description' => $request->input('description'),
-                'difficulty' => $request->input('difficulty'),
-                'acceptance_rate' => 0,
-                'job_id' => $company->id,
-                'created_by' => $request->user()->id,
-                'status' => Status::PENDING,
-                'change_required' => ''
-            ]);
-            $problem->save();
-            foreach ($request->input('categories') as $category) {
-                if (!empty($category['id'])) {
-                    $problemTag = new ProblemTag();
-                    $problemTag->fill([
+            if ($request->input('problem.test_required') == 'required') {
+                $problem = new Problem();
+                $problem->fill([
+                    'title' => $request->input('problem.title'),
+                    'description' => $request->input('problem.description'),
+                    'difficulty' => $request->input('problem.difficulty'),
+                    'acceptance_rate' => 0,
+                    'job_id' => $company->id,
+                    'created_by' => $request->user()->id,
+                    'status' => Status::PENDING,
+                    'change_required' => ''
+                ]);
+                $problem->save();
+                foreach ($request->input('problem.languages') as $language) {
+                    $problemLanguage = new ProblemLanguage();
+                    $problemLanguage->fill([
                         'problem_id' => $problem->id,
-                        'category_id' => $category['id'],
+                        'language_id' => Language::where('name', $language)->first()->id
                     ]);
-                    $problemTag->save();
+                    $problemLanguage->save();
                 }
-            }
-            foreach ($request->input('languages') as $language) {
-                $problemLanguage = new ProblemLanguage();
-                $problemLanguage->fill([
-                    'problem_id' => $problem->id,
-                    'language_id' => Language::where('name', $language)->first()->id
-                ]);
-                $problemLanguage->save();
-            }
-            foreach ($request->input('testcases') as $testcase) {
-                $nTestcase = new Testcase();
-                $nTestcase->fill([
-                    'problem_id' => $problem->id,
-                    'stdin' => $testcase['stdin'],
-                    'expected_output' => $testcase['expected_output'],
-                ]);
-                $nTestcase->save();
+                foreach ($request->input('problem.testcases') as $testcase) {
+                    $nTestcase = new Testcase();
+                    $nTestcase->fill([
+                        'problem_id' => $problem->id,
+                        'stdin' => $testcase['stdin'],
+                        'expected_output' => $testcase['expected_output'],
+                    ]);
+                    $nTestcase->save();
+                }
             }
             // end EntryTest
 
